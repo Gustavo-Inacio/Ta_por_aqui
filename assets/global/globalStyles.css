@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital@1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+
+:root{
+    --my-color-white: #FFF;
+    --my-color-one: #F5FF6C;
+    --my-color-two: #0C0C23;
+    --my-color-three: #45E586;
+    --my-color-four: #CDCDCD;
+    --my-color-five: #888F98;
+    --my-color-six: #3333CC;
+}
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* -- MainTopNavbar Comeco --*/
+.my-navbar-toggler-icon{
+    height: 36px;
+    padding: 9px 5.62px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.my-navbar-toggler-icon div{
+    width: 100%;
+    border: 1px solid #000;
+    min-width: 24.75px;
+}
+
+#myMainTopNavbar{
+    height: 80px !important;
+    background-color: #FFF;
+    padding: 0 16px;
+}
+
+#myMainTopNavbarNav{
+    justify-content: center;
+    background-color: inherit;
+    margin: 0 -16px;
+    z-index: 1000;
+}
+
+#myMainTopNavbarNav > .navbar-nav{
+    padding-bottom: 25px;
+    padding-top: 8px;
+}
+
+#myMainTopNavbarNav > ul{
+    max-width: 700px;
+    width: 100%;
+    justify-content: space-between;
+}
+
+#myMainTopNavbarNav .nav-item{
+    margin-left: 25px;
+}
+
+#myMainTopNavbarNav .nav-link{
+    color: #000C26;
+    font: 400 16px 'Lato', sans-serif;
+}
+/* -- MainTopNavbar Fim --*/
+
+/* --- Media queries --- */
+@media (max-width: 575px) { 
+    .test > .xs {display: block;}
+    .test > .sm {display: none;}
+    .test > .md {display: none;}
+    .test > .lg {display: none;}
+    .test > .xl {display: none;}
+}
+@media (min-width: 576px) { 
+   
+    .test > .xs {display: none;}
+    .test > .sm {display: block;}
+    .test > .md {display: none;}
+    .test > .lg {display: none;}
+    .test > .xl {display: none;}
+}
+@media (min-width: 768px) { /* md */
+
+    /* -- MainTopNavbar Comeco --*/
+    #myMainTopNavbar{
+        padding: 0 50px;
+    }
+
+    #myMainTopNavbarNav > .navbar-nav{
+        padding: 0;
+    }
+   
+    #myMainTopNavbarNav .nav-item{
+        margin: 0 auto;
+    }
+
+    /* -- MainTopNavbar Fim --*/
+  
+    .test > .xs {display: none;}
+    .test > .sm {display: none;}
+    .test > .md {display: block;}
+    .test > .lg {display: none;}
+    .test > .xl {display: none;}
+}
+@media (min-width: 992px) { 
+    /* -- myMainTopNavbar Comeco -- */
+    #myMainTopNavbar{
+        padding: 0 80px;
+    }
+    /* -- myMainTopNavbar Fim -- */
+
+    .test > .xs {display: none;}
+    .test > .sm {display: none;}
+    .test > .md {display: none;}
+    .test > .lg {display: block;}
+    .test > .xl {display: none;}
+
+}
+@media (min-width: 1200px) { 
+    .test > .xs {display: none;}
+    .test > .sm {display: none;}
+    .test > .md {display: none;}
+    .test > .lg {display: none;}
+    .test > .xl {display: block;}
+}
+
+/*
+Extra small (xs) devices (portrait phones, less than 576px)
+No media query since this is the default in Bootstrap
+
+Small (sm) devices (landscape phones, 576px and up)
+@media (min-width: 576px) { ... }
+
+Medium (md) devices (tablets, 768px and up)
+@media (min-width: 768px) { ... }
+
+Large (lg) devices (desktops, 992px and up)
+@media (min-width: 992px) { ... }
+
+Extra (xl) large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) { ... }
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

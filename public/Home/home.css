@@ -1,0 +1,384 @@
+/* -- LandingSection Comeco -- */
+#myLandingSection{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 90px;
+}
+
+/* Suggestion Bar*/ 
+
+.my-services-suggestion-bar-path{
+    position: relative;
+    overflow: hidden;
+    margin: 0;
+    height: clamp(92px, 15vw, 164px);
+    max-height: 164px;
+    border: 1px solid #CCCCCC;
+    
+}
+
+.my-services-suggestion-bar{
+    height: 100%;
+    width: fit-content;
+    padding: clamp(22px, 3vw, 37px) 80px;
+    display: flex;
+   /*margin: 0;*/
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    overflow: hidden;
+    transition: margin 0.5s;
+}
+
+.my-service-item:last-child a{
+    margin-right: 0;
+}
+
+#mySuggestionBarControllerRight, #mySuggestionBarControllerLeft{
+   width: 50px;
+   height: 100%;
+   background-color: rgba(0, 0, 0, 0.034);
+   transition: background-color 0.3s;
+   cursor: pointer;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   position: absolute;
+   overflow: hidden;
+}
+
+#mySuggestionBarControllerRight:hover, #mySuggestionBarControllerLeft:hover{
+    background-color: rgba(0, 0, 0, 0.418);
+}
+
+#mySuggestionBarControllerLeft{
+    left: 0px;
+}
+
+#mySuggestionBarControllerRight{
+    right: 0px;
+}
+
+.my-service-item{
+    width: fit-content;
+    display: inline-block;
+}
+
+.my-service-item-a, .my-service-item-a:hover{
+    font: 700 clamp(10px, 3vw, 16px) 'Roboto', sans-serif;
+    color: var(--my-color-two);
+    text-decoration: none;
+    margin-right: clamp(43px, 12vw, 95px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.my-service-item-a .fa-map-marker-alt{
+    font-size: clamp(21.67px, 3vw, 53.3px);
+}
+
+.my-service-item-a p{
+    margin-top: 7px;
+}
+
+/* -- Landing Content -- */ 
+
+#myLandingContentAreaContainer{
+    margin: 0;
+    padding: 0;
+    padding-top: 38px;
+}
+
+.my-landing-conetent-area{
+    display: flex;
+    align-items: center;
+}
+
+.my-landing-text-content{
+    padding-left: clamp(25px, 3vw, 80px);;
+    padding-right: 113px;
+    width: 57.3%;
+}
+
+.my-landing-title{
+    font: 900 clamp(25px, 3vw, 48px) 'Lato', sans-serif;
+    color: #000C26;
+}
+
+.my-landing-text{
+    font: 400 16px 'Lato', sans-serif;
+    font-style: italic;
+    color: #000C26;
+    margin-top: 14px;
+}
+
+.my-landing-search-bar-div{
+    display:flex;
+    margin-top: 43px;
+    position: relative;
+}
+
+.my-landing-search-bar-div > input{
+    background-color: rgba(31, 20, 175, 0.1);
+    border: 1px solid rgba(31, 20, 175, 1);
+    border-radius: 27.5px;
+    font: 400 12px 'Roboto', sans-serif;
+    color: #2B2472;
+    padding: 16px 29px;
+    width: 100%;
+    height: 100%;
+}
+
+.my-landing-search-bar-div > button{
+    position: absolute;
+    right: 0;
+    background-color: #1F14AF;
+    border-radius: 70px;
+    font: 700 14px 'Roboto', sans-serif;
+    color: #FFF;
+    width: 124px;
+    height: 100%;
+    border: none;
+}
+
+
+.my-landing-img-content{
+    /*width: 42.7vw;*/
+    width: clamp( 42.7vw, 69.8vw, 59.9vw)
+}
+
+.my-landing-img-div{
+    overflow: hidden;
+    
+}
+
+.my-landing-img{
+    width: calc(100% + 85px);
+    border-radius: 85px;
+    position: relative;
+    /*right: -85px;*/
+}
+
+/* -- Mobile Landing Inicio-- */
+.my-mobile-landing{
+    display: flex ;
+    flex-direction: column;
+}
+.my-mobile-landing > .my-landing-text-content{
+    display: flex ;
+    flex-direction: row;
+    width: 100%;
+    padding-right: 0;
+    padding-left: clamp(25px, 3vw, 80px);
+}
+
+.my-mobile-landing > .my-landing-title{
+    padding: 0 clamp(25px, 3vw, 80px);
+}
+.my-landing-text-content-moblie{
+    padding-right: 9px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 40.1vw;
+}
+
+.my-mobile-landing .my-landing-search-bar-div{
+    width: 100%;
+    padding: 0 20px;
+    height: fit-content;
+    margin-bottom: 17px;
+}
+
+.my-mobile-landing .my-landing-search-bar-div > .minimum{ display: none;}
+.my-mobile-landing .my-landing-search-bar-div > .extra-small{ display: flex; }
+
+.my-mobile-landing .my-landing-search-bar-div > button{
+    width: 93px;
+    right: 20px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.my-mobile-landing .my-landing-search-bar-div > input{
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 12px;
+    padding: 14px 19px;
+}
+/* -- Mobile Landing Fim-- */
+/* -- LandingSection Fim -- */
+
+#myTransitionSection{
+    overflow: hidden;
+}
+
+#myTransitionSectionContainer{
+    width: 100vw;
+    height: 320px;
+    background-color: #0C0C23;
+}
+
+
+/* --- Media queries --- */
+@media (max-width: 335px) {
+/* --- Landing Section Comeco--- */
+    .my-mobile-landing .my-landing-search-bar-div{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .my-mobile-landing .my-landing-search-bar-div > button{
+        position: initial;
+        width: 100%;
+        margin-top: 5px;
+        padding: 8px 16px;
+    }
+/* --- Landing Section Fim--- */
+}
+@media (max-width: 430px){
+    .my-mobile-landing .my-landing-search-bar-div > .minimum{ display: flex; }
+
+    .my-mobile-landing .my-landing-search-bar-div > .extra-small{ display: none;}
+}
+
+@media (max-width: 575px) {
+
+    .my-landing-title{
+        font-size: 25px;
+    }
+
+    .my-landing-text{
+        font-size: clamp(15px, 3vw, 18px);
+        font-weight: 800;
+        font-style: italic;
+        line-height: clamp(13.2px, 3vw, 20px);
+        white-space: normal;
+    }
+
+    .my-landing-img{
+        border-radius: clamp(20px, 15vw, 45px);
+        width: calc(100% + 82px);
+    }
+
+    .my-landing-img-content{
+        width: 59.9vw;
+    }
+
+    .my-mobile-landing-row {
+        display: flex;
+    }
+
+    .my-desk-landing-row{
+        display: none;
+    }
+
+    .my-mobile-landing{
+        display: flex;
+    }
+
+    .my-desk-landing{
+        display: none;
+    }
+}
+
+@media (min-width: 576px) { 
+    /* --- Landing Section Comeco--- */
+    .my-mobile-landing-row {
+        display: flex;
+    }
+
+    .my-desk-landing-row{
+        display: none;
+    }
+
+    .my-mobile-landing{
+        display: flex;
+    }
+
+    .my-desk-landing{
+        display: none;
+    }
+
+    
+    /* --- Landing Section Fim --- */
+}
+
+@media(min-width: 632px){
+    .my-mobile-landing{
+        display: none;
+    }
+
+    .my-desk-landing{
+        display: flex;
+    }
+
+    .my-landing-text-content{
+        padding-right: clamp(12px, 5vw, 113px);
+    }
+
+    .my-landing-search-bar-div{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .my-landing-search-bar-div button{
+        position: initial;
+        width: 100%;
+        margin-top: 5px;
+        height: fit-content;
+        padding: 16px 16px;
+    }
+}
+
+@media (min-width: 768px) { /* md */
+    /* --- Landing Section Comeco--- */
+    .my-mobile-landing-row {
+        display: none;
+    }
+
+    .my-desk-landing-row{
+        display: flex;
+    }
+    /* --- Landing Section Fim --- */
+}
+
+@media (min-width: 992px) { 
+
+    .my-landing-text-content{
+        padding-right: 113px;
+        padding-left: 80px;
+    }
+
+}
+
+@media(min-width: 1155px){
+    .my-landing-search-bar-div{
+        display: flex;
+        flex-direction: row;
+    }
+
+    .my-landing-search-bar-div button{
+        position: absolute;
+        width: fit-content;
+        height: fit-content;
+        padding: 16px 25px;
+        margin: 0;
+    }
+}
+
+@media (min-width: 1200px) { 
+    .my-landing-search-bar-div button{
+        padding: 16px 30px;
+    }
+}
