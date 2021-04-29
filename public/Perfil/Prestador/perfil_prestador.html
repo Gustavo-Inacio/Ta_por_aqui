@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://kit.fontawesome.com/2a19bde8ca.js" crossorigin="anonymous" defer></script>
+
+    <title>Tá por aqui - Meu perfil</title>
+
+    <link rel="stylesheet" href="../../../assets/bootstrap/bootstrap-4.5.3-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../assets/global/globalStyles.css">
+    <link rel="stylesheet" href="./perfil_prestador.css">
+
+    <script src="../../../assets/bootstrap/jquery-3.5.1.slim.min.js" defer></script>
+    <script src="../../../assets/bootstrap/popper.min.js" defer></script> 
+    <script src="../../../assets/bootstrap/bootstrap-4.5.3-dist/js/bootstrap.min.js" defer></script>
+
+    <script src="perfil_prestador.js"></script>
+</head>
+<body>
+    <!--NavBar Comeco-->
+    <nav id="myMainTopNavbar" class="navbar navbar-expand-md">
+        <a href="#" class="navbar-brand">
+            <img src="../../../assets/images/dumb-brand.png" alt="Tá por aqui" class="my-brand-img">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myMainTopNavbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="my-navbar-toggler-icon">
+                <div></div>
+                <div></div>
+                <div></div>
+            </span>
+        </button>
+
+        <div id="myMainTopNavbarNav" class="collapse navbar-collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="../../Home/home.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Encontre um pofissional</a> 
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Artigos</a>      
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Fale conosco</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Sobre</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Chat</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!--NavBar Fim-->
+
+    <!-- Cartão do perfil comeco-->
+    <section id="myProfileSection" class="row">
+        <div id="profilePictureArea" class="col-md-4">
+                <h1>Foto de perfil</h1>
+                <br>
+                <img src="../../../assets/images/profile_images/teste.jpeg" alt="Imagem de perfil" class="img-fluid" id="profileImage">
+                <br>
+                <h3>Avaliação</h3>
+                <p> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> </p>
+        </div>
+
+        <div id="editProfileInformation" class="col-md-8">
+            <h1 class="formTitle d-inline">Edição de perfil</h1>
+            <form action="" method="">
+                <div id="myForms" class="row">
+                    
+                        <div class="col-md-6">
+                            <label for="userName">Nome</label> <br>
+                            <input type="text" class="form-control" name="userName" id="userName" class="mb-4" readonly value="Natan">
+
+                            <br>
+
+                            <label for="userLastName">Sobrenome</label> <br>
+                            <input type="text" class="form-control" name="userLastName" id="userLastName" class="mb-4" readonly value="Barbosa">
+
+                            <br>
+
+                            <label for="userCell">Celular</label> <br>
+                            <input type="text" class="form-control" name="userCell" id="userCell" class="mb-4" readonly value="(11)999999999">
+
+                            <br>
+
+                            <label for="userPass">Senha</label> <br>
+                            <div class="input-group mb-3">
+                                <input type="password" class="form-control" id="userPass" name="userPass" readonly value="senha">
+                                <div class="input-group-append">
+                                  <a href="#" class="input-group-text" id="changePass">Alterar senha</a>
+                                </div>
+                              </div>
+                            
+                        </div>
+
+                        <div class="col-md-6 mt-3 mt-md-0">
+                            <label for="userEmail">Email</label> <br>
+                            <input type="text" class="form-control" name="userEmail" id="userEmail" class="mb-4" readonly value="exemplo@gmail.com">
+
+                            <br>
+
+                            <label for="userSite">Site</label> <br>
+                            <input type="text" class="form-control" name="userSite" id="userSite" class="mb-4" readonly value="https://www.site.com.br">
+
+                            <br>
+
+                            <label for="userDescription">Descrição</label> <br>
+                            <textarea name="userDescription" class="form-control" id="userDescription" class="mb-4" readonly> Esse é um exemplo de descrição </textarea>
+                        </div>
+                    
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6 mb-3" id="divButtonEdit"> 
+                        <button type="button" id="buttonEdit" onclick="changeButtonColor()"> Editar </button> 
+                    </div>
+
+                    <div class="col-lg-6 mb-3 d-lg-flex flex-row-reverse" id="divButtonSave"> 
+                        <button id="buttonSave" class="myDisabled" disabled> Salvar </button>  &nbsp;
+                        <button type="button" id="buttonCancel" class="myDisabled" disabled onclick="location.reload()"> Cancelar </button> 
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </section>
+    <!-- Cartão do perfil fim -->
+
+    <br>
+
+    <!-- Div de redes sociais -->
+
+    <section id="socialMedia">
+        <div class="container">
+
+            <div id="socialContent">
+                <h1>Redes sociais</h1>
+
+                <br>
+
+                <div class="socialBorder"></div>
+
+                <br>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <i class="fab fa-instagram"></i> <br>
+                        <p>@nome do usuário</p>
+                    </div>
+
+                    <div class="col-md-4">
+                        <i class="fab fa-facebook-f"></i> <br>
+                        <p>nome do usuário</p>
+                    </div>
+
+                    <div class="col-md-4">
+                        <i class="fab fa-whatsapp"></i> <br>
+                        <p>número do usuário</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <br>
+
+            <button id="socialMediaEdit"> Editar as Redes </button>
+
+        </div>
+    </section>
+    
+</body>
+</html>
