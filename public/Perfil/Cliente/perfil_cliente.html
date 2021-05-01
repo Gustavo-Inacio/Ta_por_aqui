@@ -8,7 +8,7 @@
 
     <script src="https://kit.fontawesome.com/2a19bde8ca.js" crossorigin="anonymous" defer></script>
 
-    <title>Tá por aqui - Perfil nome prestador</title>
+    <title>Tá por aqui - Meu perfil</title>
 
     <link rel="stylesheet" href="../../../assets/bootstrap/bootstrap-4.5.3-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../../assets/global/globalStyles.css">
@@ -17,6 +17,8 @@
     <script src="../../../assets/bootstrap/jquery-3.5.1.slim.min.js" defer></script>
     <script src="../../../assets/bootstrap/popper.min.js" defer></script>
     <script src="../../../assets/bootstrap/bootstrap-4.5.3-dist/js/bootstrap.min.js" defer></script>
+
+    <script src="perfil_prestador.js"></script>
 </head>
 
 <body>
@@ -142,106 +144,28 @@
                     <div class="row">
                         <div class="col-md-4 mt-3">
                             <i class="fab fa-instagram"></i> <br>
-                            <input type="text" name="instagram" id="instagram" class="form-control border text-center text-white" value="@Natan" readonly> 
+                            <input type="text" name="instagram" id="instagram" class="form-control border text-center text-white" value="@seu nome" readonly> 
                         </div>
 
                         <div class="col-md-4 mt-3">
                             <i class="fab fa-facebook-f"></i> <br>
-                            <input type="text" name="facebook" id="facebook" class="form-control border text-center text-white" value="Natan Barbosa" readonly> 
+                            <input type="text" name="facebook" id="facebook" class="form-control border text-center text-white" value="seu nome" readonly> 
                         </div>
 
                         <div class="col-md-4 mt-3">
                             <i class="fab fa-twitter"></i> <br>
-                            <input type="text" name="twitter" id="twitter" class="form-control border text-center text-white" value="@Natan" readonly> 
+                            <input type="text" name="twitter" id="twitter" class="form-control border text-center text-white" value="@seu nome" readonly> 
                         </div>
                     </div>
+                    <button class="btn btn-success mt-3 d-none" id="btnSalvarRedes">Salvar</button>
+                    <button type="button" class="btn btn-outline-danger mt-3 d-none" id="btnCancelarRedes" onclick="location.reload()">Cancelar</button>
                 </form>
+
             </div>
 
         </div>
     </section>
-
     <!-- Div de redes sociais fim-->
-
-    <br>
-
-    <!-- Div serviços disponibilizados -->
-    <section id="availableServices">
-        <div class="container">
-
-            <div class="myContent">
-                <h1>Serviços disponibilizados</h1>
-                <br>
-                <div class="serviceBorder"></div>
-
-                <br>
-
-                <div class="row" id="serviceCards">
-                    <div class="col-lg-4 col-md-6 mt-3">
-                        <div class="card myCard mx-3">
-                            <div class="card-header myCardHeader">
-                                Serviço
-                            </div>
-                            <div class="card-body">
-                                <h3 class="card-title">Encanamento</h3>
-                                <p class="card-text">
-                                    Informações básicas: <br>
-                                    Orçamento médio: R$80,00 <br>
-                                    Localização: Campanário
-                                </p>
-                                <a href="#" class="btn myCardButton">Contratar</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 mt-3">
-                        <div class="card myCard mx-3">
-                            <div class="card-header myCardHeader">
-                                Serviço
-                            </div>
-                            <div class="card-body">
-                                <h3 class="card-title">Encanamento</h3>
-                                <p class="card-text">
-                                    Informações básicas: <br>
-                                    Orçamento médio: R$80,00 <br>
-                                    Localização: Campanário
-                                </p>
-                                <a href="#" class="btn myCardButton">Contratar</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 mt-3">
-                        <div class="card myCard mx-3">
-                            <div class="card-header myCardHeader">
-                                Serviço
-                            </div>
-                            <div class="card-body">
-                                <h3 class="card-title">Encanamento</h3>
-                                <p class="card-text">
-                                    Informações básicas: <br>
-                                    Orçamento médio: R$80,00 <br>
-                                    Localização: Campanário
-                                </p>
-                                <a href="#" class="btn myCardButton"> Contratar </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <br> <br>
-
-                <div class="serviceBorder"></div>
-
-            </div>
-
-
-        </div>
-    </section>
-
-    <!-- Fim serviços disponibilizados -->
-
-    <br>
 
     <!-- footer -->
     <!-- /footer -->
