@@ -24,7 +24,7 @@
 <body>
     <!--NavBar Comeco-->
     <nav id="myMainTopNavbar" class="navbar navbar-expand-md">
-        <a href="#" class="navbar-brand">
+        <a href="../../Home/home.html" class="navbar-brand">
             <img src="../../../assets/images/dumb-brand.png" alt="Tá por aqui" class="my-brand-img">
         </a>
 
@@ -163,28 +163,32 @@
 
                 <br>
 
-                <div class="row">
-                    <div class="col-md-4 mt-3">
-                        <i class="fab fa-instagram"></i> <br>
-                        <p>@nome do usuário</p>
-                    </div>
+                <form action="#" method="">
+                    <div class="row">
+                        <div class="col-md-4 mt-3">
+                            <i class="fab fa-instagram"></i> <br>
+                            <input type="text" name="instagram" id="instagram" class="form-control border text-center text-white" value="@seu nome" readonly> 
+                        </div>
 
-                    <div class="col-md-4 mt-3">
-                        <i class="fab fa-facebook-f"></i> <br>
-                        <p>nome do usuário</p>
-                    </div>
+                        <div class="col-md-4 mt-3">
+                            <i class="fab fa-facebook-f"></i> <br>
+                            <input type="text" name="facebook" id="facebook" class="form-control border text-center text-white" value="seu nome" readonly> 
+                        </div>
 
-                    <div class="col-md-4 mt-3">
-                        <i class="fab fa-whatsapp"></i> <br>
-                        <p>número do usuário</p>
+                        <div class="col-md-4 mt-3">
+                            <i class="fab fa-twitter"></i> <br>
+                            <input type="text" name="twitter" id="twitter" class="form-control border text-center text-white" value="@seu nome" readonly> 
+                        </div>
                     </div>
-                </div>
+                    <button class="btn btn-success mt-3 d-none" id="btnSalvarRedes">Salvar</button>
+                    <button type="button" class="btn btn-outline-danger mt-3 d-none" id="btnCancelarRedes" onclick="location.reload()">Cancelar</button>
+                </form>
 
             </div>
 
             <br>
 
-            <button id="socialMediaEdit"> Editar as Redes </button>
+            <button id="socialMediaEdit" onclick="editaRedes()"> Editar as Redes </button>
 
         </div>
     </section>
@@ -296,8 +300,13 @@
                                     Orçamento médio: R$80,00 <br>
                                     Localização: Campanário
                                 </p>
-                                <a href="#" class="btn myCardAccept">Aceitar</a>
-                                <a href="#" class="btn myCardReject">Rejeitar</a>
+
+                                <a href="#" class="text-primary">Mais detalhes</a>
+                                
+                            </div>
+                            <div class="card-footer">
+                                <a href="#" class="btn myCardAccept my-1">Aceitar</a>
+                                <a href="#" class="btn myCardReject my-1">Rejeitar</a>
                             </div>
                         </div>
                     </div>
@@ -314,8 +323,13 @@
                                     Orçamento médio: R$80,00 <br>
                                     Localização: Campanário
                                 </p>
-                                <a href="#" class="btn myCardAccept">Aceitar</a>
-                                <a href="#" class="btn myCardReject">Rejeitar</a>
+
+                                <a href="#" class="text-primary">Mais detalhes</a>
+                                
+                            </div>
+                            <div class="card-footer">
+                                <a href="#" class="btn myCardAccept my-1">Aceitar</a>
+                                <a href="#" class="btn myCardReject my-1">Rejeitar</a>
                             </div>
                         </div>
                     </div>
@@ -326,13 +340,16 @@
                                 Seu serviço foi solicitado por <a href="#">Roberto</a>
                             </div>
                             <div class="card-body">
-                                <h3 class="card-title">Encanamento</h3>
+                                <h3 class="card-title"> Encanamento </h3>
                                 <p class="card-text">
                                     Informações básicas: <br>
                                     Orçamento médio: R$80,00 <br>
-                                    Localização: Campanário
+                                    Localização: Campanário <br>
                                 </p>
+                                <a href="#" class="text-primary">Mais detalhes</a>
 
+                            </div>
+                            <div class="card-footer">
                                 <div class="alert alert-success" role="alert">
                                     Serviço aceito
                                 </div>
@@ -346,7 +363,194 @@
 
         </div>
     </section>
+    <br>
 
+    <!-- Div de Serviços contratados recentemente -->
+    <section id="recentServices">
+        <div class="container">
+
+            <div class="myContent">
+                <h1>Histórico de serviços contratados</h1>
+                <br>
+
+                <div class="socialBorder"></div>
+                <br>
+
+                <div class="row" id="recentServicesCards">
+                    <div class="col-lg-4 col-md-6 mt-3">
+                        <div class="card myCard3 mx-3">
+                            <div class="card-header myCardHeader3">
+                                Serviço ocorrido em: <strong> 01/05/2020 </strong>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">Encanamento</h3>
+                                <p class="card-text">
+                                    Informações básicas: <br>
+                                    Orçamento médio: R$80,00 <br>
+                                    Localização: Campanário
+                                </p>
+
+                                <a href="#" class="text-primary">Mais detalhes</a>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-8">
+                                        <a href="#" class="font-weight-bold text-dark"> Natan Silva</a> <br>
+                                        (11)912345678
+                                    </div>
+                                    <div class="col-4">
+                                        <img src="../../../assets/images/profile_images/teste.jpeg" alt="foto de perfil" class="recentServicesPic">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 mt-3">
+                        <div class="card myCard3 mx-3">
+                            <div class="card-header myCardHeader3">
+                                Serviço ocorrido em: <strong> 01/05/2020 </strong>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">Encanamento</h3>
+                                <p class="card-text">
+                                    Informações básicas: <br>
+                                    Orçamento médio: R$80,00 <br>
+                                    Localização: Campanário
+                                </p>
+
+                                <a href="#" class="text-primary">Mais detalhes</a>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-8">
+                                        <a href="#" class="font-weight-bold text-dark"> Natan Silva</a> <br>
+                                        (11)912345678
+                                    </div>
+                                    <div class="col-4">
+                                        <img src="../../../assets/images/profile_images/teste.jpeg" alt="foto de perfil" class="recentServicesPic">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 mt-3">
+                        <div class="card myCard3 mx-3">
+                            <div class="card-header myCardHeader3">
+                                Serviço ocorrido em: <strong> 01/05/2020 </strong>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">Encanamento</h3>
+                                <p class="card-text">
+                                    Informações básicas: <br>
+                                    Orçamento médio: R$80,00 <br>
+                                    Localização: Campanário
+                                </p>
+
+                                <a href="#" class="text-primary">Mais detalhes</a>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-8">
+                                        <a href="#" class="font-weight-bold text-dark"> Natan Silva</a> <br>
+                                        (11)912345678
+                                    </div>
+                                    <div class="col-4">
+                                        <img src="../../../assets/images/profile_images/teste.jpeg" alt="foto de perfil" class="recentServicesPic">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+    <!-- Div de Serviços contratados recentemente fim-->
+
+    <!-- Div serviços salvos -->
+    <section id="savedServices">
+        <div class="container">
+
+            <div class="myContent">
+                <h1>Serviços Salvos</h1>
+                <br>
+                <div class="serviceBorder"></div>
+
+                <br>
+
+                <div class="row" id="savedCards">
+                    <div class="col-lg-4 col-md-6 mt-3">
+                        <div class="card myCard mx-3">
+                            <div class="card-header myCardHeader">
+                                Serviço
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">Encanamento</h3>
+                                <p class="card-text">
+                                    Informações básicas: <br>
+                                    Orçamento médio: R$80,00 <br>
+                                    Localização: Campanário
+                                </p>
+                                <a href="#" class="text-primary">Mais detalhes</a> <br>
+                            </div>
+                            <div class="card-footer">
+                                <a href="#" class="btn myCardReject">Remover</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 mt-3">
+                        <div class="card myCard mx-3">
+                            <div class="card-header myCardHeader">
+                                Serviço
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">Encanamento</h3>
+                                <p class="card-text">
+                                    Informações básicas: <br>
+                                    Orçamento médio: R$80,00 <br>
+                                    Localização: Campanário
+                                </p>
+                                <a href="#" class="text-primary">Mais detalhes</a> <br>
+                            </div>
+                            <div class="card-footer">
+                                <a href="#" class="btn myCardReject">Remover</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 mt-3">
+                        <div class="card myCard mx-3">
+                            <div class="card-header myCardHeader">
+                                Serviço
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">Encanamento</h3>
+                                <p class="card-text">
+                                    Informações básicas: <br>
+                                    Orçamento médio: R$80,00 <br>
+                                    Localização: Campanário
+                                </p>
+                                <a href="#" class="text-primary">Mais detalhes</a> <br>
+                            </div>
+                            <div class="card-footer">
+                                <a href="#" class="btn myCardReject">Remover</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+    <!-- Div salvos disponibilizados fim -->
+    <br>
+
+    <!-- footer -->
+    <!-- /footer -->
 </body>
 
 </html>

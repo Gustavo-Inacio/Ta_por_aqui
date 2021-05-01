@@ -1,4 +1,4 @@
-//permitir que o usuário clique nos botões de salvar e cancelar
+//permitir que o usuário clique nos botões de salvar e cancelar e edite seu perfil
 function changeButtonColor(){
     let saveButton = document.getElementById("buttonSave")
     let cancelButton = document.getElementById("buttonCancel")
@@ -33,4 +33,23 @@ function changeButtonColor(){
 
     description.removeAttribute('readonly')
     description.style.color = 'black'
+}
+
+//editar o nome das redes sociais
+function editaRedes(){
+    let instagram = document.getElementById('instagram')
+    let facebook = document.getElementById('facebook')
+    let twitter = document.getElementById('twitter')
+    let botaoEditar = document.getElementById('socialMediaEdit')
+    let botaoSalvar = document.getElementById('btnSalvarRedes')
+    let botaoCancelar = document.getElementById('btnCancelarRedes')
+
+    botaoEditar.className = 'd-none'
+    botaoSalvar.classList.remove('d-none')
+    botaoCancelar.classList.remove('d-none')
+
+    instagram.removeAttribute('readonly')
+    facebook.removeAttribute('readonly')
+    twitter.removeAttribute('readonly')
+    instagram.focus()
 }
