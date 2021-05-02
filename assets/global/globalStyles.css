@@ -93,6 +93,17 @@
     display: none;
     cursor: pointer;
 }
+
+#profileMenu{
+    width: 56px;
+    height: 56px;
+    border-radius: 130px;
+    margin-left: 25px;
+}
+
+#profileMenu:hover{
+    cursor: pointer;
+}
 /* -- MainTopNavbar Fim --*/
 
 
@@ -228,6 +239,15 @@
     .test > .lg {display: none;}
     .test > .xl {display: none;}
 }
+
+@media (max-width: 768px) { /* md */
+    /*Configurações da foto de perfil*/
+    #profileMenu{
+        margin-left: 20px;
+        margin-bottom: 20px;
+    }
+}
+
 @media (min-width: 576px) { 
    
     .test > .xs {display: none;}
@@ -237,7 +257,6 @@
     .test > .xl {display: none;}
 }
 @media (min-width: 768px) { /* md */
-
     /* -- MainTopNavbar Comeco --*/
     #myMainTopNavbar{
         padding: 0 50px;
