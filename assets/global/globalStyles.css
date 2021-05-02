@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital@1&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700&display=swap');
 
 :root{
     --my-color-white: #FFF;
@@ -13,12 +13,26 @@
 }
 
 *{
-    box-sizing: border-box;
+    box-sizing: border-box !important;
     margin: 0;
     padding: 0;
 }
 
+/* --- Utilidades Comeco --- */
+.show{
+    display: initial !important;
+} 
+
+.hide{
+    display: none  !important;
+}
+/* --- Utilidades Fim --- */ 
+
 /* -- MainTopNavbar Comeco --*/
+#myMainTopNavbarToggler{
+    border: 1px solid rgb(136, 136, 136);
+}
+
 .my-navbar-toggler-icon{
     height: 36px;
     padding: 9px 5.62px;
@@ -31,12 +45,14 @@
     width: 100%;
     border: 1px solid #000;
     min-width: 24.75px;
+    background-color: #000;
 }
 
 #myMainTopNavbar{
     height: 80px !important;
     background-color: #FFF;
     padding: 0 16px;
+    z-index: 1000;
 }
 
 #myMainTopNavbarNav{
@@ -65,9 +81,146 @@
     color: #000C26;
     font: 400 16px 'Lato', sans-serif;
 }
+
+#myMainTopNavbarNavBackdrop{
+    position: fixed;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: none;
+    cursor: pointer;
+}
 /* -- MainTopNavbar Fim --*/
 
+
+/* --- Main Footer Comeco -- */
+#myMainFooter{
+    background-color: var(--my-color-two);
+    padding: 21px 31px;
+    font-family: 'Roboto', sans-serif;
+    color: #FFF;
+}
+
+#myMainFooterContainer{
+    display: grid !important;
+    grid-template: 1fr/1fr;
+    
+    grid-template-areas: 
+        'logo'
+        'institutional'
+        'socialMedia'
+    ;
+    column-gap: clamp(0px, 10vw, 70px);
+
+    padding: 0;
+    margin: 0;
+
+}
+
+.my-main-footer-logo{
+    grid-area: logo;
+    display: flex;
+    height: fit-content;
+    justify-content: center;
+    align-self: center;
+    margin-bottom: 11px;
+}
+
+
+#myMainFooter .my-footer-img{
+    width: 90px;
+    height: 42px;
+}
+
+
+.my-main-footer-institutional{
+    grid-area: institutional;
+    justify-self: center;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #FFF;
+}
+
+#myMainFooter .my-main-footer-institutional > p{
+    margin-bottom: 7px;
+    font-weight: 800;
+    font-size: 15px;
+    line-height: 18px;
+}
+
+#myMainFooter .my-main-footer-institutional a , #myMainFooter .my-main-footer-institutional a:hover{
+    font-style: unset;
+    color: inherit;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+}
+#myMainFooter .my-main-footer-socialMedia > p{
+    font-weight: 800;
+    font-size: 15px;
+    line-height: 18px;
+    margin-bottom: 7px;
+    align-self: center;
+    text-align: center;
+}
+
+.my-main-footer-socialMedia{
+    grid-area: socialMedia;
+    white-space: nowrap;
+    justify-self: center;
+    align-content: space-between;
+    display: flex;
+    flex-direction: column;
+}
+
+.my-footer-social-medias-div{
+    display: flex;
+    justify-content: space-between;
+}
+
+#myMainFooter .my-main-footer-socialMedia i{
+    font-size: 16.46px;
+    color: #FFF;
+}
+
+
+
+
+
+/* --- Main Footer Fim -- */
+
 /* --- Media queries --- */
+@media (min-width: 285px){
+
+    /* -- Main Footer Comeco --- */
+    
+    #myMainFooterContainer{
+
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        justify-content: center;
+        grid-template-areas: 
+            'logo institutional'
+            'socialMedia institutional'
+        ;
+    }
+
+    #myMainFooter .my-main-footer-institutional > p{
+        margin-bottom: 7px;
+    }
+
+    .my-main-footer-institutional{
+        margin: 0;
+        padding-bottom: 0;
+        border: none;
+    }
+
+    /* -- Main Footer Fim --- */
+}
+
 @media (max-width: 575px) { 
     .test > .xs {display: block;}
     .test > .sm {display: none;}
@@ -99,6 +252,49 @@
     }
 
     /* -- MainTopNavbar Fim --*/
+
+    /* Main Footer Comeco */ 
+    #myMainFooter{
+        padding: 50px;
+    }
+
+    #myMainFooterContainer{
+
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr;
+        grid-template-areas: 
+            'logo institutional socialMedia'
+        ;
+    }
+
+    #myMainFooter .my-footer-img{
+        width: 128px;
+        height: 60px;
+    }
+
+    #myMainFooter .my-main-footer-institutional > p{
+        font-size: 17px;
+    }
+
+    #myMainFooter .my-main-footer-institutional > a{
+        font-size: 15px;
+    }
+
+    #myMainFooter .my-main-footer-socialMedia i{
+        font-size: 25.1px;
+    }
+
+    #myMainFooter .my-main-footer-socialMedia{
+        width: 100%;
+        height: 100%;
+    }
+
+    .my-footer-social-medias-div{
+        width: 100%;
+        justify-content: space-evenly;
+        margin: auto 0;
+    }
+    /* Main Footer Comeco */ 
   
     .test > .xs {display: none;}
     .test > .sm {display: none;}
@@ -112,6 +308,12 @@
         padding: 0 80px;
     }
     /* -- myMainTopNavbar Fim -- */
+
+    /* -- Main Footer Comeco -- */
+    #myMainFooter .my-main-footer-socialMedia i{
+        font-size: 32.1px;
+    }
+    /* -- Main Footer Fim -- */
 
     .test > .xs {display: none;}
     .test > .sm {display: none;}
@@ -144,18 +346,3 @@ Large (lg) devices (desktops, 992px and up)
 Extra (xl) large devices (large desktops, 1200px and up)
 @media (min-width: 1200px) { ... }
 */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

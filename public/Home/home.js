@@ -10,6 +10,26 @@ let services = document.getElementsByClassName("my-service-item");
 
 let scroll = 0
 
+const loadSuggestionItems = () => {
+    let itemsQuantity = 40;
+
+    template_elem = document.getElementById("myServiceItemTemplate"); // elemnto template
+
+    let a = template_elem.content.querySelectorAll("a")[0]; // este e a tag a do item (template)
+    let icon = a.children["myServiceItemIcon"]; // este e o icone do item (template)
+    let p = a.children["myServiceItemText"]; // este e o texto/titulo do item ((template))
+
+    for(let i = 0; i < itemsQuantity; i++){ // neste for, os valores do template sao modificados e inseridos na lista 
+        a.href = "www.youtube.com"; // este e o link do item
+        p.textContent = "Titulo do Item " + i; // este e o texto do item
+
+        let newItem = document.importNode(template_elem.content, true) // este e o item sem o template
+        suggestionList.appendChild(newItem); // inserindo o item na lista
+    }
+}
+
+loadSuggestionItems();
+
 const setSuggestionBarScroll = () => { // aqui a variavel 'scroll' que controla o movimento eh aplicada a lista
     suggestionList.style.marginLeft = scroll + "px";  
 }
