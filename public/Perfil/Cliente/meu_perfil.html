@@ -18,18 +18,21 @@
     <script src="../../../assets/bootstrap/popper.min.js" defer></script>
     <script src="../../../assets/bootstrap/bootstrap-4.5.3-dist/js/bootstrap.min.js" defer></script>
 
-    <script src="perfil_prestador.js"></script>
+    <script src="../../../assets/global/globalScripts.js" defer></script>
+ 
+    <script src="./perfil_prestador.js" defer></script>
+
 </head>
 
 <body>
     <!--NavBar Comeco-->
+    <div id="myMainTopNavbarNavBackdrop" class=""></div>
     <nav id="myMainTopNavbar" class="navbar navbar-expand-md">
-        <a href="../../Home/home.html" class="navbar-brand">
+        <a href="../../Home/home.html" id="myMainTopNavbarBrand" class="navbar-brand">
             <img src="../../../assets/images/dumb-brand.png" alt="Tá por aqui" class="my-brand-img">
         </a>
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myMainTopNavbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button id="myMainTopNavbarToggler" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myMainTopNavbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="my-navbar-toggler-icon">
                 <div></div>
                 <div></div>
@@ -43,19 +46,19 @@
                     <a href="../../Home/home.html" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Encontre um pofissional</a>
+                    <a href="../../EncontrarProfissional/Listagem/listagem.html" class="nav-link">Encontre um pofissional</a> 
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Artigos</a>
+                    <a href="../../Artigos/artigos.html" class="nav-link">Artigos</a>      
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Fale conosco</a>
+                    <a href="../../Contato/contato.html" class="nav-link">Fale conosco</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Sobre</a>
+                    <a href="../../SobreNos/sobreNos.html" class="nav-link">Sobre</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">Chat</a>
+                    <a href="../../Chat/chat.html" class="nav-link">Chat</a>
                 </li>
             </ul>
         </div>
@@ -475,6 +478,28 @@
     <br>
 
     <!-- footer -->
+    <footer id="myMainFooter">
+        <div id="myMainFooterContainer" class="container-fluid">
+            <div class="my-main-footer-logo">
+                <img src="../../../assets/images/dumb-footer.png" alt="Tá por Aqui" class="my-footer-img">
+            </div>
+            <div class="my-main-footer-institutional">
+                <p>INSTITUCIONAL</p>
+                <a href="../../SobreNos/sobreNos.html">Quem Somos</a> <br>
+                <a href="#">Faça uma doação</a> <br>
+                <a href="#">Trabalhe conosco</a> <br>
+            </div>
+            <div class="my-main-footer-socialMedia">
+                <p>Redes Sociais</p>
+                <div class="my-footer-social-medias-div">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            </div>
+        </div>
+    </footer>
     <!-- /footer -->
 </body>
 
