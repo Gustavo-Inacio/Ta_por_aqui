@@ -6,6 +6,7 @@ svg{
 
 body{
     display: relative;
+    font-family: 'Roboto';
 }
 
 
@@ -31,7 +32,13 @@ body{
 }
 
 #loginContent{
-    padding: 80px 40px 80px 60px;
+    padding: 80px 100px 80px 60px;
+}
+
+@media (max-width: 991.98px) {
+    #loginContent{
+        padding: 80px 40px 80px 40px;
+    }
 }
 
 #loginForm label.myLabel{
