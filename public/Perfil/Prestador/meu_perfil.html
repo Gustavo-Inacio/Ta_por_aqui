@@ -31,7 +31,9 @@
             <img src="../../../assets/images/dumb-brand.png" alt="Tá por aqui" class="my-brand-img">
         </a>
 
-        <button id="myMainTopNavbarToggler" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myMainTopNavbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button id="myMainTopNavbarToggler" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#myMainTopNavbarNav" aria-controls="navbarNav" aria-expanded="false"
+            aria-label="Toggle navigation">
             <span class="my-navbar-toggler-icon">
                 <div></div>
                 <div></div>
@@ -44,11 +46,12 @@
                 <li class="nav-item">
                     <a href="../../Home/home.html" class="nav-link">Home</a>
                 </li>
-                 <li class="nav-item">
-                    <a href="../../EncontrarProfissional/Listagem/listagem.html" class="nav-link">Encontre um pofissional</a> 
+                <li class="nav-item">
+                    <a href="../../EncontrarProfissional/Listagem/listagem.html" class="nav-link">Encontre um
+                        pofissional</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../../Artigos/artigos.html" class="nav-link">Artigos</a>      
+                    <a href="../../Artigos/artigos.html" class="nav-link">Artigos</a>
                 </li>
                 <li class="nav-item">
                     <a href="../../Contato/contato.html" class="nav-link">Fale conosco</a>
@@ -62,7 +65,8 @@
             </ul>
 
             <div class="dropdown">
-                <img src="../../../assets/images/profile_images/teste.jpeg" alt="imagem de perfil" id="profileMenu" class="img-fluid" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img src="../../../assets/images/profile_images/teste.jpeg" alt="imagem de perfil" id="profileMenu"
+                    class="img-fluid" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
                 <div class="dropdown-menu" aria-labelledby="profileMenu">
                     <a class="dropdown-item" href="meu_perfil.html">Perfil</a>
@@ -115,7 +119,8 @@
                             <input type="password" class="form-control" id="userPass" name="userPass" readonly
                                 value="senha">
                             <div class="input-group-append">
-                                <a href="#" class="input-group-text" id="changePass">Alterar senha</a>
+                                <button class="input-group-text" id="changePass" data-toggle="modal"
+                                    data-target="#changePassModal" onclick="alteraSenha()">Alterar senha</button>
                             </div>
                         </div>
 
@@ -158,6 +163,29 @@
     </section>
     <!-- Cartão do perfil fim -->
 
+    <!-- modal esqueci senha -->
+
+    <div class="modal fade" id="changePassModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Mudar senha</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p> Um link para uma  nova senha será enviado para seu email</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- modal esqueci senha fim -->
+
     <br>
 
     <!-- Div de redes sociais -->
@@ -178,21 +206,25 @@
                     <div class="row">
                         <div class="col-md-4 mt-3">
                             <i class="fab fa-instagram"></i> <br>
-                            <input type="text" name="instagram" id="instagram" class="form-control border text-center text-white" value="@seu nome" readonly> 
+                            <input type="text" name="instagram" id="instagram"
+                                class="form-control border text-center text-white" value="@seu nome" readonly>
                         </div>
 
                         <div class="col-md-4 mt-3">
                             <i class="fab fa-facebook-f"></i> <br>
-                            <input type="text" name="facebook" id="facebook" class="form-control border text-center text-white" value="seu nome" readonly> 
+                            <input type="text" name="facebook" id="facebook"
+                                class="form-control border text-center text-white" value="seu nome" readonly>
                         </div>
 
                         <div class="col-md-4 mt-3">
                             <i class="fab fa-twitter"></i> <br>
-                            <input type="text" name="twitter" id="twitter" class="form-control border text-center text-white" value="@seu nome" readonly> 
+                            <input type="text" name="twitter" id="twitter"
+                                class="form-control border text-center text-white" value="@seu nome" readonly>
                         </div>
                     </div>
                     <button class="btn btn-success mt-3 d-none" id="btnSalvarRedes">Salvar</button>
-                    <button type="button" class="btn btn-outline-danger mt-3 d-none" id="btnCancelarRedes" onclick="location.reload()">Cancelar</button>
+                    <button type="button" class="btn btn-outline-danger mt-3 d-none" id="btnCancelarRedes"
+                        onclick="location.reload()">Cancelar</button>
                 </form>
 
             </div>
@@ -206,6 +238,100 @@
 
     <!-- Div de redes sociais fim-->
 
+    <br>
+
+    <!-- div serviços solicitados -->
+    <section id="requestedServices">
+        <div class="container">
+
+            <div class="myContent">
+                <h1>Serviços que você solicitou</h1>
+                <br>
+                <div class="requestedBorder"></div>
+
+                <br>
+
+                <div class="row" id="requestedCards">
+                    <div class="col-lg-4 col-md-6 mt-3">
+                        <div class="card myCard2 mx-3">
+                            <div class="card-header myCardHeader2">
+                                Você solicitou o serviço de <a href="#">Roberto</a>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">Encanamento</h3>
+                                <p class="card-text">
+                                    Informações básicas: <br>
+                                    Orçamento médio: R$80,00 <br>
+                                    Localização: Campanário
+                                </p>
+
+                                <a href="#" class="text-primary">Mais detalhes</a>
+                                
+                            </div>
+
+                            <div class="card-footer">
+                                <div class="alert alert-danger" role="alert">
+                                    Serviço rejeitado
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 mt-3">
+                        <div class="card myCard2 mx-3">
+                            <div class="card-header myCardHeader2">
+                                Você solicitou o serviço de <a href="#">Roberto</a>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title">Encanamento</h3>
+                                <p class="card-text">
+                                    Informações básicas: <br>
+                                    Orçamento médio: R$80,00 <br>
+                                    Localização: Campanário
+                                </p>
+
+                                <a href="#" class="text-primary">Mais detalhes</a>
+                                
+                            </div>
+                            <div class="card-footer">
+                                <div class="alert alert-secondary" role="alert">
+                                    Solicitação pendente
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 mt-3">
+                        <div class="card myCard2 mx-3">
+                            <div class="card-header myCardHeader2">
+                                Você solicitou o serviço de <a href="#">Roberto</a>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title"> Encanamento </h3>
+                                <p class="card-text">
+                                    Informações básicas: <br>
+                                    Orçamento médio: R$80,00 <br>
+                                    Localização: Campanário <br>
+                                </p>
+                                <a href="#" class="text-primary">Mais detalhes</a>
+
+                            </div>
+                            <div class="card-footer">
+                                <div class="alert alert-success" role="alert">
+                                    Serviço aceito
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+    <!-- div serviços solicitados -->
     <br>
 
     <!-- Div serviços disponibilizados -->
@@ -276,11 +402,12 @@
 
                 <div class="serviceBorder"></div>
 
-                
+
 
             </div>
 
-            <a href="./CriacaoServico/criar_servico.html" id="addService"> Adicionar serviço <i class="fas fa-plus"></i> </a>
+            <a href="./CriacaoServico/criar_servico.html" id="addService"> Adicionar serviço <i class="fas fa-plus"></i>
+            </a>
 
         </div>
     </section>
@@ -313,7 +440,7 @@
                                 </p>
 
                                 <a href="#" class="text-primary">Mais detalhes</a>
-                                
+
                             </div>
                             <div class="card-footer">
                                 <a href="#" class="btn myCardAccept my-1">Aceitar</a>
@@ -336,7 +463,7 @@
                                 </p>
 
                                 <a href="#" class="text-primary">Mais detalhes</a>
-                                
+
                             </div>
                             <div class="card-footer">
                                 <a href="#" class="btn myCardAccept my-1">Aceitar</a>
@@ -409,7 +536,8 @@
                                         (11)912345678
                                     </div>
                                     <div class="col-4">
-                                        <img src="../../../assets/images/profile_images/teste.jpeg" alt="foto de perfil" class="recentServicesPic">
+                                        <img src="../../../assets/images/profile_images/teste.jpeg" alt="foto de perfil"
+                                            class="recentServicesPic">
                                     </div>
                                 </div>
                             </div>
@@ -437,7 +565,8 @@
                                         (11)912345678
                                     </div>
                                     <div class="col-4">
-                                        <img src="../../../assets/images/profile_images/teste.jpeg" alt="foto de perfil" class="recentServicesPic">
+                                        <img src="../../../assets/images/profile_images/teste.jpeg" alt="foto de perfil"
+                                            class="recentServicesPic">
                                     </div>
                                 </div>
                             </div>
@@ -465,13 +594,14 @@
                                         (11)912345678
                                     </div>
                                     <div class="col-4">
-                                        <img src="../../../assets/images/profile_images/teste.jpeg" alt="foto de perfil" class="recentServicesPic">
+                                        <img src="../../../assets/images/profile_images/teste.jpeg" alt="foto de perfil"
+                                            class="recentServicesPic">
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
 
             </div>
@@ -580,7 +710,7 @@
                     <a href="#"><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
-            </div>
+        </div>
         </div>
     </footer>
     <!-- /footer -->
