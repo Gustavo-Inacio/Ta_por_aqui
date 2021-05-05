@@ -1,0 +1,148 @@
+body {
+    overflow-x: hidden !important;
+}
+
+#contactSection{
+    padding-bottom: 90px;
+}
+
+#contactUs{
+    height: 435px;
+    background: #3333CC;
+    border-radius: 10px;    
+}
+
+#contactUs h1{
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 28px;
+    color: white;
+    text-align: center;
+    padding-top: 30px;
+}
+
+#contactUs h2{
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 14px;
+    color: #CDCDCD;
+    text-align: center;
+    padding-top: 1px;
+}
+
+.ourInfo{
+    border-radius: 6px;
+    border: 1px solid #CDCDCD;
+    margin: 35px;
+    width: 265px;
+    height: 50px;
+    box-sizing: border-box;
+    display: block;
+    
+}
+
+.ourInfo p{
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    color: #CDCDCD;
+    display: block;
+    text-align: center;
+    position: relative;
+    bottom: 25px;
+    left: 10px;
+    
+}
+
+.ourInfo i{
+    display: block;
+    font-size: 20px;
+    padding-top: 15px;
+    padding-left: 10px;
+    color: #CDCDCD;
+}
+
+#sendAMessage{
+    height: 435px;
+    box-shadow: 0 0 3px #ccc;
+    border-radius: 10px;
+}
+
+#sendAMessage label{
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    color: #3333CC;
+    padding-top: 10px;
+
+}
+
+#sendAMessage input{
+    border-width: 0 0 2px;
+    border-color: #3333CC;
+    border-radius: 0;
+    outline: 0;
+    margin-bottom: 50px;
+    margin-top: 0px;
+    -webkit-transition: all .1s ease-out;
+    -moz-transition: all .1s ease-out;
+    -ms-transition: all .1s ease-out;
+    -o-transition: all .1s ease-out;
+    transition: all .1s ease-out    
+}
+
+#sendAMessage input:focus{
+    border-width: 2px 2px 2px;
+    border-radius: 5px;
+}
+
+#sendAMessage textarea{
+    border-color: #3333CC;
+    border-radius: 10px;
+    border-width: 2px;
+    resize: none;
+}
+
+#sendAMessage input[type=submit]{
+    height: 50px;
+    width: 170px;
+    border-radius: 8px;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    background: #45E586;
+    margin-left: 400px;
+    margin-bottom: 50px;
+
+    
+}
+
+#sendAMessage input[type=submit]:hover{
+    background: #0e833d;
+}
+
+.rightElement{
+    float: right;
+    padding-right: 30px;
+}
+
+.rightText1{
+    padding-right: 110px;
+}
+
+.rightText2{
+    padding-right: 87px;
+}
+
+#title{
+    justify-content: center;
+    text-align: center;
+    display: block;
+    padding-bottom: 10px;
+}
+
+#title h1{
+    font-family: 'Roboto', sans-serif;
+    font-weight: 900;
+    font-size: 36px;
+    color: #02044A;
+}
