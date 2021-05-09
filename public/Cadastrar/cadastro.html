@@ -149,6 +149,47 @@
         </section>
     </div>
 
+    <!-- Modal para confirmar email -->
+    <div class="modal fade" id="confirmEmailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-6 d-flex flex-column align-items-center justify-content-center" id="modalMsg">
+                                <h2>Só mais uma etapa...</h2>
+                                <p class="text-justify">Verifique sua caixa de email e insira o código para finalizar o cadastro</p>
+                            </div>
+                            <div class="col-md-6" id="modalInput">
+                                <p>Endereço de email cadastrado: <span id="InputEmailAdress" class="font-weight-bold"></span> </p>
+                                <input type="number" class="form-control" name="emailCode" id="emailCode" placeholder="Insira o código enviado ao seu email">
+                                <button class="btn btn-outline-success mt-2" id="confirmCode">Confirmar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de email confirmado com sucesso -->
+    <div class="modal fade" id="confirmedEmailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12 d-flex flex-column align-items-center justify-content-center" id="confirmMsg">
+                                <h2>Cadastro confirmado com sucesso <i class="fas fa-check" style="color: #45E586;"></i> </h2> <br>
+                                <a href="../Entrar/login.html" class="btn btn-outline-success"> Fazer login </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <svg width="761" height="567" viewBox="0 0 761 567" fill="none" xmlns="http://www.w3.org/2000/svg" class="d-none d-md-block">
         <path opacity="0.8" d="M258.947 218.405C188.4 61.0687 31.9052 7.24484 -37.5238 0L-57 625H761C746.032 565.804 682.771 442.218 549.467 421.438C382.837 395.462 347.131 415.076 258.947 218.405Z" fill="#45E586"/>
     </svg>

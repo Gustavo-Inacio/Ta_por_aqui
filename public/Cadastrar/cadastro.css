@@ -129,3 +129,61 @@ body{
 #serviceDiv input[type="checkbox"]:checked{
     background: url("../../assets/images/check.png") center;
 }
+
+/*Modal de confirmar email*/
+
+#confirmEmailModal .modal-content{
+    border-radius: 10px;
+    border: 1px solid black;
+}
+
+#confirmEmailModal .modal-body{
+    padding: 0;
+}
+
+#modalMsg{
+    padding: 40px;
+    color: white;
+    background-color: #0C0C23;
+    border-radius: 10px 0 0 10px;
+}
+
+#modalMsg p{
+    font-size: 12px;
+}
+
+#modalInput{
+    padding: 40px;
+}
+
+@media (max-width: 767.98px){
+    #modalMsg{
+        border-radius: 10px 10px 0 0 ;
+    }
+}
+
+/*Modal de email confirmado*/
+#confirmedEmailModal .modal-content{
+    border-radius: 10px;
+}
+
+#confirmedEmailModal .modal-body{
+    padding: 0;
+}
+
+#confirmMsg{
+    padding: 40px;
+    color: white;
+    background-color: #0C0C23;
+    border-radius: 10px;
+}
+
+#confirmedEmailModal a{
+    padding: 7px 100px;
+}
+
+@media (max-width: 575.98px){
+    #confirmedEmailModal a{
+        padding: 7px 50px;
+    }
+}

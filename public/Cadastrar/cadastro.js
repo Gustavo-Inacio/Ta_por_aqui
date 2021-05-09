@@ -122,6 +122,20 @@ function registerConfirm(){
     document.getElementById('msgErro').innerHTML = errorMsg
     
     if(valid){
-        document.getElementById('registerForm').submit()
+        //mostrar modal de confirmação de email
+        $('#confirmEmailModal').modal('show')
+
+        //desfoque de fundo
+        document.getElementById('page').style.filter = "blur(3px)"
+
+        //tirar desfoque
+        $('#confirmEmailModal').on('hidden.bs.modal', () => {
+            document.getElementById('page').style.filter = "none"
+        })
+
+        //preenchendo email
+        document.getElementById('InputEmailAdress').innerHTML = document.getElementById('userEmail').value
+
+        //document.getElementById('registerForm').submit()
     }
 }
