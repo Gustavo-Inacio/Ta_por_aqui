@@ -1,0 +1,70 @@
+body{
+    display: relative;
+    font-family: 'Roboto';
+    background-color: #D1F9E1;
+}
+
+#page{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+#aboutUsDiv{
+    padding: 0;
+    border-radius: 10px;
+    align-self: center;
+    margin-top: 5%;
+    background-color: white;
+}
+
+#aboutUsDiv .colorComplement{
+    border-radius: 10px;
+    background-color: #3333CC;
+}
+
+#aboutUsContent{
+    padding: 50px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#aboutUsContent h1{
+    font-size: 48px;
+    font-weight: 900;
+    color: #3333CC;
+}
+
+#aboutUsContent i{
+    font-size: 56px;
+    text-align: center;
+}
+
+#aboutUsInfo{
+    padding: 15px;
+    background-color: #45E586;
+    border-radius: 10px;
+}
+
+#myMainFooter{
+    width: 100vw;
+    position: absolute;
+    bottom: 0;
+}
+
+@media (max-width: 991.98px) {
+    #aboutUsContent{
+        padding: 30px 20px;
+    }
+    #aboutUsContent h1{
+        font-size: 36px;
+    }
+}
+
+@media (max-height: 700px){
+    #myMainFooter{
+        position: relative;
+    }
+}

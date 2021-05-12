@@ -1,0 +1,189 @@
+svg{
+    position: absolute;
+    z-index: -1;
+    bottom: 0px;
+}
+
+body{
+    display: relative;
+    font-family: 'Roboto';
+}
+
+
+#page{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+#registerDiv{
+    padding: 0;
+    border-radius: 20px;
+    align-self: center;
+    margin-top: 2%;
+    box-shadow: -4px 4px 32px -1px rgba(0, 0, 0, 0.25);
+    background-color: white;
+}
+
+#registerDiv .colorComplement{
+    border-radius: 20px;
+    background-color: #3333CC;
+}
+
+#registerContent{
+    padding: 40px 60px 50px 40px;
+}
+
+/*@media (max-width: 991.98px) {
+    #loginContent{
+        padding: 40px 60px 50px 40px;
+    }
+}*/
+
+#registerContent h1{
+    font-weight: 700;
+}
+
+#registerDiv label.myLabel{
+    font-weight: 690;
+    font-size: 13px;
+    color: #0C0C23;
+}
+
+#registerForm .form-control{
+    border: 1.5px solid #888F98;
+    padding: 10px;
+    background-color: transparent !important;
+    border-radius: 10px;
+}
+
+#registerForm .password{
+    border-radius: 10px 0 0 10px;
+}
+
+#registerForm .form-control:focus{
+    border: 1.5px solid #0C0C23;
+}
+
+.btnShowPass {
+    border: 1px solid black;
+    border-left: none;
+    background-color: transparent;
+    border-radius: 0 10px 8px 0;
+}
+
+#registerContent .btn-success{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-weight: 600;
+    background-color: #45E586;
+    border: 1px solid #45E586;
+    border-radius: 8px;
+}
+
+#registerContent .btn-success:hover{
+    background-color: #3abe6f;
+    border: 1px solid #3abe6f;
+}
+
+#registerContent .btn-outline-success{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-weight: 600;
+    color: #45E586;
+    border: 1px solid #45E586;
+    border-radius: 8px;
+}
+
+#registerContent .btn-outline-success:hover{
+    color: white;
+    background-color: #45E586;
+}
+
+#serviceDiv{
+    padding: 20px;
+    background-color: #0C0C23;
+    border-radius: 10px;
+}
+
+#serviceDiv h6{
+    color: white;
+}
+
+#serviceDiv label{
+    color: #F2F2F2;
+    font-size: 12px;
+    font-style: italic;
+}
+
+#serviceDiv input[type="checkbox"]{
+    all: unset;
+    width: 12px;
+    height: 12px;
+    border: 1px solid #F2F2F2;
+    border-radius: 4px;
+    display: inline-block
+}
+
+#serviceDiv input[type="checkbox"]:checked{
+    background: url("../../assets/images/check.png") center;
+}
+
+/*Modal de confirmar email*/
+
+#confirmEmailModal .modal-content{
+    border-radius: 10px;
+    border: 1px solid black;
+}
+
+#confirmEmailModal .modal-body{
+    padding: 0;
+}
+
+#modalMsg{
+    padding: 40px;
+    color: white;
+    background-color: #0C0C23;
+    border-radius: 10px 0 0 10px;
+}
+
+#modalMsg p{
+    font-size: 12px;
+}
+
+#modalInput{
+    padding: 40px;
+}
+
+@media (max-width: 767.98px){
+    #modalMsg{
+        border-radius: 10px 10px 0 0 ;
+    }
+}
+
+/*Modal de email confirmado*/
+#confirmedEmailModal .modal-content{
+    border-radius: 10px;
+}
+
+#confirmedEmailModal .modal-body{
+    padding: 0;
+}
+
+#confirmMsg{
+    padding: 40px;
+    color: white;
+    background-color: #0C0C23;
+    border-radius: 10px;
+}
+
+#confirmedEmailModal a{
+    padding: 7px 100px;
+}
+
+@media (max-width: 575.98px){
+    #confirmedEmailModal a{
+        padding: 7px 50px;
+    }
+}
