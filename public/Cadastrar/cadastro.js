@@ -139,3 +139,5 @@ function registerConfirm(){
         //document.getElementById('registerForm').submit()
     }
 }
+
+//$('#confirmedEmailModal').modal('show')
