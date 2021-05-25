@@ -46,6 +46,7 @@ function registerConfirm(){
     let valid = true
     let errorMsg = ""
 
+    /*
     //confirmar senha igual
     let userPass = document.getElementById('userPass')
     let userConfirmPass = document.getElementById('userConfirmPass')
@@ -120,6 +121,8 @@ function registerConfirm(){
     })
 
     document.getElementById('msgErro').innerHTML = errorMsg
+
+    */
     
     if(valid){
         //mostrar modal de confirmação de email
@@ -136,7 +139,21 @@ function registerConfirm(){
         //preenchendo email
         document.getElementById('InputEmailAdress').innerHTML = document.getElementById('userEmail').value
 
-        //document.getElementById('registerForm').submit()
+        //requisição do arquivo php que vai gerar o código do usuário e mandar por email
+        let email = document.getElementById('userEmail')
+        $.ajax({
+            type: 'GET',
+            url: '../../logic/cadastro_confirma_email.php',
+            data: `email=${email}`,
+            dataType: 'json',
+            success: data => {
+                console.log(data)
+            },
+            error: error => {
+                console.log(error)
+            }
+        })
+
     }
 }
 //$('#confirmedEmailModal').modal('show')

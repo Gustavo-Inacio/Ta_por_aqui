@@ -74,7 +74,7 @@
                     <h1> Crie uma conta </h1>
                     <br>
 
-                    <form action="" method="" id="registerForm">
+                    <form action="../../logic/cadastro_registra_cliente.php" method="POST" id="registerForm">
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="userName" class="myLabel">Nome</label> <br>
@@ -152,7 +152,7 @@
                                             </div>
 
                                             <label for="userAdressComplement" class="myLabel">Complemento</label> <br>
-                                            <input type="text" class="form-control required mb-3" name="userAdressComplement" id="userAdressComplement" placeholder="Digite o complemento (caso tenha)" data-toggle="popover" data-trigger="hover" title="Exemplo" data-content="apto. 24 BL A" data-placement="top">
+                                            <input type="text" class="form-control mb-3" name="userAdressComplement" id="userAdressComplement" placeholder="Digite o complemento (caso tenha)" data-toggle="popover" data-trigger="hover" title="Exemplo" data-content="apto. 24 BL A" data-placement="top">
                                             
                                         </div>
 
@@ -169,9 +169,10 @@
                                 <br>
                                 <label class="myLabel">Sexo</label> <br>
                                 <label for="M"> <input type="radio" name="userSex" value="M" id="M" checked> Masculino </label> <br>
-                                <label for="F"> <input type="radio" name="userSex" value="F" id="F"> Feminino</label>
-                                <br>
-                                <div id="serviceDiv" class="mt-4">
+                                <label for="F"> <input type="radio" name="userSex" value="F" id="F"> Feminino </label> <br>
+                                <label for="O"> <input type="radio" name="userSex" value="O" id="O"> Outro </label>
+
+                                <div id="serviceDiv" class="mt-2">
                                     <h6>Você está se cadastrando como prestador de serviços?</h6>
                                     <label for="serviceProvider"> <input type="checkbox" name="serviceProvider" id="serviceProvider"> Eu sou um prestador de serviços</label> 
                                     <br><br>
