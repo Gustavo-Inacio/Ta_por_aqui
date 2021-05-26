@@ -41,4 +41,9 @@ if( $_POST['userAdressComplement'] !== "" ){
 }
 $stmt->execute();
 
+//apagando session do código de confirmação
+session_start();
+unset($_SESSION['confirmCode']);
+
+//redirecionando / mensagem de sucesso
 header('Location:../public/cadastrar/cadastro.php?status=1');

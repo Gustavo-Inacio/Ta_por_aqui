@@ -42,11 +42,11 @@ $('#userPhone').mask('(00) 00000-0000');
 $('#userAdressCEP').mask('00000000');
 
 //confirmar informações no registro (nada nulo, senhas batem, aceitar termos, telefone certo, CEP certo)
+let sessionConfirmCode = 0
 function registerConfirm(){
     let valid = true
     let errorMsg = ""
 
-    /*
     //confirmar senha igual
     let userPass = document.getElementById('userPass')
     let userConfirmPass = document.getElementById('userConfirmPass')
@@ -122,41 +122,56 @@ function registerConfirm(){
 
     document.getElementById('msgErro').innerHTML = errorMsg
 
-    */
     
     if(valid){
-        //mostrar modal de confirmação de email
-        $('#confirmEmailModal').modal('show')
-
-        //desfoque de fundo
-        document.getElementById('page').style.filter = "blur(3px)"
-
-        //tirar desfoque
-        $('#confirmEmailModal').on('hidden.bs.modal', () => {
-            document.getElementById('page').style.filter = "none"
-        })
-
-        //preenchendo email
-        document.getElementById('InputEmailAdress').innerHTML = document.getElementById('userEmail').value
-
         //requisição do arquivo php que vai gerar o código do usuário e mandar por email
-        let email = document.getElementById('userEmail')
+        let email = document.getElementById('userEmail').value
         $.ajax({
             type: 'GET',
             url: '../../logic/cadastro_confirma_email.php',
             data: `email=${email}`,
             dataType: 'json',
-            success: data => {
-                console.log(data)
+            success: sendEmailStatus => {
+                if(sendEmailStatus.status === "enviado"){
+                    //mostrar modal de confirmação de email
+                    $('#confirmEmailModal').modal('show')
+
+                    //desfoque de fundo
+                    document.getElementById('page').style.filter = "blur(3px)"
+
+                    //tirar desfoque ao sair do modal
+                    $('#confirmEmailModal').on('hidden.bs.modal', () => {
+                        document.getElementById('page').style.filter = "none"
+                    })
+
+                    //preenchendo email
+                    document.getElementById('InputEmailAdress').innerHTML = document.getElementById('userEmail').value
+
+                    //codigo do email
+                    sessionConfirmCode = sendEmailStatus.code
+                } else {
+                    alert("O email de confirmação não pôde ser enviado. Verifique se você digitou um email válido. Se o erro persistir entre em contato pelo 'Fale conosco'")
+                }
             },
             error: error => {
-                console.log(error)
+                alert("Erro ao se conectar com o servidor. Tente recarregar a página. Se o erro persistir entre em contato pelo 'Fale conosco'")
             }
         })
 
     }
 }
-//$('#confirmedEmailModal').modal('show')
+
+function confirmEmail(){
+    let typedCode = document.getElementById('emailCode')
+
+    if(typedCode.value != sessionConfirmCode){
+        document.getElementById('confirmEmailError').classList.remove('d-none')
+        typedCode.classList.add('is-invalid')
+    } else{
+        console.log('deu bom')
+        document.getElementById('registerForm').submit()
+    }
+}
 
 //permitir popovers
 $(function () {
