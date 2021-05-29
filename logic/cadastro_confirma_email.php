@@ -6,6 +6,8 @@ $email = $_GET['email'];
 
 require "DbConnection.php";
 $con = new DbConnection();
+require "DbConnection.php";
+$con = new DbConection();
 $con = $con->connect();
 $query = "SELECT email FROM usuarios WHERE email = '$email'";
 $stmt = $con->query($query);
