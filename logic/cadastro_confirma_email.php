@@ -1,11 +1,26 @@
 <?php
 session_start();
 
+#verificar se o email já está cadastrado no banco de dados
 $email = $_GET['email'];
 
+require "DbConection.php";
+$con = new DbConection();
+$con = $con->connect();
+$query = "SELECT email FROM usuarios WHERE email = '$email'";
+$stmt = $con->query($query);
+$DbEmail = $stmt->fetch(PDO::FETCH_OBJ);
+
+if( !$DbEmail === false ){
+    //email já cadastrado
+    $return = ['status' => 'email_cadastrado'];
+    echo json_encode($return);
+    exit;
+} 
+
+//email ainda não cadastrado
 $code = rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9);
 $_SESSION['confirmCode'] = $code;
-
 
 #processo de envio do email com o código
 //importando o código
