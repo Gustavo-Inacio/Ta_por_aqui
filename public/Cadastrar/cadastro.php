@@ -186,7 +186,7 @@
                         <br>
                         <div class="row mt-4">
                             <div class="col-md-8">
-                                <button type="button" class="btn btn-success btn-block" onclick="registerConfirm()">Criar conta</button>
+                                <button type="button" id="btnCreateAccount" class="btn btn-success btn-block" onclick="registerConfirm()">Criar conta </button>
                             </div>
                             <div class="col-md-1 text-center mt-2 mt-md-0">
                                 ou
