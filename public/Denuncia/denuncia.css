@@ -1,0 +1,249 @@
+#myReportSection, #myVerificationSection{
+    font-family: 'Roboto', sans-serif;
+    padding: 20px;
+}
+
+#myReportModalBody{
+    padding: 0;
+    margin: 0;
+}
+
+.my-report-section-title{
+    font-weight: bold;
+    font-size: 20px;
+
+    color: #FF6F6F;
+
+
+    margin-bottom: 16px;
+}
+
+.service-report-title, .person-report-title{
+    font-size: 15px;
+    line-height: 18px;
+    color: #000000;
+}
+
+#myServiceReportName, #myPersonReportName{
+    color: #FF6F6F;
+}
+
+.report-reason{
+    display: flex;
+    flex-direction: column;
+    margin: 16px 0;
+}
+
+.report-reason-title, .other-reason-erification-title{
+    font-size: 16px;
+
+    color: #0C0C23;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+#btnDropdownReport{
+    background: #FF6F6F;
+    border-radius: 91px;
+    font-weight: 400;
+    font-size: 14px;
+    color: #FFFFFF;
+    padding: 6px 20px;
+}
+
+.my-reason-dropdrown {
+    background: #FF6F6F;
+    border-radius: 15px;
+}
+.my-reason-dropdrown > .dropdown-item{
+    font-weight: 400;
+    font-size: 15px;
+    color: #FFFFFF;
+}
+.my-reason-dropdrown > .dropdown-item:hover{
+    background-color: rgb(0, 0, 0, 0.1);
+}
+
+.my-report-info{
+    display: grid;
+    gap: 20px;
+}
+
+.other-reason-title{
+    display: none;
+}
+
+.other-reason-title, .my-comment-title{
+    font-weight: 800;
+    font-size: 16px;
+    color: #000000;
+    margin-right: 10px;
+    margin: 0;
+    margin-bottom: -15px;
+}
+
+.my-report-verification-section-subtitle{
+    margin-bottom: 20px;
+}
+
+.my-other-reason-text{
+    display: none;
+}
+
+.my-other-reason-text, .my-comment-text{
+    width: 100%;
+    height: 100px;
+    max-height: 100px;
+    min-height: 100px;
+    background: #F2F2F2;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.my-form-footer{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 22px;
+}
+
+.my-submit-btn{
+    background: #FF6F6F;
+    border-radius: 10px;
+    border: none;
+    padding: 5px 15px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #FFFFFF;
+    transition: 1s;
+}
+
+.my-submit-btn:hover{
+    color: #FF6F6F;
+    background-color: transparent;
+    border: 1px solid #FF6F6F;
+}
+
+
+.my-report-verification-section-subtitle{
+    font-weight: normal;
+    font-size: 18px;
+    color: #FF6F6F;
+}
+
+.my-report-verificatio-title{
+    font-weight: 800;
+    font-size: 15px;   
+    color: #FF6F6F;    
+}
+
+.report-reason-title, .report-reason-verrification{
+    margin: 0;
+}
+
+.report-reason-title{
+    margin-right: 5px;
+}
+
+.my-report-info-verification{
+    display: flex;
+}
+
+.my-edit-report-btn{
+    background: #888F98;
+    border-radius: 34px;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 21px;
+    padding: 10px 22px;
+    border: none;
+    color: #FFF;
+    transition: all 0.3s;
+}
+
+.my-edit-report-btn:hover{
+    background-color: #0C0C23;
+    color: #FFF;
+}
+
+.my-cancel-report-btn{
+    background: #0C0C23;
+    border-radius: 34px;
+    font-weight: bold;
+    font-size: 12px;
+    color: #FFFFFF;
+    padding: 10px 22px;
+    border: none;
+    transition: all 0.2s;
+}
+
+.my-cancel-report-btn:hover{
+    color: #FF6F6F;
+}
+@media(min-width: 430px){
+    .report-reason{
+        flex-direction: row;
+        align-items: center;
+    }
+
+    
+}
+
+@media(min-width: 576px){
+    .my-report-info{
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-template-rows: 1fr auto;
+    }
+
+    .other-reason-title, .my-comment-title{
+        margin: 0;
+    }
+
+    #myReportSection, #myVerificationSection{
+        padding: 20px 36px;
+    }
+
+    .my-report-verification-section-subtitle{
+        margin-bottom: 20px;
+    }
+
+    .my-cancel-report-btn, .my-edit-report-btn{
+        padding: 13px 31px;
+    }
+
+    .other-reason-title, .my-comment-title{
+        text-align: end;
+    }
+
+    .my-edit-report-btn, .my-cancel-report-btn{
+        font-size: 14px;
+    }
+    
+}
+
+@media(min-width: 768px){
+    .my-report-section-title{
+        font-size: 36px;
+    }
+
+    .my-report-verification-section-subtitle, .my-report-verificatio-title{
+        font-size: 20px;
+    }
+
+    .service-report-title, 
+    #myServiceReportName,
+    .person-report-title, 
+    #myPersonReportName{
+        font-size: 16px;
+    }
+    
+    #myReportSection, #myVerificationSection{
+        padding: 20px 50px;
+    }
+
+    .my-report-verification-section-subtitle{
+        margin-bottom: 40px;
+    }
+}
