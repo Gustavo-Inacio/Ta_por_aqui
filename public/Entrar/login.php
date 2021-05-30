@@ -1,3 +1,14 @@
+<?php
+session_start();
+
+//caso haja cookies salvos no pc do usuário, ele vai logar com os cookies salvos
+require "../../logic/entrar_cookie.php";
+
+//caso haja session(logado), o usuário não pode acessar essa página
+if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSION['senha']) && isset($_SESSION['classificacao']) ){
+    header('Location: ../Home/home.php');
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -39,7 +50,7 @@
         <div id="myMainTopNavbarNav" class="collapse navbar-collapse">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a href="../Home/home.html" class="nav-link">Home</a>
+                    <a href="../Home/home.php" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item">
                     <a href="../EncontrarProfissional/Listagem/dumb.txt" class="nav-link">Encontre um pofissional</a> 
@@ -51,13 +62,13 @@
                     <a href="../Contato/contato.html" class="nav-link">Fale conosco</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../SobreNos/sobreNos.html" class="nav-link">Sobre</a>
+                    <a href="../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
                 </li>
                 <li class="nav-item">
                     <a href="../Chat/chat.html" class="nav-link">Chat</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../Entrar/login.html" class="nav-link">Entrar/cadastrar</a>
+                    <a href="login.php" class="nav-link">Entrar/cadastrar</a>
                 </li>
             </ul>
 
@@ -73,20 +84,30 @@
                 <div id="loginContent">
                     <h1> Entre </h1>
 
-                    <form action="" method="" id="loginForm">
+                    <?if( isset($_GET['erro']) && $_GET['erro'] == "login_invalido" ) {?>
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            Email ou senha Inválidas
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    <?}?>
+
+                    <form action="../../logic/entrar_login.php" method="POST" id="loginForm">
                         <label for="loginEmail" class="myLabel">Email</label> <br>
                         <input type="text" class="form-control" name="loginEmail" id="loginEmail" class="mb-4" placeholder="Insira o seu e-mail" required>
 
                         <br>
 
                         <label for="loginPass" class="myLabel">Senha</label> <br>
-                        <div class="input-group">
+                        <div class="input-group mb-2">
                             <input type="password" class="form-control" name="loginPass" id="loginPass" class="mb-4" placeholder="Insira a sua senha" aria-describedby="viewPass" required>
                             <div class="input-group-append">
                                 <button type="button" class="input-group-text" id="viewPass" onclick="showPass()"> <i class="fas fa-eye" id="eye"></i> </button>
                             </div>
                         </div>
-                        <br>
+                        <a href="#" class="text-secondary">Esqueci a senha</a>
+                        <br><br>
                         <input type="checkbox" name="stayLogged" id="stayLogged" class="mb-4"> <label for="stayLogged"> Manter-se logado </label>
                         <br>
                         <button type="submit" class="btn btn-block btn-success py-3"> Entrar <i class="fas fa-sign-in-alt"></i> </button>

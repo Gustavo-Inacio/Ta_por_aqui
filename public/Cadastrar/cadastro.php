@@ -1,3 +1,14 @@
+<?php
+session_start();
+
+//caso haja cookies salvos no pc do usuário, ele vai logar com os cookies salvos
+require "../../logic/entrar_cookie.php";
+
+//caso haja session(logado), o usuário não pode acessar essa página
+if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSION['senha']) && isset($_SESSION['classificacao']) ){
+    header('Location: ../Home/home.php');
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -40,7 +51,7 @@
         <div id="myMainTopNavbarNav" class="collapse navbar-collapse">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a href="../Home/home.html" class="nav-link">Home</a>
+                    <a href="../Home/home.php" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item">
                     <a href="../EncontrarProfissional/Listagem/dumb.txt" class="nav-link">Encontre um pofissional</a> 
@@ -52,13 +63,13 @@
                     <a href="../Contato/contato.html" class="nav-link">Fale conosco</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../SobreNos/sobreNos.html" class="nav-link">Sobre</a>
+                    <a href="../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
                 </li>
                 <li class="nav-item">
                     <a href="../Chat/chat.html" class="nav-link">Chat</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../Entrar/login.html" class="nav-link">Entrar/cadastrar</a>
+                    <a href="../Entrar/login.php" class="nav-link">Entrar/cadastrar</a>
                 </li>
             </ul>
 
@@ -186,13 +197,13 @@
                         <br>
                         <div class="row mt-4">
                             <div class="col-md-8">
-                                <button type="button" class="btn btn-success btn-block" onclick="registerConfirm()">Criar conta</button>
+                                <button type="button" id="btnCreateAccount" class="btn btn-success btn-block" onclick="registerConfirm()">Criar conta </button>
                             </div>
                             <div class="col-md-1 text-center mt-2 mt-md-0">
                                 ou
                             </div>
                             <div class="col-md-3 mt-2 mt-md-0">
-                                <a href="../Entrar/login.html" class="btn btn-outline-success btn-block">Entre</a>
+                                <a href="../Entrar/login.php" class="btn btn-outline-success btn-block">Entre</a>
                             </div>
                         </div>
                         <span class="text-danger" id="msgErro"></span>
@@ -238,7 +249,7 @@
                             <div class="row">
                                 <div class="col-12 d-flex flex-column align-items-center justify-content-center" id="confirmMsg">
                                     <h2>Cadastro confirmado com sucesso <i class="fas fa-check" style="color: #45E586;"></i> </h2> <br>
-                                    <a href="../Entrar/login.html" class="btn btn-outline-success"> Fazer login </a>
+                                    <a href="../Entrar/login.php" class="btn btn-outline-success"> Fazer login </a>
                                 </div>
                             </div>
                         </div>

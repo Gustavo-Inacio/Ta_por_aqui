@@ -131,6 +131,18 @@ function registerConfirm(){
             url: '../../logic/cadastro_confirma_email.php',
             data: `email=${email}`,
             dataType: 'json',
+            beforeSend: () => {
+                //criar gif de carregamento
+                let loadingGif = document.createElement('img')
+                loadingGif.src = "../../assets/images/loading.gif"
+                loadingGif.width = 16
+                loadingGif.id = "loadingGif"
+                document.getElementById('btnCreateAccount').appendChild(loadingGif)
+            },
+            complete: () => {
+                //tirar gif
+                document.getElementById('loadingGif').remove()
+            },
             success: sendEmailStatus => {
                 if(sendEmailStatus.status === "enviado"){
                     //mostrar modal de confirmação de email
@@ -149,12 +161,16 @@ function registerConfirm(){
 
                     //codigo do email
                     sessionConfirmCode = sendEmailStatus.code
-                } else {
+                } else if(sendEmailStatus.status === "erro") {
                     alert("O email de confirmação não pôde ser enviado. Verifique se você digitou um email válido. Se o erro persistir entre em contato pelo 'Fale conosco'")
+                } else if(sendEmailStatus.status === "email_cadastrado"){
+                    document.getElementById('msgErro').innerHTML = "O email informado já foi cadastrado. Tente fazer login"
                 }
+                
             },
             error: error => {
                 alert("Erro ao se conectar com o servidor. Tente recarregar a página. Se o erro persistir entre em contato pelo 'Fale conosco'")
+                console.log(error)
             }
         })
 

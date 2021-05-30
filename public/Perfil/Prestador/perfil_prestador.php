@@ -1,3 +1,9 @@
+<?php
+session_start();
+
+//caso haja cookies salvos no pc do usuário, ele vai logar com os cookies salvos
+require "../../../logic/entrar_cookie.php";
+?>
 <!DOCTYPE html>
 <html lang="pt">
 
@@ -25,7 +31,7 @@
     <!--NavBar Comeco-->
     <div id="myMainTopNavbarNavBackdrop" class=""></div>
     <nav id="myMainTopNavbar" class="navbar navbar-expand-md">
-        <a href="../../Home/home.html" class="navbar-brand">
+        <a href="../../Home/home.php" class="navbar-brand">
             <img src="../../../assets/images/dumb-brand.png" alt="Tá por aqui" class="my-brand-img">
         </a>
 
@@ -40,10 +46,10 @@
         <div id="myMainTopNavbarNav" class="collapse navbar-collapse">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a href="../../Home/home.html" class="nav-link">Home</a>
+                    <a href="../../Home/home.php" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../../EncontrarProfissional/Listagem/listagem.html" class="nav-link">Encontre um pofissional</a> 
+                    <a href="../../EncontrarProfissional/Listagem/listagem.php" class="nav-link">Encontre um pofissional</a>
                 </li>
                 <li class="nav-item">
                     <a href="../../Artigos/artigos.html" class="nav-link">Artigos</a>      
@@ -52,21 +58,33 @@
                     <a href="../../Contato/contato.html" class="nav-link">Fale conosco</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../../SobreNos/sobreNos.html" class="nav-link">Sobre</a>
+                    <a href="../../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
                 </li>
                 <li class="nav-item">
                     <a href="../../Chat/chat.html" class="nav-link">Chat</a>
                 </li>
+                <? if( empty($_SESSION) ){ ?>
+                    <li class="nav-item">
+                        <a href="../../Entrar/login.php" class="nav-link">Entrar/cadastrar</a>
+                    </li>
+                <?}?>
             </ul>
 
-            <div class="dropdown">
-                <img src="../../../assets/images/profile_images/teste.jpeg" alt="imagem de perfil" id="profileMenu" class="img-fluid" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <? if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSION['senha']) && isset($_SESSION['classificacao']) ) {?>
+                <div class="dropdown">
+                    <img src="../../../assets/images/profile_images/<?=$_SESSION['imagemPerfil']?>" alt="imagem de perfil" id="profileMenu" class="img-fluid" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
-                <div class="dropdown-menu" aria-labelledby="profileMenu">
-                    <a class="dropdown-item" href="meu_perfil.html">Perfil</a>
-                    <a class="dropdown-item text-danger" href="#">Sair</a>
+                    <div class="dropdown-menu" aria-labelledby="profileMenu">
+                        <? if($_SESSION['classificacao'] == 0) {?>
+                            <a class="dropdown-item" href="../../Perfil/Cliente/meu_perfil.php">Perfil</a>
+                        <? }else if($_SESSION['classificacao'] == 1 || $_SESSION['classificacao'] == 2) {?>
+                            <a class="dropdown-item" href="../../Perfil/Prestador/meu_perfil.php">Perfil</a>
+                        <?}?>
+                        <a class="dropdown-item text-danger" href="../../../logic/entrar_logoff.php">Sair</a>
+                    </div>
                 </div>
-            </div>
+            <? } ?>
+
         </div>
     </nav>
     <!--NavBar Fim-->
@@ -262,7 +280,7 @@
             </div>
             <div class="my-main-footer-institutional">
                 <p>INSTITUCIONAL</p>
-                <a href="../../SobreNos/sobreNos.html">Quem Somos</a> <br>
+                <a href="../../SobreNos/sobreNos.php">Quem Somos</a> <br>
                 <a href="#">Faça uma doação</a> <br>
                 <a href="#">Trabalhe conosco</a> <br>
             </div>
