@@ -21,10 +21,12 @@
   <component name="ChangeListManager">
     <list default="true" id="73b94d56-c6a4-40db-9bba-91d7c070fcca" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logic/DbConection.php" beforeDir="false" afterPath="$PROJECT_DIR$/logic/DbConnection.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logic/cadastro_confirma_email.php" beforeDir="false" afterPath="$PROJECT_DIR$/logic/cadastro_confirma_email.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logic/cadastro_registra_cliente.php" beforeDir="false" afterPath="$PROJECT_DIR$/logic/cadastro_registra_cliente.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/Cadastrar/cadastro.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/Cadastrar/cadastro.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/Cadastrar/cadastro.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/Cadastrar/cadastro.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/Entrar/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/Entrar/login.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/SobreNos/sobreNos.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/SobreNos/sobreNos.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,6 +70,7 @@
       <option name="presentableId" value="Default" />
       <updated>1621947764269</updated>
       <workItem from="1621947771850" duration="25723000" />
+      <workItem from="1622380782644" duration="3815000" />
     </task>
     <servers />
   </component>
@@ -84,15 +87,20 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="575" y="141" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1622381184647">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="575" y="141" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1622381184647" />
     <state x="721" y="243" key="NewPhpClassDialog" timestamp="1621953871813">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="721" y="243" key="NewPhpClassDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1621953871813" />
-    <state x="794" y="443" key="NewPhpFileDialog" timestamp="1621976134805">
+    <state x="794" y="443" key="NewPhpFileDialog" timestamp="1622380971253">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="794" y="443" key="NewPhpFileDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1621976134805" />
+    <state x="794" y="443" key="NewPhpFileDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1622380971253" />
   </component>
 </project>

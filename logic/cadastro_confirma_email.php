@@ -4,8 +4,8 @@ session_start();
 #verificar se o email já está cadastrado no banco de dados
 $email = $_GET['email'];
 
-require "DbConection.php";
-$con = new DbConection();
+require "DbConnection.php";
+$con = new DbConnection();
 $con = $con->connect();
 $query = "SELECT email FROM usuarios WHERE email = '$email'";
 $stmt = $con->query($query);
