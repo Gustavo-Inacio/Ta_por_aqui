@@ -1,6 +1,6 @@
 <?php
-require 'DbConection.php';
-$con = new DbConection();
+require 'DbConnection.php';
+$con = new DbConnection();
 $con = $con->connect();
 
 //definindo classificação do usuário 0 = cliente | 1 = prestador | 2 = pequena empresa

@@ -57,7 +57,7 @@
                     <a href="../Chat/chat.html" class="nav-link">Chat</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../Entrar/login.html" class="nav-link">Entrar/cadastrar</a>
+                    <a href="login.php" class="nav-link">Entrar/cadastrar</a>
                 </li>
             </ul>
 
@@ -73,7 +73,16 @@
                 <div id="loginContent">
                     <h1> Entre </h1>
 
-                    <form action="" method="" id="loginForm">
+                    <?if( isset($_GET['erro']) && $_GET['erro'] == "login_invalido" ) {?>
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            Email ou senha Inválidas
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    <?}?>
+
+                    <form action="../../logic/entrar_login.php" method="POST" id="loginForm">
                         <label for="loginEmail" class="myLabel">Email</label> <br>
                         <input type="text" class="form-control" name="loginEmail" id="loginEmail" class="mb-4" placeholder="Insira o seu e-mail" required>
 

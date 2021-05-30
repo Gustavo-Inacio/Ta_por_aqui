@@ -1,6 +1,6 @@
 <?php
 
-class DbConection {
+class DbConnection {
     private $host = 'localhost';
     private $dbname = 'ta_por_aqui';
     private $user = 'root';
