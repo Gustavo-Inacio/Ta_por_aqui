@@ -58,7 +58,7 @@
                     <a href="../Chat/chat.html" class="nav-link">Chat</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../Entrar/login.html" class="nav-link">Entrar/cadastrar</a>
+                    <a href="../Entrar/login.php" class="nav-link">Entrar/cadastrar</a>
                 </li>
             </ul>
 
@@ -192,7 +192,7 @@
                                 ou
                             </div>
                             <div class="col-md-3 mt-2 mt-md-0">
-                                <a href="../Entrar/login.html" class="btn btn-outline-success btn-block">Entre</a>
+                                <a href="../Entrar/login.php" class="btn btn-outline-success btn-block">Entre</a>
                             </div>
                         </div>
                         <span class="text-danger" id="msgErro"></span>
@@ -238,7 +238,7 @@
                             <div class="row">
                                 <div class="col-12 d-flex flex-column align-items-center justify-content-center" id="confirmMsg">
                                     <h2>Cadastro confirmado com sucesso <i class="fas fa-check" style="color: #45E586;"></i> </h2> <br>
-                                    <a href="../Entrar/login.html" class="btn btn-outline-success"> Fazer login </a>
+                                    <a href="../Entrar/login.php" class="btn btn-outline-success"> Fazer login </a>
                                 </div>
                             </div>
                         </div>
