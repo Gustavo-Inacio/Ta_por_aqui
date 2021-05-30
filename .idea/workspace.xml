@@ -23,12 +23,6 @@
       <change beforePath="$PROJECT_DIR$/logic/cadastro_confirma_email.php" beforeDir="false" afterPath="$PROJECT_DIR$/logic/cadastro_confirma_email.php" afterDir="false" />
     <list default="true" id="73b94d56-c6a4-40db-9bba-91d7c070fcca" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logic/DbConection.php" beforeDir="false" afterPath="$PROJECT_DIR$/logic/DbConnection.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logic/cadastro_confirma_email.php" beforeDir="false" afterPath="$PROJECT_DIR$/logic/cadastro_confirma_email.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logic/cadastro_registra_cliente.php" beforeDir="false" afterPath="$PROJECT_DIR$/logic/cadastro_registra_cliente.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/Cadastrar/cadastro.php" beforeDir="false" afterPath="$PROJECT_DIR$/public/Cadastrar/cadastro.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/Entrar/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/Entrar/login.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/SobreNos/sobreNos.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/SobreNos/sobreNos.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +66,7 @@
       <option name="presentableId" value="Default" />
       <updated>1621947764269</updated>
       <workItem from="1621947771850" duration="25723000" />
-      <workItem from="1622380782644" duration="3815000" />
+      <workItem from="1622380782644" duration="5296000" />
     </task>
     <servers />
   </component>
