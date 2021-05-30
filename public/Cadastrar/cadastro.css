@@ -66,6 +66,10 @@ body{
     border: 1.5px solid #0C0C23;
 }
 
+#registerForm .btn-primary{
+    border-radius: 8px;
+}
+
 .btnShowPass {
     border: 1px solid black;
     border-left: none;
@@ -180,6 +184,16 @@ body{
 
 #confirmedEmailModal a{
     padding: 7px 100px;
+}
+
+input[type=number]::-webkit-inner-spin-button { 
+    -webkit-appearance: none;
+    
+}
+input[type=number] { 
+   -moz-appearance: textfield;
+   appearance: textfield;
+
 }
 
 @media (max-width: 575.98px){

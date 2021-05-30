@@ -39,9 +39,10 @@ function showConfirmPass(){
 $('#userPhone').mask('(00) 00000-0000');
 
 //mascara do cep
-$('#userCEP').mask('00000000');
+$('#userAdressCEP').mask('00000000');
 
 //confirmar informações no registro (nada nulo, senhas batem, aceitar termos, telefone certo, CEP certo)
+let sessionConfirmCode = 0
 function registerConfirm(){
     let valid = true
     let errorMsg = ""
@@ -82,17 +83,17 @@ function registerConfirm(){
     }
 
     //CEP tem 8 caracteres
-    let userCEP = document.getElementById('userCEP')
-    if (userCEP.value.length !== 8){
+    let userAdressCEP = document.getElementById('userAdressCEP')
+    if (userAdressCEP.value.length !== 8){
         valid = false
         errorMsg = "CEP inválido. Siga o padrão do exemplo"
 
-        userCEP.classList.add("is-invalid")
-        userCEP.style.border = "1.5px solid red"
+        userAdressCEP.classList.add("is-invalid")
+        userAdressCEP.style.border = "1.5px solid red"
 
     } else{
-        userCEP.classList.remove("is-invalid")
-        userCEP.style.border = "1.5px solid 888F98"
+        userAdressCEP.classList.remove("is-invalid")
+        userAdressCEP.style.border = "1.5px solid 888F98"
     }
 
     //Aceitar os termos de uso
@@ -120,24 +121,108 @@ function registerConfirm(){
     })
 
     document.getElementById('msgErro').innerHTML = errorMsg
+
     
     if(valid){
-        //mostrar modal de confirmação de email
-        $('#confirmEmailModal').modal('show')
+        //requisição do arquivo php que vai gerar o código do usuário e mandar por email
+        let email = document.getElementById('userEmail').value
+        $.ajax({
+            type: 'GET',
+            url: '../../logic/cadastro_confirma_email.php',
+            data: `email=${email}`,
+            dataType: 'json',
+            success: sendEmailStatus => {
+                if(sendEmailStatus.status === "enviado"){
+                    //mostrar modal de confirmação de email
+                    $('#confirmEmailModal').modal('show')
 
-        //desfoque de fundo
-        document.getElementById('page').style.filter = "blur(3px)"
+                    //desfoque de fundo
+                    document.getElementById('page').style.filter = "blur(3px)"
 
-        //tirar desfoque
-        $('#confirmEmailModal').on('hidden.bs.modal', () => {
-            document.getElementById('page').style.filter = "none"
+                    //tirar desfoque ao sair do modal
+                    $('#confirmEmailModal').on('hidden.bs.modal', () => {
+                        document.getElementById('page').style.filter = "none"
+                    })
+
+                    //preenchendo email
+                    document.getElementById('InputEmailAdress').innerHTML = document.getElementById('userEmail').value
+
+                    //codigo do email
+                    sessionConfirmCode = sendEmailStatus.code
+                } else {
+                    alert("O email de confirmação não pôde ser enviado. Verifique se você digitou um email válido. Se o erro persistir entre em contato pelo 'Fale conosco'")
+                }
+            },
+            error: error => {
+                alert("Erro ao se conectar com o servidor. Tente recarregar a página. Se o erro persistir entre em contato pelo 'Fale conosco'")
+            }
         })
 
-        //preenchendo email
-        document.getElementById('InputEmailAdress').innerHTML = document.getElementById('userEmail').value
-
-        //document.getElementById('registerForm').submit()
     }
 }
 
-//$('#confirmedEmailModal').modal('show')
+function confirmEmail(){
+    let typedCode = document.getElementById('emailCode')
+
+    if(typedCode.value != sessionConfirmCode){
+        document.getElementById('confirmEmailError').classList.remove('d-none')
+        typedCode.classList.add('is-invalid')
+    } else{
+        console.log('deu bom')
+        document.getElementById('registerForm').submit()
+    }
+}
+
+//permitir popovers
+$(function () {
+    $('[data-toggle="popover"]').popover()
+})
+
+//Chamando a função getAdress pelo input CEP
+function callGetAdress(input){
+    if(input.value.length === 8){
+        //caso o input tenha 8 digitos ele chama a função passando já o value o cep
+        getAdress(input.value)
+    }
+}
+
+//Selecionando Estado e cidade com a API dos correios
+function getAdress(cep){
+    let url = `https://viacep.com.br/ws/${cep}/json/unicode/`
+
+    let ajax = new XMLHttpRequest()
+    ajax.open('GET', url)
+
+    ajax.onreadystatechange = () => {
+		if(ajax.readyState == 4 && ajax.status == 200){
+			let enderecoJSON = ajax.responseText
+
+			//convertendo a resposta JSON em objeto
+			enderecoJSON = JSON.parse(enderecoJSON)
+
+			if(enderecoJSON.erro == true){
+				//tratativa de CEP invalido
+				let aviso = document.getElementById('cepError')
+				aviso.innerHTML = 'Digite um CEP valido'
+
+			} else{
+				//retirando aviso caso exista
+				if(document.getElementById('cepError')){
+					document.getElementById('cepError').innerHTML = ''
+				}
+
+				//Colocando a resposta nos formulários
+				document.getElementById('userAdressCity').value = enderecoJSON.localidade
+				document.getElementById('userAdressState').value = enderecoJSON.uf
+                document.getElementById('userAdressStreet').value = enderecoJSON.logradouro
+				document.getElementById('userAdressNeighborhood').value = enderecoJSON.bairro
+			}
+		}
+		if(ajax.readyState == 4 && ajax.status == 400){
+			alert('Erro ao se conectar com os correios')
+		}
+
+	}
+
+	ajax.send()
+}
