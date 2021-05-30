@@ -6,8 +6,11 @@ $email = $_GET['email'];
 
 require "DbConnection.php";
 $con = new DbConnection();
+<<<<<<< HEAD
 require "DbConnection.php";
 $con = new DbConection();
+=======
+>>>>>>> a9e1b18... começado o desenvolvimento do login. Etapa de verificação de email e senha e criação de session concluída
 $con = $con->connect();
 $query = "SELECT email FROM usuarios WHERE email = '$email'";
 $stmt = $con->query($query);
