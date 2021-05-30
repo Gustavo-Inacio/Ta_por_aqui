@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 26-Maio-2021 às 18:19
+-- Tempo de geração: 30-Maio-2021 às 19:22
 -- Versão do servidor: 10.4.11-MariaDB
 -- versão do PHP: 7.4.4
 
@@ -47,15 +47,17 @@ CREATE TABLE `usuarios` (
   `data_entrada` date DEFAULT curdate(),
   `descricao` text DEFAULT NULL,
   `site` varchar(40) DEFAULT NULL,
-  `status_usuario` int(11) NOT NULL DEFAULT 0
+  `status_usuario` int(11) NOT NULL DEFAULT 0,
+  `imagem_perfil` varchar(20) DEFAULT 'no_picture.jpg'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Extraindo dados da tabela `usuarios`
 --
 
-INSERT INTO `usuarios` (`id_usuario`, `nome`, `sobrenome`, `telefone`, `email`, `senha`, `data_nascimento`, `sexo`, `classificacao`, `cep`, `estado`, `cidade`, `bairro`, `rua`, `numero`, `complemento`, `data_entrada`, `descricao`, `site`, `status_usuario`) VALUES
-(1, 'Natan', 'Barbosa', '(11) 99182-5452', 'natanbarbosa525@gmail.com', 'natan.barbosa', '2003-07-28', 'M', 0, '68902756', 'AP', 'Macapá', 'Buritizal', 'Rua TerceiraConj.Habt.Hospital de Base', '71', NULL, '2021-05-26', NULL, NULL, 0);
+INSERT INTO `usuarios` (`id_usuario`, `nome`, `sobrenome`, `telefone`, `email`, `senha`, `data_nascimento`, `sexo`, `classificacao`, `cep`, `estado`, `cidade`, `bairro`, `rua`, `numero`, `complemento`, `data_entrada`, `descricao`, `site`, `status_usuario`, `imagem_perfil`) VALUES
+(1, 'Natan', 'Barbosa', '(11) 54788-5223', 'natanbarbosa525@gmail.com', '123', '2003-07-28', 'M', 1, '64017808', 'PI', 'Teresina', 'Redenção', 'Rua Jorge Mazuad', '54', NULL, '2021-05-27', NULL, NULL, 0, 'no_picture.jpg'),
+(4, 'Andressa', 'Silva', '(65) 46541-3216', 'lauringamesbr@gmail.com', 'senha', '1998-05-14', 'F', 0, '05570140', 'SP', 'São Paulo', 'Jardim Amaralina', 'Rua Fausto Feijó', '78', NULL, '2021-05-30', NULL, NULL, 0, 'no_picture.jpg');
 
 --
 -- Índices para tabelas despejadas
@@ -75,7 +77,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

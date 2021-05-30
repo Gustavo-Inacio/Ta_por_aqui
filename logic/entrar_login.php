@@ -6,7 +6,7 @@ require "DbConnection.php";
 $con = new DbConnection();
 $con = $con->connect();
 
-$query = "SELECT id_usuario, email, senha, classificacao FROM usuarios WHERE email = :email AND senha = :senha";
+$query = "SELECT id_usuario, email, senha, classificacao, imagem_perfil FROM usuarios WHERE email = :email AND senha = :senha";
 $stmt = $con->prepare($query);
 $stmt->bindValue(":email", $_POST['loginEmail']);
 $stmt->bindValue(":senha", $_POST['loginPass']);
@@ -22,8 +22,16 @@ if( empty($user) ){
     $_SESSION['email'] = $user->email;
     $_SESSION['senha'] = $user->senha;
     $_SESSION['classificacao'] = $user->classificacao;
+    $_SESSION['imagemPerfil'] = $user->imagem_perfil;
 
     //mantendo o usuário logado com cookies (caso desejado)
+    if( isset($_POST['stayLogged']) ){
+        setcookie('idUsuario', $user->id_usuario, time() + (60*60*24*30), '/'); //expira em 30 dias
+        setcookie('email', $user->email, time() + (60*60*24*30), '/');
+        setcookie('senha', $user->senha, time() + (60*60*24*30), '/');
+        setcookie('classificacao', $user->classificacao, time() + (60*60*24*30), '/');
+        setcookie('imagemPerfil', $user->imagem_perfil, time() + (60*60*24*30), '/');
+    }
 
-    header('Location: ../public/Home/home.html');
+    header('Location: ../public/Home/home.php');
 }

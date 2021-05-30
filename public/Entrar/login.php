@@ -1,3 +1,14 @@
+<?php
+session_start();
+
+//caso haja cookies salvos no pc do usuário, ele vai logar com os cookies salvos
+require "../../logic/entrar_cookie.php";
+
+//caso haja session(logado), o usuário não pode acessar essa página
+if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSION['senha']) && isset($_SESSION['classificacao']) ){
+    header('Location: ../Home/home.php');
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -39,7 +50,7 @@
         <div id="myMainTopNavbarNav" class="collapse navbar-collapse">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a href="../Home/home.html" class="nav-link">Home</a>
+                    <a href="../Home/home.php" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item">
                     <a href="../EncontrarProfissional/Listagem/dumb.txt" class="nav-link">Encontre um pofissional</a> 
@@ -51,7 +62,7 @@
                     <a href="../Contato/contato.html" class="nav-link">Fale conosco</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../SobreNos/sobreNos.html" class="nav-link">Sobre</a>
+                    <a href="../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
                 </li>
                 <li class="nav-item">
                     <a href="../Chat/chat.html" class="nav-link">Chat</a>
