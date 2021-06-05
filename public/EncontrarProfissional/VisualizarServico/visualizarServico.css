@@ -1,3 +1,15 @@
+/* -- Utilities -- */
+.loading-img{
+    height: 80px;
+    min-width: 80px;
+}
+
+.loading-other-service-text{
+    min-width: 50px;
+    height: 14px;
+}
+/* -- Utilities -- */
+
 /* --- Info Section Comeco --- */
 #myInfoSection{
     padding: 0 20px;
@@ -172,6 +184,13 @@
     justify-content: space-between;
     margin-top: 14px;
     padding-right: 20px;
+
+    cursor: pointer;
+}
+
+.my-service-carousel-img-indicators > .active img{
+    border: 1px solid #06a77d;
+    box-shadow: 0px 0px 10px #06a77d;
 }
 
 .my-service-carousel-img-indicators > .my-carousel-indicator-item{
@@ -180,6 +199,71 @@
 
 .my-service-carousel-img-indicators > .my-carousel-indicator-item:first-child{
     margin-left: 0;
+}
+
+.my-service-carousel-img-indicators .my-carousel-indicator-item > img{
+    object-fit: contain;
+    height: 100%;
+    object-position: center;
+}
+
+.my-service-carousel-img-indicators .my-carousel-indicator-item{
+    height: 52px;
+}
+
+#myMainServiceCarousel .carousel-item {
+   height: 30vh;
+   min-height: fit-content;
+   background-color: rgba(0, 0, 0, 0.37);
+}
+
+#myMainServiceCarousel .carousel-item > img{
+    object-fit: scale-down;
+    height: 100%;
+    object-position: center;
+}
+
+.carousel-img-display{
+    display: none;
+    width: 80vw;
+    height: 80vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 2000;
+    margin: auto;
+}
+
+.carousel-img-display > img{
+    z-index: 3000;
+    object-fit: contain;
+    height: 80vh;
+    width: 80vw;
+}
+
+.carousel-img-display > div{
+    z-index: 3000;
+    background-size: contain;
+    height: 80vh;
+    width: 80vw;
+
+    
+}
+
+.caousel-img-display--backdrop{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: 2000;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: none;
+    cursor: pointer;
+
 }
 
 .my-service-location-div-under-carousel{
@@ -558,6 +642,16 @@
     flex-wrap: nowrap;
 }
 
+.center-glider{
+    display: flex;
+    justify-content: center;
+}
+
+.my-other-service-link, .my-other-service-link:hover{
+    font-style: unset;
+    text-decoration: none;
+}
+
 .my-other-service-card{
     box-shadow : 0px 4px 16px rgba(0, 0, 0, 0.25);
     display: flex;
@@ -633,6 +727,10 @@
     color: #309A6D;
 }
 
+.my-rate-service-number > label{
+    margin: 0;
+}
+
 .my-other-service-card--location-div{
     display: flex;
     margin: 0;
@@ -680,6 +778,47 @@
     padding: 0;
     margin: 0;
 }
+
+#myAvaliationSection .service-rate-star{
+    cursor: pointer;
+}
+
+.write-rate-btn-div{
+    display: none;
+    margin: 0;
+    margin-left: auto;
+    margin-top: 8px;
+}
+
+.write-rate-btn-div > button{
+    border: none;
+    padding: 10px 16px;
+    border-radius: 5px;
+}
+
+.write-coment-btn-cancel{
+    background-color: transparent;
+    color: #424149;
+    margin-right: 10px;
+
+    transition:  2s;
+}
+.write-coment-btn-send{
+    background-color: #06A77D;
+    color: #FBFBFF;
+
+    cursor: pointer;
+}
+
+.write-coment-btn-send[disabled=true], .write-coment-btn-send[disabled]{
+    background-color: #464646 !important;
+    color: #f3f1fc !important;
+    cursor: initial;
+}
+
+.rate-stars-error-div{
+    display: none ;
+}
 /* --- MyAvaliation Section Fim -- */
 
 /* --- Comenta Section Incio -- */
@@ -723,6 +862,7 @@
     width: 100%;
     justify-content: space-between;
     display: flex;
+    flex-direction: column;
 }
 
 .my-write-rate > .my-rate-stars{
@@ -885,6 +1025,13 @@
 /* -- Media Queries Inicio-- */
 @media (min-width: 360px){
 
+    .my-service-carousel-img-indicators .my-carousel-indicator-item{
+        height: 52px;
+    }
+    
+    #myMainServiceCarousel .carousel-item {
+       height: 32vh;
+    }
    
     /* --- Data Info Incio---*/
     .my-service-main-content--info-area{
@@ -966,6 +1113,14 @@
 
     #myMainServiceCarousel img{
         border-radius: 10px;
+    }
+
+    .my-service-carousel-img-indicators .my-carousel-indicator-item{
+        height: 52px;
+    }
+    
+    #myMainServiceCarousel .carousel-item {
+       height: 40vh;
     }
 
     .my-service-carousel-img-indicators img{
@@ -1143,7 +1298,12 @@
     .my-rate-stars{
         grid-area: coment-rate;
         max-width: 230px;
-    }    
+    }  
+
+    .my-write-rate{
+        flex-direction: row;
+    }
+      
 
     /* ---  Coment Section Incio -- */
     #myComentSection{
@@ -1303,13 +1463,39 @@
 
 }
 
+
 @media(min-width: 920px){
     #myInfoSection{
         padding: 0 42px;
+        height: 80vh;
     }
 
     .my-service-main-content-row{
         gap: 36px;
+    }
+    
+    #myMainServiceCarousel{
+        width: auto;
+    }
+
+    .my-service-carousel-img-indicators .my-carousel-indicator-item > img{
+        object-fit: contain;
+        height: 100%;
+        object-position: center;
+    }
+
+    .my-service-carousel-img-indicators .my-carousel-indicator-item{
+        height: 74px;
+    }
+
+    #myMainServiceCarousel .carousel-item {
+       height: 50vh;
+    }
+
+    #myMainServiceCarousel .carousel-item > img{
+        object-fit: contain;
+        height: 100%;
+        object-position: center;
     }
 
     .my-service-main-content--info-area{

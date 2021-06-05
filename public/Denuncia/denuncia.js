@@ -29,6 +29,46 @@ export default class ReportInterface{
         else return parent.querySelectorAll(elem); // se nao, eh somente um elemtm padrao
     }
 
+    refreshInfo(){
+        this.providerName = null;
+        this.serviceName = null;
+        this.smallBusiness = null;
+        this.reason = null;
+        this.comment = null;
+    }
+
+    refreshInterface(){
+        let components = {
+            reason : this.getContents({elem: '.my-comment-text'})[0],
+            comment: this.getContents({elem: '.my-other-reason-text'})[0],
+            btnReportOption: this.getContents({elem: '#btnDropdownReport'})[0],
+            reasonTextVerification: this.getContents({elem: '.my-reason-text-verification'})[0],
+            commentVerification: this.getContents({elem: '.my-comment-verification'})[0],
+        };
+
+        for(let i in components ){
+            console.log(components.i)
+            console.log(components)
+            console.log()
+        }
+        
+    }
+
+    cancelHandler(){
+        if(parent === null) return;
+        let btnCancel = this.getContents({elem:'.my-cancel-report-btn'})[0];
+
+        btnCancel.onclick = () => {
+            /*this.refreshInfo();
+            this.refreshInterface();*/
+
+            //let backdrop = this.getContents({elem: '#reportModal', parent});
+
+        }
+    }
+
+    
+
     headInfo({serviceName = null, providerName = null, smallBusiness = null}){ // implemnta as infos no cabecalho
         let headComponent = { // sao as labels do cabecalho
             serviceName: this.getContents({elem: '#myServiceReportName'}),
@@ -80,11 +120,8 @@ export default class ReportInterface{
         let btnReportOption = this.getContents({elem: '#btnDropdownReport'})[0]; // este eh o btnToggler
         let inputInfo = this.getContents({elem: '#myReportReason'})[0]; // este eh o input do form
         
-        
-
         let otherReason = this.getContents({elem: '.other-reason-toggle'});
        
-
         const reasonClickHandler = (elem) =>{ // quando clicar em um elemnto do menu, esta funcao sera executada
 
             btnReportOption.innerHTML = elem.innerHTML; // o btn toggler muda o texto para o selecionado
@@ -188,6 +225,8 @@ export default class ReportInterface{
         console.log(this.getContents({elem: "#myReportSection"}));
 
         this.toggleSectionHandler();
+        this.cancelHandler();
+
     }
 
     
