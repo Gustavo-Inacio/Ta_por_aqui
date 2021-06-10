@@ -90,7 +90,7 @@ if($_SESSION['classificacao'] == 0){
 
 <div id="page">
     <div class="container">
-        <form action="" method="" id="serviceForm">
+        <form enctype="multipart/form-data" action="" method="" id="serviceForm">
 
             <!-- 1. Etapa de criação do serviço -->
             <div class="row">
@@ -117,7 +117,7 @@ if($_SESSION['classificacao'] == 0){
             </div>
             <!--FIM 1. Etapa de criação do serviço -->
 
-            <div class="verticalLine d-none d-md-block"></div>
+            <div class="verticalLine line1 d-none d-md-block"></div>
             <hr class="horizontalLine d-md-none">
 
             <!-- 2. Etapa de criterização do serviço -->
@@ -155,21 +155,27 @@ if($_SESSION['classificacao'] == 0){
                         </div>
                         <br>
                         <label for="descricao">Descrição</label> <br>
-                        <textarea class="form-control" name="descricao" id="descricao" rows="5" placeholder="Escreva aqui os detalhes do seu serviço, como por exemplo como ele é feito, quanto tempo leva aproximadamente, que materiais serão usados, no que ele ajuda o seu cliente, caso seja orçamento, qual seu critério de cobrança, entre outras coisas que você achar relevante"></textarea>
+                        <textarea class="form-control" name="descricao" id="descricao" rows="6" placeholder="Escreva aqui os detalhes do seu serviço, como por exemplo como ele é feito, quanto tempo leva aproximadamente, que materiais serão usados, no que ele ajuda o seu cliente, caso seja orçamento, qual seu critério de cobrança, entre outras coisas que você achar relevante"></textarea>
                     </div>
                 </section>
 
                 <div class="modal fade" id="categoriesModal" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog">
+                    <div class="modal-dialog ">
                         <div class="modal-content">
                             <div class="modal-header">
+                                <h5 class="modal-title">Categorias disponíveis</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
 
                             <div class="modal-body">
-                                ...
+                                <div class="masterCategory d-flex"> <span>Categoria 1</span> <span class="ml-auto"> <i class="fas fa-arrow-right"></i> </span> </div>
+                                <div class="masterCategory d-flex"> <span>Categoria 2</span> <span class="ml-auto"> <i class="fas fa-arrow-right"></i> </span> </div>
+                                <div class="masterCategory d-flex"> <span>Categoria 3</span> <span class="ml-auto"> <i class="fas fa-arrow-right"></i> </span> </div>
+                                <div class="masterCategory d-flex"> <span>Categoria 4</span> <span class="ml-auto"> <i class="fas fa-arrow-right"></i> </span> </div>
+                                <div class="masterCategory d-flex"> <span>Categoria 5</span> <span class="ml-auto"> <i class="fas fa-arrow-right"></i> </span> </div>
+                                <div class="masterCategory d-flex"> <span>Categoria 6</span> <span class="ml-auto"> <i class="fas fa-arrow-right"></i> </span> </div>
                             </div>
                         </div>
                     </div>
@@ -177,7 +183,7 @@ if($_SESSION['classificacao'] == 0){
             </div>
             <!--FIM 2. Etapa de criterização do serviço -->
 
-            <div class="verticalLine d-none d-md-block" style="margin-top: -130px"></div>
+            <div class="verticalLine line2 d-none d-md-block"></div>
             <hr class="horizontalLine d-md-none">
 
             <!-- 3. Etapa de monetização do serviço -->
@@ -218,7 +224,7 @@ if($_SESSION['classificacao'] == 0){
             </div>
             <!--FIM 3. Etapa de monetização do serviço -->
 
-            <div class="verticalLine d-none d-md-block" style="margin-top: -40px"></div>
+            <div class="verticalLine line3 d-none d-md-block"></div>
             <hr class="horizontalLine d-md-none">
 
             <!-- 4. Etapa de definição de imagens do projeto -->
@@ -239,20 +245,69 @@ if($_SESSION['classificacao'] == 0){
                 <!-- Form -->
                 <section class="col-md-6 ml-5 d-flex align-items-center p-0">
                     <div class="formItems">
-                        <label for="imagens">Selecione até 4 imagens</label> <br>
+                        <label for="imagens[]">Selecione até 4 imagens</label> <br>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="icon"> <i class="fas fa-camera"></i> </span>
                             </div>
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input" name="imagens[]" id="imagens" aria-describedby="icon" multiple>
-                                <label class="custom-file-label text-dark" for="imagens">Escolha os arquivos</label>
+                                <input type="file" class="custom-file-input" name="imagens[]" id="imagens[]" aria-describedby="icon" multiple accept="image/png, image/jpeg, image/jpg" onchange="verifyImage(this)">
+                                <label class="custom-file-label text-dark" for="imagens[]">Escolha os arquivos</label>
                             </div>
                         </div>
+                        <span class="text-danger" id="imageErrorMsg"></span>
+
+                        <!-- exibir preview das imagens -->
+                        <div id="divImgPreview" class="row">
+
+                        </div>
+
                     </div>
                 </section>
             </div>
             <!--FIM 4. Etapa de definição de imagens do projeto -->
+
+            <div class="verticalLine line4 d-none d-md-block"></div>
+            <hr class="horizontalLine d-md-none">
+
+            <!-- 5. Revisão e finalização -->
+            <div class="row">
+                <!-- info -->
+                <section class="col-md-4">
+                    <div class="row d-flex">
+                        <div class="col-3">
+                            <span class="big_number">5</span>
+                        </div>
+                        <div class="col-9 align-self-center">
+                            <h6>Revisão e finalização</h6>
+                            <p>Não esqueça de verificar tudo e confirme</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Div -->
+                <section class="col-md-6 ml-5 d-flex align-items-center p-0">
+                    <div class="formItems">
+
+                        <div class="card" id="revisionCard">
+                            <h5 class="card-header">Serviço</h5>
+                            <div class="card-body">
+                                <h5 class="card-title">Nome do serviço</h5>
+                                <p class="card-text text-dark">
+                                    <strong>Tipo: </strong> <span id="cardServiceType">Presencial</span> <br>
+                                    <strong>Categorias: </strong> <span id="cardServiceCategory">arquiteto, pintor, engenheiro</span> <br>
+                                    <strong>Descrição: </strong> <span id="cardServiceDescription"> Lorem ipsum dolor sit amet, consectetur adipisicing elit... </span> <br>
+                                    <strong>Pagamento: </strong> <span id="cardServicePayment"> A definir orçamento </span> <br>
+                                </p>
+                                <btn type="button" class="myBtn myBtnGreen mb-3" id="confirmService">Confirmar e criar serviço</btn> <br>
+                                <btn type="button" class="myBtn myBtnRed" id="cancelService">Voltar e desistir do serviço</btn>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+            </div>
+            <!--FIM 5. Revisão e finalização -->
 
         </form>
     </div>

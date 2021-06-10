@@ -1,20 +1,8 @@
+/*Deixar página preta/definir fonte/esconder overflow*/
 body{
     font-family: 'Roboto', sans-serif;
-    background-color: #0C0C23;
     overflow-x: hidden;
-}
-
-#myMainTopNavbar{
     background-color: #0C0C23;
-}
-
-.my-navbar-toggler-icon div{
-    border: 1px solid white;
-    background-color: white;
-}
-
-#myMainTopNavbar .nav-link{
-    color: white;
 }
 
 #page{
@@ -23,14 +11,21 @@ body{
     background-color: #0C0C23;
 }
 
+/*Arrumando o footer*/
+#myMainFooter{
+    background-color: white;
+    color: black;
+}
+
+#myMainFooter .my-main-footer-socialMedia i{
+    color: black;
+}
+
+/*parte esquerda do formulário*/
 .big_number{
     color: #f2f2f2;
     font-weight: 700;
     font-size: 98px;
-}
-
-#serviceForm label{
-    color: white;
 }
 
 #serviceForm h6{
@@ -45,18 +40,122 @@ body{
     font-size: 16px;
 }
 
+/*parte direita do formulário*/
+#serviceForm label{
+    color: white;
+}
+
 .formItems{
     width: 100%;
 }
 
+/*linhas que separam*/
 .verticalLine{
-    margin: -20px 0 -20px 0;
     border-right: 1px solid #e9e9e9;
     height: 200px;
     width: 3%;
+    margin-bottom: -20px;
+}
+
+.line1, .line4{
+    margin-top: -20px;
+}
+
+.line2{
+    margin-top: -160px;
+}
+
+.line3{
+    margin-top: -40px;
+}
+
+.line3{
+    margin-top: -40px;
+}
+
+
+@media (max-width: 992px) {
+    /*consertando linhas em dispositivos md*/
+    .verticalLine{
+        height: 270px;
+        width: 4%;
+    }
+
+    .line1{
+        margin-top: -60px;
+    }
+
+    .line2{
+        margin-top: -180px;
+    }
+
+    .line3{
+        margin-top: -170px;
+    }
+
+    .line4{
+        margin-top: -100px;
+    }
 }
 
 .horizontalLine{
     background-color: #e9e9e9;
     margin: 40px 0 40px 0;
+}
+
+/*Card de revisão*/
+#revisionCard{
+    border: 1px solid black;
+    border-radius: 12px;
+}
+
+@media (min-width: 992px) {
+    #revisionCard{
+        width: 400px;
+    }
+}
+
+#revisionCard .card-header{
+    background-color: #303030;
+    color: white;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#revisionCard .card-body{
+    background-color: #f2f2f2;
+    border-radius: 10px;
+}
+
+#revisionCard .myBtn{
+    padding: 5px 20px 5px 20px;
+    border: 1px solid #0C0C23;
+    border-radius: 15px;
+    font-weight: 500;
+}
+
+#revisionCard .myBtnGreen:hover{
+    background-color: #45E586;
+    transition: .3s;
+}
+
+#revisionCard .myBtnRed:hover{
+    background-color: #FF6F6F;
+    transition: .3s;
+}
+
+/*Modal de categoria*/
+#categoriesModal .modal-body{
+    padding: 0;
+}
+
+#categoriesModal .masterCategory{
+    border-bottom: 1px solid #dee2e6;
+    padding: 10px;
+}
+
+.masterCategory:hover{
+    cursor: pointer;
+    background-color: #f2f2f2;
+    transition: .2s;
 }
