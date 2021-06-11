@@ -113,7 +113,7 @@ const dotOptionsHandler = () => {
     }
 } 
 
-const reportHandler = () => {
+const reportHandler0 = () => {
     let iframe_e = document.getElementById("myReportIframe");
 
     let modal = document.getElementById("myReportModalBody");
@@ -132,6 +132,19 @@ const reportHandler = () => {
     //console.log(structure)
    
      modal.appendChild(structure)
+}
+ 
+const loadReportService = () => {
+    let iframeDocument = document.querySelector('#myReportIframe').contentDocument.document || document.querySelector('#myReportIframe').contentWindow.document;
+    let iframeNode = document.importNode(iframeDocument.querySelector('body'), true);
+
+    let serviceName = document.getElementById("myServiceName").innerHTML;
+    let providerName = document.getElementById("myProviderName").innerHTML;
+   
+    let porcessedNode = ReportInterface({node:iframeNode, type: 'service', data: {service: serviceName, provider: providerName}});
+
+    let modal = document.querySelector('#serviceReportModal #myReportModalBody');
+    modal.appendChild(porcessedNode)
 }
 
 const commentSectionHandler = (info = []) => { // cuida da section inteira de comentarios
@@ -203,9 +216,33 @@ const commentSectionHandler = (info = []) => { // cuida da section inteira de co
                 publish_e.innerHTML = `${day}/${month}/${year}` // coloca na DOM
             }
 
+            const reportHandler = async () => { // envia os valores para a fcnao que gera e retorna o elemtno de denuncia para adicionar no modal
+                let iframeDocument = document.querySelector('#myReportIframe').contentDocument.document || document.querySelector('#myReportIframe').contentWindow.document;
+                let iframeNode = document.importNode(iframeDocument.querySelector('body'), true);
+
+                let user = data.userName;
+                let publishDate = data.publishDate;
+                let service = document.getElementById("myServiceName").innerHTML;
+                let sequencialNumber = sectionContainer.querySelectorAll('.my-coment-row').length;
+                let comment = data.text;
+            
+                let modal = item.querySelector('#reportComent');
+                let modalBody = modal.querySelector('#myReportModalBody')
+
+                let modalTrigger = item.querySelector('#reportCommentID')
+
+                let processedNode = await ReportInterface({node:iframeNode, type: 'comment', data: {comment: comment, user, publishDate, service, sequencialNumber}})
+               
+                modalTrigger.setAttribute('data-target',`#reportComent${sequencialNumber}`) // muda o id para nao dar conflito entre os modais de comentario
+                modal.setAttribute('id',`reportComent${sequencialNumber}`)// muda o id para nao dar conflito entre os modais de comentario
+
+                modalBody.appendChild(processedNode) // pega o node retornado e o coloca na DOM
+            }
+
             moreOpstionHandler();
             readMoreHandler();
             publishDateHandler();
+            reportHandler();
             
         }
 
@@ -474,7 +511,7 @@ writeCommentResizeTextArea();
 
 descriptionHandler();
 
-//reportHandler();
+loadReportService();
 
 dotOptionsHandler();
 
@@ -605,6 +642,3 @@ async function getCommentsData () {
 }
 getCommentsData();
 getOtherServicesData();
-
-  
-

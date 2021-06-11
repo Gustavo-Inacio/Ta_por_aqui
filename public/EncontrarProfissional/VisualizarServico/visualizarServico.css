@@ -1494,7 +1494,7 @@
 @media(min-width: 920px){
     #myInfoSection{
         padding: 0 42px;
-        height: 80vh;
+        /*height: 80vh;*/
     }
 
     .my-service-main-content-row{
@@ -1517,6 +1517,7 @@
 
     #myMainServiceCarousel .carousel-item {
        height: 50vh;
+       min-height: 315px;
     }
 
     #myMainServiceCarousel .carousel-item > img{
@@ -1526,7 +1527,9 @@
     }
 
     .my-service-main-content--info-area{
-        grid-template-rows: 0.7fr 0.8fr 1.333fr 1.11fr 0.8fr 1.22fr 1.22fr;
+        /*grid-template-rows: 0.7fr 0.8fr 1.333fr 1.11fr 0.8fr 1.22fr 1.22fr;*/
+       /* grid-template-rows: repeat(7, auto);*/
+       grid-template-rows: auto auto auto auto auto auto auto;
 
         margin: 0;
         grid-template-areas: 
