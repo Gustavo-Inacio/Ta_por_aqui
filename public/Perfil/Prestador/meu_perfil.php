@@ -413,7 +413,7 @@ if( empty($_SESSION) ){
 
             </div>
 
-            <a href="./CriacaoServico/criar_servico.html" id="addService"> Adicionar serviço <i class="fas fa-plus"></i>
+            <a href="CriacaoServico/criar_servico.php" id="addService"> Adicionar serviço <i class="fas fa-plus"></i>
             </a>
 
         </div>
