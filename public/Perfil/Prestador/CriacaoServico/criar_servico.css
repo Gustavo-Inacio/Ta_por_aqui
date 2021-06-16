@@ -49,58 +49,24 @@ body{
     width: 100%;
 }
 
+#descricao{
+    resize: none;
+}
+
+.imgPreview{
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+}
+
 /*linhas que separam*/
-.verticalLine{
-    border-right: 1px solid #e9e9e9;
-    height: 200px;
-    width: 3%;
-    margin-bottom: -20px;
-}
-
-.line1, .line4{
-    margin-top: -20px;
-}
-
-.line2{
-    margin-top: -160px;
-}
-
-.line3{
-    margin-top: -40px;
-}
-
-.line3{
-    margin-top: -40px;
-}
-
-
-@media (max-width: 992px) {
-    /*consertando linhas em dispositivos md*/
-    .verticalLine{
-        height: 270px;
-        width: 4%;
-    }
-
-    .line1{
-        margin-top: -60px;
-    }
-
-    .line2{
-        margin-top: -180px;
-    }
-
-    .line3{
-        margin-top: -170px;
-    }
-
-    .line4{
-        margin-top: -100px;
-    }
-}
-
 .horizontalLine{
     background-color: #e9e9e9;
     margin: 40px 0 40px 0;
+}
+
+.stageContent{
+    padding-bottom: 100px;
 }
 
 /*Card de revisão*/
@@ -144,14 +110,18 @@ body{
     transition: .3s;
 }
 
+#cardServiceDescription{
+    white-space: pre-wrap;
+}
+
 /*Modal de categoria*/
 #categoriesModal .modal-body{
     padding: 0;
 }
 
-#categoriesModal .masterCategory{
+#categoriesModal .masterCategory, #categoriesModal .subCategory{
     border-bottom: 1px solid #dee2e6;
-    padding: 10px;
+    padding: 15px;
 }
 
 .masterCategory:hover{
@@ -159,3 +129,25 @@ body{
     background-color: #f2f2f2;
     transition: .2s;
 }
+
+.last{
+    border: none !important;
+}
+
+.last:hover{
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.returnArrow{
+    line-height: 32px;
+}
+
+.returnArrow:hover{
+    cursor: pointer;
+}
+
+.returnArrow i:hover{
+    color: gray;
+}
+

@@ -24,7 +24,7 @@ if($_SESSION['classificacao'] == 0){
     <link rel="stylesheet" href="../../../../assets/global/globalStyles.css">
     <link rel="stylesheet" href="criar_servico.css">
 
-    <script src="../../../../assets/bootstrap/jquery-3.5.1.slim.min.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script src="../../../../assets/bootstrap/popper.min.js" defer></script>
     <script src="../../../../assets/bootstrap/bootstrap-4.5.3-dist/js/bootstrap.min.js" defer></script>
     <script src="../../../../assets/jQueyMask/jquery.mask.js" defer></script>
@@ -90,10 +90,18 @@ if($_SESSION['classificacao'] == 0){
 
 <div id="page">
     <div class="container">
-        <form enctype="multipart/form-data" action="" method="" id="serviceForm">
+        <? if(isset($_GET['erro'])) { ?>
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <?= $_GET['erro'] ?>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <? } ?>
+        <form enctype="multipart/form-data" action="../../../../logic/perfil_criar_servico.php" method="POST" id="serviceForm">
 
             <!-- 1. Etapa de criação do serviço -->
-            <div class="row">
+            <div class="row stageContent">
                 <!-- info -->
                 <section class="col-md-4">
                     <div class="row d-flex">
@@ -111,17 +119,16 @@ if($_SESSION['classificacao'] == 0){
                 <section class="col-md-6 ml-5 d-flex align-items-center p-0">
                     <div class="formItems">
                         <label for="nome">Nome do serviço</label> <br>
-                        <input type="text" class="form-control" name="nome" id="nome" placeholder="ex.: encanamento">
+                        <input type="text" class="form-control required" name="nome" id="nome" placeholder="ex.: encanamento" onchange="createConfirmCard(1,this.value)">
                     </div>
                 </section>
             </div>
             <!--FIM 1. Etapa de criação do serviço -->
 
-            <div class="verticalLine line1 d-none d-md-block"></div>
-            <hr class="horizontalLine d-md-none">
+            <hr class="horizontalLine  d-md-none">
 
             <!-- 2. Etapa de criterização do serviço -->
-            <div class="row">
+            <div class="row stageContent">
                 <!-- info -->
                 <section class="col-md-4">
                     <div class="row d-flex">
@@ -141,7 +148,7 @@ if($_SESSION['classificacao'] == 0){
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="tipo">Tipo de serviço</label> <br>
-                                <select name="tipo" id="tipo" class="form-control" data-placement="top" data-toggle="popover" data-trigger="hover" title="Nota" data-content="Caso o serviço seja remoto, ele não dependerá da localização do usuário para aparecer nas buscas">
+                                <select name="tipo" id="tipo" class="form-control required" data-placement="top" data-toggle="popover" data-trigger="hover" title="Nota" data-content="Caso o serviço seja remoto, ele não dependerá da localização do usuário para aparecer nas buscas" onchange="createConfirmCard(2,this.value)">
                                     <option value="">Selecionar</option>
                                     <option value="0">Remoto</option>
                                     <option value="1">Presencial</option>
@@ -150,44 +157,36 @@ if($_SESSION['classificacao'] == 0){
 
                             <div class="col-md-6 mt-4 mt-md-0">
                                 <label for="categorias">Categorias do serviço</label>
-                                <button type="button" class="btn btn-primary btn-block" id="categorias" data-toggle="modal" data-target="#categoriesModal"> Escolha a categoria </button>
+                                <button type="button" class="btn btn-primary btn-block" id="categorias" data-toggle="modal" data-target="#categoriesModal"> Escolha a categoria  </button>
+
+                                <small class="text-light">Clique no botão, escolha uma área de atuação e selecione até 3 categorias que condizem com seu serviço.</small>
                             </div>
                         </div>
                         <br>
                         <label for="descricao">Descrição</label> <br>
-                        <textarea class="form-control" name="descricao" id="descricao" rows="6" placeholder="Escreva aqui os detalhes do seu serviço, como por exemplo como ele é feito, quanto tempo leva aproximadamente, que materiais serão usados, no que ele ajuda o seu cliente, caso seja orçamento, qual seu critério de cobrança, entre outras coisas que você achar relevante"></textarea>
+                        <textarea class="form-control required" name="descricao" id="descricao" rows="6" placeholder="Escreva aqui os detalhes do seu serviço, como por exemplo como ele é feito, quanto tempo leva aproximadamente, que materiais serão usados, no que ele ajuda o seu cliente, qual seu critério de cobrança, entre outras coisas que você achar relevante" onchange="createConfirmCard(4, this.value)"></textarea>
                     </div>
                 </section>
 
                 <div class="modal fade" id="categoriesModal" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog ">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Categorias disponíveis</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
+                        <div class="modal-content" id="categoriesModalContent">
 
-                            <div class="modal-body">
-                                <div class="masterCategory d-flex"> <span>Categoria 1</span> <span class="ml-auto"> <i class="fas fa-arrow-right"></i> </span> </div>
-                                <div class="masterCategory d-flex"> <span>Categoria 2</span> <span class="ml-auto"> <i class="fas fa-arrow-right"></i> </span> </div>
-                                <div class="masterCategory d-flex"> <span>Categoria 3</span> <span class="ml-auto"> <i class="fas fa-arrow-right"></i> </span> </div>
-                                <div class="masterCategory d-flex"> <span>Categoria 4</span> <span class="ml-auto"> <i class="fas fa-arrow-right"></i> </span> </div>
-                                <div class="masterCategory d-flex"> <span>Categoria 5</span> <span class="ml-auto"> <i class="fas fa-arrow-right"></i> </span> </div>
-                                <div class="masterCategory d-flex"> <span>Categoria 6</span> <span class="ml-auto"> <i class="fas fa-arrow-right"></i> </span> </div>
-                            </div>
+                            <!-- O conteúdo será colocado dinamicamente aki com ajax -->
+
                         </div>
                     </div>
                 </div>
+
+                <div class="verticalLine"></div>
+
             </div>
             <!--FIM 2. Etapa de criterização do serviço -->
 
-            <div class="verticalLine line2 d-none d-md-block"></div>
-            <hr class="horizontalLine d-md-none">
+            <hr class="horizontalLine  d-md-none">
 
             <!-- 3. Etapa de monetização do serviço -->
-            <div class="row">
+            <div class="row stageContent">
                 <!-- info -->
                 <section class="col-md-4">
                     <div class="row d-flex">
@@ -206,17 +205,31 @@ if($_SESSION['classificacao'] == 0){
                     <div class="formItems">
                         <div class="row">
                             <div class="col-md-6">
-                                <label for="pagamento">Tipo de pagamento</label> <br>
-                                <select name="pagamento" id="pagamento" class="form-control">
-                                    <option value="">Selecionar</option>
-                                    <option value="1">Valor fixo</option>
-                                    <option value="0">Orçamento</option>
+                                <label for="tipoPagamento">Defina o tipo orçamento</label> <br>
+                                <select class="form-control required" name="tipoPagamento" id="tipoPagamento" onchange="toggleOrcamentoComMedia(this.value); createConfirmCard(5, this.value)">
+                                    <option value="">Selecione um orçamento</option>
+                                    <option value="1">Orçamento</option>
+                                    <option value="2">Orçamento com média</option>
                                 </select>
                             </div>
+                        </div>
+                        <br>
+                        <div class="row d-none" id="divOrcamentoComMedia">
+                            <div class="col-6" id="divOrcamento">
+                                <label for="orcamento">Defina o valor</label> <br>
+                                <input type='number' class='form-control' name='orcamento' id='orcamento' onchange="createConfirmCard(6)">
+                            </div>
 
-                            <div class="col-md-6 mt-4 mt-md-0">
-                                <label for="valorFixo">Insira o valor</label>
-                                <input type="text" class="form-control" name="valorFixo" id="valorFixo">
+                            <div class='col-6' id='divCriterio'>
+                                <label for='criterio'>Defina o critério</label>
+                                <input type="text" class="form-control" name="criterio" id="criterio" list="listaCriterios" onchange="createConfirmCard(6)">
+                                <datalist id="listaCriterios">
+                                    <option value="por hora">
+                                    <option value="por m²">
+                                    <option value="por quilo">
+                                    <option value="por cabeça">
+                                    <option value="por quantidade">
+                                </datalist>
                             </div>
                         </div>
                     </div>
@@ -224,11 +237,10 @@ if($_SESSION['classificacao'] == 0){
             </div>
             <!--FIM 3. Etapa de monetização do serviço -->
 
-            <div class="verticalLine line3 d-none d-md-block"></div>
-            <hr class="horizontalLine d-md-none">
+            <hr class="horizontalLine  d-md-none">
 
             <!-- 4. Etapa de definição de imagens do projeto -->
-            <div class="row">
+            <div class="row stageContent">
                 <!-- info -->
                 <section class="col-md-4">
                     <div class="row d-flex">
@@ -245,7 +257,7 @@ if($_SESSION['classificacao'] == 0){
                 <!-- Form -->
                 <section class="col-md-6 ml-5 d-flex align-items-center p-0">
                     <div class="formItems">
-                        <label for="imagens[]">Selecione até 4 imagens</label> <br>
+                        <label for="imagens[]">Selecione até 4 imagens (opcional)</label> <br>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="icon"> <i class="fas fa-camera"></i> </span>
@@ -258,16 +270,19 @@ if($_SESSION['classificacao'] == 0){
                         <span class="text-danger" id="imageErrorMsg"></span>
 
                         <!-- exibir preview das imagens -->
+                        <small class="text-info d-none" id="obsImgPreview">As imagens mostradas a seguir são apenas prévias (os tamanhos podem estar distorcidos). Os tamanhos originais das imagens são mantidos.</small>
                         <div id="divImgPreview" class="row">
 
                         </div>
+
+                        <!-- botão de excluir imagens -->
+                        <button type="button" class="btn btn-danger d-none" id="deleteImages" onclick="removePreviewImages()"> <i class="fas fa-trash"></i> Excluir imagens </button>
 
                     </div>
                 </section>
             </div>
             <!--FIM 4. Etapa de definição de imagens do projeto -->
 
-            <div class="verticalLine line4 d-none d-md-block"></div>
             <hr class="horizontalLine d-md-none">
 
             <!-- 5. Revisão e finalização -->
@@ -292,15 +307,16 @@ if($_SESSION['classificacao'] == 0){
                         <div class="card" id="revisionCard">
                             <h5 class="card-header">Serviço</h5>
                             <div class="card-body">
-                                <h5 class="card-title">Nome do serviço</h5>
+                                <h5 class="card-title" id="cardServiceName">  </h5>
                                 <p class="card-text text-dark">
-                                    <strong>Tipo: </strong> <span id="cardServiceType">Presencial</span> <br>
-                                    <strong>Categorias: </strong> <span id="cardServiceCategory">arquiteto, pintor, engenheiro</span> <br>
-                                    <strong>Descrição: </strong> <span id="cardServiceDescription"> Lorem ipsum dolor sit amet, consectetur adipisicing elit... </span> <br>
-                                    <strong>Pagamento: </strong> <span id="cardServicePayment"> A definir orçamento </span> <br>
+                                    <strong>Tipo: </strong> <span id="cardServiceType">  </span> <br>
+                                    <strong>Categorias: </strong> <span id="cardServiceCategory">  </span> <br>
+                                    <strong>Descrição: </strong> <p id="cardServiceDescription" class="m-0 p-0 text-dark">  </p> <br>
+                                    <strong>Pagamento: </strong> <span id="cardServicePayment">  </span> <br>
                                 </p>
-                                <btn type="button" class="myBtn myBtnGreen mb-3" id="confirmService">Confirmar e criar serviço</btn> <br>
-                                <btn type="button" class="myBtn myBtnRed" id="cancelService">Voltar e desistir do serviço</btn>
+                                <btn type="button" class="myBtn myBtnGreen mb-3" id="confirmService" onclick="createServiceValidation()">Confirmar e criar serviço</btn> <br>
+                                <btn type="button" class="myBtn myBtnRed" id="cancelService" onclick="giveUpService()">Voltar e desistir do serviço</btn> <br>
+                                <strong class="text-danger" id="createServiceErrorMsg"></strong>
                             </div>
                         </div>
 
