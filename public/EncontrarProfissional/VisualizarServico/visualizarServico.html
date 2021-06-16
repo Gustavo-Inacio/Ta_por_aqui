@@ -11,6 +11,9 @@
 
     <link rel="stylesheet" href="../../../assets/bootstrap/bootstrap-4.5.3-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../../assets/global/globalStyles.css">
+
+    <link rel="stylesheet" href="../../../assets/glider/glider.css">
+
     <link rel="stylesheet" href="../../Denuncia/denuncia.css">
     <link rel="stylesheet" href="./visualizarServico.css">
 
@@ -18,8 +21,12 @@
     <script src="../../../assets/bootstrap/popper.min.js" defer></script>
     <script src="../../../assets/bootstrap/bootstrap-4.5.3-dist/js/bootstrap.min.js" defer></script>
 
+    <script src="../../../assets/glider/glider.js" defer></script>
+
     <script src="../../../assets/global/globalScripts.js" defer></script>
     <script src="./visualizarServico.js" type="module" defer></script>
+
+    <script src="./enviarAvaliacao.js" defer></script> <!--Somente quado o usuario puder enviar a avalizacao-->
 </head>
 <body>
 
@@ -76,8 +83,6 @@
     </nav>
     <!--NavBar Fim-->
     
-    
-
     <section id="myInfoSection">
         <div id="myInfoContainer" class="container">
             <div class="row my-top-service-info-row">
@@ -120,7 +125,7 @@
 
                             <div id="serviceMenuOptions" class="service-dot-options-menu">
                                 <a href="#" class="service-dot-item">
-                                    <button type="button" class="" data-toggle="modal" data-target="#reportModal">
+                                    <button type="button" class="" data-toggle="modal" data-target="#serviceReportModal">
                                         Denunciar Serviço
                                     </button>
                                     
@@ -128,7 +133,7 @@
                             </div>
 
                              <!-- Modal -->
-                             <div class="modal fade" id="reportModal" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                             <div class="modal fade" id="serviceReportModal" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                 <div id="myReportModalDialog" class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
                                   <div class="modal-content">
                                     <div id="myReportModalBody" class="modal-body">
@@ -144,6 +149,10 @@
             </div>
         </div>
 
+        <div class="caousel-img-display--backdrop"></div>
+        <div class="carousel-img-display">
+            
+        </div>
 
         <div class="container my-service-main-content-container">
             <div class="row my-service-main-content-row">
@@ -151,13 +160,13 @@
                     <div id="myMainServiceCarousel" class="my-main-carousel carousel slide" data-ride="carousel">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <img src="../../../assets/images/landing-img.png" class="d-block w-100" alt="SERVICE-IMG">
+                                <img src="https://picsum.photos/1920/1080?random=21" class="d-block w-100" alt="SERVICE-IMG">
                             </div>
                             <div class="carousel-item">
-                                <img src="../../../assets/images/dumb-service-img.png" class="d-block w-100" alt="SERVICE-IMG">
+                                <img src="../../../assets/images/dumb-service-img-v.png" class="d-block w-100" alt="SERVICE-IMG">
                             </div>
                             <div class="carousel-item">
-                                <img src="../../../assets/images/dumb-service-img.png" class="d-block w-100" alt="SERVICE-IMG">
+                                <img src="https://picsum.photos/2000?random=20" class="d-block w-100" alt="SERVICE-IMG">
                             </div>
                             <div class="carousel-item">
                                 <img src="../../../assets/images/dumb-service-img.png" class="d-block w-100" alt="SERVICE-IMG">
@@ -177,13 +186,13 @@
 
                     <div class="my-service-carousel-img-indicators">
                         <div class="my-carousel-indicator-item active">
-                            <img src="../../../assets/images/landing-img.png" class="d-block w-100" alt="SERVICE-IMG">
+                            <img src="https://picsum.photos/1920/1080?random=21" class="d-block w-100" alt="SERVICE-IMG">
                         </div>
                         <div class="my-carousel-indicator-item">
-                            <img src="../../../assets/images/dumb-service-img.png" class="d-block w-100" alt="SERVICE-IMG">
+                            <img src="../../../assets/images/dumb-service-img-v.png" class="d-block w-100" alt="SERVICE-IMG">
                         </div>
                         <div class="my-carousel-indicator-item">
-                            <img src="../../../assets/images/dumb-service-img.png" class="d-block w-100" alt="SERVICE-IMG">
+                            <img src="https://picsum.photos/2000?random=20" class="d-block w-100" alt="SERVICE-IMG">
                         </div>
                         <div class="my-carousel-indicator-item">
                             <img src="../../../assets/images/dumb-service-img.png" class="d-block w-100" alt="SERVICE-IMG">
@@ -231,10 +240,6 @@
                         <p class="service-rate--quantity">(47 - avaliações)</p>
                     </div>
 
-                   
-
-                   
-                    
                     <a href="#" class="contact-chat-btn-a">
                         <button>
                             <label>Entrar em contato </label>
@@ -310,109 +315,70 @@
         </div>
     </section>
 
-    <section id="myOtherServicesSection">
-        <div class="container my-other-services-container">
-            <div class="row">
-                <h1 class="my-other-service-section-title">Outros Serviços</h1>
-
-                <div class="col-12 my-other-service-path">
-                    <div class="my-other-service-list">
-                        <div class="my-other-service-card">
-                            <img src="../../../assets/images/profile_images/teste.jpeg" alt="Foto de perfil" class="my-other-service--person-picture">
-                            <div class="my-other-service-card--info">
-                                <div class="my-other-service-card--header">
-                                    <h3 class="my-other-service-card--provider-name">Marcos</h3>
-                                    <div class="my-other-service-card--dot"></div>
-                                    <h4 class="my-other-service-card--service-name">Pedreiro</h4>
-                                </div>
-                                
-                                <div class="my-other-service-card--rate-div">
-                                    <div class="my-rate-stars">
-                                        <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"/>
-                                        </svg>
-                                        <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"/>
-                                        </svg>
-                                        <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"/>
-                                        </svg>
-                                        <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"/>
-                                        </svg>
-                                        <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#AAAAAA" stroke="black" stroke-width="0.2"/>
-                                        </svg>
-                                    </div>
-                                    <p class="my-rate-service-number">(4.7)</p>
-                                </div>
-    
-                                <div class="my-other-service-card--location-div">
-                                    <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
-    
-                                    <p class="my-other-service-location">Moab, UT</p>
-                                </div>
-    
-                                <div class="my-other-service-card--price-div">
-                                    <h2 class="my-other-service-price">$ Orçamento</h2>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        <div class="my-other-service-card">
-                            <img src="../../../assets/images/profile_images/teste.jpeg" alt="Foto de perfil" class="my-other-service--person-picture">
-                            <div class="my-other-service-card--info">
-                                <div class="my-other-service-card--header">
-                                    <h3 class="my-other-service-card--provider-name">Marcos</h3>
-                                    <div class="my-other-service-card--dot"></div>
-                                    <h4 class="my-other-service-card--service-name">Pedreiro</h4>
-                                </div>
-                                
-                                <div class="my-other-service-card--rate-div">
-                                    <div class="my-rate-stars">
-                                        <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"/>
-                                        </svg>
-                                        <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"/>
-                                        </svg>
-                                        <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"/>
-                                        </svg>
-                                        <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"/>
-                                        </svg>
-                                        <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#AAAAAA" stroke="black" stroke-width="0.2"/>
-                                        </svg>
-                                    </div>
-                                    <p class="my-rate-service-number">(4.7)</p>
-                                </div>
-    
-                                <div class="my-other-service-card--location-div">
-                                    <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
-    
-                                    <p class="my-other-service-location">Moab, UT</p>
-                                </div>
-    
-                                <div class="my-other-service-card--price-div">
-                                    <h2 class="my-other-service-price">$ Orçamento</h2>
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
-
-                    <div id="myOtherServiceControllerLeft">
-                        <i class="fas fa-chevron-left"></i>
-                    </div>
-                    <div id="myOtherServiceControllerRight">
-                        <i class="fas fa-chevron-right"></i>
+    <template id="myOtherServiceTemplate" >
+        <a class="my-other-service-link mx-auto" href="#">
+            <div class="my-other-service-card">
+                <div class=" my-other-service--person-picture-div">
+                    <!--img alt="Foto de perfil" src="" class="my-other-service--person-picture">-->
+                </div>
+                <div class="my-other-service-card--info">
+                    <div class="my-other-service-card--header">
+                        <h3 class="my-other-service-card--provider-name">Marcos</h3>
+                        <div class="my-other-service-card--dot"></div>
+                        <h4 class="my-other-service-card--service-name">Pedreiro</h4>
                     </div>
                     
+                    <div class="my-other-service-card--rate-div">
+                        <div class="my-rate-stars">
+                            <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#AAAAAA" stroke="black" stroke-width="0.2"/>
+                            </svg>
+                            <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#AAAAAA" stroke="black" stroke-width="0.2"/>
+                            </svg>
+                            <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#AAAAAA" stroke="black" stroke-width="0.2"/>
+                            </svg>
+                            <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#AAAAAA" stroke="black" stroke-width="0.2"/>
+                            </svg>
+                            <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#AAAAAA" stroke="black" stroke-width="0.2"/>
+                            </svg>
+                        </div>
+                        <p class="my-rate-service-number">(<label>4.0</label>)</p>
+                    </div>
+
+                    <div class="my-other-service-card--location-div">
+                        <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+
+                        <p class="my-other-service-location">Moab, UT</p>
+                    </div>
+
+                    <div class="my-other-service-card--price-div">
+                        <h2 class="my-other-service-price">$ Orçamento</h2>
+                    </div>
                 </div>
             </div>
+        </a>
+    </template>
+
+    <section id="myOtherServicesSection">
+        <h1 class="my-other-service-section-title">Outros Serviços</h1>
+
+        <div class="glider-contain">
+            <div class="glider"></div>
+
+            <button aria-label="Previous" class="glider-prev my-glider-controller-arrow" id="myOtherServiceControllerLeft">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button aria-label="Next" class="glider-next my-glider-controller-arrow" id="myOtherServiceControllerRight">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+
+            <div role="tablist" class="dots"></div>
         </div>
+
     </section>
 
     <section id="myAvaliationSection">
@@ -441,6 +407,10 @@
                           
                            
                         </div>
+
+                        <div class="rate-stars-error-div alert alert-danger" role="alert">
+                            Avalie este serviço com a pontuação desejada!
+                        </div>
                     </div>
     
                     <div class="my-write-coment-content">
@@ -448,6 +418,10 @@
                         <textarea id="myWriteComentTextArea" class="my-write-coment-input" placeholder="Deixe seu comentário"></textarea>
                     </div>
     
+                    <div class="write-rate-btn-div">
+                        <button class="write-coment-btn-cancel">Cancelar</button>
+                        <button class="write-coment-btn-send" disabled="true">Comentar</button>
+                    </div>
                    
                 </div>
             
@@ -455,213 +429,74 @@
         </div>
     </section>
 
+    <template id="myCommentTemplate">
+        <div class="row my-coment-row">
+            <div class="col-12 my-seen-coment">
+                <div class="my-coment-header">
+                    <div class="my-coment-profile-picture-div loading loading-comment-img">
+                        <!--<img src="../../../assets/images/profile_images/teste.jpeg" alt="Foto de Perfil" class="my-coment-profile-picture">-->
+                    </div>
+                    
+                    <h1 class="my-coment-user-name">Natan Rock</h1>
+                    <p class="my-coment-publish-date">20/03/2020</p>
+                    <div class="my-rate-stars">
+                        <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"/>
+                        </svg>
+                        <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"/>
+                        </svg>
+                        <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"/>
+                        </svg>
+                        <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"/>
+                        </svg>
+                        <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#AAAAAA" stroke="black" stroke-width="0.2"/>
+                        </svg>
+                    </div>
+
+                    <div class="my-coment-3-dot">
+                        <button class="my-coment-tecnical-option-3-dot">
+                            <div class="service-dot"></div>
+                            <div class="service-dot"></div>
+                            <div class="service-dot"></div>
+                        </button>
+
+                        <div id="serviceMenuOptions" class="service-dot-options-menu comment-dot-menu">
+                            <button type="button" id="reportCommentID" data-toggle="modal" data-target="#reportComent" class="service-dot-item ">
+                                Denunciar Comentário
+                            </button>
+                        </div>
+                    </div>
+
+                     <!-- Modal -->
+                     <div class="modal fade" id="reportComent" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div id="myReportModalDialog" class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+                          <div class="modal-content">
+                            <div id="myReportModalBody" class="modal-body">
+                              
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="my-coment-body">
+                    <p class="my-coment-text">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis nec libero a leo mattis imperdiet. Vivamus eleifend ipsum et erat efficitur, non porttitor est ultricies. Nunc mauris est, gravida ac odio eu, vulputate venenatis leo.
+                    </p>
+
+                    <label class="my-coment-read-more">Ler Mais</label>
+                </div>
+            </div>
+        </div>
+    </template>
+
     <section id="myComentSection">
         <div class="container-fluid my-coment-section-container">
             <h1 class="my-coment-section-title">Comentários</h1>
             
-            <div class="row my-coment-row">
-                <div class="col-12 my-seen-coment">
-                    <div class="my-coment-header">
-                        <img src="../../../assets/images/profile_images/teste.jpeg" alt="Foto de Perfil" class="my-coment-profile-picture">
-                        <h1 class="my-coment-user-name">Natan Rock</h1>
-                        <p class="my-coment-publish-date">20/03/2020</p>
-                        <div class="my-rate-stars">
-                            <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"/>
-                            </svg>
-                            <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"/>
-                            </svg>
-                            <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"/>
-                            </svg>
-                            <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"/>
-                            </svg>
-                            <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#AAAAAA" stroke="black" stroke-width="0.2"/>
-                            </svg>
-                        </div>
-
-                        <div class="my-coment-3-dot">
-                            <button class="my-coment-tecnical-option-3-dot">
-                                <div class="service-dot"></div>
-                                <div class="service-dot"></div>
-                                <div class="service-dot"></div>
-                            </button>
-    
-    
-                            <div id="serviceMenuOptions" class="service-dot-options-menu">
-                                <a href="#" class="service-dot-item">Denunciar Serviço</a>
-                            </div>
-                        </div>
-
-                        
-                    </div>
-
-                    <div class="my-coment-body">
-                        <p class="my-coment-text">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis nec libero a leo mattis imperdiet. Vivamus eleifend ipsum et erat efficitur, non porttitor est ultricies. Nunc mauris est, gravida ac odio eu, vulputate venenatis leo.
-                        </p>
-
-                        <label class="my-coment-read-more">Ler mais</label>
-                    </div>
-                    
-                </div>
-            </div>
-
-            <div class="row my-coment-row">
-                <div class="col-12 my-seen-coment">
-                    <div class="my-coment-header">
-                        <img src="../../../assets/images/profile_images/teste.jpeg" alt="Foto de Perfil" class="my-coment-profile-picture">
-                        <h1 class="my-coment-user-name">Natan Rock</h1>
-                        <p class="my-coment-publish-date">20/03/2020</p>
-                        <div class="my-rate-stars">
-                            <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"/>
-                            </svg>
-                            <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"/>
-                            </svg>
-                            <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"/>
-                            </svg>
-                            <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"/>
-                            </svg>
-                            <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#AAAAAA" stroke="black" stroke-width="0.2"/>
-                            </svg>
-                        </div>
-
-                        <div class="my-coment-3-dot">
-                            <button class="my-coment-tecnical-option-3-dot">
-                                <div class="service-dot"></div>
-                                <div class="service-dot"></div>
-                                <div class="service-dot"></div>
-                            </button>
-    
-    
-                            <div id="serviceMenuOptions" class="service-dot-options-menu">
-                                <a href="#" class="service-dot-item">Denunciar Serviço</a>
-                            </div>
-                        </div>
-
-                        
-                    </div>
-
-                    <div class="my-coment-body">
-                        <p class="my-coment-text">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis nec libero a leo mattis imperdiet. Vivamus eleifend ipsum et erat efficitur, non porttitor est ultricies. Nunc mauris est, gravida ac odio eu, vulputate venenatis leo.
-                        </p>
-
-                        <label class="my-coment-read-more">Ler mais</label>
-                    </div>
-                    
-                </div>
-            </div>
-
-            <div class="row my-coment-row">
-                <div class="col-12 my-seen-coment">
-                    <div class="my-coment-header">
-                        <img src="../../../assets/images/profile_images/teste.jpeg" alt="Foto de Perfil" class="my-coment-profile-picture">
-                        <h1 class="my-coment-user-name">Natan Rock</h1>
-                        <p class="my-coment-publish-date">20/03/2020</p>
-                        <div class="my-rate-stars">
-                            <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"/>
-                            </svg>
-                            <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"/>
-                            </svg>
-                            <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"/>
-                            </svg>
-                            <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"/>
-                            </svg>
-                            <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#AAAAAA" stroke="black" stroke-width="0.2"/>
-                            </svg>
-                        </div>
-
-                        <div class="my-coment-3-dot">
-                            <button class="my-coment-tecnical-option-3-dot">
-                                <div class="service-dot"></div>
-                                <div class="service-dot"></div>
-                                <div class="service-dot"></div>
-                            </button>
-    
-    
-                            <div id="serviceMenuOptions" class="service-dot-options-menu">
-                                <a href="#" class="service-dot-item">Denunciar Serviço</a>
-                            </div>
-                        </div>
-
-                        
-                    </div>
-
-                    <div class="my-coment-body">
-                        <p class="my-coment-text">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis nec libero a leo mattis imperdiet. Vivamus eleifend ipsum et erat efficitur, non porttitor est ultricies. Nunc mauris est, gravida ac odio eu, vulputate venenatis leo.
-                        </p>
-
-                        <label class="my-coment-read-more">Ler mais</label>
-                    </div>
-                    
-                </div>
-            </div>
-
-            <div class="row my-coment-row">
-                <div class="col-12 my-seen-coment">
-                    <div class="my-coment-header">
-                        <img src="../../../assets/images/profile_images/teste.jpeg" alt="Foto de Perfil" class="my-coment-profile-picture">
-                        <h1 class="my-coment-user-name">Natan Rock</h1>
-                        <p class="my-coment-publish-date">20/03/2020</p>
-                        <div class="my-rate-stars">
-                            <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"/>
-                            </svg>
-                            <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"/>
-                            </svg>
-                            <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"/>
-                            </svg>
-                            <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"/>
-                            </svg>
-                            <svg class="service-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#AAAAAA" stroke="black" stroke-width="0.2"/>
-                            </svg>
-                        </div>
-
-                        <div class="my-coment-3-dot">
-                            <button class="my-coment-tecnical-option-3-dot">
-                                <div class="service-dot"></div>
-                                <div class="service-dot"></div>
-                                <div class="service-dot"></div>
-                            </button>
-    
-    
-                            <div id="serviceMenuOptions" class="service-dot-options-menu">
-                                <a href="#" class="service-dot-item">Denunciar Serviço</a>
-                            </div>
-                        </div>
-
-                        
-                    </div>
-
-                    <div class="my-coment-body">
-                        <p class="my-coment-text">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis nec libero a leo mattis imperdiet. Vivamus eleifend ipsum et erat efficitur, non porttitor est ultricies. Nunc mauris est, gravida ac odio eu, vulputate venenatis leo.
-                        </p>
-
-                        <label class="my-coment-read-more">Ler mais</label>
-                    </div>
-                    
-                </div>
-            </div>
         </div>
     </section>
 
@@ -687,14 +522,13 @@
             </div>
         </div>
     </footer>
-
  
-    <div class="test">
+    <!--<div class="test">
         <p class="xs">xs</p>
         <p class="sm">sm</p>
         <p class="md">md</p>
         <p class="lg">lg</p>
         <p class="xl">xl</p>
-    </div>
+    </div>-->
 </body>
 </html>

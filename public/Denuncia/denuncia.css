@@ -18,6 +18,10 @@
     margin-bottom: 16px;
 }
 
+.report-alert-div{
+    display: none;
+}
+
 .service-report-title, .person-report-title{
     font-size: 15px;
     line-height: 18px;
