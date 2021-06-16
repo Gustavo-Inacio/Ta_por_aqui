@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 02-Jun-2021 às 10:46
+-- Tempo de geração: 15-Jun-2021 às 22:46
 -- Versão do servidor: 10.4.11-MariaDB
 -- versão do PHP: 7.4.4
 
@@ -24,6 +24,27 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `categorias`
+--
+
+CREATE TABLE `categorias` (
+  `id_categoria` int(11) NOT NULL,
+  `nome_categoria` varchar(45) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `categorias`
+--
+
+INSERT INTO `categorias` (`id_categoria`, `nome_categoria`) VALUES
+(1, 'Serviços domésticos'),
+(2, 'Saúde'),
+(3, 'Assistência técnica'),
+(4, 'programação/design gráfico e audiovisual');
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `comentarios`
 --
 
@@ -32,8 +53,8 @@ CREATE TABLE `comentarios` (
   `id_servico` int(11) NOT NULL,
   `nota` float(3,1) NOT NULL,
   `comentario` text DEFAULT NULL,
-  `data` date DEFAULT curdate()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `data` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -46,9 +67,9 @@ CREATE TABLE `contratos` (
   `id_servico` int(11) NOT NULL,
   `id_cliente` int(11) NOT NULL,
   `id_prestador` int(11) NOT NULL,
-  `data_contrato` date DEFAULT curdate(),
+  `data_contrato` datetime NOT NULL DEFAULT current_timestamp(),
   `status_contrato` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -61,7 +82,7 @@ CREATE TABLE `denuncia_comentario` (
   `id_comentario` int(11) NOT NULL,
   `motivo_denuncia` varchar(20) NOT NULL,
   `comentario_denuncia` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -73,7 +94,7 @@ CREATE TABLE `denuncia_motivo` (
   `id_denuncia_motivo` int(11) NOT NULL,
   `motivo_denuncia` varchar(20) NOT NULL,
   `categoria` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -86,7 +107,7 @@ CREATE TABLE `denuncia_servico` (
   `id_servico` int(11) NOT NULL,
   `motivo_denuncia` int(11) NOT NULL,
   `comentario_denuncia` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -101,19 +122,7 @@ CREATE TABLE `fale_conosco` (
   `empresa` varchar(30) DEFAULT NULL,
   `telefone` varchar(20) NOT NULL,
   `mensagem` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `imagens`
---
-
-CREATE TABLE `imagens` (
-  `id_imagem` int(11) NOT NULL,
-  `id_servico` int(11) NOT NULL,
-  `dir_imagem` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -129,7 +138,7 @@ CREATE TABLE `redes_sociais` (
   `facebook` varchar(30) DEFAULT NULL,
   `linkedin` varchar(30) DEFAULT NULL,
   `tiktok` varchar(30) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -140,15 +149,14 @@ CREATE TABLE `redes_sociais` (
 CREATE TABLE `servico` (
   `id_servico` int(11) NOT NULL,
   `prestador` int(11) NOT NULL,
-  `nome_servico` varchar(30) DEFAULT NULL,
+  `nome_servico` varchar(30) NOT NULL,
   `tipo` int(11) NOT NULL,
-  `categoria` text NOT NULL,
   `descricao` text NOT NULL,
-  `preco` float(5,2) DEFAULT NULL,
-  `data_publicacao` date DEFAULT curdate(),
+  `orcamento` varchar(50) NOT NULL,
+  `data_publicacao` datetime NOT NULL DEFAULT current_timestamp(),
   `nota_media` float(3,1) DEFAULT NULL,
   `status_servico` int(11) DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -160,7 +168,79 @@ CREATE TABLE `servicos_salvos` (
   `id_servico_salvo` int(11) NOT NULL,
   `id_servico` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `servico_categoria`
+--
+
+CREATE TABLE `servico_categoria` (
+  `id_servico_categoria` int(11) NOT NULL,
+  `id_servico` int(11) NOT NULL,
+  `id_categoria` int(11) NOT NULL,
+  `id_subcategoria` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `servico_imagens`
+--
+
+CREATE TABLE `servico_imagens` (
+  `id_imagem` int(11) NOT NULL,
+  `id_servico` int(11) NOT NULL,
+  `dir_imagem` varchar(30) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `subcategorias`
+--
+
+CREATE TABLE `subcategorias` (
+  `id_subcategoria` int(11) NOT NULL,
+  `nome_subcategoria` varchar(30) NOT NULL,
+  `id_categoria` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `subcategorias`
+--
+
+INSERT INTO `subcategorias` (`id_subcategoria`, `nome_subcategoria`, `id_categoria`) VALUES
+(1, 'Diarista', 1),
+(2, 'Serviços para pets', 1),
+(3, 'Limpesa de piscina', 1),
+(4, 'lavadeira', 1),
+(5, 'Babá', 1),
+(6, 'Cozinheira', 1),
+(7, 'Motorista', 1),
+(8, 'Nutricionista', 2),
+(9, 'Dentista', 2),
+(10, 'enfermeira', 2),
+(11, 'Psicóloga', 2),
+(12, 'Terapeuta', 2),
+(13, 'Fisioterapeuta', 2),
+(14, 'Conserto de som', 3),
+(15, 'Conserto de relógio', 3),
+(16, 'Conserto de celular/tablet', 3),
+(17, 'Conserto de notebook', 3),
+(18, 'Conserto de desktop', 3),
+(19, 'Conserto de impressora', 3),
+(20, 'Conserto de eletrodomésticos', 3),
+(21, 'Cabeamento e redes', 3),
+(22, 'Design de logo', 4),
+(23, 'Design UI/UX', 4),
+(24, 'Edição de áudio/vídeo', 4),
+(25, 'Edição de imagens', 4),
+(26, 'Desenvolvimento de games', 4),
+(27, 'Desenvolvimento de sites', 4),
+(28, 'Desenvolvimento de apps', 4),
+(29, 'Animador', 4);
 
 -- --------------------------------------------------------
 
@@ -185,16 +265,22 @@ CREATE TABLE `usuarios` (
   `rua` varchar(40) NOT NULL,
   `numero` varchar(5) NOT NULL,
   `complemento` varchar(20) DEFAULT NULL,
-  `data_entrada` date DEFAULT curdate(),
+  `data_entrada` datetime NOT NULL DEFAULT current_timestamp(),
   `descricao` text DEFAULT NULL,
   `site` varchar(40) DEFAULT NULL,
   `status_usuario` int(11) NOT NULL DEFAULT 0,
   `imagem_perfil` varchar(20) DEFAULT 'no_picture.jpg'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 --
 -- Índices para tabelas despejadas
 --
+
+--
+-- Índices para tabela `categorias`
+--
+ALTER TABLE `categorias`
+  ADD PRIMARY KEY (`id_categoria`);
 
 --
 -- Índices para tabela `comentarios`
@@ -240,13 +326,6 @@ ALTER TABLE `fale_conosco`
   ADD PRIMARY KEY (`id_contato`);
 
 --
--- Índices para tabela `imagens`
---
-ALTER TABLE `imagens`
-  ADD PRIMARY KEY (`id_imagem`),
-  ADD KEY `fk_ServicoImagem` (`id_servico`);
-
---
 -- Índices para tabela `redes_sociais`
 --
 ALTER TABLE `redes_sociais`
@@ -269,6 +348,29 @@ ALTER TABLE `servicos_salvos`
   ADD KEY `fk_SalvoUsuario` (`id_usuario`);
 
 --
+-- Índices para tabela `servico_categoria`
+--
+ALTER TABLE `servico_categoria`
+  ADD PRIMARY KEY (`id_servico_categoria`),
+  ADD KEY `fk_relacao_servico` (`id_servico`),
+  ADD KEY `fk_relacao_categoria` (`id_categoria`),
+  ADD KEY `fk_relacao_subcategoria` (`id_subcategoria`);
+
+--
+-- Índices para tabela `servico_imagens`
+--
+ALTER TABLE `servico_imagens`
+  ADD PRIMARY KEY (`id_imagem`),
+  ADD KEY `fk_ServicoImagem` (`id_servico`);
+
+--
+-- Índices para tabela `subcategorias`
+--
+ALTER TABLE `subcategorias`
+  ADD PRIMARY KEY (`id_subcategoria`),
+  ADD KEY `fk_subcategoria_categoria` (`id_categoria`);
+
+--
 -- Índices para tabela `usuarios`
 --
 ALTER TABLE `usuarios`
@@ -277,6 +379,12 @@ ALTER TABLE `usuarios`
 --
 -- AUTO_INCREMENT de tabelas despejadas
 --
+
+--
+-- AUTO_INCREMENT de tabela `categorias`
+--
+ALTER TABLE `categorias`
+  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `comentarios`
@@ -315,12 +423,6 @@ ALTER TABLE `fale_conosco`
   MODIFY `id_contato` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `imagens`
---
-ALTER TABLE `imagens`
-  MODIFY `id_imagem` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de tabela `redes_sociais`
 --
 ALTER TABLE `redes_sociais`
@@ -339,6 +441,24 @@ ALTER TABLE `servicos_salvos`
   MODIFY `id_servico_salvo` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de tabela `servico_categoria`
+--
+ALTER TABLE `servico_categoria`
+  MODIFY `id_servico_categoria` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `servico_imagens`
+--
+ALTER TABLE `servico_imagens`
+  MODIFY `id_imagem` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `subcategorias`
+--
+ALTER TABLE `subcategorias`
+  MODIFY `id_subcategoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+
+--
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
@@ -349,56 +469,10 @@ ALTER TABLE `usuarios`
 --
 
 --
--- Limitadores para a tabela `comentarios`
+-- Limitadores para a tabela `subcategorias`
 --
-ALTER TABLE `comentarios`
-  ADD CONSTRAINT `fk_ComentarioServico` FOREIGN KEY (`id_servico`) REFERENCES `servico` (`id_servico`);
-
---
--- Limitadores para a tabela `contratos`
---
-ALTER TABLE `contratos`
-  ADD CONSTRAINT `fk_ContratoCliente` FOREIGN KEY (`id_cliente`) REFERENCES `usuarios` (`id_usuario`),
-  ADD CONSTRAINT `fk_ContratoPrestador` FOREIGN KEY (`id_prestador`) REFERENCES `usuarios` (`id_usuario`),
-  ADD CONSTRAINT `fk_ContratoServico` FOREIGN KEY (`id_servico`) REFERENCES `servico` (`id_servico`);
-
---
--- Limitadores para a tabela `denuncia_comentario`
---
-ALTER TABLE `denuncia_comentario`
-  ADD CONSTRAINT `fk_DenunciaComentario` FOREIGN KEY (`id_comentario`) REFERENCES `comentarios` (`id_comentario`);
-
---
--- Limitadores para a tabela `denuncia_servico`
---
-ALTER TABLE `denuncia_servico`
-  ADD CONSTRAINT `fk_DenunciaMotivo` FOREIGN KEY (`motivo_denuncia`) REFERENCES `denuncia_motivo` (`id_denuncia_motivo`),
-  ADD CONSTRAINT `fk_DenunciaServico` FOREIGN KEY (`id_servico`) REFERENCES `servico` (`id_servico`);
-
---
--- Limitadores para a tabela `imagens`
---
-ALTER TABLE `imagens`
-  ADD CONSTRAINT `fk_ServicoImagem` FOREIGN KEY (`id_servico`) REFERENCES `servico` (`id_servico`);
-
---
--- Limitadores para a tabela `redes_sociais`
---
-ALTER TABLE `redes_sociais`
-  ADD CONSTRAINT `fk_RedesocialUsuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`);
-
---
--- Limitadores para a tabela `servico`
---
-ALTER TABLE `servico`
-  ADD CONSTRAINT `fk_PrestadorServico` FOREIGN KEY (`prestador`) REFERENCES `usuarios` (`id_usuario`);
-
---
--- Limitadores para a tabela `servicos_salvos`
---
-ALTER TABLE `servicos_salvos`
-  ADD CONSTRAINT `fk_SalvoServico` FOREIGN KEY (`id_servico`) REFERENCES `servico` (`id_servico`),
-  ADD CONSTRAINT `fk_SalvoUsuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`);
+ALTER TABLE `subcategorias`
+  ADD CONSTRAINT `fk_subcategoria_categoria` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id_categoria`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
