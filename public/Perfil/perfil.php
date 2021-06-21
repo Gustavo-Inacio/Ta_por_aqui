@@ -2,7 +2,7 @@
 session_start();
 
 //caso haja cookies salvos no pc do usuário, ele vai logar com os cookies salvos
-require "../../../logic/entrar_cookie.php";
+require "../../logic/entrar_cookie.php";
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -16,23 +16,23 @@ require "../../../logic/entrar_cookie.php";
 
     <title>Tá por aqui - Perfil nome prestador</title>
 
-    <link rel="stylesheet" href="../../../assets/bootstrap/bootstrap-4.5.3-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../../assets/global/globalStyles.css">
-    <link rel="stylesheet" href="../perfil.css">
+    <link rel="stylesheet" href="../../assets/bootstrap/bootstrap-4.5.3-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../assets/global/globalStyles.css">
+    <link rel="stylesheet" href="perfil.css">
 
-    <script src="../../../assets/bootstrap/jquery-3.5.1.slim.min.js" defer></script>
-    <script src="../../../assets/bootstrap/popper.min.js" defer></script>
-    <script src="../../../assets/bootstrap/bootstrap-4.5.3-dist/js/bootstrap.min.js" defer></script>
+    <script src="../../assets/bootstrap/jquery-3.5.1.slim.min.js" defer></script>
+    <script src="../../assets/bootstrap/popper.min.js" defer></script>
+    <script src="../../assets/bootstrap/bootstrap-4.5.3-dist/js/bootstrap.min.js" defer></script>
 
-    <script src="../../../assets/global/globalScripts.js" defer></script>
+    <script src="../../assets/global/globalScripts.js" defer></script>
 </head>
 
 <body>
     <!--NavBar Comeco-->
     <div id="myMainTopNavbarNavBackdrop" class=""></div>
     <nav id="myMainTopNavbar" class="navbar navbar-expand-md">
-        <a href="../../Home/home.php" class="navbar-brand">
-            <img src="../../../assets/images/dumb-brand.png" alt="Tá por aqui" class="my-brand-img">
+        <a href="../Home/home.php" class="navbar-brand">
+            <img src="../../assets/images/dumb-brand.png" alt="Tá por aqui" class="my-brand-img">
         </a>
 
         <button id="myMainTopNavbarToggler" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myMainTopNavbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,41 +46,37 @@ require "../../../logic/entrar_cookie.php";
         <div id="myMainTopNavbarNav" class="collapse navbar-collapse">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a href="../../Home/home.php" class="nav-link">Home</a>
+                    <a href="../Home/home.php" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../../EncontrarProfissional/Listagem/listagem.php" class="nav-link">Encontre um pofissional</a>
+                    <a href="../EncontrarProfissional/Listagem/listagem.php" class="nav-link">Encontre um pofissional</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../../Artigos/artigos.html" class="nav-link">Artigos</a>      
+                    <a href="../Artigos/artigos.html" class="nav-link">Artigos</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../../Contato/contato.html" class="nav-link">Fale conosco</a>
+                    <a href="../Contato/contato.html" class="nav-link">Fale conosco</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
+                    <a href="../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../../Chat/chat.html" class="nav-link">Chat</a>
+                    <a href="../Chat/chat.html" class="nav-link">Chat</a>
                 </li>
                 <? if( empty($_SESSION) ){ ?>
                     <li class="nav-item">
-                        <a href="../../Entrar/login.php" class="nav-link">Entrar/cadastrar</a>
+                        <a href="../Entrar/login.php" class="nav-link">Entrar/cadastrar</a>
                     </li>
                 <?}?>
             </ul>
 
             <? if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSION['senha']) && isset($_SESSION['classificacao']) ) {?>
                 <div class="dropdown">
-                    <img src="../../../assets/images/profile_images/<?=$_SESSION['imagemPerfil']?>" alt="imagem de perfil" id="profileMenu" class="img-fluid" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="../../assets/images/profile_images/<?=$_SESSION['imagemPerfil']?>" alt="imagem de perfil" id="profileMenu" class="img-fluid" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
                     <div class="dropdown-menu" aria-labelledby="profileMenu">
-                        <? if($_SESSION['classificacao'] == 0) {?>
-                            <a class="dropdown-item" href="../../Perfil/Cliente/meu_perfil.php">Perfil</a>
-                        <? }else if($_SESSION['classificacao'] == 1 || $_SESSION['classificacao'] == 2) {?>
-                            <a class="dropdown-item" href="../../Perfil/Prestador/meu_perfil.php">Perfil</a>
-                        <?}?>
-                        <a class="dropdown-item text-danger" href="../../../logic/entrar_logoff.php">Sair</a>
+                        <a class="dropdown-item" href="meu_perfil.php">Perfil</a>
+                        <a class="dropdown-item text-danger" href="../../logic/entrar_logoff.php">Sair</a>
                     </div>
                 </div>
             <? } ?>
@@ -94,8 +90,8 @@ require "../../../logic/entrar_cookie.php";
         <div id="profilePictureArea" class="col-md-4">
             <h1>Foto de perfil</h1>
             <br>
-            <img src="../../../assets/images/profile_images/teste.jpeg" alt="Imagem de perfil" class="img-fluid"
-                id="profileImage">
+            <img src="../../assets/images/profile_images/teste.jpeg" alt="Imagem de perfil" class="img-fluid"
+                 id="profileImage">
             <br>
             <h3>Avaliação</h3>
             <p> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i
@@ -104,9 +100,7 @@ require "../../../logic/entrar_cookie.php";
 
         <div id="editProfileInformation" class="col-md-8">
             <h1 class="formTitle d-inline">Perfil</h1>
-            <form>
                 <div id="myForms" class="row">
-
                     <div class="col-md-6">
                         <label for="userName">Nome</label> <br>
                         <input type="text" class="form-control" name="userName" id="userName" class="mb-4" readonly
@@ -133,9 +127,8 @@ require "../../../logic/entrar_cookie.php";
 
                         <br>
 
-                        <label for="userSite">Site</label> <br>
-                        <input type="text" class="form-control" name="userSite" id="userSite" class="mb-4" readonly
-                            value="https://www.site.com.br">
+                        <label for="showUserSite">Site</label> <br>
+                        <div id="showUserSite"><a href="https://www.google.com">https://www.google.com</a></div>
 
                         <br>
 
@@ -145,27 +138,16 @@ require "../../../logic/entrar_cookie.php";
                     </div>
 
                 </div>
-            </form>
-
         </div>
     </section>
     <!-- Cartão do perfil fim -->
 
-    <br>
-
     <!-- Div de redes sociais -->
-
     <section id="socialMedia">
         <div class="container">
 
             <div class="myContent">
                 <h1>Redes sociais</h1>
-
-                <br>
-
-                <div class="socialBorder"></div>
-
-                <br>
 
                 <form>
                     <div class="row">
@@ -189,21 +171,15 @@ require "../../../logic/entrar_cookie.php";
 
         </div>
     </section>
-
     <!-- Div de redes sociais fim-->
 
-    <br>
-
+<? if($_SESSION['classificacao'] == 1 || $_SESSION['classificacao'] == 2) { ?>
     <!-- Div serviços disponibilizados -->
     <section id="availableServices">
         <div class="container">
 
             <div class="myContent">
                 <h1>Serviços disponibilizados</h1>
-                <br>
-                <div class="serviceBorder"></div>
-
-                <br>
 
                 <div class="row" id="serviceCards">
                     <div class="col-lg-4 col-md-6 mt-3">
@@ -257,30 +233,22 @@ require "../../../logic/entrar_cookie.php";
                         </div>
                     </div>
                 </div>
-
-                <br> <br>
-
-                <div class="serviceBorder"></div>
-
             </div>
-
-
         </div>
     </section>
 
     <!-- Fim serviços disponibilizados -->
-
-    <br>
+<? } ?>
 
     <!-- footer -->
     <footer id="myMainFooter">
         <div id="myMainFooterContainer" class="container-fluid">
             <div class="my-main-footer-logo">
-                <img src="../../../assets/images/dumb-footer.png" alt="Tá por Aqui" class="my-footer-img">
+                <img src="../../assets/images/dumb-footer.png" alt="Tá por Aqui" class="my-footer-img">
             </div>
             <div class="my-main-footer-institutional">
                 <p>INSTITUCIONAL</p>
-                <a href="../../SobreNos/sobreNos.php">Quem Somos</a> <br>
+                <a href="../SobreNos/sobreNos.php">Quem Somos</a> <br>
                 <a href="#">Faça uma doação</a> <br>
                 <a href="#">Trabalhe conosco</a> <br>
             </div>

@@ -20,16 +20,16 @@ if($_SESSION['classificacao'] == 0){
 
     <title>Tá por aqui - Meu perfil</title>
 
-    <link rel="stylesheet" href="../../../../assets/bootstrap/bootstrap-4.5.3-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../../../assets/global/globalStyles.css">
+    <link rel="stylesheet" href="../../../assets/bootstrap/bootstrap-4.5.3-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../assets/global/globalStyles.css">
     <link rel="stylesheet" href="criar_servico.css">
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-    <script src="../../../../assets/bootstrap/popper.min.js" defer></script>
-    <script src="../../../../assets/bootstrap/bootstrap-4.5.3-dist/js/bootstrap.min.js" defer></script>
-    <script src="../../../../assets/jQueyMask/jquery.mask.js" defer></script>
+    <script src="../../../assets/bootstrap/popper.min.js" defer></script>
+    <script src="../../../assets/bootstrap/bootstrap-4.5.3-dist/js/bootstrap.min.js" defer></script>
+    <script src="../../../assets/jQueyMask/jquery.mask.js" defer></script>
 
-    <script src="../../../../assets/global/globalScripts.js" defer></script>
+    <script src="../../../assets/global/globalScripts.js" defer></script>
 
     <script src="criar_servico.js" defer></script>
 </head>
@@ -38,8 +38,8 @@ if($_SESSION['classificacao'] == 0){
 <!--NavBar Comeco-->
 <div id="myMainTopNavbarNavBackdrop" class=""></div>
 <nav id="myMainTopNavbar" class="navbar navbar-expand-md">
-    <a href="../../../Home/home.php" class="navbar-brand">
-        <img src="../../../../assets/images/dumb-brand.png" alt="Tá por aqui" class="my-brand-img">
+    <a href="../../Home/home.php" class="navbar-brand">
+        <img src="../../../assets/images/dumb-brand.png" alt="Tá por aqui" class="my-brand-img">
     </a>
 
     <button id="myMainTopNavbarToggler" class="navbar-toggler" type="button" data-toggle="collapse"
@@ -55,20 +55,20 @@ if($_SESSION['classificacao'] == 0){
     <div id="myMainTopNavbarNav" class="collapse navbar-collapse">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a href="../../../Home/home.php" class="nav-link">Home</a>
+                <a href="../../Home/home.php" class="nav-link">Home</a>
             </li>
             <li class="nav-item">
-                <a href="../../../EncontrarProfissional/Listagem/listagem.php" class="nav-link">Encontre um
+                <a href="../../EncontrarProfissional/Listagem/listagem.php" class="nav-link">Encontre um
                     pofissional</a>
             </li>
             <li class="nav-item">
                 <a href="../../../Artigos/artigos.html" class="nav-link">Artigos</a>
             </li>
             <li class="nav-item">
-                <a href="../../../Contato/contato.html" class="nav-link">Fale conosco</a>
+                <a href="../../Contato/contato.html" class="nav-link">Fale conosco</a>
             </li>
             <li class="nav-item">
-                <a href="../../../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
+                <a href="../../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
             </li>
             <li class="nav-item">
                 <a href="../../../Chat/chat.html" class="nav-link">Chat</a>
@@ -81,7 +81,7 @@ if($_SESSION['classificacao'] == 0){
 
             <div class="dropdown-menu" aria-labelledby="profileMenu">
                 <a class="dropdown-item" href="../meu_perfil.php">Perfil</a>
-                <a class="dropdown-item text-danger" href="../../../../logic/entrar_logoff.php">Sair</a>
+                <a class="dropdown-item text-danger" href="../../../logic/entrar_logoff.php">Sair</a>
             </div>
         </div>
     </div>
@@ -98,7 +98,7 @@ if($_SESSION['classificacao'] == 0){
                 </button>
             </div>
         <? } ?>
-        <form enctype="multipart/form-data" action="../../../../logic/perfil_criar_servico.php" method="POST" id="serviceForm">
+        <form enctype="multipart/form-data" action="../../../logic/perfil_criar_servico.php" method="POST" id="serviceForm">
 
             <!-- 1. Etapa de criação do serviço -->
             <div class="row stageContent">
@@ -333,11 +333,11 @@ if($_SESSION['classificacao'] == 0){
 <footer id="myMainFooter">
     <div id="myMainFooterContainer" class="container-fluid">
         <div class="my-main-footer-logo">
-            <img src="../../../../assets/images/dumb-footer.png" alt="Tá por Aqui" class="my-footer-img">
+            <img src="../../../assets/images/dumb-footer.png" alt="Tá por Aqui" class="my-footer-img">
         </div>
         <div class="my-main-footer-institutional">
             <p>INSTITUCIONAL</p>
-            <a href="../../../SobreNos/sobreNos.php">Quem Somos</a> <br>
+            <a href="../../SobreNos/sobreNos.php">Quem Somos</a> <br>
             <a href="#">Faça uma doação</a> <br>
             <a href="#">Trabalhe conosco</a> <br>
         </div>
