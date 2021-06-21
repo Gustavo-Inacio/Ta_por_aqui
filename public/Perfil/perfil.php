@@ -3,7 +3,42 @@ session_start();
 
 //caso haja cookies salvos no pc do usuário, ele vai logar com os cookies salvos
 require "../../logic/entrar_cookie.php";
+
+//pegando as informações do perfil visualizado
+require "../../logic/DbConnection.php";
+$con = new DbConnection();
+$con = $con->connect();
+
+//Puxando os dados do meu perfil do banco de dados
+if(isset($_GET['id_usuario'])) {
+    $query = "SELECT * FROM usuarios where id_usuario = " . $_GET['id_usuario'];
+    $stmt = $con->query($query);
+    $user = $stmt->fetch(PDO::FETCH_OBJ);
+}
+
+if( !isset($_GET['id_usuario']) || !isset($user->id_usuario) ){
 ?>
+
+<!-- HTML da mensagem de erro de usuário não encontrado-->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Usuário não encontrado</title>
+</head>
+<body>
+    <div class="container text-center">
+        <h1>Usuário não foi encontrado</h1>
+        <p>Ops! Parece que o usuário que você está procurando não existe, ou você informou a url do usuário errada</p>
+    </div>
+</body>
+</html>
+<? } else { ?>
+
+<!-- HTML normal -->
 <!DOCTYPE html>
 <html lang="pt">
 
@@ -14,7 +49,7 @@ require "../../logic/entrar_cookie.php";
 
     <script src="https://kit.fontawesome.com/2a19bde8ca.js" crossorigin="anonymous" defer></script>
 
-    <title>Tá por aqui - Perfil nome prestador</title>
+    <title>Tá por aqui - <?=$user->nome?> <?=$user->sobrenome?> </title>
 
     <link rel="stylesheet" href="../../assets/bootstrap/bootstrap-4.5.3-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../assets/global/globalStyles.css">
@@ -90,7 +125,7 @@ require "../../logic/entrar_cookie.php";
         <div id="profilePictureArea" class="col-md-4">
             <h1>Foto de perfil</h1>
             <br>
-            <img src="../../assets/images/profile_images/teste.jpeg" alt="Imagem de perfil" class="img-fluid"
+            <img src="../../assets/images/profile_images/<?=$user->imagem_perfil?>" alt="Imagem de perfil" class="rounded-image"
                  id="profileImage">
             <br>
             <h3>Avaliação</h3>
@@ -104,37 +139,39 @@ require "../../logic/entrar_cookie.php";
                     <div class="col-md-6">
                         <label for="userName">Nome</label> <br>
                         <input type="text" class="form-control" name="userName" id="userName" class="mb-4" readonly
-                            value="Natan">
+                            value="<?=$user->nome?>">
 
                         <br>
 
                         <label for="userLastName">Sobrenome</label> <br>
                         <input type="text" class="form-control" name="userLastName" id="userLastName" class="mb-4"
-                            readonly value="Barbosa">
+                            readonly value="<?=$user->sobrenome?>">
 
                         <br>
 
                         <label for="userCell">Celular</label> <br>
                         <input type="text" class="form-control" name="userCell" id="userCell" class="mb-4" readonly
-                            value="(11)999999999">
+                            value="<?=$user->telefone?>">
 
                     </div>
 
                     <div class="col-md-6 mt-3 mt-md-0">
                         <label for="userEmail">Email</label> <br>
                         <input type="text" class="form-control" name="userEmail" id="userEmail" class="mb-4" readonly
-                            value="exemplo@gmail.com">
+                            value="<?=$user->email?>">
 
                         <br>
 
-                        <label for="showUserSite">Site</label> <br>
-                        <div id="showUserSite"><a href="https://www.google.com">https://www.google.com</a></div>
+                        <?if( $user->site != "" ) {?>
+                            <label for="showUserSite">Site</label> <br>
+                            <div id="showUserSite"><a href="<?=$user->site?>"><?$user->site?></a></div>
 
-                        <br>
+                            <br>
+                        <?}?>
 
                         <label for="userDescription">Descrição</label> <br>
-                        <textarea name="userDescription" class="form-control" id="userDescription" class="mb-4"
-                            readonly> Esse é um exemplo de descrição </textarea>
+                        <textarea name="userDescription" class="form-control" id="userDescription" class="mb-4" placeholder="O usuário não colocou nenhuma descrição"
+                            readonly><?=$user->descricao?></textarea>
                     </div>
 
                 </div>
@@ -173,7 +210,7 @@ require "../../logic/entrar_cookie.php";
     </section>
     <!-- Div de redes sociais fim-->
 
-<? if($_SESSION['classificacao'] == 1 || $_SESSION['classificacao'] == 2) { ?>
+<? if($user->classificacao == 1 || $user->classificacao == 2) { ?>
     <!-- Div serviços disponibilizados -->
     <section id="availableServices">
         <div class="container">
@@ -267,3 +304,4 @@ require "../../logic/entrar_cookie.php";
 </body>
 
 </html>
+<? } ?>
