@@ -8,20 +8,26 @@ $con = $con->connect();
 //Validando possíveis problemas que o banco de dados pode não capturar
 #Quantidade de categorias
 if( count($_POST['subcategoria']) > 3 || count($_POST['subcategoria']) === 0 ){
-    header('Location: ../public/Perfil/Prestador/CriacaoServico/criar_servico.php?erro=quantidade%20invalida%20de%20categorias');
+    header('Location: ../public/Perfil/CriacaoServico/criar_servico.php?erro=quantidade%20invalida%20de%20categorias');
 }
 
 #Verificando os arquivos enviados
 if ($_FILES['imagens']['name'][0] !== ""){
     //imagens > 4
     if( count($_FILES['imagens']['name']) > 4 ){
-        header('Location: ../public/Perfil/Prestador/CriacaoServico/criar_servico.php?erro=Excedeu%20o%20numero%20de%20imagens%20permitidas');
+        header('Location: ../public/Perfil/CriacaoServico/criar_servico.php?erro=Excedeu%20o%20numero%20de%20imagens%20permitidas');
     }
 
-    //não é imagem
-    foreach ($_FILES['imagens']['type'] as $value){
+    //não é imagem / imagem grande demais
+    foreach ($_FILES['imagens']['type'] as $i => $value){
         if ($value !== "image/jpeg" && $value !== "image/jpg" && $value !== "image/png"){
-            header('Location: ../public/Perfil/Prestador/CriacaoServico/criar_servico.php?erro=Foram%20enviados%20arquivos%20que%20nao%20sao%20imagens');
+            header('Location: ../public/Perfil/CriacaoServico/criar_servico.php?erro=Foram%20enviados%20arquivos%20que%20nao%20sao%20imagens');
+            exit();
+        }
+
+        if($_FILES['imagens']['size'][$i] > 2097152){
+            header('Location:../public/Perfil/CriacaoServico/criar_servico.php?erro=Envie%20arquivos%20de%20no%20maximo%202MB');
+            exit();
         }
     }
 }
@@ -87,4 +93,4 @@ foreach($_FILES['imagens']['tmp_name'] as $i => $tmpFile){
 }
 
 //redirecionando
-header('Location: ../public/Perfil/Prestador/meu_perfil.php');
+header('Location: ../public/Perfil/meu_perfil.php');
