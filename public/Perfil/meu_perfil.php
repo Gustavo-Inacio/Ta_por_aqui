@@ -34,6 +34,7 @@ $user = $stmt->fetch(PDO::FETCH_OBJ);
     <script src="../../assets/bootstrap/jquery-3.5.1.slim.min.js" defer></script>
     <script src="../../assets/bootstrap/popper.min.js" defer></script>
     <script src="../../assets/bootstrap/bootstrap-4.5.3-dist/js/bootstrap.min.js" defer></script>
+    <script src="../../assets/jQueyMask/jquery.mask.js" defer></script>
 
     <script src="../../assets/global/globalScripts.js" defer></script>
 
@@ -102,6 +103,17 @@ $user = $stmt->fetch(PDO::FETCH_OBJ);
             <img src="../../assets/images/profile_images/<?=$user->imagem_perfil?>" alt="Imagem de perfil" class="rounded-image"
                  id="profileImage">
             <br>
+
+            <!-- Alerta fechável de erro -->
+            <? if(isset($_GET['erro'])) {?>
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <strong>Erro!</strong> <?= $_GET['erro'] ?>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            <?}?>
+
             <!-- Botão menu de alterar foto -->
             <button type="button" id="profilePicMenu" data-toggle="modal" data-target="#profilePicMenuModal"> <i class="fas fa-pen"></i> Editar foto </button>
 
@@ -139,7 +151,7 @@ $user = $stmt->fetch(PDO::FETCH_OBJ);
 
                             <hr class="removeImageItem">
 
-                            <button id="removeProfilePic" class="removeImageItem btn-block" onclick="confirmRemoveImage('../../logic/perfil_remover_imagem.php?id_usuario=<?=$_SESSION['idUsuario']?>')"> <i class="fas fa-trash"></i> Remover foto atual</button>
+                            <button id="removeProfilePic" class="removeImageItem btn-block" onclick="confirmRemoveImage('../../logic/perfil_remover_imagem.php')"> <i class="fas fa-trash"></i> Remover foto atual</button>
                         </div>
                     </div>
                 </div>
@@ -196,7 +208,7 @@ $user = $stmt->fetch(PDO::FETCH_OBJ);
                         <label for="userSite">Site</label> <br>
                         <input type="text" class="form-control d-none" name="userSite" id="userSite" class="mb-4" readonly placeholder="Caso tenha, insira seu site ou porfólio online"
                             value="<?=$user->site?>">
-                        <div id="showUserSite"><a href="<?=$user->site?>"><?=$user->site?></a></div>
+                        <div id="showUserSite"><a href="<?=$user->site?>" target="_blank"><?=$user->site?></a></div>
 
                         <br>
 
@@ -214,7 +226,7 @@ $user = $stmt->fetch(PDO::FETCH_OBJ);
 
                     <div class="col-lg-6 mb-3 d-lg-flex flex-row-reverse" id="divButtonSave">
                         <button type="submit" id="buttonSave" class="myDisabled" disabled> Salvar </button> &nbsp;
-                        <button type="button" id="buttonCancel" class="myDisabled" disabled onclick="location.reload()">
+                        <button type="button" id="buttonCancel" class="myDisabled mt-2 mt-md-0" disabled onclick="location.reload()">
                             Cancelar </button>
                     </div>
                 </div>

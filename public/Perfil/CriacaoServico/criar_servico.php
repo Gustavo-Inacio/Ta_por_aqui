@@ -76,7 +76,7 @@ if($_SESSION['classificacao'] == 0){
         </ul>
 
         <div class="dropdown">
-            <img src="../../../../assets/images/profile_images/<?=$_SESSION['imagemPerfil']?>" alt="imagem de perfil" id="profileMenu"
+            <img src="../../../assets/images/profile_images/<?=$_SESSION['imagemPerfil']?>" alt="imagem de perfil" id="profileMenu"
                  class="img-fluid" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
             <div class="dropdown-menu" aria-labelledby="profileMenu">

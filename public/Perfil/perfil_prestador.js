@@ -43,6 +43,9 @@ function changeButtonColor(){
 
     description.removeAttribute('readonly')
     description.style.color = 'black'
+
+    //aplicando mascara jQuey no input celular
+    $(cell).mask('(00) 00000-0000');
 }
 
 //editar o nome das redes sociais
