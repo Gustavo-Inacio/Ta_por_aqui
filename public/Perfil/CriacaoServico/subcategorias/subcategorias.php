@@ -1,5 +1,5 @@
 <?php
-    require "../../../../../logic/DbConnection.php";
+    require "../../../../logic/DbConnection.php";
     $con = new DbConnection();
     $con = $con->connect();
 
