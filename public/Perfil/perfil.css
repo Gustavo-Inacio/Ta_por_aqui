@@ -48,11 +48,12 @@ body{
 }
 
 .rounded-image{
-    width: 128px;
-    height: 128px;
-    background-size: cover;
-    display: block;
-    border-radius: 100px;
+    min-width: 200px;
+    min-height: 200px;
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
 #profilePicMenu{
@@ -248,23 +249,47 @@ body{
 }
 
 #socialMedia i{
-    text-align: center;
     font-size: 54px;
     color: #45E586;
 }
 
-#socialMedia p{
-    text-align: center;
-    border: 1px solid white;
+#socialMedia .ativa:hover{
     color: white;
-    padding: 5px 10px;
+}
+
+.mediaLink{
+    color: white;
+}
+
+.ativa:hover{
+    color: white;
+}
+
+.inativa{
+    color: gray;
+}
+
+i.inativa{
+    color: gray;
+}
+
+.inativa:hover{
+    color: gray;
+    text-decoration: none;
+}
+
+.socialInput{
+    text-align: center !important;
+    color: white !important;
+    border: 1px solid white !important;
+    max-width: 250px;
 }
 
 #socialMediaEdit{
     border: 1px solid #45E586;
     padding: 5px 50px;
     background: #45E586;
-    box-shadow: 0px 1px 20px rgba(69, 229, 134, 0.25);
+    box-shadow: 0 1px 20px rgba(69, 229, 134, 0.25);
     border-radius: 32px;
     font-weight: bold;
 }
@@ -511,4 +536,24 @@ body{
 
 }
 
-/*Página de usuário não encontrado*/
+@media (min-width: 768px) and (max-width: 991.98px) {
+    #profilePictureArea {
+        border-radius: 0 0 170px 0;
+    }
+}
+
+@media (max-width: 575.98px) {
+    #profilePictureArea {
+        border-radius: 0;
+    }
+
+    #addService{
+        color: white;
+        border: 1px solid #CDCDCD;
+        background: #CDCDCD;
+        padding: 10px 15px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+        border-radius: 32px;
+        font-weight: bold;
+    }
+}

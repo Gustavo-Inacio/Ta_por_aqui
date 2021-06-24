@@ -41,6 +41,12 @@ if( $_POST['userAdressComplement'] !== "" ){
 }
 $stmt->execute();
 
+//Definindo as redes sociais do usuário
+$query2 = "INSERT INTO usuario_redes_sociais(id_usuario, rede_social) values (:ultimo_id_usuario, 'instagram'), (:ultimo_id_usuario, 'facebook'), (:ultimo_id_usuario, 'twitter'), (:ultimo_id_usuario, 'linkedin')";
+$stmt = $con->prepare($query2);
+$stmt->bindValue(":ultimo_id_usuario", $con->lastInsertId());
+$stmt->execute();
+
 //apagando session do código de confirmação
 session_start();
 unset($_SESSION['confirmCode']);
