@@ -50,21 +50,106 @@ function changeButtonColor(){
 
 //editar o nome das redes sociais
 function editaRedes(){
-    let instagram = document.getElementById('instagram')
-    let facebook = document.getElementById('facebook')
-    let twitter = document.getElementById('twitter')
-    let botaoEditar = document.getElementById('socialMediaEdit')
-    let botaoSalvar = document.getElementById('btnSalvarRedes')
-    let botaoCancelar = document.getElementById('btnCancelarRedes')
+    //escondendo links
+    $('.mediaLink').each( (index, link) => {
+        link.classList.add('d-none')
+    } )
 
-    botaoEditar.className = 'd-none'
-    botaoSalvar.classList.remove('d-none')
-    botaoCancelar.classList.remove('d-none')
+    //exibindo os inputs de edição
+    $('.socialInput').each( (index, input) => {
+        input.classList.remove('d-none')
+    } )
 
-    instagram.removeAttribute('readonly')
-    facebook.removeAttribute('readonly')
-    twitter.removeAttribute('readonly')
-    instagram.focus()
+     //exibindo dica
+    document.getElementById("obsRedeSocias").classList.remove('d-none')
+
+    //mostrando botões
+    document.getElementById('socialMediaEdit').className = 'd-none'
+    document.getElementById('btnSalvarRedes').classList.remove('d-none')
+    document.getElementById('btnCancelarRedes').classList.remove('d-none')
+
+
+}
+
+function verifySocialMedia() {
+    let msgErro = ""
+    let valido = true
+    //Verificação dos campos do instagram
+    if( document.getElementsByClassName('instagram')[0].value !== "" || document.getElementsByClassName('instagram')[1].value !== "" ){
+        //verifica se é uma url válida
+        if( document.getElementsByClassName('instagram')[1].value.indexOf("https://") === -1 ){
+            valido = false
+            msgErro = "Digite um link válido"
+        }
+
+        //verifica se ambos campos do instagram estão digitados caso 1 esteja digitado
+        $('.instagram').each( (index, input) => {
+            if(input.value === ""){
+                valido = false
+                msgErro = "Preencha os dois campos da rede social, ou deixe ambos em branco."
+            }
+        } )
+    }
+
+    //Verificação dos campos do facebook
+    if( document.getElementsByClassName('facebook')[0].value !== "" || document.getElementsByClassName('facebook')[1].value !== "" ){
+        //verifica se é uma url válida
+        if( document.getElementsByClassName('facebook')[1].value.indexOf("https://") === -1 ){
+            valido = false
+            msgErro = "Digite um link válido"
+        }
+
+        //verifica se ambos campos do facebook estão digitados caso 1 esteja digitado
+        $('.facebook').each( (index, input) => {
+            if(input.value === ""){
+                valido = false
+                msgErro = "Preencha os dois campos da rede social, ou deixe ambos em branco."
+            }
+        } )
+    }
+
+    //Verificação dos campos do twitter
+    if( document.getElementsByClassName('twitter')[0].value !== "" || document.getElementsByClassName('twitter')[1].value !== "" ){
+        //verifica se é uma url válida
+        if( document.getElementsByClassName('twitter')[1].value.indexOf("https://") === -1 ){
+            valido = false
+            msgErro = "Digite um link válido"
+        }
+
+        //verifica se ambos campos do twitter estão digitados caso 1 esteja digitado
+        $('.twitter').each( (index, input) => {
+            if(input.value === ""){
+                valido = false
+                msgErro = "Preencha os dois campos da rede social, ou deixe ambos em branco."
+            }
+        } )
+    }
+
+    //Verificação dos campos do linkedin
+    if( document.getElementsByClassName('linkedin')[0].value !== "" || document.getElementsByClassName('linkedin')[1].value !== "" ){
+        //verifica se é uma url válida
+        if( document.getElementsByClassName('linkedin')[1].value.indexOf("https://") === -1 ){
+            valido = false
+            msgErro = "Digite um link válido"
+        }
+
+        //verifica se ambos campos do linkedin estão digitados caso 1 esteja digitado
+        $('.linkedin').each( (index, input) => {
+            if(input.value === ""){
+                valido = false
+                msgErro = "Preencha os dois campos da rede social, ou deixe ambos em branco."
+            }
+        } )
+    }
+
+    if(valido){
+        //document.getElementById('socialMediaForm').submit()
+        document.getElementById('socialMediaForm').submit()
+    } else {
+        document.getElementById('socialMediaMsgError').classList.remove('d-none')
+        document.getElementById('socialMediaMsgError').classList.add('d-block')
+        document.getElementById('socialMediaMsgError').innerText = msgErro
+    }
 }
 
 //editar foto de perfil
@@ -100,7 +185,7 @@ function editprofileImage(img) {
         document.getElementById('NewProfileImageButtons').classList.add('d-none')
     } else {
         //TUDO CERTO
-        msg.innerText = "A imagem mostrada a seguir são apenas prévias (os tamanhos podem estar distorcidos). Os tamanhos originais da imagem são mantidos."
+        msg.innerText = "A imagem a seguir é uma prévia de como será mostrada su foto de perfil."
         msg.className = "text-info"
 
         //limpar imagens caso haja

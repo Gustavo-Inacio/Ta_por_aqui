@@ -271,9 +271,11 @@ if($_SESSION['classificacao'] == 0){
 
                         <!-- exibir preview das imagens -->
                         <small class="text-info d-none" id="obsImgPreview">As imagens mostradas a seguir são apenas prévias (os tamanhos podem estar distorcidos). Os tamanhos originais das imagens são mantidos.</small>
-                        <div id="divImgPreview" class="row">
+                        <div id="divImgPreview">
 
                         </div>
+
+                        <div style="clear: both"></div>
 
                         <!-- botão de excluir imagens -->
                         <button type="button" class="btn btn-danger d-none" id="deleteImages" onclick="removePreviewImages()"> <i class="fas fa-trash"></i> Excluir imagens </button>

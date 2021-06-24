@@ -54,9 +54,10 @@ body{
 }
 
 .imgPreview{
-    border: 1px solid #ddd;
+    float: left;
+    width: 200px;
+    border: 3px solid #ddd;
     border-radius: 4px;
-    padding: 5px;
 }
 
 /*linhas que separam*/
