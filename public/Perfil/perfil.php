@@ -14,6 +14,11 @@ if(isset($_GET['id'])) {
     $query = "SELECT * FROM usuarios where id_usuario = " . $_GET['id'];
     $stmt = $con->query($query);
     $user = $stmt->fetch(PDO::FETCH_OBJ);
+
+    //puxando as redes sociais do usuário
+    $query2 = "SELECT rede_social, nome_usuario, link_perfil FROM usuario_redes_sociais WHERE id_usuario = " . $_GET['id'];
+    $stmt = $con->query($query2);
+    $userSocialMedia = $stmt->fetchAll(PDO::FETCH_OBJ);
 }
 
 if( !isset($_GET['id']) || !isset($user->id_usuario) ){
@@ -312,20 +317,36 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
 
                 <form>
                     <div class="row">
-                        <div class="col-md-4 mt-3">
-                            <i class="fab fa-instagram"></i> <br>
-                            <input type="text" name="instagram" id="instagram" class="form-control border text-center text-white" value="@Natan" readonly> 
-                        </div>
+                        <?
+                        //contar quantas redes sociais estão preenchidas
+                        $columns = 12;
+                        $divider = 4;
+                        foreach ($userSocialMedia as $media) {
+                            if($media->nome_usuario === null){
+                                $divider -= 1;
+                            }
+                        }
 
-                        <div class="col-md-4 mt-3">
-                            <i class="fab fa-facebook-f"></i> <br>
-                            <input type="text" name="facebook" id="facebook" class="form-control border text-center text-white" value="Natan Barbosa" readonly> 
-                        </div>
+                        $column_distribution = $divider !== 0 ? $columns / $divider : 0;
+                        if ($column_distribution !== 0){
+                            foreach ($userSocialMedia as $media) {
 
-                        <div class="col-md-4 mt-3">
-                            <i class="fab fa-twitter"></i> <br>
-                            <input type="text" name="twitter" id="twitter" class="form-control border text-center text-white" value="@Natan" readonly> 
-                        </div>
+                                if($media->nome_usuario === null){
+                                    continue;
+                                }
+                            ?>
+                                <div class="<?=$column_distribution === 12 ? "col-12" : "col-6"?> col-md-<?=$column_distribution?> mt-3 d-flex flex-column align-items-center">
+                                    <a target="_blank" href="<?=$media->link_perfil?>"><i class="mb-3 fab fa-<?=$media->rede_social?> ativa"></i></a>
+                                    <a target="_blank" href="<?=$media->link_perfil?>" class="mediaLink ativa"><?=$media->nome_usuario?></a>
+                                </div>
+                            <?}
+                        } else {?>
+                            <div class="col-12 mt-3">
+                                <p class="text-light">
+                                    O usuário não adicionou nenhuma rede social até o momento
+                                </p>
+                            </div>
+                        <?}?>
                     </div>
                 </form>
             </div>

@@ -92,7 +92,7 @@ function verifyImage(inputImage){
                     //criando o elemento html
                     let tagImg = document.createElement('img')
                     tagImg.src = e.target.result
-                    tagImg.className = 'imgPreview img-fluid col-5 m-2'
+                    tagImg.className = 'imgPreview m-2'
 
                     //anexando na div designada
                     document.getElementById('divImgPreview').appendChild(tagImg)

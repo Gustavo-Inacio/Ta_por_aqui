@@ -14,6 +14,10 @@ $query = "SELECT * FROM usuarios where id_usuario = " . $_SESSION['idUsuario'];
 $stmt = $con->query($query);
 $user = $stmt->fetch(PDO::FETCH_OBJ);
 
+//puxando as redes sociais do banco de dados
+$query2 = "SELECT rede_social, nome_usuario, link_perfil FROM usuario_redes_sociais WHERE id_usuario = " . $_SESSION['idUsuario'];
+$stmt = $con->query($query2);
+$userSocialMedia = $stmt->fetchAll(PDO::FETCH_OBJ);
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -131,7 +135,7 @@ $user = $stmt->fetch(PDO::FETCH_OBJ);
                         <div class="modal-body">
                             <form id="changeProfilePic" action="../../logic/perfil_alterar_imagem.php" method="POST" enctype="multipart/form-data">
                                 <label for="newProfilePic" id="newProfilePicLabel"> <i class="fas fa-upload"></i> Enviar uma nova foto</label>
-                                <input type="file" class="d-none" name="newProfilePic" id="newProfilePic" onchange="editprofileImage(this)">
+                                <input type="file" class="d-none" name="newProfilePic" id="newProfilePic" onchange="editprofileImage(this)" accept="image/png, image/jpeg, image/jpg">
 
                                 <div id="postSelectedImageInformation" class="d-none">
                                     <!-- exibir preview das imagens -->
@@ -206,7 +210,7 @@ $user = $stmt->fetch(PDO::FETCH_OBJ);
                         <br>
 
                         <label for="userSite">Site</label> <br>
-                        <input type="text" class="form-control d-none" name="userSite" id="userSite" class="mb-4" readonly placeholder="Caso tenha, insira seu site ou porfólio online"
+                        <input type="url" class="form-control d-none" name="userSite" id="userSite" class="mb-4" readonly placeholder="Caso tenha, insira seu site ou porfólio online"
                             value="<?=$user->site?>">
                         <div id="showUserSite"><a href="<?=$user->site?>" target="_blank"><?=$user->site?></a></div>
 
@@ -267,36 +271,32 @@ $user = $stmt->fetch(PDO::FETCH_OBJ);
             <div class="myContent">
                 <h1>Redes sociais</h1>
 
-                <form action="#" method="">
+                <form action="../../logic/perfil_alterar_redeSocial.php" method="POST" id="socialMediaForm">
                     <div class="row">
-                        <div class="col-md-4 mt-3">
-                            <i class="fab fa-instagram"></i> <br>
-                            <input type="text" name="instagram" id="instagram"
-                                class="form-control border text-center text-white" value="@seu nome" readonly>
-                        </div>
+                        <?foreach ($userSocialMedia as $media) {?>
+                            <div class="col-6 col-md-3 mt-3 d-flex flex-column align-items-center">
+                                <a target="_blank" <?= $media->link_perfil !== null ? "href='$media->link_perfil'" : ""; ?>><i class="mb-3 fab fa-<?=$media->rede_social?> <?= $media->link_perfil !== null ? "ativa" : "inativa"; ?>"></i></a>
+                                <a target="_blank" <?= $media->link_perfil !== null ? "href='$media->link_perfil'" : ""; ?> class="mediaLink <?=$media->nome_usuario !== null ? "ativa" : "inativa"?>"><?=$media->nome_usuario !== null ? $media->nome_usuario : "seu nome" ?></a>
 
-                        <div class="col-md-4 mt-3">
-                            <i class="fab fa-facebook-f"></i> <br>
-                            <input type="text" name="facebook" id="facebook"
-                                class="form-control border text-center text-white" value="seu nome" readonly>
-                        </div>
-
-                        <div class="col-md-4 mt-3">
-                            <i class="fab fa-twitter"></i> <br>
-                            <input type="text" name="twitter" id="twitter"
-                                class="form-control border text-center text-white" value="@seu nome" readonly>
-                        </div>
+                                <input type="text" name="<?=$media->rede_social?>[]" id="<?=$media->rede_social?>Name" class="d-none form-control socialInput <?=$media->rede_social?>" value="<?=$media->nome_usuario?>" placeholder="seu nome">
+                                <input type="text" name="<?=$media->rede_social?>[]" id="<?=$media->rede_social?>Link" class="d-none form-control socialInput <?=$media->rede_social?> mt-2" value="<?=$media->link_perfil?>" placeholder="link do perfil">
+                            </div>
+                        <?}?>
                     </div>
-                    <button class="btn btn-success mt-3 d-none" id="btnSalvarRedes">Salvar</button>
+                    <button type="button" class="btn btn-success mt-3 d-none" id="btnSalvarRedes" onclick="verifySocialMedia()">Salvar</button>
                     <button type="button" class="btn btn-outline-danger mt-3 d-none" id="btnCancelarRedes"
                         onclick="location.reload()">Cancelar</button>
+                    <small id="socialMediaMsgError" class="d-none text-danger mt-1"></small>
                 </form>
 
             </div>
-
             <br>
-
             <button id="socialMediaEdit" onclick="editaRedes()"> Editar as Redes </button>
+            <small class="text-info d-none" id="obsRedeSocias">
+                As redes sociais que você deixar em branco não aparecerão para quem vizualizar seu perfil.
+                <br>
+                Caso deseje excluir uma rede social, deixe os campos de nome e link nulos.
+            </small>
 
         </div>
     </section>
