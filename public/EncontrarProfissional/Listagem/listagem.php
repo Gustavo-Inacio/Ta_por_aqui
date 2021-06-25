@@ -72,11 +72,7 @@ require "../../../logic/entrar_cookie.php";
                     <img src="../../../assets/images/profile_images/<?=$_SESSION['imagemPerfil']?>" alt="imagem de perfil" id="profileMenu" class="img-fluid" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
                     <div class="dropdown-menu" aria-labelledby="profileMenu">
-                        <? if($_SESSION['classificacao'] == 0) {?>
-                            <a class="dropdown-item" href="../../Perfil/Cliente/meu_perfil.php">Perfil</a>
-                        <? }else if($_SESSION['classificacao'] == 1 || $_SESSION['classificacao'] == 2) {?>
-                            <a class="dropdown-item" href="../../Perfil/Prestador/meu_perfil.php">Perfil</a>
-                        <?}?>
+                        <a class="dropdown-item" href="../../Perfil/meu_perfil.php">Perfil</a>
                         <a class="dropdown-item text-danger" href="../../../logic/entrar_logoff.php">Sair</a>
                     </div>
                 </div>

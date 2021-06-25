@@ -134,7 +134,8 @@
 #profileMenu{
     width: 56px;
     height: 56px;
-    border-radius: 130px;
+    object-fit: cover;
+    border-radius: 50%;
     margin-left: 25px;
 }
 
