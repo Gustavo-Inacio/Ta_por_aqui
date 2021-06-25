@@ -1,18 +1,25 @@
 <?php
     session_start();
-    require '../../../logic\visualizar_servico.php';
+
+    if(!$_GET['serviceID']){
+        header('Location: ../Listagem/listagem.php');
+    }
+
+    require '../../../logic/visualizar_servico.php';
 
     //caso haja cookies salvos no pc do usuário, ele vai logar com os cookies salvos
     require "../../../logic/entrar_cookie.php";
     
-    if(!$_GET['serviceID']){
-        header('Location: ../Listagem/listagem.php');
-    }
+    
     $serviceID = $_GET['serviceID'];
     $_SESSION['serviceID'] = $serviceID;
 
     $brain = new VisualizeService($serviceID);
     $providerData = $brain->getPorviderInfo();
+    if(!$providerData){
+        require './servicoInexistente.php';
+        return;
+    }
 
     $serviceData = $brain->getServiceInfo();
     $serviceImg = $brain->getServiceImages();
@@ -20,11 +27,10 @@
     $avaliationPermited = $brain->getAvaliationPermited();
     $providerAvarege = $brain->getProviderAverage();
 
-    /*print_r( $avaliationPermited );
-
-    print_r( $_SESSION);
-
-    print_r($providerAvarege);*/
+    $serviceIsSaved = false;
+    if(isset($_SESSION['idUsuario'])){
+        $serviceIsSaved = $brain->getSaveService($_SESSION['idUsuario']);
+    }
 ?>
 
 <!DOCTYPE html>
@@ -206,16 +212,16 @@
                     <div id="myMainServiceCarousel" class="my-main-carousel carousel slide" data-ride="carousel">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <img src="<?php echo $serviceImg[0];?>"" class="d-block w-100" alt="SERVICE-IMG">
+                                <img src="../../../assets/images/service_images/<?php echo $serviceImg[0];?>"" class="d-block w-100" alt="SERVICE-IMG">
                             </div>
                             <div class="carousel-item">
-                                <img src="<?php echo $serviceImg[1];?>" class="d-block w-100" alt="SERVICE-IMG">
+                                <img src="../../../assets/images/service_images/<?php echo $serviceImg[1];?>" class="d-block w-100" alt="SERVICE-IMG">
                             </div>
                             <div class="carousel-item">
-                                <img src="<?php echo $serviceImg[2];?>" class="d-block w-100" alt="SERVICE-IMG">
+                                <img src="../../../assets/images/service_images/<?php echo $serviceImg[2];?>" class="d-block w-100" alt="SERVICE-IMG">
                             </div>
                             <div class="carousel-item">
-                                <img src="<?php echo $serviceImg[3];?>" class="d-block w-100" alt="SERVICE-IMG">
+                                <img src="../../../assets/images/service_images/<?php echo $serviceImg[3];?>" class="d-block w-100" alt="SERVICE-IMG">
                             </div>
 
                         </div>
@@ -232,16 +238,16 @@
 
                     <div class="my-service-carousel-img-indicators">
                         <div class="my-carousel-indicator-item active">
-                            <img src="<?php echo $serviceImg[0];?>" class="d-block w-100" alt="SERVICE-IMG">
+                            <img src="../../../assets/images/service_images/<?php echo $serviceImg[0];?>" class="d-block w-100" alt="SERVICE-IMG">
                         </div>
                         <div class="my-carousel-indicator-item">
-                            <img src="<?php echo $serviceImg[1];?>" class="d-block w-100" alt="SERVICE-IMG">
+                            <img src="../../../assets/images/service_images/<?php echo $serviceImg[1];?>" class="d-block w-100" alt="SERVICE-IMG">
                         </div>
                         <div class="my-carousel-indicator-item">
-                            <img src="<?php echo $serviceImg[2];?>" class="d-block w-100" alt="SERVICE-IMG">
+                            <img src="../../../assets/images/service_images/<?php echo $serviceImg[2];?>" class="d-block w-100" alt="SERVICE-IMG">
                         </div>
                         <div class="my-carousel-indicator-item">
-                            <img src="<?php echo $serviceImg[3];?>" class="d-block w-100" alt="SERVICE-IMG">
+                            <img src="../../../assets/images/service_images/<?php echo $serviceImg[3];?>" class="d-block w-100" alt="SERVICE-IMG">
                         </div>
                     </div>
 
@@ -349,11 +355,20 @@
                     
                     <div class="save-service-div">
                         <button class="my-save-service-btn">
-                            <svg width="46" height="44" viewBox="0 0 46 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <?php if($serviceIsSaved) {?>
+                                <svg id="saveSVG-unsave" width="46" height="44" viewBox="0 0 46 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="0.5" y="0.5" width="44.2941" height="43" rx="7.5" stroke="#FF6F6F"/>
+                                    <path d="M14 31L33 12" stroke="#FF6F6F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M33 31L14 12" stroke="#FF6F6F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            <?php } else {?>
+                            <svg id="saveSVG-save" width="46" height="44" viewBox="0 0 46 44" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <rect x="0.5" y="0.5" width="44.2941" height="43" rx="7.5" stroke="#FF6F6F"/>
                                 <path d="M12.6401 15.7143L13.6935 14.6667H19.4869L21.0669 16.7619H26.8604H31.0738V29.8572H12.6401V15.7143Z" fill="#FF6F6F"/>
                                 <path d="M21.0673 19.9047H23.174V22.5238H24.754H26.8607V24.0952H23.174V27.2381H21.0673V24.0952H17.9072V22.5238H21.0673V19.9047Z" fill="white"/>
                             </svg>
+                            <?php }?>
+
                         </button>
     
                         <div class="save-service-label">
@@ -618,7 +633,7 @@
             let xhr = new XMLHttpRequest();
             xhr.onload = () => {
                 if(xhr.status === 200 && xhr.readyState === XMLHttpRequest.DONE){
-
+                    console.log(xhr.response);
                     let response = JSON.parse(xhr.response);
                     let allInfo = response.sendComment;
                     console.log(allInfo);

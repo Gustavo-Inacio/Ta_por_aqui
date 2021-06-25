@@ -890,6 +890,7 @@
 
 .my-coment-profile-picture, .my-coment-profile-picture-div{
     height: 44px;
+    width: 44px;
     border-radius: 50%;
     margin-right: 5px;
 }

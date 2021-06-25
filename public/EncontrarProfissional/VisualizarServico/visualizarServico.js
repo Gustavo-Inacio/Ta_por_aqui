@@ -496,6 +496,9 @@ const initializeOtherServiceSlider =(data = []) => { // cuida da listagem de out
             }
 
             let rateStars = template_e.content.querySelectorAll('.my-other-service-card--rate-div svg path'); // array com os elementos das estrlinhas de avaliacao
+            rateStars.forEach(element => { // limpa as estrelinhas do template antes de usa-las
+                element.setAttribute("fill", "#AAAA");
+            });
             for(let i = 0; i < Math.floor(info.serviceRateNumber) && i < rateStars.length; i++){ // pinta de amarelo as estrelinhas de acordo com a nota
                 rateStars[i].setAttribute("fill", "#FF9839")
             }
@@ -563,7 +566,7 @@ const hireServiceHandler = () => {
                     },
                     {
                         color:'#715c00',
-                        text: 'Contrato Pendente'
+                        text: 'Contrato: Pedido Pendente'
                     },
                     {
                         color:'#d82929', 
@@ -604,12 +607,34 @@ const loadOtherService = () => {
             offset : 0 ,
             quantity: 10
         }
-       
     }
 
     xhr.open('GET', `./getAsyncData.php?getOtherServices=${JSON.stringify(config)}`);
     xhr.onload = () => {
-        console.log(xhr.response);
+        let resp = JSON.parse(xhr.response);
+
+        let data = resp.getOtherServices.data;
+        let dataFormated = [];
+
+        data.forEach((elem, index) => {
+            if(!elem.service.nota_media) elem.service.nota_media = '0';
+            dataFormated.push({
+                link : `./visuaizarServico.php?serviceID=${elem.service.id_servico}`,
+                providerName: elem.user.nome,
+                serviceName: elem.service.nome_servico,
+                providerPicture: `../../../assets/images/profile_images/${elem.user.imagem_perfil}`,
+                serviceRateNumber: elem.service.nota_media,
+                serviceLoaction: elem.user.cidade,
+                servicePrice: elem.service.orcamento,
+            });
+
+            console.log(elem.service.nota_media)
+        
+        });
+
+        console.log(dataFormated);
+
+        initializeOtherServiceSlider(dataFormated); // manda para a funcao que vai fazer tudo com esses dados
     }
 
     xhr.send();
@@ -617,6 +642,58 @@ const loadOtherService = () => {
 
 loadOtherService();
 
+const saveService = () => {
+    let unsavedSVG = `
+        <svg id="saveSVG-unsave" width="46" height="44" viewBox="0 0 46 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0.5" y="0.5" width="44.2941" height="43" rx="7.5" stroke="#FF6F6F"/>
+            <path d="M14 31L33 12" stroke="#FF6F6F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M33 31L14 12" stroke="#FF6F6F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    `;
+
+    let savedSVG = `
+        <svg id="saveSVG-save" width="46" height="44" viewBox="0 0 46 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0.5" y="0.5" width="44.2941" height="43" rx="7.5" stroke="#FF6F6F"/>
+            <path d="M12.6401 15.7143L13.6935 14.6667H19.4869L21.0669 16.7619H26.8604H31.0738V29.8572H12.6401V15.7143Z" fill="#FF6F6F"/>
+            <path d="M21.0673 19.9047H23.174V22.5238H24.754H26.8607V24.0952H23.174V27.2381H21.0673V24.0952H17.9072V22.5238H21.0673V19.9047Z" fill="white"/>
+        </svg>
+    `;
+    
+    let btnSave = document.querySelectorAll('.my-save-service-btn');
+    const saveResponseRandler = (response, index) => {
+        console.log(response)
+        let data = JSON.parse(response);
+        if(data.saveService.allRight){
+            if(data.saveService.inserted)
+                btnSave[index].innerHTML = unsavedSVG;
+            else if(data.saveService.deleted)
+                btnSave[index].innerHTML = savedSVG;
+        }
+    }
+
+    const config = {
+        saveService : 'true'
+    }
+    
+    btnSave.forEach((elem, index) => {
+        elem.onclick = () => {
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", "./getAsyncData.php");
+
+            xhr.onload = () => {
+                if(xhr.status === 200 && xhr.readyState === XMLHttpRequest.DONE ){
+                    saveResponseRandler(xhr.response, index)
+                }
+            };
+
+            xhr.send(JSON.stringify(config));
+
+        }
+    });
+
+    
+}
+saveService();
 
 async function getOtherServicesData() { // pega os dados de 'outros serviços'
     let otherServiceData = [ // modelo de array que deve ser retronado pelo backend
@@ -874,7 +951,7 @@ async function getCommentsData00(){
     xhr.send();
 }
 
-getOtherServicesData();
+//getOtherServicesData();
 
 export {commentsDataHandler, refreshAverageRate};
 

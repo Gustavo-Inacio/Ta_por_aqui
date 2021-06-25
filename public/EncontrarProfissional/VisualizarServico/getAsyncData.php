@@ -36,13 +36,11 @@
             $reponse['getOtherServices'] = $brain->getOtherService($config->sql);
         }
     }
-    //print_r ($inputData);
-   /* config = {
-      averageRate : {
-          service: true,
-          provider: true
-      }
-    */
+
+    if(isset($inputData->saveService) && $inputData->saveService == "true"){
+        $reponse['saveService'] = $brain->setSaveService($_SESSION['idUsuario']);
+    }
+    
     echo json_encode($reponse);
 
 ?>

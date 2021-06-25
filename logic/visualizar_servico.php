@@ -295,9 +295,9 @@ class VisualizeService
             }
         }
 
-       /* $cmd_updateProviderRate = $this->con->prepare("UPDATE usuarios SET nota_media=:average where id_servico='$providerID';");
+        $cmd_updateProviderRate = $this->con->prepare("UPDATE usuarios SET nota_media=:average where id_usuario='$providerID';");
         $cmd_updateProviderRate->bindValue('average', $response['provider']['averageRate']);
-        $providerUpadated = $cmd_updateProviderRate->execute();*/ 
+        $providerUpadated = $cmd_updateProviderRate->execute();
 
         $cmd_updateServiceRate = $this->con->prepare("UPDATE servico SET nota_media=:average where id_servico='$serviceID';");
         $cmd_updateServiceRate->bindValue('average', $response['service']['averageRate']);
@@ -375,11 +375,99 @@ class VisualizeService
     }
 
     public function getOtherService($config){
-        //$cmdCategories = $this->con->query("");
 
+        $response = array(
+            "data" => array(),
+            "info" => array(
+                "allRight" => false,
+            ),
+            "config" => $config
+        );
+
+        $cmdCategories = $this->con->query("SELECT id_categoria FROM servico_categoria Where id_servico='$this->serviceID'");
+        if($cmdCategories->rowCount() > 0){
+            $catgorieID = $cmdCategories->fetch(PDO::FETCH_ASSOC)['id_categoria'];
+
+            $cmdServices = $this->con->query("SELECT DISTINCT id_servico from servico_categoria where id_categoria='$catgorieID' LIMIT $config->quantity OFFSET $config->offset");
+            if($cmdServices->rowCount() > 0){
+                $servicesID = $cmdServices->fetchAll(PDO::FETCH_ASSOC);
+
+                foreach ($servicesID as $key => $idSer) { // para cada id, busque as informacoes do servico em analise
+                    $cmdThisService = $this->con->prepare("SELECT id_servico, nota_media, prestador, nome_servico, orcamento From servico where id_servico=:idSer");
+                    $cmdThisService->bindValue('idSer', $idSer['id_servico']);
+                    $cmdThisService->execute();
+
+                    if($cmdThisService->rowCount() > 0){
+                        $response['data'][$key]['service'] = $cmdThisService->fetchAll(PDO::FETCH_ASSOC);
+                        $response['data'][$key]['service'] = $response['data'][$key]['service'][0];
+
+                        $cmdUserData = $this->con->prepare("SELECT nome, sobrenome, cidade, imagem_perfil FROM usuarios where id_usuario=:userID");
+                        $cmdUserData->bindValue("userID", $response['data'][$key]['service']['prestador']);
+                        $cmdUserData->execute();
+
+                        if($cmdUserData->rowCount() > 0){
+                            $userData = $cmdUserData->fetchAll(PDO::FETCH_ASSOC);
+                            $response['data'][$key]['user'] = $userData;
+                            $response['data'][$key]['user'] = $response['data'][$key]['user'][0];
+
+                            $response['info']['allRight'] = true;
+                        }
+                        else{
+                            $response['info']['allRight'] = false;
+                            $response['info']['error'] = "there is no user with this service: ". $idSer['id_servico'];
+                        }
+                    }
+                }
+            }
+            else{
+                $response['info']['allRight'] = false;
+                $response['info']['error'] = "there is no service with this categorie";
+            }
+        }
+        else{
+            $response['info']['allRight'] = false;
+            $response['info']['error'] = "categorie doesn't exist";
+        }
+
+        return $response;
 
     }
 
+    public function getSaveService($userID){
+        $cmdVerifyExists = $this->con->query("SELECT id_servico_salvo FROM servicos_salvos WHERE id_servico='$this->serviceID' and id_usuario='$userID'");
+
+        return ($cmdVerifyExists->rowCount() > 0 ? true : false);
+    }
+
+    public function setSaveService($userID){
+        $response = array(
+            'allRight' => false,
+            'inserted' => false,
+            'deleted' => false
+        );
+
+        $cmdVerifyExists = $this->getSaveService($userID);
+
+        if(!$cmdVerifyExists){
+            $cmdSave = $this->con->query("INSERT INTO servicos_salvos (id_servico, id_usuario) Values('$this->serviceID', '$userID');");
+            if($cmdSave){
+                $response['allRight'] = true;
+                $response['inserted'] = true;
+    
+            }
+        }
+        else{
+            $cmdSave = $this->con->query("DELETE FROM servicos_salvos WHERE id_servico='$this->serviceID' and id_usuario='$userID';");
+            if($cmdSave){
+                $response['allRight'] = true;
+                $response['deleted'] = true;
+    
+            }
+            $response['allRight'] = true;
+        }
+
+        return $response;
+    }
   
 }
 
