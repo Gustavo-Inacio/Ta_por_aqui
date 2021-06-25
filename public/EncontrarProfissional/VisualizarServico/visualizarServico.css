@@ -345,6 +345,7 @@
     margin: 0;
     margin-bottom: 14px;
     max-width: 180px;
+    min-width: fit-content;
  
     grid-template-areas: 
     'title title' 
@@ -1545,6 +1546,8 @@
 
     .my-service-location-div{
         display: flex;
+        justify-self: start; 
+        justify-content: flex-start;
     }
 
     .my-service-location-div-under-carousel{

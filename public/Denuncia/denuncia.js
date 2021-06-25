@@ -83,7 +83,7 @@ Ela retorna  um outro node para ser acoplado a DOM
     typeSupported.comment.loadInterface = () => { // carrega a interface de comentario
         structureElements.headContainer.forEach(elem => {
             elem.innerHTML += `
-                <div class="service-report-title">Denunciar o comentário: <br> <label id="myServiceReportName">${data.comment}</label></div>
+                <div class="service-report-title">Denunciar o comentário: <br> <label class="dont-break-out" id="myServiceReportName">${data.comment}</label></div>
                 <div class="person-report-title">Autor: <label id="myPersonReportName">${data.user}</label></div>
             `})
 
@@ -132,7 +132,6 @@ Ela retorna  um outro node para ser acoplado a DOM
     }
 
     const refreshAll = () => { // recarrega todas as funcoes que preciam quando o state é atualizado
-        console.log(state)
         otherReasonHandler();
         sectionDisplayHandler();
         dropdownHandler();
@@ -195,15 +194,15 @@ Ela retorna  um outro node para ser acoplado a DOM
         commentText.innerHTML = state.commentReportText;
 
         let input_form = { // sao todos os capos de input que deverao ser mandados para o back, nem todos os dados serao preenchidos, pois depende do type da denuncia !! o nome das propriedades devem ter o mesmo nome das mesmas propriedades no state.
-            type: node.querySelector('#reportType_form'),
-            provider: node.querySelector('#providerName_form'),
-            service: node.querySelector('#serviceName_form'),
-            business: node.querySelector('#smallBusiness_form'),
-            reason: node.querySelector('#reason_form'),
-            comment: node.querySelector('#comment_form'),
-            user: node.querySelector('#commentUser_form'),
-            publishDate: node.querySelector('#commentPublishDate_form'),
-            sequencialNumber: node.querySelector('#commentSequncialNumber_form'),
+            type: node.querySelector('.reportType_form'),
+            provider: node.querySelector('.providerName_form'),
+            service: node.querySelector('.serviceName_form'),
+            business: node.querySelector('.smallBusiness_form'),
+            reason: node.querySelector('.reason_form'),
+            comment: node.querySelector('.comment_form'),
+            user: node.querySelector('.commentUser_form'),
+            publishDate: node.querySelector('.commentPublishDate_form'),
+            sequencialNumber: node.querySelector('.commentSequncialNumber_form'),
         }
 
         for(let i in input_form){ // pega os dados do state e coloca nos inputs

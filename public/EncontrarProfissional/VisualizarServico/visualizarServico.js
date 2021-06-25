@@ -54,6 +54,21 @@ const serviceImgIndicatorsHandler = () => { // cuida dos indicators do carrousel
 
 };
 
+const providerRateStars = () => {
+    /*let rate_e = document.querySelector('.provider-rate--number');
+    let rate = rate_e.innerHTML * 1;
+    rate_e.innerHTML = rate.toFixed(2);
+
+    let stars = document.querySelectorAll('.provider-rate-div .provider-rate--stars path');
+    stars.forEach((star) => {
+        star.setAttribute("fill", "#AAAAAA");
+    });
+
+    for(let i = 0; i< Math.round(rate) && i < stars.length; i++){
+        stars[i].setAttribute("fill", "#FF9839");
+    }*/
+}
+providerRateStars();
 
 const descriptionHandler = () => {
     const btnToggler = document.getElementById("myDescriptionToggleLabel");
@@ -65,13 +80,16 @@ const descriptionHandler = () => {
     let btnStatus = 0; // e o campo do array que sera mostrado
 
     let splitText = []; // este array comporta em cada campo uma fatia do texto determinada pelo maxCaracter
-    const splitQuantity = Math.floor(txtDescription.length / maxCaracter); 
+    let splitQuantity = Math.floor(txtDescription.length / maxCaracter);
+    if(splitQuantity === 0) splitQuantity = 1; 
     for(let i = 0; i < splitQuantity; i++){
-        let textInitial = (i + 1) * splitQuantity;
+        let textInitial = (i) * splitQuantity;
         splitText[i] = txtDescription.slice(textInitial, textInitial + maxCaracter + 1);
     }
 
     description_e.innerText = splitText[0]; // esta e a primeira a ser rodada, com o maxCaracter
+
+    if(splitText.length === 1) btnToggler.style.display = 'none'; // caso a descricao nao necessite do 'Ler mais'
 
     btnToggler.onclick = () => {
         if(btnStatus == splitText.length - 1){ // se a ultima fatia ja estiver sendo mostrada
@@ -112,39 +130,32 @@ const dotOptionsHandler = () => {
         ]
     }
 } 
-
-const reportHandler0 = () => {
-    let iframe_e = document.getElementById("myReportIframe");
-
-    let modal = document.getElementById("myReportModalBody");
-
-    let reportInterface = new ReportInterface(iframe_e);
-    reportInterface.getInfo(
-       /* {
-            serviceName: 'nome_do_servico', providerName : 'nome_do_provedor', reportReason: ['a', 'b', 'c', 'd']
-        }*/
-       {
-            smallBusiness: 'nome_do_negocio', reportReason: ['a']
-        }
-    );
-
-    let structure = reportInterface.getStructure()[0];
-    //console.log(structure)
-   
-     modal.appendChild(structure)
-}
  
-const loadReportService = () => {
-    let iframeDocument = document.querySelector('#myReportIframe').contentDocument.document || document.querySelector('#myReportIframe').contentWindow.document;
-    let iframeNode = document.importNode(iframeDocument.querySelector('body'), true);
+const loadReportService = () => { // carrega e monat o layout de dununcia.
+    let iframeNode;
+    
+    const setDOM = () => { // coloca na DOM
+        let serviceName = document.getElementById("myServiceName").innerHTML;
+        let providerName = document.getElementById("myProviderName").innerHTML;
+        
+        let porcessedNode = ReportInterface({node:iframeNode, type: 'service', data: {service: serviceName, provider: providerName}});
+    
+        let modal = document.querySelector('#serviceReportModal #myReportModalBody');
+        modal.appendChild(porcessedNode)
+    }
 
-    let serviceName = document.getElementById("myServiceName").innerHTML;
-    let providerName = document.getElementById("myProviderName").innerHTML;
-   
-    let porcessedNode = ReportInterface({node:iframeNode, type: 'service', data: {service: serviceName, provider: providerName}});
-
-    let modal = document.querySelector('#serviceReportModal #myReportModalBody');
-    modal.appendChild(porcessedNode)
+    const getNode = async () => { // faz a requisicao pelo NODE
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', '../../Denuncia/denuncia.php');
+        xhr.onload = async () => {
+            let tempDiv_e = document.createElement('div'); 
+            tempDiv_e.innerHTML = await xhr.response; // coloca o código recebido numa div pq ele vem em string 
+            iframeNode =  document.importNode(tempDiv_e, true); // depois import o node de dentro da div
+            setDOM();  // monta a dom
+        }
+        xhr.send();
+    }
+    getNode();
 }
 
 const commentSectionHandler = (info = []) => { // cuida da section inteira de comentarios
@@ -193,6 +204,8 @@ const commentSectionHandler = (info = []) => { // cuida da section inteira de co
 
                 textComment_e.innerHTML = splitText[0]; // coloca o padrao diretamente na primeira vez
 
+                if(textComment.length <= maxCaracter) btnReadMore.style.display = "none"; // caso o comentario nao necessite do 'Ler mais'
+
                 btnReadMore.onclick = () => { // caso seja clicado o 'ler mais'
                     if(textComment_e.innerHTML === splitText[0] + splitText[1]){ // caso ja exista as duas partes na tela
                         textComment_e.innerHTML = ""; // limpa o texto
@@ -216,28 +229,47 @@ const commentSectionHandler = (info = []) => { // cuida da section inteira de co
                 publish_e.innerHTML = `${day}/${month}/${year}` // coloca na DOM
             }
 
+
+
+            let user = data.userName;
+            let publishDate = data.publishDate;
+            let service = document.getElementById("myServiceName").innerHTML;
+            let sequencialNumber = sectionContainer.querySelectorAll('.my-coment-row').length;
+            let comment = data.text;
+            let modal = item.querySelector('#reportComent');
+            let modalBody = item.querySelector('#myReportModalBody')
+
+            let modalTrigger = item.querySelector('#reportCommentID')
             const reportHandler = async () => { // envia os valores para a fcnao que gera e retorna o elemtno de denuncia para adicionar no modal
-                let iframeDocument = document.querySelector('#myReportIframe').contentDocument.document || document.querySelector('#myReportIframe').contentWindow.document;
-                let iframeNode = document.importNode(iframeDocument.querySelector('body'), true);
+                let iframeNode;
+                const getNode = async () => { // busca o node por ajax
+                    let xhr = new XMLHttpRequest();
+                    xhr.open('POST', '../../Denuncia/denuncia.php');
+                    xhr.onload = async () => {
+                        let tempDiv_e = document.createElement('div');
+                        tempDiv_e.innerHTML = await xhr.response;
+                        iframeNode =  document.importNode(tempDiv_e, true);
 
-                let user = data.userName;
-                let publishDate = data.publishDate;
-                let service = document.getElementById("myServiceName").innerHTML;
-                let sequencialNumber = sectionContainer.querySelectorAll('.my-coment-row').length;
-                let comment = data.text;
-            
-                let modal = item.querySelector('#reportComent');
-                let modalBody = modal.querySelector('#myReportModalBody')
+                        setDOM();
+                    }
+                
+                    xhr.send();
+                }
+                
+                getNode();
+                const setDOM = async () => { // monta o layout na DOM
+                    let processedNode = await ReportInterface({node:iframeNode, type: 'comment', data: {comment: comment, user, publishDate, service, sequencialNumber}})
+                   
+                    await modalTrigger.setAttribute('data-target',`#reportComent${sequencialNumber}`) // muda o id para nao dar conflito entre os modais de comentario
+                    await modal.setAttribute('id',`reportComent${sequencialNumber}`)// muda o id para nao dar conflito entre os modais de comentario
+    
+                    await modalBody.appendChild(processedNode) // pega o node retornado e o coloca na DOM
+                }
 
-                let modalTrigger = item.querySelector('#reportCommentID')
-
-                let processedNode = await ReportInterface({node:iframeNode, type: 'comment', data: {comment: comment, user, publishDate, service, sequencialNumber}})
-               
-                modalTrigger.setAttribute('data-target',`#reportComent${sequencialNumber}`) // muda o id para nao dar conflito entre os modais de comentario
-                modal.setAttribute('id',`reportComent${sequencialNumber}`)// muda o id para nao dar conflito entre os modais de comentario
-
-                modalBody.appendChild(processedNode) // pega o node retornado e o coloca na DOM
+                
             }
+
+            
 
             moreOpstionHandler();
             readMoreHandler();
@@ -507,7 +539,49 @@ const initializeOtherServiceSlider =(data = []) => { // cuida da listagem de out
     document.querySelector('.glider').addEventListener('glider-add', centerItems) 
 }
 
-writeCommentResizeTextArea();
+const hireServiceHandler = () => {
+    let btnHire = document.querySelector('.my-hire-service-btn');
+    btnHire.onclick = () => {
+        let request = new XMLHttpRequest();
+        
+        request.onload = () => {
+            if(request.status === 200 && request.readyState === XMLHttpRequest.DONE){
+                console.log(request.response)
+                let info = JSON.parse(request.response);
+                console.log(info)
+
+
+                if(!info.logged){
+                    $('#notLoggedModal').modal('toggle');
+                    return false;
+                }
+
+                let statusConfig = [
+                    {
+                        color:'#06A77D', 
+                        text: 'Contratar serviço'
+                    },
+                    {
+                        color:'#715c00',
+                        text: 'Contrato Pendente'
+                    },
+                    {
+                        color:'#d82929', 
+                        text: 'Serviço já contratato'
+                    },
+                ];
+
+                btnHire.style.backgroundColor = statusConfig[info.status].color;
+                btnHire.innerHTML = statusConfig[info.status].text;
+            }
+            
+        }
+ //data-toggle="modal" data-target="#notLoggedModal"
+        request.open('POST', '../../../logic/contratar_servico.php');
+        request.send();
+    }
+}
+hireServiceHandler()
 
 descriptionHandler();
 
@@ -520,6 +594,28 @@ serviceImgIndicatorsHandler();
 initializeOtherServiceSlider();
 
 commentSectionHandler();
+
+const loadOtherService = () => {
+    let xhr = new XMLHttpRequest();
+
+    const config = {
+        getOtherServices: 'true',
+        sql : {
+            offset : 0 ,
+            quantity: 10
+        }
+       
+    }
+
+    xhr.open('GET', `./getAsyncData.php?getOtherServices=${JSON.stringify(config)}`);
+    xhr.onload = () => {
+        console.log(xhr.response);
+    }
+
+    xhr.send();
+}
+
+loadOtherService();
 
 
 async function getOtherServicesData() { // pega os dados de 'outros serviços'
@@ -586,7 +682,7 @@ async function getOtherServicesData() { // pega os dados de 'outros serviços'
         })
 }
 
-async function getCommentsData () {
+async function getCommentsData01 () {
     let commentsDataold = [
         {
             profilePicture: 'https://picsum.photos/1000?random=100',
@@ -640,5 +736,145 @@ async function getCommentsData () {
             commentSectionHandler(commentsData); // manda para a funcao que vai fazer tudo com esses dados
         });
 }
-getCommentsData();
+
+loadCommentsData();
+
+const refreshAverageRate = (data) => {
+    if(!data.info.finished) return false;
+    
+    const refreshProviderRate = (providerInfo) => {
+        let lbl_rate = document.querySelectorAll('.provider-rate--number');
+        lbl_rate.forEach(elem => {
+            elem.innerHTML = providerInfo.averageRate.toFixed(1);
+        });
+
+        let rateSatrs = document.querySelectorAll('.provider-rate--stars svg path');
+        rateSatrs.forEach(elem => {
+            elem.setAttribute("fill", "#AAAA");
+        });
+        for(let i = 0; i < Math.round(providerInfo.averageRate) && i < rateSatrs.length; i++){
+            rateSatrs[i].setAttribute("fill", "#FF9839");
+        }
+        let lbl_rateQuantity = document.querySelectorAll('.provider-rate--quantity');
+        lbl_rateQuantity.forEach(elem => {
+            elem.innerHTML = `(${providerInfo.rateQuantity} - ${providerInfo.rateQuantity === 1 ? 'avaliação' : 'avaliações'})`;
+        });
+    }
+
+    const refrechServiceRate = (serviceInfo) => {
+        let lbl_rate = document.querySelectorAll('.service-rate--number ');
+        lbl_rate.forEach(elem => {
+            elem.innerHTML = serviceInfo.averageRate.toFixed(1);
+        });
+
+        let rateSatrs = document.querySelectorAll('.my-rate-service-info .service-rate--stars svg path');
+        rateSatrs.forEach(elem => {
+            elem.setAttribute("fill", "#AAAAA");
+        });
+
+        for(let i = 0; i < Math.round(serviceInfo.averageRate) && i < rateSatrs.length; i++){
+            rateSatrs[i].setAttribute("fill", "#FF9839");
+        }
+        let lbl_rateQuantity = document.querySelectorAll('.service-rate--quantity');
+        lbl_rateQuantity.forEach(elem => {
+            elem.innerHTML = `(${serviceInfo.rateQuantity} - ${serviceInfo.rateQuantity === 1 ? 'avaliação' : 'avaliações'})`;
+        });
+    }
+    refrechServiceRate(data.service);
+    refreshProviderRate(data.provider);
+}
+
+async function loadCommentsData(){
+    const config = {
+        averageRate : 'true',
+        comments : 'true',
+    };
+
+    let xhr = new XMLHttpRequest();
+    xhr.onload = () => {
+        if(xhr.status === 200 && xhr.readyState === XMLHttpRequest.DONE ){
+            let data = xhr.response;
+            //console.log(data)
+            commentsDataHandler(JSON.parse(data).comments);
+
+            if(config.averageRate) refreshAverageRate(JSON.parse(data).averageRate);
+        }
+    }
+
+    xhr.open("POST", "./getAsyncData.php");
+    xhr.send(JSON.stringify(config));
+}
+
+async function commentsDataHandler(response){
+    let data = response;
+    let commentsData = [];
+    let commentQuantity = 0;
+    let rateSum = 0;
+
+    let pictureFolderPath = "../../../assets/images/profile_images/";
+    data.forEach((elem, index) => {
+        commentsData.push({
+            userName: `${elem.user.nome}  ${elem.user.sobrenome}`,
+            profilePicture: pictureFolderPath + elem.user.imagem_perfil,
+            rateStars : elem.comment.nota,
+            publishDate: elem.comment.data,
+            text: elem.comment.comentario
+        });
+        commentQuantity++;
+
+        if(elem.comment.nota > 5) elem.comment.nota = 5;
+        rateSum += elem.comment.nota * 1;
+    });
+
+    commentSectionHandler(commentsData);
+
+
+    let rateServiceDiv = document.querySelector('.my-rate-service-info');
+    rateServiceDiv.classList.remove('loading');
+}
+async function getCommentsData00(){
+    let commentsData = [];
+    let commentQuantity = 0;
+    let rateSum = 0;
+
+    let xhr = new XMLHttpRequest();
+    xhr.onload = () => {
+        if(xhr.status === 200 && xhr.readyState === XMLHttpRequest.DONE){
+            let data = xhr.response;
+           // console.log(data);
+
+            data = JSON.parse(data);
+
+            let pictureFolderPath = "./images/";
+
+            data.forEach((elem, index) => {
+                commentsData.push({
+                    userName: `${elem.user.nome}  ${elem.user.sobrenome}`,
+                    profilePicture: pictureFolderPath + elem.user.imagem_perfil,
+                    rateStars : elem.comment.nota,
+                    publishDate: elem.comment.data,
+                    text: elem.comment.comentario
+                });
+                commentQuantity++;
+
+                if(elem.comment.nota > 5) elem.comment.nota = 5;
+                rateSum += elem.comment.nota * 1;
+            });
+
+            commentSectionHandler(commentsData);
+
+            let rateServiceDiv = document.querySelector('.my-rate-service-info');
+            rateServiceDiv.classList.remove('loading');
+        }
+
+        
+    }
+
+    xhr.open("GET", "./getAsyncData.php");
+    xhr.send();
+}
+
 getOtherServicesData();
+
+export {commentsDataHandler, refreshAverageRate};
+

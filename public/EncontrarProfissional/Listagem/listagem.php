@@ -87,6 +87,17 @@ require "../../../logic/entrar_cookie.php";
     </nav>
     <!--NavBar Fim-->
 
+    <section>
+        <form action="../VisualizarServico/visuaizarServico.php" method="GET">
+            <input hidden type="hidden" name="serviceID" value="1">
+            <button type="submit">Servico 01</button>
+        </form>
+        <form action="../VisualizarServico/visuaizarServico.php" method="GET">
+            <input hidden type="hidden" name="serviceID" value="2">
+            <button type="submit">Servico 02</button>
+        </form>
+    </section>
+
     
 
 
