@@ -63,7 +63,7 @@ require "../../logic/entrar_cookie.php";
                 <li class="nav-item">
                     <a href="../Chat/chat.html" class="nav-link">Chat</a>
                 </li>
-                <? if( empty($_SESSION) ){ ?>
+                <? if( empty($_SESSION['idUsuario']) ){ ?>
                     <li class="nav-item">
                         <a href="../Entrar/login.php" class="nav-link">Entrar/cadastrar</a>
                     </li>

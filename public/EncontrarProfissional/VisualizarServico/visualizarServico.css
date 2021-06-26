@@ -345,6 +345,7 @@
     margin: 0;
     margin-bottom: 14px;
     max-width: 180px;
+    min-width: fit-content;
  
     grid-template-areas: 
     'title title' 
@@ -889,6 +890,7 @@
 
 .my-coment-profile-picture, .my-coment-profile-picture-div{
     height: 44px;
+    width: 44px;
     border-radius: 50%;
     margin-right: 5px;
 }
@@ -1545,6 +1547,8 @@
 
     .my-service-location-div{
         display: flex;
+        justify-self: start; 
+        justify-content: flex-start;
     }
 
     .my-service-location-div-under-carousel{
