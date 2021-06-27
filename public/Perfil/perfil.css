@@ -159,10 +159,16 @@ body{
 }
 
 #showUserSite {
+    min-width: 0;
+    flex: 1;
     border: 1.5px solid #0C0C23;
     border-radius: 10px;
     padding: 5px 10px;
     background-color: transparent !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-all;
+    hyphens: auto;
 }
 
 #buttonEdit{
