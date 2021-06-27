@@ -103,5 +103,6 @@ dist
 # TernJS port file
 .tern-port
 
-#phpStorm
+#Code editor cache
 .idea/
+.vscode/

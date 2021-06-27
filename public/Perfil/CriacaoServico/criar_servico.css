@@ -56,6 +56,8 @@ body{
 .imgPreview{
     float: left;
     width: 200px;
+    height: 200px;
+    object-fit: contain;
     border: 3px solid #ddd;
     border-radius: 4px;
 }
