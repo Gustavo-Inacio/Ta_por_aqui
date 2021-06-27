@@ -19,6 +19,13 @@ if(isset($_GET['id'])) {
     $query2 = "SELECT rede_social, nome_usuario, link_perfil FROM usuario_redes_sociais WHERE id_usuario = " . $_GET['id'];
     $stmt = $con->query($query2);
     $userSocialMedia = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+    //puxando os serviços do prestador
+    if($_SESSION['classificacao'] !== 0){
+        $query = "SELECT id_servico, nome_servico, tipo, orcamento, data_publicacao FROM servico WHERE prestador = " . $_GET['id'];
+        $stmt = $con->query($query);
+        $userServices = $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
 }
 
 if( !isset($_GET['id']) || !isset($user->id_usuario) ){
@@ -364,56 +371,39 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
                 <h1>Serviços disponibilizados</h1>
 
                 <div class="row" id="serviceCards">
-                    <div class="col-lg-4 col-md-6 mt-3">
-                        <div class="card myCard mx-3">
-                            <div class="card-header myCardHeader">
-                                Serviço
-                            </div>
-                            <div class="card-body">
-                                <h3 class="card-title">Encanamento</h3>
-                                <p class="card-text">
-                                    Informações básicas: <br>
-                                    Orçamento médio: R$80,00 <br>
-                                    Localização: Campanário
-                                </p>
-                                <a href="#" class="btn myCardButton">Contratar</a>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="col-lg-4 col-md-6 mt-3">
-                        <div class="card myCard mx-3">
-                            <div class="card-header myCardHeader">
-                                Serviço
+                    <? if( count($userServices) !== 0 ) {
+                        foreach ($userServices as $service) {
+                            ?>
+                            <div class="col-lg-4 col-sm-6 mt-3">
+                                <div class="card myCard mx-3">
+                                    <div class="card-header myCardHeader">
+                                        Serviço <?= $service->tipo == 0 ? "remoto" : "presencial" ?> <?=$service->id_servico?>
+                                    </div>
+                                    <div class="card-body">
+                                        <h3 class="card-title"><?=$service->nome_servico?></h3>
+                                        <p class="card-text">
+                                            <strong>Informações básicas:</strong> <br>
+                                            <strong>Orçamento médio:</strong> <?=$service->orcamento?> <br>
+                                            <?if($service->tipo == 1) {?>
+                                                <strong>Localização:</strong> <?=$user->cidade?>, <?=$user->estado?>
+                                            <?} else {?>
+                                                <strong>Serviço remoto</strong>
+                                            <?}?>
+                                        </p>
+                                        <a href="../EncontrarProfissional/VisualizarServico/visuaizarServico.php?serviceID=<?=$service->id_servico?>" class="btn myCardButton">+ detalhes</a>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="card-body">
-                                <h3 class="card-title">Encanamento</h3>
-                                <p class="card-text">
-                                    Informações básicas: <br>
-                                    Orçamento médio: R$80,00 <br>
-                                    Localização: Campanário
-                                </p>
-                                <a href="#" class="btn myCardButton">Contratar</a>
-                            </div>
+                        <?}
+                    } else {?>
+                        <div class="col-12 mt-3">
+                            <p class="text-info text-center">
+                                O prestador ainda não adicionou nenhum serviço
+                            </p>
                         </div>
-                    </div>
+                    <?}?>
 
-                    <div class="col-lg-4 col-md-6 mt-3">
-                        <div class="card myCard mx-3">
-                            <div class="card-header myCardHeader">
-                                Serviço
-                            </div>
-                            <div class="card-body">
-                                <h3 class="card-title">Encanamento</h3>
-                                <p class="card-text">
-                                    Informações básicas: <br>
-                                    Orçamento médio: R$80,00 <br>
-                                    Localização: Campanário
-                                </p>
-                                <a href="#" class="btn myCardButton"> Contratar </a>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

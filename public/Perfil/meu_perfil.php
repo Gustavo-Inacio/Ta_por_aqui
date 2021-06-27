@@ -1,4 +1,7 @@
 <?php
+//caso haja cookies salvos no pc do usuário, ele vai logar com os cookies salvos
+require "../../logic/entrar_cookie.php";
+
 session_start();
 
 if( empty($_SESSION) ){
@@ -406,26 +409,35 @@ if($_SESSION['classificacao'] !== 0){
 
                 <div class="row" id="serviceCards">
 
-                    <?foreach ($userServices as $service) {?>
-                        <div class="col-lg-4 col-sm-6 mt-3">
-                            <div class="card myCard mx-3">
-                                <div class="card-header myCardHeader">
-                                    Serviço <?= $service->tipo == 0 ? "remoto" : "presencial" ?> <?=$service->id_servico?>
-                                </div>
-                                <div class="card-body">
-                                    <h3 class="card-title"><?=$service->nome_servico?></h3>
-                                    <p class="card-text">
-                                        <strong>Informações básicas:</strong> <br>
-                                        <strong>Orçamento médio:</strong> <?=$service->orcamento?> <br>
-                                        <?
-                                            $onlyDate = explode(" ", $service->data_publicacao);
-                                            $separateDate = explode("-", $onlyDate[0]);
-                                        ?>
-                                        <strong>Publicação:</strong> <?echo "$separateDate[2]/$separateDate[1]/$separateDate[0]"?>
-                                    </p>
-                                    <a href="#" class="btn myCardButton">Editar</a>
+                    <? if( count($userServices) > 0 ) {
+                        foreach ($userServices as $service) {
+                    ?>
+                            <div class="col-lg-4 col-sm-6 mt-3">
+                                <div class="card myCard mx-3">
+                                    <div class="card-header myCardHeader">
+                                        Serviço <?= $service->tipo == 0 ? "remoto" : "presencial" ?>
+                                    </div>
+                                    <div class="card-body">
+                                        <h3 class="card-title"><?=$service->nome_servico?></h3>
+                                        <p class="card-text">
+                                            <strong>Informações básicas:</strong> <br>
+                                            <strong>Orçamento médio:</strong> <?=$service->orcamento?> <br>
+                                            <?if($service->tipo == 1) {?>
+                                                <strong>Localização:</strong> <?=$user->cidade?>, <?=$user->estado?>
+                                            <?} else {?>
+                                                <strong>Serviço remoto</strong>
+                                            <?}?>
+                                        </p>
+                                        <a href="../EncontrarProfissional/VisualizarServico/visuaizarServico.php?serviceID=<?=$service->id_servico?>" class="btn myCardButton">+ detalhes</a>
+                                    </div>
                                 </div>
                             </div>
+                        <?}
+                    } else {?>
+                        <div class="col-12 mt-3">
+                            <p class="text-info text-center">
+                                Monetize seus conhecimentos e habilidades agora mesmo. Crie um serviço clicando no botão abaixo
+                            </p>
                         </div>
                     <?}?>
 

@@ -563,6 +563,10 @@
     background-color: #F2F2F2;
 }
 
+#myDescriptionText{
+    white-space: pre-line;
+}
+
 .my-description-section-container, .my-description-section-container > .row, .my-description-section-container .col-12{
     margin: 0;
     padding: 0;
@@ -765,6 +769,10 @@
     text-align: end;
 
     margin: 0;
+}
+
+.glider{
+    padding: 25px;
 }
 /* --- Other Service Fim -- */
 
