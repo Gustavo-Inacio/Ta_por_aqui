@@ -559,11 +559,7 @@ const hireServiceHandler = () => {
                     return false;
                 }
 
-                let statusConfig = [
-                    {
-                        color:'#06A77D', 
-                        text: 'Contratar serviço'
-                    },
+                let statusConfig = [ 
                     {
                         color:'#715c00',
                         text: 'Contrato: Pedido Pendente'
@@ -571,6 +567,10 @@ const hireServiceHandler = () => {
                     {
                         color:'#d82929', 
                         text: 'Serviço já contratato'
+                    },
+                    {
+                        color:'#06A77D', 
+                        text: 'Contratar serviço'
                     },
                 ];
 
@@ -611,8 +611,10 @@ const loadOtherService = () => {
 
     xhr.open('GET', `./getAsyncData.php?getOtherServices=${JSON.stringify(config)}`);
     xhr.onload = () => {
+        console.log(xhr.response);
         let resp = JSON.parse(xhr.response);
 
+        console.log(resp);
         let data = resp.getOtherServices.data;
         let dataFormated = [];
 

@@ -330,13 +330,13 @@
                     </div>
 
 
-                    <?php if($avaliationPermited['status'] == 2){ ?>
+                    <?php if($avaliationPermited['status'] == 1){ ?>
                         <button style="background-color: #d82929;"  class="my-hire-service-btn">Serviço já contratado</button>
                     <?php } ?>
-                    <?php if($avaliationPermited['status'] == 1){ ?>
+                    <?php if($avaliationPermited['status'] == 0){ ?>
                         <button style="background-color: #715c00;" class="my-hire-service-btn">Pedido pendente</button>
                     <?php } ?>
-                    <?php if($avaliationPermited['status'] == 0){ ?>
+                    <?php if($avaliationPermited['status'] == 2){ ?>
                         <button class="my-hire-service-btn">Contratar serviço</button>
                     <?php } ?>
                     
@@ -452,7 +452,7 @@
 
     </section>
 
-    <?php if($avaliationPermited['status'] == 2){ ?>
+    <?php if($avaliationPermited['status'] == 1){ ?>
     <section id="myAvaliationSection">
         <div class="container-fluid">
             <h1 class="my-write-coment-section-title">Avalie este serviço</h1>
@@ -605,7 +605,7 @@
         <p class="xl">xl</p>
     </div>-->
 
-    <?php if($avaliationPermited['status'] == 2){ ?>
+    <?php if($avaliationPermited['status'] == 1){ ?>
     <script type="module">
         import {commentsDataHandler, refreshAverageRate} from './visualizarServico.js';
 
@@ -621,7 +621,9 @@
             xhr.onload = () => {
                 if(xhr.status === 200 && xhr.readyState === XMLHttpRequest.DONE){
                     console.log(xhr.response);
+                    console.log("a")
                     let response = JSON.parse(xhr.response);
+                    console.log("b")
                     let allInfo = response.sendComment;
                     console.log(allInfo);
                     if(allInfo.refreshAllComments){
