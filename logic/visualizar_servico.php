@@ -21,7 +21,7 @@ class VisualizeService
         if($cmd_provider->rowCount() > 0){
             $providerID = $cmd_provider->fetch(PDO::FETCH_ASSOC)['prestador'];
 
-            $command = $this->con->query("SELECT nome, sobrenome, classificacao, telefone, estado, cidade, rua, numero FROM USUARIOS WHERE id_usuario='$providerID'");
+            $command = $this->con->query("SELECT nome, sobrenome, classificacao, telefone, estado, cidade, rua, numero FROM usuarios WHERE id_usuario='$providerID'");
             $data = $command->fetch(PDO::FETCH_ASSOC);    
         }
 
@@ -117,7 +117,7 @@ class VisualizeService
 
     public function getAvaliationPermited(){
         $response = array(
-            "status" => 0
+            "status" => 2 // status de nao aceito - padrao
         );
 
         if(isset($_SESSION['idUsuario']) && isset($_SESSION['serviceID'])){
@@ -126,16 +126,16 @@ class VisualizeService
 
             $command = $this->con->query("SELECT status_contrato FROM contratos WHERE id_cliente='$clientID' AND id_servico='$serviceID'");
 
-            if($command->rowCount() > 0){
+            if($command->rowCount() > 0){ // verifica se existe um contrato entre o sevico e esse user
                 $statusData = $command->fetch(PDO::FETCH_ASSOC);
-                $response['status'] = $statusData['status_contrato'];
+                $response['status'] = $statusData['status_contrato']; // se ja existir, responde com q que esta la
             }
             else{
-                $response['status'] = 0;
+                $response['status'] = 2; // se nao existir, coloca o valor padrao
             }
         }
-        else{
-            $response['status'] = 0;
+        else{ // se nao estiver loggado ou nao estiver em um servico
+            $response['status'] = 2; // status padrao 
         }
 
         return $response;
@@ -325,9 +325,9 @@ class VisualizeService
         );
 
         $permition = $this->getAvaliationPermited();
-        if($permition['status'] != 2){
+        if($permition['status'] != 1){ // status 1 = aceito
             $response = false;
-            print_r($permition['status']);
+            //print_r($permition['status']);
         }
         else{
             
