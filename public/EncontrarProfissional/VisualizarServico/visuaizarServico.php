@@ -88,7 +88,7 @@
                 <a href="../../Home/home.php" class="nav-link">Home</a>
             </li>
             <li class="nav-item">
-                <a href="../Listagem/listagem.html" class="nav-link">Encontre um pofissional</a>
+                <a href="../Listagem/listagem.php" class="nav-link">Encontre um pofissional</a>
             </li>
             <li class="nav-item">
                 <a href="../../Artigos/artigos.html" class="nav-link">Artigos</a>
@@ -97,7 +97,7 @@
                 <a href="../../Contato/contato.html" class="nav-link">Fale conosco</a>
             </li>
             <li class="nav-item">
-                <a href="../../SobreNos/sobreNos.html" class="nav-link">Sobre</a>
+                <a href="../../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
             </li>
             <li class="nav-item">
                 <a href="../../Chat/chat.html" class="nav-link">Chat</a>
@@ -109,21 +109,16 @@
             <?}?>
         </ul>
 
-        <? if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSION['senha']) && isset($_SESSION['classificacao']) ) {?>
-            <div class="dropdown">
-                <img src="../../../assets/images/profile_images/<?=$_SESSION['imagemPerfil']?>" alt="imagem de perfil" id="profileMenu" class="img-fluid" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <? if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSION['senha']) && isset($_SESSION['classificacao']) ) {?>
+                <div class="dropdown">
+                    <img src="../../../assets/images/profile_images/<?=$_SESSION['imagemPerfil']?>" alt="imagem de perfil" id="profileMenu" class="img-fluid" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
-                <div class="dropdown-menu" aria-labelledby="profileMenu">
-                    <? if($_SESSION['classificacao'] == 0) {?>
-                        <a class="dropdown-item" href="../Perfil/Cliente/meu_perfil.php">Perfil</a>
-                    <? }else if($_SESSION['classificacao'] == 1 || $_SESSION['classificacao'] == 2) {?>
-                        <a class="dropdown-item" href="../Perfil/Prestador/meu_perfil.php">Perfil</a>
-                    <?}?>
-                    <a class="dropdown-item text-danger" href="../../../logic/entrar_logoff.php">Sair</a>
+                    <div class="dropdown-menu" aria-labelledby="profileMenu">
+                        <a class="dropdown-item" href="../../Perfil/meu_perfil.php">Perfil</a>
+                        <a class="dropdown-item text-danger" href="../../../logic/entrar_logoff.php">Sair</a>
+                    </div>
                 </div>
-            </div>
-        <? } ?>
-
+            <? } ?>
     </div>
         
     </nav>
@@ -211,19 +206,11 @@
                 <div class="my-service-main-content--carousel-area">
                     <div id="myMainServiceCarousel" class="my-main-carousel carousel slide" data-ride="carousel">
                         <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src="../../../assets/images/service_images/<?php echo $serviceImg[0];?>"" class="d-block w-100" alt="SERVICE-IMG">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="../../../assets/images/service_images/<?php echo $serviceImg[1];?>" class="d-block w-100" alt="SERVICE-IMG">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="../../../assets/images/service_images/<?php echo $serviceImg[2];?>" class="d-block w-100" alt="SERVICE-IMG">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="../../../assets/images/service_images/<?php echo $serviceImg[3];?>" class="d-block w-100" alt="SERVICE-IMG">
-                            </div>
-
+                            <?php foreach ($serviceImg as $i => $img) {?>
+                                <div class="carousel-item <?=$i === 0 ? "active" : ""?>">
+                                    <img src="../../../assets/images/service_images/<?php echo $img;?>" class="d-block w-100" alt="SERVICE-IMG">
+                                </div>
+                            <?php }?>
                         </div>
 
                         <a class="carousel-control-prev" href="#myMainServiceCarousel" role="button" data-slide="prev">
@@ -237,18 +224,11 @@
                     </div>
 
                     <div class="my-service-carousel-img-indicators">
-                        <div class="my-carousel-indicator-item active">
-                            <img src="../../../assets/images/service_images/<?php echo $serviceImg[0];?>" class="d-block w-100" alt="SERVICE-IMG">
-                        </div>
-                        <div class="my-carousel-indicator-item">
-                            <img src="../../../assets/images/service_images/<?php echo $serviceImg[1];?>" class="d-block w-100" alt="SERVICE-IMG">
-                        </div>
-                        <div class="my-carousel-indicator-item">
-                            <img src="../../../assets/images/service_images/<?php echo $serviceImg[2];?>" class="d-block w-100" alt="SERVICE-IMG">
-                        </div>
-                        <div class="my-carousel-indicator-item">
-                            <img src="../../../assets/images/service_images/<?php echo $serviceImg[3];?>" class="d-block w-100" alt="SERVICE-IMG">
-                        </div>
+                        <?php foreach ($serviceImg as $i => $img) {?>
+                            <div class="my-carousel-indicator-item <?=$i == 0 ? "active" : ""?>">
+                                <img src="../../../assets/images/service_images/<?php echo $img;?>" class="d-block w-100" alt="SERVICE-IMG">
+                            </div>
+                        <?php }?>
                     </div>
 
                     <div class="my-service-location-div my-service-location-div-under-carousel">
@@ -323,12 +303,19 @@
                     </div>
 
                     <div class="my-service-location-div">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <p class="my-service-location">
-                            <?php 
-                                echo $providerData['estado'].", ".$providerData['cidade'].", ".$providerData['rua'].' '.$providerData['numero']; 
-                            ?>
-                        </p>
+                        <?php if($serviceData['tipo'] == 1) {?>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <p class="my-service-location">
+                                <?php
+                                    echo $providerData['estado'].", ".$providerData['cidade'].", ".$providerData['rua'].' '.$providerData['numero'];
+                                ?>
+                            </p>
+                        <?php } else {?>
+                            <i class="fas fa-laptop-house"></i>
+                            <p class="my-service-location">
+                                Serviço feito digitalmente
+                            </p>
+                        <?php }?>
                     </div>
 
                     <div class="modal fade" id="notLoggedModal" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

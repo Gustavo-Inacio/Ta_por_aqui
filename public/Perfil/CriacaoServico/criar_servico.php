@@ -313,7 +313,7 @@ if($_SESSION['classificacao'] == 0){
                                 <p class="card-text text-dark">
                                     <strong>Tipo: </strong> <span id="cardServiceType">  </span> <br>
                                     <strong>Categorias: </strong> <span id="cardServiceCategory">  </span> <br>
-                                    <strong>Descrição: </strong> <p id="cardServiceDescription" class="m-0 p-0 text-dark">  </p> <br>
+                                    <strong>Descrição: </strong> <p id="cardServiceDescription" class="m-0 p-0 text-dark"></p> <br>
                                     <strong>Pagamento: </strong> <span id="cardServicePayment">  </span> <br>
                                 </p>
                                 <btn type="button" class="myBtn myBtnGreen mb-3" id="confirmService" onclick="createServiceValidation()">Confirmar e criar serviço</btn> <br>

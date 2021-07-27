@@ -49,12 +49,12 @@
                 <a href="../../Contato/contato.html" class="nav-link">Fale conosco</a>
             </li>
             <li class="nav-item">
-                <a href="../../SobreNos/sobreNos.html" class="nav-link">Sobre</a>
+                <a href="../../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
             </li>
             <li class="nav-item">
                 <a href="../../Chat/chat.html" class="nav-link">Chat</a>
             </li>
-            <? if( empty($_SESSION) ){ ?>
+            <? if( empty($_SESSION['idUsuario']) ){ ?>
                 <li class="nav-item">
                     <a href="../../Entrar/login.php" class="nav-link">Entrar/cadastrar</a>
                 </li>
@@ -66,12 +66,8 @@
                 <img src="../../../assets/images/profile_images/<?=$_SESSION['imagemPerfil']?>" alt="imagem de perfil" id="profileMenu" class="img-fluid" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
                 <div class="dropdown-menu" aria-labelledby="profileMenu">
-                    <? if($_SESSION['classificacao'] == 0) {?>
-                        <a class="dropdown-item" href="../../../Perfil/Cliente/meu_perfil.php">Perfil</a>
-                    <? }else if($_SESSION['classificacao'] == 1 || $_SESSION['classificacao'] == 2) {?>
-                        <a class="dropdown-item" href="../../../Perfil/Prestador/meu_perfil.php">Perfil</a>
-                    <?}?>
-                    <a class="dropdown-item text-danger" href=";;/../../logic/entrar_logoff.php">Sair</a>
+                    <a class="dropdown-item" href="../../Perfil/meu_perfil.php">Perfil</a>
+                    <a class="dropdown-item text-danger" href="../../../logic/entrar_logoff.php">Sair</a>
                 </div>
             </div>
         <? } ?>
