@@ -13,8 +13,11 @@ if ($_SESSION['imagemPerfil'] !== "no_picture.jpg"){
         $query = "UPDATE usuarios SET imagem_perfil = 'no_picture.jpg'";
         $stmt = $con->query($query);
 
-        //trocar da session
+        //trocar da session e do cookie
         $_SESSION['imagemPerfil'] = 'no_picture.jpg';
+        if (isset($_COOKIE['imagemPerfil'])){
+            setcookie('imagemPerfil', "no_picture.jpg", time() + (60*60*24*30), '/');
+        }
 
         header('location: ../public/Perfil/meu_perfil.php');
     } else {

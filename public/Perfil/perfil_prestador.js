@@ -185,7 +185,7 @@ function editprofileImage(img) {
         document.getElementById('NewProfileImageButtons').classList.add('d-none')
     } else {
         //TUDO CERTO
-        msg.innerText = "A imagem a seguir é uma prévia de como será mostrada su foto de perfil."
+        msg.innerText = "A imagem a seguir é uma prévia de como será mostrada sua foto de perfil."
         msg.className = "text-info"
 
         //limpar imagens caso haja
@@ -215,4 +215,36 @@ function confirmRemoveImage(url){
     if ( confirm("você tem certeza que deseja remover sua foto de perfil?") ){
         location.href = url
     }
+}
+
+function acceptRejectService(choice, contract, client) {
+    //esmanescendo o modal inferior (de mostrar todos os serviços)
+    $('#confirmAcceptRejectModal').on('show.bs.modal', e => {
+        e.target.style.backgroundColor = "rgba(0,0,0,0.4)"
+    })
+
+    //personalizando modal de confirmação de escolha
+    if(choice === 'accept'){
+        document.getElementById('confirmModalChoice').className = "text-success"
+        document.getElementById('confirmModalChoice').innerText = "aceitar"
+
+        document.getElementById('confirmModalMessage').className = "text-success"
+        document.getElementById('confirmModalMessage').innerText = "Ao aceitar prestar esse serviço, seu cliente poderá comentar e avaliar publicamente seu serviço prestado"
+
+        document.getElementById('confirmModalConfirmChoice').className = 'btn btn-success'
+        document.getElementById('confirmModalConfirmChoice').innerText = 'Aceitar'
+    } else {
+        document.getElementById('confirmModalChoice').className = "text-danger"
+        document.getElementById('confirmModalChoice').innerText = "rejeitar"
+
+        document.getElementById('confirmModalMessage').className = "text-danger"
+        document.getElementById('confirmModalMessage').innerHTML = "Ao rejeitar prestar esse serviço, o usuário que pediu receberá uma notificação de que o serviço solicitado foi rejeitado e ele não poderá avaliar e comentar no seu serviço. <br> Todavia o usuário poderá requisitar seu serviço denovo mais tarde."
+
+        document.getElementById('confirmModalConfirmChoice').className = 'btn btn-danger'
+        document.getElementById('confirmModalConfirmChoice').innerText = 'Rejeitar'
+    }
+    document.getElementById('confirmModalConfirmChoice').href = `../../logic/perfil_aceitar_servico.php?escolha=${choice}&contrato=${contract}`
+    document.getElementById('confirmModalUserName').innerText = client
+
+    $('#confirmAcceptRejectModal').modal('show')
 }

@@ -160,11 +160,6 @@ body{
     padding: 40px;
 }
 
-@media (max-width: 767.98px){
-    #modalMsg{
-        border-radius: 10px 10px 0 0 ;
-    }
-}
 
 /*Modal de email confirmado*/
 #confirmedEmailModal .modal-content{
@@ -199,5 +194,20 @@ input[type=number] {
 @media (max-width: 575.98px){
     #confirmedEmailModal a{
         padding: 7px 50px;
+    }
+
+    #registerDiv{
+        padding: 0;
+        border-radius: 0;
+        align-self: center;
+        margin-top: 0;
+        box-shadow: none;
+        background-color: white;
+    }
+}
+
+@media (max-width: 767.98px){
+    #modalMsg{
+        border-radius: 10px 10px 0 0 ;
     }
 }

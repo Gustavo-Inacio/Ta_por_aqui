@@ -1,8 +1,4 @@
 <?php
-echo "<pre>";
-print_r($_FILES);
-echo "</pre>";
-
 session_start();
 
 require "DbConnection.php";
@@ -36,8 +32,11 @@ if ( count($_FILES) > 0 ){
                     unlink("../assets/images/profile_images/" . $_SESSION['imagemPerfil']);
                 }
 
-                //atualizar foto na session
+                //atualizar foto na session e no cookie
                 $_SESSION['imagemPerfil'] = $newName;
+                if (isset($_COOKIE['imagemPerfil'])){
+                    setcookie('imagemPerfil', $newName, time() + (60*60*24*30), '/');
+                }
 
                 //redirecionando
                 header('Location: ../public/Perfil/meu_perfil.php');

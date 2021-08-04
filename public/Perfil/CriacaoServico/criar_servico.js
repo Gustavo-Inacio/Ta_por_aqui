@@ -204,7 +204,7 @@ function createServiceValidation() {
     let errorMsg = ""
     let errorMsgOutput = document.getElementById('createServiceErrorMsg')
 
-    //nota: já há uma outra função para validar as imagens (caso tenha)
+    //nota: já há uma outra função para validar as imagens
     //validar se há mais que 3 categorias
     let botao = document.getElementById('categorias')
 
@@ -229,6 +229,15 @@ function createServiceValidation() {
         //desestilizando botão
         botao.classList.remove('btn-danger')
         botao.innerHTML = "Escolha a categoria"
+    }
+
+    //Verificando se há imagens
+    if(document.getElementById('imagens[]').files.length === 0){
+        valid = false
+        errorMsg = "Adicione ao menos uma imagem para seu serviço";
+        document.getElementById('imagens[]').classList.add('is-invalid')
+    } else {
+        document.getElementById('imagens[]').classList.remove('is-invalid')
     }
 
     //campos obrigatórios preenchidos
