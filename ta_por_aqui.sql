@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 15-Jun-2021 às 22:46
+-- Tempo de geração: 24-Jun-2021 às 15:04
 -- Versão do servidor: 10.4.11-MariaDB
 -- versão do PHP: 7.4.4
 
@@ -53,7 +53,8 @@ CREATE TABLE `comentarios` (
   `id_servico` int(11) NOT NULL,
   `nota` float(3,1) NOT NULL,
   `comentario` text DEFAULT NULL,
-  `data` datetime NOT NULL DEFAULT current_timestamp()
+  `data` datetime NOT NULL DEFAULT current_timestamp(),
+  `id_usuario` int(11) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -68,7 +69,7 @@ CREATE TABLE `contratos` (
   `id_cliente` int(11) NOT NULL,
   `id_prestador` int(11) NOT NULL,
   `data_contrato` datetime NOT NULL DEFAULT current_timestamp(),
-  `status_contrato` int(11) NOT NULL
+  `status_contrato` int(11) NOT NULL COMMENT '0 = não aceito, 1 = pendente, 2 = rejeitado '
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -127,22 +128,6 @@ CREATE TABLE `fale_conosco` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `redes_sociais`
---
-
-CREATE TABLE `redes_sociais` (
-  `id_rede_social` int(11) NOT NULL,
-  `id_usuario` int(11) NOT NULL,
-  `instragram` varchar(30) DEFAULT NULL,
-  `twitter` varchar(30) DEFAULT NULL,
-  `facebook` varchar(30) DEFAULT NULL,
-  `linkedin` varchar(30) DEFAULT NULL,
-  `tiktok` varchar(30) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Estrutura da tabela `servico`
 --
 
@@ -150,12 +135,12 @@ CREATE TABLE `servico` (
   `id_servico` int(11) NOT NULL,
   `prestador` int(11) NOT NULL,
   `nome_servico` varchar(30) NOT NULL,
-  `tipo` int(11) NOT NULL,
+  `tipo` int(11) NOT NULL COMMENT '0 = remoto, 1 = presencial',
   `descricao` text NOT NULL,
   `orcamento` varchar(50) NOT NULL,
   `data_publicacao` datetime NOT NULL DEFAULT current_timestamp(),
-  `nota_media` float(3,1) DEFAULT NULL,
-  `status_servico` int(11) DEFAULT 1
+  `nota_media` float(2,1) DEFAULT NULL,
+  `status_servico` int(11) DEFAULT 1 COMMENT '0 = negado, 1 = permitido'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -257,7 +242,7 @@ CREATE TABLE `usuarios` (
   `senha` varchar(40) NOT NULL,
   `data_nascimento` date NOT NULL,
   `sexo` char(1) NOT NULL,
-  `classificacao` int(11) NOT NULL,
+  `classificacao` int(11) NOT NULL COMMENT '0 = cliente, 1 = prestador, 2 = pequeno negócio',
   `cep` char(8) NOT NULL,
   `estado` char(2) NOT NULL,
   `cidade` varchar(40) NOT NULL,
@@ -268,9 +253,46 @@ CREATE TABLE `usuarios` (
   `data_entrada` datetime NOT NULL DEFAULT current_timestamp(),
   `descricao` text DEFAULT NULL,
   `site` varchar(40) DEFAULT NULL,
-  `status_usuario` int(11) NOT NULL DEFAULT 0,
-  `imagem_perfil` varchar(20) DEFAULT 'no_picture.jpg'
+  `status_usuario` int(11) NOT NULL DEFAULT 0 COMMENT '0 = ativa, 1 = banida, 2 = suspensa',
+  `imagem_perfil` varchar(40) DEFAULT 'no_picture.jpg',
+  `nota_media` float(2,1) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `usuarios`
+--
+
+INSERT INTO `usuarios` (`id_usuario`, `nome`, `sobrenome`, `telefone`, `email`, `senha`, `data_nascimento`, `sexo`, `classificacao`, `cep`, `estado`, `cidade`, `bairro`, `rua`, `numero`, `complemento`, `data_entrada`, `descricao`, `site`, `status_usuario`, `imagem_perfil`, `nota_media`) VALUES
+(1, 'Natan', 'Barbosa', '(11) 99182-5452', 'natanbarbosa525@gmail.com', '123', '2003-07-28', 'M', 1, '09771220', 'SP', 'São Bernardo do Campo', 'Nova Petrópolis', 'Rua Ernesta Pelosini', '195', 'apto. 85 BL. A', '2021-06-24 08:31:34', 'Sou designer programador front end e te ajudarei a desenvolver um site bacana do zero do seu jeito e estilo', 'https://www.youtube.com/channel/UCNqmecU', 0, '162454534260d4983e0dbf4.jpg', NULL),
+(2, 'Fabricia', 'Santos', '(52) 35478-9651', 'vaxitij447@pigicorn.com', '123456', '1993-02-07', 'F', 0, '41515140', 'BA', 'Salvador', 'Bairro da Paz', 'Rua Duque de Caxias', '54', NULL, '2021-06-24 11:48:20', NULL, NULL, 0, 'no_picture.jpg', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `usuario_redes_sociais`
+--
+
+CREATE TABLE `usuario_redes_sociais` (
+  `id_rede_social` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `rede_social` varchar(10) NOT NULL,
+  `nome_usuario` varchar(30) DEFAULT NULL,
+  `link_perfil` varchar(60) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `usuario_redes_sociais`
+--
+
+INSERT INTO `usuario_redes_sociais` (`id_rede_social`, `id_usuario`, `rede_social`, `nome_usuario`, `link_perfil`) VALUES
+(1, 1, 'instagram', NULL, NULL),
+(2, 1, 'facebook', NULL, NULL),
+(3, 1, 'twitter', NULL, NULL),
+(4, 1, 'linkedin', NULL, NULL),
+(5, 2, 'instagram', NULL, NULL),
+(6, 2, 'facebook', NULL, NULL),
+(7, 2, 'twitter', NULL, NULL),
+(8, 2, 'linkedin', NULL, NULL);
 
 --
 -- Índices para tabelas despejadas
@@ -287,7 +309,8 @@ ALTER TABLE `categorias`
 --
 ALTER TABLE `comentarios`
   ADD PRIMARY KEY (`id_comentario`),
-  ADD KEY `fk_ComentarioServico` (`id_servico`);
+  ADD KEY `fk_ComentarioServico` (`id_servico`),
+  ADD KEY `fk_comentario_usuario` (`id_usuario`);
 
 --
 -- Índices para tabela `contratos`
@@ -324,13 +347,6 @@ ALTER TABLE `denuncia_servico`
 --
 ALTER TABLE `fale_conosco`
   ADD PRIMARY KEY (`id_contato`);
-
---
--- Índices para tabela `redes_sociais`
---
-ALTER TABLE `redes_sociais`
-  ADD PRIMARY KEY (`id_rede_social`),
-  ADD KEY `fk_RedesocialUsuario` (`id_usuario`);
 
 --
 -- Índices para tabela `servico`
@@ -375,6 +391,13 @@ ALTER TABLE `subcategorias`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id_usuario`);
+
+--
+-- Índices para tabela `usuario_redes_sociais`
+--
+ALTER TABLE `usuario_redes_sociais`
+  ADD PRIMARY KEY (`id_rede_social`),
+  ADD KEY `fk_redesSociais_usuarios` (`id_usuario`);
 
 --
 -- AUTO_INCREMENT de tabelas despejadas
@@ -423,12 +446,6 @@ ALTER TABLE `fale_conosco`
   MODIFY `id_contato` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `redes_sociais`
---
-ALTER TABLE `redes_sociais`
-  MODIFY `id_rede_social` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de tabela `servico`
 --
 ALTER TABLE `servico`
@@ -462,7 +479,13 @@ ALTER TABLE `subcategorias`
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de tabela `usuario_redes_sociais`
+--
+ALTER TABLE `usuario_redes_sociais`
+  MODIFY `id_rede_social` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Restrições para despejos de tabelas

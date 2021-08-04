@@ -63,7 +63,7 @@ require "../../logic/entrar_cookie.php";
                 <li class="nav-item">
                     <a href="../Chat/chat.html" class="nav-link">Chat</a>
                 </li>
-                <? if( empty($_SESSION) ){ ?>
+                <? if( empty($_SESSION['idUsuario']) ){ ?>
                     <li class="nav-item">
                         <a href="../Entrar/login.php" class="nav-link">Entrar/cadastrar</a>
                     </li>
@@ -75,11 +75,7 @@ require "../../logic/entrar_cookie.php";
                     <img src="../../assets/images/profile_images/<?=$_SESSION['imagemPerfil']?>" alt="imagem de perfil" id="profileMenu" class="img-fluid" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
                     <div class="dropdown-menu" aria-labelledby="profileMenu">
-                        <? if($_SESSION['classificacao'] == 0) {?>
-                            <a class="dropdown-item" href="../Perfil/Cliente/meu_perfil.php">Perfil</a>
-                        <? }else if($_SESSION['classificacao'] == 1 || $_SESSION['classificacao'] == 2) {?>
-                            <a class="dropdown-item" href="../Perfil/Prestador/meu_perfil.php">Perfil</a>
-                        <?}?>
+                        <a class="dropdown-item" href="../Perfil/meu_perfil.php">Perfil</a>
                         <a class="dropdown-item text-danger" href="../../logic/entrar_logoff.php">Sair</a>
                     </div>
                 </div>
@@ -174,12 +170,24 @@ require "../../logic/entrar_cookie.php";
         <div id="myLoginSectionContainer" class="container">
             <div class="row">
                 <div id="myLoginSectionCol" class="col">
-                    <h1 class="my-login-section--title">Você tem um negócio local? </h1>
-                    <p class="my-login-section--text">Já pensou em possuir uma vitrine digital? Poisé, nossa plataforma é especialisada em vitrines para negócios, faça já a sua! Áh, e não esqueça de adicionar a localização, os clientes precisam te encontrar!</p>
-                    <div class="my-login-section--btn-area">
-                        <a class="btn-login-a" href="../Entrar/login.php"> <button>Entrar</button> </a>
-                        <a class="btn-signup-a" href="../Cadastrar/cadastro.php"> <button>Cadastre-se</button> </a>
-                    </div>
+
+                    <? if(!isset($_SESSION['idUsuario'])) {?>
+                        <!-- Botão de login para pessoas não logadas -->
+                        <h1 class="my-login-section--title">Você tem um negócio local? </h1>
+                        <p class="my-login-section--text">Já pensou em possuir uma vitrine digital? Poisé, nossa plataforma é especialisada em vitrines para negócios, faça já a sua! Áh, e não esqueça de adicionar a localização, os clientes precisam te encontrar!</p>
+                        <div class="my-login-section--btn-area">
+                            <a class="btn-login-a" href="../Entrar/login.php"> <button>Entrar</button> </a>
+                            <a class="btn-signup-a" href="../Cadastrar/cadastro.php"> <button>Cadastre-se</button> </a>
+                        </div>
+
+                    <? } else {?>
+                        <!-- Botão de login para pessoas não logadas -->
+                        <h1 class="my-login-section--title"> Personalize seu perfil </h1>
+                        <p class="my-login-section--text"> É muito importante manter seu perfil sempre com as informações atualizadas para quando as pessoas entrarem em contato com você! </p>
+                        <div class="my-login-section--btn-area">
+                            <a class="btn-signup-a" href="../Perfil/meu_perfil.php"> <button>Meu perfil</button> </a>
+                        </div>
+                    <?}?>
                 </div>
             </div>
         </div>
