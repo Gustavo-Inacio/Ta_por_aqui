@@ -1,7 +1,7 @@
 svg{
     position: absolute;
     z-index: -1;
-    bottom: 0px;
+    bottom: 0;
 }
 
 body{
@@ -33,12 +33,6 @@ body{
 
 #loginContent{
     padding: 80px 100px 80px 60px;
-}
-
-@media (max-width: 991.98px) {
-    #loginContent{
-        padding: 80px 40px 80px 40px;
-    }
 }
 
 #loginForm label.myLabel{
@@ -94,4 +88,20 @@ body{
 #loginContent .btn-outline-success:hover{
     color: white;
     background-color: #45E586;
+}
+
+@media (max-width: 991.98px) {
+    #loginContent{
+        padding: 80px 40px 80px 40px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    #loginDiv{
+        padding: 0;
+        border-radius: 0;
+        align-self: center;
+        box-shadow: none;
+        background-color: white;
+    }
 }

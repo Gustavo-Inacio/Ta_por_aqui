@@ -22,7 +22,7 @@ if(isset($_GET['id'])) {
 
     //puxando os serviços do prestador
     if($_SESSION['classificacao'] !== 0){
-        $query = "SELECT id_servico, nome_servico, tipo, orcamento, data_publicacao FROM servico WHERE prestador = " . $_GET['id'];
+        $query = "SELECT id_servico, nome_servico, tipo, orcamento, data_publicacao FROM servico WHERE prestador = " . $_GET['id'] . " ORDER BY id_servico DESC";
         $stmt = $con->query($query);
         $userServices = $stmt->fetchAll(PDO::FETCH_OBJ);
     }
@@ -49,11 +49,13 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
         <link rel="stylesheet" href="../../assets/global/globalStyles.css">
         <link rel="stylesheet" href="perfil.css">
 
-        <script src="../../assets/bootstrap/jquery-3.5.1.slim.min.js" defer></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
         <script src="../../assets/bootstrap/popper.min.js" defer></script>
         <script src="../../assets/bootstrap/bootstrap-4.5.3-dist/js/bootstrap.min.js" defer></script>
 
         <script src="../../assets/global/globalScripts.js" defer></script>
+
+        <script src="show_services.js" defer></script>
     </head>
 
     <body>
@@ -191,11 +193,12 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
     <link rel="stylesheet" href="../../assets/global/globalStyles.css">
     <link rel="stylesheet" href="perfil.css">
 
-    <script src="../../assets/bootstrap/jquery-3.5.1.slim.min.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script src="../../assets/bootstrap/popper.min.js" defer></script>
     <script src="../../assets/bootstrap/bootstrap-4.5.3-dist/js/bootstrap.min.js" defer></script>
 
     <script src="../../assets/global/globalScripts.js" defer></script>
+    <script src="show_services.js" defer></script>
 </head>
 
 <body>
@@ -274,26 +277,26 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
                 <div id="myForms" class="row">
                     <div class="col-md-6">
                         <label for="userName">Nome</label> <br>
-                        <input type="text" class="form-control" name="userName" id="userName" class="mb-4" readonly
+                        <input type="text" class="form-control" name="userName" id="userName" readonly
                             value="<?=$user->nome?>">
 
                         <br>
 
                         <label for="userLastName">Sobrenome</label> <br>
-                        <input type="text" class="form-control" name="userLastName" id="userLastName" class="mb-4"
+                        <input type="text" class="form-control" name="userLastName" id="userLastName"
                             readonly value="<?=$user->sobrenome?>">
 
                         <br>
 
                         <label for="userCell">Celular</label> <br>
-                        <input type="text" class="form-control" name="userCell" id="userCell" class="mb-4" readonly
+                        <input type="text" class="form-control" name="userCell" id="userCell" readonly
                             value="<?=$user->telefone?>">
 
                     </div>
 
                     <div class="col-md-6 mt-3 mt-md-0">
                         <label for="userEmail">Email</label> <br>
-                        <input type="text" class="form-control" name="userEmail" id="userEmail" class="mb-4" readonly
+                        <input type="text" class="form-control" name="userEmail" id="userEmail" readonly
                             value="<?=$user->email?>">
 
                         <br>
@@ -306,10 +309,9 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
                         <?}?>
 
                         <label for="userDescription">Descrição</label> <br>
-                        <textarea name="userDescription" class="form-control" id="userDescription" class="mb-4" placeholder="O usuário não colocou nenhuma descrição"
+                        <textarea name="userDescription" class="form-control" id="userDescription" placeholder="O usuário não colocou nenhuma descrição"
                             readonly><?=$user->descricao?></textarea>
                     </div>
-
                 </div>
         </div>
     </section>
@@ -367,24 +369,27 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
     <section id="availableServices">
         <div class="container">
 
-            <div class="myContent">
+            <div class="myContent mb-3">
                 <h1>Serviços disponibilizados</h1>
 
                 <div class="row" id="serviceCards">
 
                     <? if( count($userServices) !== 0 ) {
-                        foreach ($userServices as $service) {
-                            ?>
+                        foreach ($userServices as $key => $service) {
+                            if ($key == 3){
+                                break;
+                            }
+                    ?>
                             <div class="col-lg-4 col-sm-6 mt-3">
                                 <div class="card myCard mx-3">
                                     <div class="card-header myCardHeader">
-                                        Serviço <?= $service->tipo == 0 ? "remoto" : "presencial" ?> <?=$service->id_servico?>
+                                        Serviço <?= $service->tipo == 0 ? "remoto" : "presencial" ?>
                                     </div>
                                     <div class="card-body">
                                         <h3 class="card-title"><?=$service->nome_servico?></h3>
                                         <p class="card-text">
                                             <strong>Informações básicas:</strong> <br>
-                                            <strong>Orçamento médio:</strong> <?=$service->orcamento?> <br>
+                                            <strong>Orçamento:</strong> <?=$service->orcamento?> <br>
                                             <?if($service->tipo == 1) {?>
                                                 <strong>Localização:</strong> <?=$user->cidade?>, <?=$user->estado?>
                                             <?} else {?>
@@ -403,13 +408,24 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
                             </p>
                         </div>
                     <?}?>
-
                 </div>
             </div>
+
+            <?if(count($userServices) > 3) {?>
+                <button type="button" class="showServicesButtons mr-4 mb-4" id="showAllAvailableServices" onclick="showAllServices('availableServices', <?=$_GET['id']?>)">Todos os serviços</button>
+            <?}?>
         </div>
     </section>
-
     <!-- Fim serviços disponibilizados -->
+
+    <!-- Modal de mostrar todos os serviços -->
+    <div class="modal fade" id="showAllServicesModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable" id="showAllServicesModalContent">
+
+            <!-- conteúdo inserido dinamicamente -->
+
+        </div>
+    </div>
 <? } ?>
 
     <!-- footer -->

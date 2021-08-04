@@ -2,10 +2,10 @@
 session_start();
 
 if( empty($_SESSION) ){
-    header('Location: ../../../Home/home.php');
+    header('Location: ../../Home/home.php');
 }
 if($_SESSION['classificacao'] == 0){
-    header('Location: ../../../Home/home.php');
+    header('Location: ../../Home/home.php');
 }
 ?>
 <!DOCTYPE html>
@@ -257,7 +257,7 @@ if($_SESSION['classificacao'] == 0){
                 <!-- Form -->
                 <section class="col-md-6 ml-5 d-flex align-items-center p-0">
                     <div class="formItems">
-                        <label for="imagens[]">Selecione até 4 imagens (opcional)</label> <br>
+                        <label for="imagens[]">Selecione até 4 imagens (obrigatório ao menos uma)</label> <br>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="icon"> <i class="fas fa-camera"></i> </span>
