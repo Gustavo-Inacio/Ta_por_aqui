@@ -196,8 +196,20 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
             <?if($user->nota_media === null) {
                 echo "<p class='text-secondary'>O usuário ainda não foi avaliado</p>";
             } else {?>
-                <h4><?=$user->nome_media?></h4>
-                <p> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> </p>
+                <h4 style="color: #309A6D"><?=$user->nota_media?></h4>
+                <div>
+                    <? for ($i = 1; $i <= 5; $i++) {
+                        if ($i <= round($user->nota_media)) {
+                            echo '<svg class="provider-rate-star" width="25" height="25" viewBox="0 0 17 14" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"></path>
+                                  </svg>';
+                        } else {
+                            echo '<svg class="provider-rate-star" width="25" height="25" viewBox="0 0 17 14" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#AAAA" stroke="black" stroke-width="0.2"></path>
+                                  </svg>';
+                        }
+                    }?>
+                </div>
             <?}?>
         </div>
 
@@ -541,7 +553,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
     </section>
     <!-- FIM div serviços que você solicitou -->
 
-    <!-- Div de Serviços contratados recentemente -->
+    <!-- Div de histórico de serviços contrtados -->
     <section id="recentServices">
         <div class="container">
 
@@ -611,7 +623,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
             <?}?>
         </div>
     </section>
-    <!-- Div de Serviços contratados recentemente fim-->
+    <!-- Div de histórico de serviços contrtados-->
 
     <!-- Div serviços salvos -->
     <section id="savedServices">
