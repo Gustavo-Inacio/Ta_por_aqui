@@ -335,7 +335,7 @@ i.inativa{
 
 .myCardHeader2{
     border-radius: 8px 8px 0 0 !important;
-    color: white;
+    color: white !important;
     background-color: #3333CC;
 }
 
@@ -351,6 +351,7 @@ i.inativa{
 .myCardAccept:hover{
     border: 1px solid #34b367;
     background: #34b367;
+    color: white;
 }
 
 .myCardReject{
@@ -375,6 +376,13 @@ i.inativa{
 
 .myCard2 .alert{
     margin: 0;
+}
+
+.card-title {
+    font-size: 23px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /*Serviços disponibilizados*/
@@ -433,10 +441,65 @@ i.inativa{
 #addService:hover{
     border: 1px solid #45E586;
     background: #45E586 ;
-    text-decoration: none;
     transition: .3s;
 }
 
+.showServicesButtons{
+    color: white;
+    border: 1px solid #CDCDCD;
+    background: #CDCDCD;
+    padding: 10px 70px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    border-radius: 32px;
+    font-weight: bold;
+}
+
+.showServicesButtons:hover{
+    border: 1px solid #45a0e5;
+    background: #45a0e5 ;
+    transition: .3s;
+}
+
+#addService:focus, .showServicesButtons:focus{
+    outline: none;
+}
+
+/*Cards pequenos dentro do modal*/
+.tinyCard{
+    width: 200px;
+}
+
+.tinyCard .card-title{
+    font-size: 17px;
+}
+
+.tinyCard .card-body, .tinyCard .card-text, .tinyCard .card-header{
+    font-size: 14px;
+}
+
+.tinyCard .myCardButton{
+    font-size: 14px;
+    padding: 5px 15px;
+}
+
+.tinyCard .myCardReject, .tinyCard .myCardAccept{
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
+.tinyCard .myCardHeader2 a{
+    color: white;
+    font-weight: bold;
+}
+
+.tinyCard .alert{
+    font-size: 14px;
+    padding: 10px;
+}
+
+.tinyCard .myCardHeader3{
+    background-color: #0C0C23;
+}
 /*Histórico de serviços contratados*/
 #recentServices{
     margin-top: 50px;
@@ -474,9 +537,12 @@ i.inativa{
 }
 
 .recentServicesPic{
+    min-width: 64px;
+    min-height: 64px;
     width: 64px;
     height: 64px;
-    border-radius: 131px;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
 /*Serviços salvos*/
@@ -551,15 +617,5 @@ i.inativa{
 @media (max-width: 575.98px) {
     #profilePictureArea {
         border-radius: 0;
-    }
-
-    #addService{
-        color: white;
-        border: 1px solid #CDCDCD;
-        background: #CDCDCD;
-        padding: 10px 15px;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
-        border-radius: 32px;
-        font-weight: bold;
     }
 }

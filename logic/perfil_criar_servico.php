@@ -39,7 +39,7 @@ $orcamento = "";
 if($_POST['tipoPagamento'] == 1){
     $orcamento = "A definir orçamento";
 } else if($_POST['tipoPagamento'] == 2){
-    $orcamento = $_POST['orcamento'] . " " . $_POST['criterio'];
+    $orcamento = "R$" . $_POST['orcamento'] . " " . $_POST['criterio'];
 }
 
 #inserindo informações

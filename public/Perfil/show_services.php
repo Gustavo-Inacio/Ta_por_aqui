@@ -1,0 +1,314 @@
+<!-- PHP Geral -->
+<?php
+session_start();
+
+require "../../logic/DbConnection.php";
+$con = new DbConnection();
+$con = $con->connect();
+
+//puxando novamente informações do usuário
+$query = "SELECT * FROM usuarios where id_usuario = " . $_GET['user'];
+$stmt = $con->query($query);
+$user = $stmt->fetch(PDO::FETCH_OBJ);
+
+if ($_GET['servicetype'] === "requestedServices") {
+    //serviços requisitados para esse prestador
+    $query = "SELECT * FROM contratos WHERE id_prestador = " . $_GET['user'] . " ORDER BY status_contrato ASC";
+    $stmt = $con->query($query);
+    $asProviderRequestedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
+    ?>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Serviços solicitados para você</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row" id="requestedServicesCardsModal">
+
+                <? foreach ($asProviderRequestedServices as $service) {
+                    //nome do cliente que solicitou
+                    $query = "SELECT nome FROM usuarios WHERE id_usuario = $service->id_cliente";
+                    $stmt = $con->query($query);
+                    $client_name = $stmt->fetch(PDO::FETCH_OBJ);
+
+                    //detalhes do serviço que foi solicitado
+                    $query = "SELECT nome_servico, orcamento FROM servico WHERE id_servico = $service->id_servico";
+                    $stmt = $con->query($query);
+                    $service_details = $stmt->fetch(PDO::FETCH_OBJ);
+
+                    //data do serviço
+                    $date = new DateTime($service->data_contrato);
+                    ?>
+                    <div class="col-lg-4 col-sm-6 mt-3">
+                        <div class="card myCard2 mx-3 tinyCard">
+                            <div class="card-header myCardHeader2">
+                                Seu serviço foi solicitado por <a
+                                        href="perfil.php?id=<?= $service->id_cliente ?>"><?= $client_name->nome ?></a>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title"><?= $service_details->nome_servico ?></h3>
+                                <p class="card-text">
+                                    <strong>Informações básicas:</strong> <br>
+                                    <strong>Orçamento:</strong> <?= $service_details->orcamento ?><br>
+                                    <strong>Data da solicitação:</strong> <?= $date->format('d/m/Y') ?>
+                                </p>
+
+                                <a href="../EncontrarProfissional/VisualizarServico/visuaizarServico.php?serviceID=<?= $service->id_servico ?>"
+                                   class="text-primary">Mais detalhes</a>
+
+                            </div>
+                            <div class="card-footer">
+                                <? if ($service->status_contrato == 0) { ?>
+                                    <button class="btn myCardAccept my-1"
+                                            onclick="acceptRejectService('accept', <?= $service->id_contrato ?>, '<?= $client_name->nome ?>')">
+                                        Aceitar
+                                    </button>
+                                    <button class="btn myCardReject my-1"
+                                            onclick="acceptRejectService('reject', <?= $service->id_contrato ?>, '<?= $client_name->nome ?>')">
+                                        Rejeitar
+                                    </button>
+                                <? } else if ($service->status_contrato == 1) { ?>
+                                    <div class="alert alert-success" role="alert">Serviço aceito</div>
+                                <? } else if ($service->status_contrato == 2) { ?>
+                                    <div class="alert alert-danger" role="alert">Serviço rejeitado</div>
+                                <? } ?>
+                            </div>
+                        </div>
+                    </div>
+                <? } ?>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        </div>
+    </div>
+
+    <!-- Selecionando os serviços que o prestador em questão adicionou -->
+<?php } else if ($_GET['servicetype'] === "availableServices") {
+    $query = "SELECT id_servico, nome_servico, tipo, orcamento, data_publicacao FROM servico WHERE prestador = " . $_GET['user'] . " ORDER BY nome_servico ASC";
+    $stmt = $con->query($query);
+    $userServices = $stmt->fetchAll(PDO::FETCH_OBJ);
+    ?>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Serviços disponibilizados</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row" id="serviceCardsModal">
+                <? foreach ($userServices as $key => $service) { ?>
+                    <div class="col-sm-6 col-lg-4 mt-3">
+                        <div class="card myCard mx-3 availableServiceCards tinyCard">
+                            <div class="card-header myCardHeader">
+                                Serviço <?= $service->tipo == 0 ? "remoto" : "presencial" ?>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title"><?= $service->nome_servico ?></h3>
+                                <p class="card-text">
+                                    <strong>Informações básicas:</strong> <br>
+                                    <strong>Orçamento:</strong> <?= $service->orcamento ?> <br>
+                                    <? if ($service->tipo == 1) { ?>
+                                        <strong>Localização:</strong> <?= $user->cidade ?>, <?= $user->estado ?>
+                                    <? } else { ?>
+                                        <strong>Serviço remoto</strong>
+                                    <? } ?>
+                                </p>
+                                <a href="../EncontrarProfissional/VisualizarServico/visuaizarServico.php?serviceID=<?= $service->id_servico ?>"
+                                   class="btn myCardButton">+ detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                <? } ?>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        </div>
+    </div>
+
+
+<?php } else if ($_GET['servicetype'] === "servicesRequestedByYou") {
+    //serviços que você requisitou como cliente
+    $query = "SELECT * FROM contratos WHERE id_cliente = " . $_SESSION['idUsuario'] . " ORDER BY status_contrato DESC";
+    $stmt = $con->query($query);
+    $asClientRequestedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
+    ?>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Serviços Requisitados por você</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row" id="savedCardsModal">
+
+                <? foreach ($asClientRequestedServices as $service) {
+                    //nome do cliente que solicitou
+                    $query = "SELECT nome FROM usuarios WHERE id_usuario = $service->id_cliente";
+                    $stmt = $con->query($query);
+                    $client_name = $stmt->fetch(PDO::FETCH_OBJ);
+
+                    //detalhes do serviço que foi solicitado
+                    $query = "SELECT nome_servico, orcamento FROM servico WHERE id_servico = $service->id_servico";
+                    $stmt = $con->query($query);
+                    $service_details = $stmt->fetch(PDO::FETCH_OBJ);
+
+                    //data do contrato
+                    $date = new DateTime($service->data_contrato);
+                    ?>
+                    <div class="col-lg-4 col-md-6 mt-3">
+                        <div class="card myCard2 mx-3 tinyCard">
+                            <div class="card-header myCardHeader2">
+                                Você solicitou o serviço de <a href="perfil.php?id=<?= $service->id_cliente ?>" class="text-light"><?= $client_name->nome ?></a>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title"><?= $service_details->nome_servico ?></h3>
+                                <p class="card-text">
+                                    <strong>Informações básicas:</strong> <br>
+                                    <strong>Orçamento:</strong> <?= $service_details->orcamento ?><br>
+                                    <strong>Data da solicitação:</strong> <?= $date->format('d/m/Y') ?>
+                                </p>
+
+                                <a href="../EncontrarProfissional/VisualizarServico/visuaizarServico.php?serviceID=<?= $service->id_servico ?>"
+                                   class="text-primary">Mais detalhes</a>
+
+                            </div>
+                            <div class="card-footer">
+                                <? if ($service->status_contrato == 0) { ?>
+                                    <div class="alert alert-secondary" role="alert">Serviço pendente</div>
+                                <? } else if ($service->status_contrato == 1) { ?>
+                                    <div class="alert alert-success" role="alert">Serviço aceito</div>
+                                <? } else if ($service->status_contrato == 2) { ?>
+                                    <div class="alert alert-danger" role="alert">Serviço rejeitado</div>
+                                <? } ?>
+                            </div>
+                        </div>
+                    </div>
+                <? } ?>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        </div>
+    </div>
+
+<!-- Selecionando os serviços salvos -->
+<?php } else if ($_GET['servicetype'] === "savedServices") {
+    //puxando os serviços salvos
+    $query = "SELECT * FROM servicos_salvos WHERE id_usuario = " . $_GET['user'] . " ORDER BY id_servico_salvo DESC";
+    $stmt = $con->query($query);
+    $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
+    ?>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Serviços salvos</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row" id="savedCardsModal">
+                <? foreach ($userSavedServices as $service) {
+                    $query = "SELECT nome_servico, tipo, orcamento, data_publicacao FROM servico WHERE id_servico = " . $service->id_servico;
+                    $stmt = $con->query($query);
+                    $savedService = $stmt->fetch(PDO::FETCH_OBJ);
+                    ?>
+                    <div class="col-lg-4 col-md-6 mt-3">
+                        <div class="card myCard mx-3 tinyCard">
+                            <div class="card-header myCardHeader">
+                                Serviço <?= $savedService->tipo == 0 ? "remoto" : "presencial" ?>
+                            </div>
+                            <div class="card-body">
+                                <h3 class="card-title"><?= $savedService->nome_servico ?></h3>
+                                <p class="card-text">
+                                    <strong>Informações básicas:</strong> <br>
+                                    <strong>Orçamento:</strong> <?= $savedService->orcamento ?> <br>
+                                    <strong>Data de publicação:</strong> <?= $savedService->data_publicacao ?>
+                                </p>
+                                <a href="../EncontrarProfissional/VisualizarServico/visuaizarServico.php?serviceID=<?= $service->id_servico ?>"
+                                   class="text-primary">Mais detalhes</a> <br>
+                            </div>
+                            <div class="card-footer">
+                                <a href="../../logic/perfil_remover_servicosalvo.php?id=<?= $service->id_servico_salvo ?>"
+                                   class="btn myCardReject">Remover</a>
+                            </div>
+                        </div>
+                    </div>
+                <? } ?>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        </div>
+    </div>
+
+<?php } else if($_GET['servicetype'] === "recentServices") {
+    //serviços que você contratou e foram aceitos
+    $query = "SELECT * FROM contratos WHERE id_cliente = " . $_GET['user']  . " AND status_contrato = 1  ORDER BY id_contrato DESC";
+    $stmt = $con->query($query);
+    $contractedServicesHistory = $stmt->fetchAll(PDO::FETCH_OBJ);
+?>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Serviços contratados recentemente</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row" id="savedCardsModal">
+
+                <?foreach ($contractedServicesHistory as $key => $service) {
+                        //nome, número e foto do prestador que solicitou
+                        $query = "SELECT nome, telefone, imagem_perfil, estado, cidade FROM usuarios WHERE id_usuario = $service->id_prestador";
+                        $stmt = $con->query($query);
+                        $provider_info = $stmt->fetch(PDO::FETCH_OBJ);
+
+                        //detalhes do serviço que foi solicitado
+                        $query = "SELECT nome_servico, orcamento, tipo FROM servico WHERE id_servico = $service->id_servico";
+                        $stmt = $con->query($query);
+                        $service_details = $stmt->fetch(PDO::FETCH_OBJ);
+
+                        //data do contrato
+                        $date = new DateTime($service->data_contrato);
+                        ?>
+                        <div class="col-lg-4 col-md-6 mt-3">
+                            <div class="card myCard3 mx-3 tinyCard">
+                                <div class="card-header myCardHeader3">
+                                    Serviço contratado em: <strong><?=$date->format('d/m/Y')?></strong>
+                                </div>
+                                <div class="card-body">
+                                    <h3 class="card-title"><?=$service_details->nome_servico?></h3>
+                                    <p class="card-text">
+                                        <strong>Informações básicas:</strong> <br>
+                                        <strong>Orçamento:</strong> <?=$service_details->orcamento?> <br>
+                                        <strong>Localização:</strong> <?=$service_details->tipo == 0 ? "Serviço remoto" : $provider_info->estado . ', ' . $provider_info->cidade?>
+                                    </p>
+
+                                    <a href="../EncontrarProfissional/VisualizarServico/visuaizarServico.php?serviceID=<?=$service->id_servico?>" class="text-primary">Mais detalhes</a>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <a href="perfil.php?id=<?=$service->id_prestador?>" class="font-weight-bold text-dark"><?=$provider_info->nome?></a> <br>
+                                            <?=$provider_info->telefone?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?}?>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        </div>
+    </div>
+<?php }?>

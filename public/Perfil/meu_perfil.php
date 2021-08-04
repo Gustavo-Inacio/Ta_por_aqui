@@ -1,8 +1,8 @@
 <?php
+session_start();
+
 //caso haja cookies salvos no pc do usuário, ele vai logar com os cookies salvos
 require "../../logic/entrar_cookie.php";
-
-session_start();
 
 if( empty($_SESSION) ){
     header('Location: ../Home/home.php');
@@ -22,12 +22,32 @@ $query = "SELECT rede_social, nome_usuario, link_perfil FROM usuario_redes_socia
 $stmt = $con->query($query);
 $userSocialMedia = $stmt->fetchAll(PDO::FETCH_OBJ);
 
-//puxando os serviços do prestador
+//puxando os serviços relacionados ao prestador
 if($_SESSION['classificacao'] !== 0){
-    $query = "SELECT id_servico, nome_servico, tipo, orcamento, data_publicacao FROM servico WHERE prestador = " . $_SESSION['idUsuario'];
+    //serviços disponibilizados
+    $query = "SELECT id_servico, nome_servico, tipo, orcamento, data_publicacao FROM servico WHERE prestador = " . $_SESSION['idUsuario'] . " ORDER BY id_servico DESC";
     $stmt = $con->query($query);
     $userServices = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+    //serviços requisitados para esse prestador
+    $query = "SELECT * FROM contratos WHERE id_prestador = " . $_SESSION['idUsuario']  . " ORDER BY status_contrato ASC";
+    $stmt = $con->query($query);
+    $asProviderRequestedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 }
+//serviços que você requisitou como cliente
+$query = "SELECT * FROM contratos WHERE id_cliente = " . $_SESSION['idUsuario']  . " ORDER BY status_contrato DESC";
+$stmt = $con->query($query);
+$asClientRequestedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+//serviços que você contratou e foram aceitos
+$query = "SELECT * FROM contratos WHERE id_cliente = " . $_SESSION['idUsuario']  . " AND status_contrato = 1 ORDER BY id_contrato DESC";
+$stmt = $con->query($query);
+$contractedServicesHistory = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+//puxando os serviços salvos
+$query = "SELECT * FROM servicos_salvos WHERE id_usuario = " . $_SESSION['idUsuario'];
+$stmt = $con->query($query);
+$userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -45,7 +65,7 @@ if($_SESSION['classificacao'] !== 0){
     <link rel="stylesheet" href="../../assets/global/globalStyles.css">
     <link rel="stylesheet" href="perfil.css">
 
-    <script src="../../assets/bootstrap/jquery-3.5.1.slim.min.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script src="../../assets/bootstrap/popper.min.js" defer></script>
     <script src="../../assets/bootstrap/bootstrap-4.5.3-dist/js/bootstrap.min.js" defer></script>
     <script src="../../assets/jQueyMask/jquery.mask.js" defer></script>
@@ -53,6 +73,7 @@ if($_SESSION['classificacao'] !== 0){
     <script src="../../assets/global/globalScripts.js" defer></script>
 
     <script src="perfil_prestador.js" defer></script>
+    <script src="show_services.js" defer></script>
 </head>
 
 <body>
@@ -172,8 +193,12 @@ if($_SESSION['classificacao'] !== 0){
             </div>
             <br>
             <h3>Avaliação</h3>
-            <p> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-                    class="fas fa-star"></i> <i class="fas fa-star"></i> </p>
+            <?if($user->nota_media === null) {
+                echo "<p class='text-secondary'>O usuário ainda não foi avaliado</p>";
+            } else {?>
+                <h4><?=$user->nome_media?></h4>
+                <p> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> </p>
+            <?}?>
         </div>
 
         <div id="editProfileInformation" class="col-md-8">
@@ -183,19 +208,19 @@ if($_SESSION['classificacao'] !== 0){
 
                     <div class="col-md-6">
                         <label for="userName">Nome</label> <br>
-                        <input type="text" class="form-control" name="userName" id="userName" class="mb-4" readonly required
+                        <input type="text" class="form-control" name="userName" id="userName" readonly required
                             value="<?=$user->nome?>">
 
                         <br>
 
                         <label for="userLastName">Sobrenome</label> <br>
-                        <input type="text" class="form-control" name="userLastName" id="userLastName" class="mb-4" required
+                        <input type="text" class="form-control" name="userLastName" id="userLastName" required
                             readonly value="<?=$user->sobrenome?>">
 
                         <br>
 
                         <label for="userCell">Celular</label> <br>
-                        <input type="text" class="form-control" name="userCell" id="userCell" class="mb-4" readonly required
+                        <input type="text" class="form-control" name="userCell" id="userCell" readonly required
                             value="<?=$user->telefone?>">
 
                         <br>
@@ -214,20 +239,20 @@ if($_SESSION['classificacao'] !== 0){
 
                     <div class="col-md-6 mt-3 mt-md-0">
                         <label for="userEmail">Email</label> <br>
-                        <input type="text" class="form-control" name="userEmail" id="userEmail" class="mb-4" readonly
+                        <input type="text" class="form-control" name="userEmail" id="userEmail" readonly
                             value="<?=$user->email?>">
 
                         <br>
 
                         <label for="userSite">Site</label> <br>
-                        <input type="url" class="form-control d-none" name="userSite" id="userSite" class="mb-4" readonly placeholder="Caso tenha, insira seu site ou porfólio online"
+                        <input type="url" class="form-control d-none" name="userSite" id="userSite" readonly placeholder="Caso tenha, insira seu site ou porfólio online"
                             value="<?=$user->site?>">
                         <div id="showUserSite"><a href="<?=$user->site?>" target="_blank"><?=$user->site?></a></div>
 
                         <br>
 
                         <label for="userDescription">Descrição</label> <br>
-                        <textarea name="userDescription" class="form-control" id="userDescription" class="mb-4" placeholder="Adicione uma breve descrição sobre você e como trabalha"
+                        <textarea name="userDescription" class="form-control" id="userDescription" placeholder="Adicione uma breve descrição sobre você e como trabalha"
                             readonly><?=$user->descricao?></textarea>
                     </div>
 
@@ -323,79 +348,67 @@ if($_SESSION['classificacao'] !== 0){
                 <h1>Serviços Solicitados</h1>
 
                 <div class="row" id="requestedCards">
-                    <div class="col-lg-4 col-md-6 mt-3">
-                        <div class="card myCard2 mx-3">
-                            <div class="card-header myCardHeader2">
-                                Seu serviço foi solicitado por <a href="#">Roberto</a>
-                            </div>
-                            <div class="card-body">
-                                <h3 class="card-title">Encanamento</h3>
-                                <p class="card-text">
-                                    Informações básicas: <br>
-                                    Orçamento médio: R$80,00 <br>
-                                    Localização: Campanário
-                                </p>
 
-                                <a href="#" class="text-primary">Mais detalhes</a>
+                    <? if( count($asProviderRequestedServices) > 0 ) {
+                        foreach ($asProviderRequestedServices as $key => $service) {
+                            if ($key == 3){
+                                break;
+                            }
+                            //nome do cliente que solicitou
+                            $query = "SELECT nome FROM usuarios WHERE id_usuario = $service->id_cliente";
+                            $stmt = $con->query($query);
+                            $client_name = $stmt->fetch(PDO::FETCH_OBJ);
 
-                            </div>
-                            <div class="card-footer">
-                                <a href="#" class="btn myCardAccept my-1">Aceitar</a>
-                                <a href="#" class="btn myCardReject my-1">Rejeitar</a>
-                            </div>
-                        </div>
-                    </div>
+                            //detalhes do serviço que foi solicitado
+                            $query = "SELECT nome_servico, orcamento FROM servico WHERE id_servico = $service->id_servico";
+                            $stmt = $con->query($query);
+                            $service_details = $stmt->fetch(PDO::FETCH_OBJ);
 
-                    <div class="col-lg-4 col-md-6 mt-3">
-                        <div class="card myCard2 mx-3">
-                            <div class="card-header myCardHeader2">
-                                Seu serviço foi solicitado por <a href="#">Roberto</a>
-                            </div>
-                            <div class="card-body">
-                                <h3 class="card-title">Encanamento</h3>
-                                <p class="card-text">
-                                    Informações básicas: <br>
-                                    Orçamento médio: R$80,00 <br>
-                                    Localização: Campanário
-                                </p>
+                            //data do serviço
+                            $date = new DateTime($service->data_contrato);
+                            ?>
+                            <div class="col-lg-4 col-md-6 mt-3">
+                                <div class="card myCard2 mx-3">
+                                    <div class="card-header myCardHeader2">
+                                        Seu serviço foi solicitado por <a href="perfil.php?id=<?=$service->id_cliente?>"><?=$client_name->nome?></a>
+                                    </div>
+                                    <div class="card-body">
+                                        <h3 class="card-title"><?=$service_details->nome_servico?></h3>
+                                        <p class="card-text">
+                                            <strong>Informações básicas:</strong> <br>
+                                            <strong>Orçamento:</strong> <?=$service_details->orcamento?><br>
+                                            <strong>Data da solicitação:</strong> <?=$date->format('d/m/Y')?>
+                                        </p>
 
-                                <a href="#" class="text-primary">Mais detalhes</a>
+                                        <a href="../EncontrarProfissional/VisualizarServico/visuaizarServico.php?serviceID=<?=$service->id_servico?>" class="text-primary">Mais detalhes</a>
 
-                            </div>
-                            <div class="card-footer">
-                                <a href="#" class="btn myCardAccept my-1">Aceitar</a>
-                                <a href="#" class="btn myCardReject my-1">Rejeitar</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 mt-3">
-                        <div class="card myCard2 mx-3">
-                            <div class="card-header myCardHeader2">
-                                Seu serviço foi solicitado por <a href="#">Roberto</a>
-                            </div>
-                            <div class="card-body">
-                                <h3 class="card-title"> Encanamento </h3>
-                                <p class="card-text">
-                                    Informações básicas: <br>
-                                    Orçamento médio: R$80,00 <br>
-                                    Localização: Campanário <br>
-                                </p>
-                                <a href="#" class="text-primary">Mais detalhes</a>
-
-                            </div>
-                            <div class="card-footer">
-                                <div class="alert alert-success" role="alert">
-                                    Serviço aceito
+                                    </div>
+                                    <div class="card-footer">
+                                        <?if($service->status_contrato == 0) {?>
+                                            <button class="btn myCardAccept my-1" onclick="acceptRejectService('accept', <?=$service->id_contrato?>, '<?=$client_name->nome?>')">Aceitar</button>
+                                            <button class="btn myCardReject my-1" onclick="acceptRejectService('reject', <?=$service->id_contrato?>, '<?=$client_name->nome?>')">Rejeitar</button>
+                                        <?} else if($service->status_contrato == 1) {?>
+                                            <div class="alert alert-success" role="alert">Serviço aceito</div>
+                                        <?} else if($service->status_contrato == 2) {?>
+                                            <div class="alert alert-danger" role="alert">Serviço rejeitado</div>
+                                        <?}?>
+                                    </div>
                                 </div>
                             </div>
+                        <?}
+                    } else {?>
+                        <div class="col-12 mt-3">
+                            <p class="text-info text-center">
+                                Por enquanto nenhum serviço seu foi solicitado. Fique atendo às notificações que lhe informaremos quando alguem te contratar!
+                            </p>
                         </div>
-                    </div>
-
+                    <?}?>
                 </div>
-
             </div>
 
+            <?if(count($asProviderRequestedServices) > 3) {?>
+                <button type="button" class="showServicesButtons mt-3" id="showAllAvailableServices" onclick="showAllServices('requestedServices', <?=$_SESSION['idUsuario']?>)">Todos os serviços</button>
+            <?}?>
         </div>
     </section>
     <!-- Fim serviços solicitados -->
@@ -404,16 +417,19 @@ if($_SESSION['classificacao'] !== 0){
     <section id="availableServices">
         <div class="container">
 
-            <div class="myContent">
+            <div class="myContent mb-3">
                 <h1>Serviços disponibilizados</h1>
 
                 <div class="row" id="serviceCards">
 
                     <? if( count($userServices) > 0 ) {
-                        foreach ($userServices as $service) {
+                        foreach ($userServices as $key => $service) {
+                            if ($key == 3){
+                                break;
+                            }
                     ?>
-                            <div class="col-lg-4 col-sm-6 mt-3">
-                                <div class="card myCard mx-3">
+                            <div class="col-lg-4 col-md-6 mt-3">
+                                <div class="card myCard mx-3 availableServiceCards">
                                     <div class="card-header myCardHeader">
                                         Serviço <?= $service->tipo == 0 ? "remoto" : "presencial" ?>
                                     </div>
@@ -421,7 +437,7 @@ if($_SESSION['classificacao'] !== 0){
                                         <h3 class="card-title"><?=$service->nome_servico?></h3>
                                         <p class="card-text">
                                             <strong>Informações básicas:</strong> <br>
-                                            <strong>Orçamento médio:</strong> <?=$service->orcamento?> <br>
+                                            <strong>Orçamento:</strong> <?=$service->orcamento?> <br>
                                             <?if($service->tipo == 1) {?>
                                                 <strong>Localização:</strong> <?=$user->cidade?>, <?=$user->estado?>
                                             <?} else {?>
@@ -444,11 +460,10 @@ if($_SESSION['classificacao'] !== 0){
                 </div>
             </div>
 
-            <br><br>
-
-            <a href="CriacaoServico/criar_servico.php" id="addService"> Adicionar serviço <i class="fas fa-plus"></i>
-            </a>
-
+            <?if(count($userServices) > 3) {?>
+                <button type="button" class="showServicesButtons mr-4 mb-4" id="showAllAvailableServices" onclick="showAllServices('availableServices', <?=$_SESSION['idUsuario']?>)">Todos os serviços</button>
+            <?}?>
+            <button id="addService" onclick="location.href='CriacaoServico/criar_servico.php'">Adicionar serviço <i class="fas fa-plus"></i></button>
         </div>
     </section>
 
@@ -463,83 +478,65 @@ if($_SESSION['classificacao'] !== 0){
                 <h1>Serviços que você solicitou</h1>
 
                 <div class="row" id="servicesRequestedByYouCards">
-                    <div class="col-lg-4 col-md-6 mt-3">
-                        <div class="card myCard2 mx-3">
-                            <div class="card-header myCardHeader2">
-                                Você solicitou o serviço de <a href="#">Roberto</a>
-                            </div>
-                            <div class="card-body">
-                                <h3 class="card-title">Encanamento</h3>
-                                <p class="card-text">
-                                    Informações básicas: <br>
-                                    Orçamento médio: R$80,00 <br>
-                                    Localização: Campanário
-                                </p>
 
-                                <a href="#" class="text-primary">Mais detalhes</a>
+                    <? if( count($asClientRequestedServices) > 0 ) {
+                        foreach ($asClientRequestedServices as $key => $service) {
+                            if ($key == 3){
+                                break;
+                            }
+                            //nome do cliente que solicitou
+                            $query = "SELECT nome FROM usuarios WHERE id_usuario = $service->id_prestador";
+                            $stmt = $con->query($query);
+                            $provider_name = $stmt->fetch(PDO::FETCH_OBJ);
 
-                            </div>
+                            //detalhes do serviço que foi solicitado
+                            $query = "SELECT nome_servico, orcamento FROM servico WHERE id_servico = $service->id_servico";
+                            $stmt = $con->query($query);
+                            $service_details = $stmt->fetch(PDO::FETCH_OBJ);
 
-                            <div class="card-footer">
-                                <div class="alert alert-danger" role="alert">
-                                    Serviço rejeitado
+                            //data do contrato
+                            $date = new DateTime($service->data_contrato);
+                            ?>
+                            <div class="col-lg-4 col-md-6 mt-3">
+                                <div class="card myCard2 mx-3">
+                                    <div class="card-header myCardHeader2">
+                                        Você solicitou o serviço de <a href="perfil.php?id=<?=$service->id_prestador?>"><?=$provider_name->nome?></a>
+                                    </div>
+                                    <div class="card-body">
+                                        <h3 class="card-title"><?=$service_details->nome_servico?></h3>
+                                        <p class="card-text">
+                                            <strong>Informações básicas:</strong> <br>
+                                            <strong>Orçamento:</strong> <?=$service_details->orcamento?><br>
+                                            <strong>Data da solicitação:</strong> <?=$date->format('d/m/Y')?>
+                                        </p>
+
+                                        <a href="../EncontrarProfissional/VisualizarServico/visuaizarServico.php?serviceID=<?=$service->id_servico?>" class="text-primary">Mais detalhes</a>
+
+                                    </div>
+                                    <div class="card-footer">
+                                        <?if($service->status_contrato == 0) {?>
+                                            <div class="alert alert-secondary" role="alert">Serviço pendente</div>
+                                        <?} else if($service->status_contrato == 1) {?>
+                                            <div class="alert alert-success" role="alert">Serviço aceito</div>
+                                        <?} else if($service->status_contrato == 2) {?>
+                                            <div class="alert alert-danger" role="alert">Serviço rejeitado</div>
+                                        <?}?>
+                                    </div>
                                 </div>
                             </div>
-
+                        <?}
+                    } else {?>
+                        <div class="col-12 mt-3">
+                            <p class="text-info text-center">
+                                Você ainda não contratou nenhum serviço. Encontre o melhor serviço para você <a class="text-primary" href="../EncontrarProfissional/Listagem/listagem.php">aqui</a>.
+                            </p>
                         </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 mt-3">
-                        <div class="card myCard2 mx-3">
-                            <div class="card-header myCardHeader2">
-                                Você solicitou o serviço de <a href="#">Roberto</a>
-                            </div>
-                            <div class="card-body">
-                                <h3 class="card-title">Encanamento</h3>
-                                <p class="card-text">
-                                    Informações básicas: <br>
-                                    Orçamento médio: R$80,00 <br>
-                                    Localização: Campanário
-                                </p>
-
-                                <a href="#" class="text-primary">Mais detalhes</a>
-
-                            </div>
-                            <div class="card-footer">
-                                <div class="alert alert-secondary" role="alert">
-                                    Solicitação pendente
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 mt-3">
-                        <div class="card myCard2 mx-3">
-                            <div class="card-header myCardHeader2">
-                                Você solicitou o serviço de <a href="#">Roberto</a>
-                            </div>
-                            <div class="card-body">
-                                <h3 class="card-title"> Encanamento </h3>
-                                <p class="card-text">
-                                    Informações básicas: <br>
-                                    Orçamento médio: R$80,00 <br>
-                                    Localização: Campanário <br>
-                                </p>
-                                <a href="#" class="text-primary">Mais detalhes</a>
-
-                            </div>
-                            <div class="card-footer">
-                                <div class="alert alert-success" role="alert">
-                                    Serviço aceito
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+                    <?}?>
                 </div>
-
             </div>
-
+            <?if(count($asClientRequestedServices) > 3) {?>
+                <button type="button" class="showServicesButtons mt-3" id="showAllAvailableServices" onclick="showAllServices('servicesRequestedByYou', <?=$_SESSION['idUsuario']?>)">Todos os serviços</button>
+            <?}?>
         </div>
     </section>
     <!-- FIM div serviços que você solicitou -->
@@ -552,97 +549,66 @@ if($_SESSION['classificacao'] !== 0){
                 <h1>Histórico de serviços contratados</h1>
 
                 <div class="row" id="recentServicesCards">
-                    <div class="col-lg-4 col-md-6 mt-3">
-                        <div class="card myCard3 mx-3">
-                            <div class="card-header myCardHeader3">
-                                Serviço ocorrido em: <strong> 01/05/2020 </strong>
-                            </div>
-                            <div class="card-body">
-                                <h3 class="card-title">Encanamento</h3>
-                                <p class="card-text">
-                                    Informações básicas: <br>
-                                    Orçamento médio: R$80,00 <br>
-                                    Localização: Campanário
-                                </p>
 
-                                <a href="#" class="text-primary">Mais detalhes</a>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-8">
-                                        <a href="#" class="font-weight-bold text-dark"> Natan Silva</a> <br>
-                                        (11)912345678
-                                    </div>
-                                    <div class="col-4">
-                                        <img src="../../assets/images/profile_images/teste.jpeg" alt="foto de perfil"
-                                             class="recentServicesPic">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <? if( count($contractedServicesHistory) > 0 ) {
+                        foreach ($contractedServicesHistory as $key => $service) {
+                            if ($key == 3){
+                                break;
+                            }
+                            //nome, número e foto do prestador que solicitou
+                            $query = "SELECT nome, telefone, imagem_perfil, estado, cidade FROM usuarios WHERE id_usuario = $service->id_prestador";
+                            $stmt = $con->query($query);
+                            $provider_info = $stmt->fetch(PDO::FETCH_OBJ);
 
-                    <div class="col-lg-4 col-md-6 mt-3">
-                        <div class="card myCard3 mx-3">
-                            <div class="card-header myCardHeader3">
-                                Serviço ocorrido em: <strong> 01/05/2020 </strong>
-                            </div>
-                            <div class="card-body">
-                                <h3 class="card-title">Encanamento</h3>
-                                <p class="card-text">
-                                    Informações básicas: <br>
-                                    Orçamento médio: R$80,00 <br>
-                                    Localização: Campanário
-                                </p>
+                            //detalhes do serviço que foi solicitado
+                            $query = "SELECT nome_servico, orcamento, tipo FROM servico WHERE id_servico = $service->id_servico";
+                            $stmt = $con->query($query);
+                            $service_details = $stmt->fetch(PDO::FETCH_OBJ);
 
-                                <a href="#" class="text-primary">Mais detalhes</a>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-8">
-                                        <a href="#" class="font-weight-bold text-dark"> Natan Silva</a> <br>
-                                        (11)912345678
+                            //data do contrato
+                            $date = new DateTime($service->data_contrato);
+                            ?>
+                            <div class="col-lg-4 col-md-6 mt-3">
+                                <div class="card myCard3 mx-3">
+                                    <div class="card-header myCardHeader3">
+                                        Serviço contratado em: <strong><?=$date->format('d/m/Y')?></strong>
                                     </div>
-                                    <div class="col-4">
-                                        <img src="../../assets/images/profile_images/teste.jpeg" alt="foto de perfil"
-                                             class="recentServicesPic">
+                                    <div class="card-body">
+                                        <h3 class="card-title"><?=$service_details->nome_servico?></h3>
+                                        <p class="card-text">
+                                            <strong>Informações básicas:</strong> <br>
+                                            <strong>Orçamento:</strong> <?=$service_details->orcamento?> <br>
+                                            <strong>Localização:</strong> <?=$service_details->tipo == 0 ? "Serviço remoto" : $provider_info->estado . ', ' . $provider_info->cidade?>
+                                        </p>
+
+                                        <a href="../EncontrarProfissional/VisualizarServico/visuaizarServico.php?serviceID=<?=$service->id_servico?>" class="text-primary">Mais detalhes</a>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-12 col-sm-8">
+                                                <a href="perfil.php?id=<?=$service->id_prestador?>" class="font-weight-bold text-dark"><?=$provider_info->nome?></a> <br>
+                                                <?=$provider_info->telefone?>
+                                            </div>
+                                            <div class="d-none d-sm-block col-sm-4 ">
+                                                <img src="../../assets/images/profile_images/<?=$provider_info->imagem_perfil?>" alt="foto de perfil"
+                                                     class="recentServicesPic">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                        <?}
+                    } else {?>
+                        <div class="col-12 mt-3">
+                            <p class="text-info text-center">
+                                Você ainda não contratou nenhum serviço. Encontre o melhor serviço para você <a class="text-primary" href="../EncontrarProfissional/Listagem/listagem.php">aqui</a>.
+                            </p>
                         </div>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 mt-3">
-                        <div class="card myCard3 mx-3">
-                            <div class="card-header myCardHeader3">
-                                Serviço ocorrido em: <strong> 01/05/2020 </strong>
-                            </div>
-                            <div class="card-body">
-                                <h3 class="card-title">Encanamento</h3>
-                                <p class="card-text">
-                                    Informações básicas: <br>
-                                    Orçamento médio: R$80,00 <br>
-                                    Localização: Campanário
-                                </p>
-
-                                <a href="#" class="text-primary">Mais detalhes</a>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-8">
-                                        <a href="#" class="font-weight-bold text-dark"> Natan Silva</a> <br>
-                                        (11)912345678
-                                    </div>
-                                    <div class="col-4">
-                                        <img src="../../assets/images/profile_images/teste.jpeg" alt="foto de perfil"
-                                             class="recentServicesPic">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+                    <?}?>
                 </div>
-
             </div>
-
+            <?if(count($contractedServicesHistory) > 3) {?>
+                <button type="button" class="showServicesButtons mt-3" id="showAllAvailableServices" onclick="showAllServices('recentServices', <?=$_SESSION['idUsuario']?>)">Todos os serviços</button>
+            <?}?>
         </div>
     </section>
     <!-- Div de Serviços contratados recentemente fim-->
@@ -655,72 +621,87 @@ if($_SESSION['classificacao'] !== 0){
                 <h1>Serviços Salvos</h1>
 
                 <div class="row" id="savedCards">
-                    <div class="col-lg-4 col-md-6 mt-3">
-                        <div class="card myCard mx-3">
-                            <div class="card-header myCardHeader">
-                                Serviço
-                            </div>
-                            <div class="card-body">
-                                <h3 class="card-title">Encanamento</h3>
-                                <p class="card-text">
-                                    Informações básicas: <br>
-                                    Orçamento médio: R$80,00 <br>
-                                    Localização: Campanário
-                                </p>
-                                <a href="#" class="text-primary">Mais detalhes</a> <br>
-                            </div>
-                            <div class="card-footer">
-                                <a href="#" class="btn myCardReject">Remover</a>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="col-lg-4 col-md-6 mt-3">
-                        <div class="card myCard mx-3">
-                            <div class="card-header myCardHeader">
-                                Serviço
-                            </div>
-                            <div class="card-body">
-                                <h3 class="card-title">Encanamento</h3>
-                                <p class="card-text">
-                                    Informações básicas: <br>
-                                    Orçamento médio: R$80,00 <br>
-                                    Localização: Campanário
-                                </p>
-                                <a href="#" class="text-primary">Mais detalhes</a> <br>
-                            </div>
-                            <div class="card-footer">
-                                <a href="#" class="btn myCardReject">Remover</a>
-                            </div>
-                        </div>
-                    </div>
+                    <? if( count($userSavedServices) > 0 ) {
+                        foreach ($userSavedServices as $key => $service) {
+                            if ($key == 3){
+                                break;
+                            }
+                            //detalhes do serviço
+                            $query = "SELECT nome_servico, tipo, orcamento, data_publicacao FROM servico WHERE id_servico = " . $service->id_servico;
+                            $stmt = $con->query($query);
+                            $savedService = $stmt->fetch(PDO::FETCH_OBJ);
 
-                    <div class="col-lg-4 col-md-6 mt-3">
-                        <div class="card myCard mx-3">
-                            <div class="card-header myCardHeader">
-                                Serviço
+                            //data do serviço
+                            $date = new DateTime($savedService->data_publicacao);
+                            ?>
+
+                            <div class="col-lg-4 col-md-6 mt-3">
+                                <div class="card myCard mx-3">
+                                    <div class="card-header myCardHeader">
+                                        Serviço <?= $savedService->tipo == 0 ? "remoto" : "presencial" ?>
+                                    </div>
+                                    <div class="card-body">
+                                        <h3 class="card-title"><?= $savedService->nome_servico ?></h3>
+                                        <p class="card-text">
+                                            <strong>Informações básicas:</strong> <br>
+                                            <strong>Orçamento:</strong> <?= $savedService->orcamento ?> <br>
+                                            <strong>Data de publicação:</strong> <?=$date->format('d/m/Y')?>
+                                        </p>
+                                        <a href="../EncontrarProfissional/VisualizarServico/visuaizarServico.php?serviceID=<?=$service->id_servico?>" class="text-primary">Mais detalhes</a> <br>
+                                    </div>
+                                    <div class="card-footer">
+                                        <a href="../../logic/perfil_remover_servicosalvo.php?id=<?=$service->id_servico_salvo?>" class="btn myCardReject">Remover</a>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="card-body">
-                                <h3 class="card-title">Encanamento</h3>
-                                <p class="card-text">
-                                    Informações básicas: <br>
-                                    Orçamento médio: R$80,00 <br>
-                                    Localização: Campanário
-                                </p>
-                                <a href="#" class="text-primary">Mais detalhes</a> <br>
-                            </div>
-                            <div class="card-footer">
-                                <a href="#" class="btn myCardReject">Remover</a>
-                            </div>
+
+                        <?}
+                    } else {?>
+                        <div class="col-12 mt-3">
+                            <p class="text-info text-center">
+                                Você ainda não salvou nenhum serviço
+                            </p>
                         </div>
-                    </div>
+                    <?}?>
                 </div>
-
             </div>
-
+            <?if(count($userSavedServices) > 3) {?>
+                <button type="button" class="showServicesButtons mr-4 mt-2" id="showAllAvailableServices" onclick="showAllServices('savedServices', <?=$_SESSION['idUsuario']?>)">Todos os serviços</button>
+            <?}?>
         </div>
     </section>
-    <!-- Div salvos disponibilizados fim -->
+    <!-- Div salvos salvos fim -->
+
+    <!-- Modal de mostrar todos os serviços -->
+    <div class="modal fade" id="showAllServicesModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable" id="showAllServicesModalContent">
+
+            <!-- conteúdo inserido dinamicamente -->
+
+        </div>
+    </div>
+
+    <!-- modal de confirmar aceitação do serviço -->
+    <div class="modal fade" id="confirmAcceptRejectModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Você tem certeza que deseja <span id="confirmModalChoice"></span> o serviço solicitado por <strong id="confirmModalUserName" class="text-primary"></strong>?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-justify">
+                    <p id="confirmModalMessage"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <a id="confirmModalConfirmChoice">Confirmar</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- footer -->
     <footer id="myMainFooter">
