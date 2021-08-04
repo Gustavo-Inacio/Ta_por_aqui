@@ -34,15 +34,15 @@ else{
     if($command->rowCount() > 0){ // caso ja exista algum registro na tabela
         $statusData = $command->fetch(PDO::FETCH_ASSOC); // extrai o valor do status do contrato 
 
-        if($statusData['status_contrato'] == 0){ // caso o valor for 0, ele atualiza o pedido de contrato (status) para 1
-            $cmd = $con->prepare("UPDATE contratos SET status_contrato=1 WHERE id_servico=:id_ser AND id_cliente=:id_cli");
+        if($statusData['status_contrato'] == 2){ // caso o valor for 2 (nao aceito), ele atualiza o pedido de contrato (status) para  0 (pendente)
+            $cmd = $con->prepare("UPDATE contratos SET status_contrato=0 WHERE id_servico=:id_ser AND id_cliente=:id_cli");
             $cmd->bindValue(":id_ser", $_SESSION['serviceID']);
             $cmd->bindValue(":id_cli", $_SESSION['idUsuario']);
             $cmd->execute();
             $response['updatedData'] = true; // retona que o registro foi atualizado
         }
         else {
-            $response['alreadyExists'] = true; // se o valor nao for zero, significa que do pode ser 1 (pedido pendente) ou 2(pedido aceito). nao faz nada, e retorna que ja existe.
+            $response['alreadyExists'] = true; // se o valor nao for zero, significa que do pode ser 0 (pedido pendente) ou 1(pedido aceito). nao faz nada, e retorna que ja existe.
         }
         
     }
@@ -54,7 +54,7 @@ else{
         $stmt->bindValue(":id_ser", $_SESSION['serviceID']);
         $stmt->bindValue(":id_cli", $_SESSION['idUsuario']);
         $stmt->bindValue(":id_pres", $provider_id['prestador']);
-        $stmt->bindValue(":contract_stat", 1);
+        $stmt->bindValue(":contract_stat", 0);
         $stmt->execute(); // inclui um registro de pedido pendente na tabela de contratos entre o prestador, o servico e o cliente.
 
         if($stmt){

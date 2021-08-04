@@ -32,9 +32,11 @@
     if(isset($_GET['getOtherServices'])){ // pelo metho GET
         $config = json_decode($_GET['getOtherServices']);
         
-        if($config->getOtherServices == true){
+        if($config->getOtherServices == 'true'){
             $reponse['getOtherServices'] = $brain->getOtherService($config->sql);
+            //print_r(json_encode($reponse['getOtherServices']));
         }
+       
     }
 
     if(isset($inputData->saveService) && $inputData->saveService == "true"){
