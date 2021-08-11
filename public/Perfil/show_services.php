@@ -27,7 +27,7 @@ if ($_GET['servicetype'] === "requestedServices") {
         <div class="modal-body">
             <div class="row" id="requestedServicesCardsModal">
 
-                <? foreach ($asProviderRequestedServices as $service) {
+                <?php foreach ($asProviderRequestedServices as $service) {
                     //nome do cliente que solicitou
                     $query = "SELECT nome FROM usuarios WHERE id_usuario = $service->id_cliente";
                     $stmt = $con->query($query);
@@ -60,7 +60,7 @@ if ($_GET['servicetype'] === "requestedServices") {
 
                             </div>
                             <div class="card-footer">
-                                <? if ($service->status_contrato == 0) { ?>
+                                <?php if ($service->status_contrato == 0) { ?>
                                     <button class="btn myCardAccept my-1"
                                             onclick="acceptRejectService('accept', <?= $service->id_contrato ?>, '<?= $client_name->nome ?>')">
                                         Aceitar
@@ -69,15 +69,15 @@ if ($_GET['servicetype'] === "requestedServices") {
                                             onclick="acceptRejectService('reject', <?= $service->id_contrato ?>, '<?= $client_name->nome ?>')">
                                         Rejeitar
                                     </button>
-                                <? } else if ($service->status_contrato == 1) { ?>
+                                <?php } else if ($service->status_contrato == 1) { ?>
                                     <div class="alert alert-success" role="alert">Serviço aceito</div>
-                                <? } else if ($service->status_contrato == 2) { ?>
+                                <?php } else if ($service->status_contrato == 2) { ?>
                                     <div class="alert alert-danger" role="alert">Serviço rejeitado</div>
-                                <? } ?>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>
-                <? } ?>
+                <?php } ?>
 
             </div>
         </div>
@@ -101,7 +101,7 @@ if ($_GET['servicetype'] === "requestedServices") {
         </div>
         <div class="modal-body">
             <div class="row" id="serviceCardsModal">
-                <? foreach ($userServices as $key => $service) { ?>
+                <?php foreach ($userServices as $key => $service) { ?>
                     <div class="col-sm-6 col-lg-4 mt-3">
                         <div class="card myCard mx-3 availableServiceCards tinyCard">
                             <div class="card-header myCardHeader">
@@ -112,18 +112,18 @@ if ($_GET['servicetype'] === "requestedServices") {
                                 <p class="card-text">
                                     <strong>Informações básicas:</strong> <br>
                                     <strong>Orçamento:</strong> <?= $service->orcamento ?> <br>
-                                    <? if ($service->tipo == 1) { ?>
+                                    <?php if ($service->tipo == 1) { ?>
                                         <strong>Localização:</strong> <?= $user->cidade ?>, <?= $user->estado ?>
-                                    <? } else { ?>
+                                    <?php } else { ?>
                                         <strong>Serviço remoto</strong>
-                                    <? } ?>
+                                    <?php } ?>
                                 </p>
                                 <a href="../EncontrarProfissional/VisualizarServico/visuaizarServico.php?serviceID=<?= $service->id_servico ?>"
                                    class="btn myCardButton">+ detalhes</a>
                             </div>
                         </div>
                     </div>
-                <? } ?>
+                <?php } ?>
             </div>
         </div>
         <div class="modal-footer">
@@ -148,7 +148,7 @@ if ($_GET['servicetype'] === "requestedServices") {
         <div class="modal-body">
             <div class="row" id="savedCardsModal">
 
-                <? foreach ($asClientRequestedServices as $service) {
+                <?php foreach ($asClientRequestedServices as $service) {
                     //nome do cliente que solicitou
                     $query = "SELECT nome FROM usuarios WHERE id_usuario = $service->id_cliente";
                     $stmt = $con->query($query);
@@ -180,17 +180,17 @@ if ($_GET['servicetype'] === "requestedServices") {
 
                             </div>
                             <div class="card-footer">
-                                <? if ($service->status_contrato == 0) { ?>
+                                <?php if ($service->status_contrato == 0) { ?>
                                     <div class="alert alert-secondary" role="alert">Serviço pendente</div>
-                                <? } else if ($service->status_contrato == 1) { ?>
+                                <?php } else if ($service->status_contrato == 1) { ?>
                                     <div class="alert alert-success" role="alert">Serviço aceito</div>
-                                <? } else if ($service->status_contrato == 2) { ?>
+                                <?php } else if ($service->status_contrato == 2) { ?>
                                     <div class="alert alert-danger" role="alert">Serviço rejeitado</div>
-                                <? } ?>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>
-                <? } ?>
+                <?php } ?>
 
             </div>
         </div>
@@ -215,7 +215,7 @@ if ($_GET['servicetype'] === "requestedServices") {
         </div>
         <div class="modal-body">
             <div class="row" id="savedCardsModal">
-                <? foreach ($userSavedServices as $service) {
+                <?php foreach ($userSavedServices as $service) {
                     $query = "SELECT nome_servico, tipo, orcamento, data_publicacao FROM servico WHERE id_servico = " . $service->id_servico;
                     $stmt = $con->query($query);
                     $savedService = $stmt->fetch(PDO::FETCH_OBJ);
@@ -241,7 +241,7 @@ if ($_GET['servicetype'] === "requestedServices") {
                             </div>
                         </div>
                     </div>
-                <? } ?>
+                <?php } ?>
             </div>
         </div>
         <div class="modal-footer">
@@ -265,7 +265,7 @@ if ($_GET['servicetype'] === "requestedServices") {
         <div class="modal-body">
             <div class="row" id="savedCardsModal">
 
-                <?foreach ($contractedServicesHistory as $key => $service) {
+                <?php foreach ($contractedServicesHistory as $key => $service) {
                         //nome, número e foto do prestador que solicitou
                         $query = "SELECT nome, telefone, imagem_perfil, estado, cidade FROM usuarios WHERE id_usuario = $service->id_prestador";
                         $stmt = $con->query($query);
@@ -303,7 +303,7 @@ if ($_GET['servicetype'] === "requestedServices") {
                                 </div>
                             </div>
                         </div>
-                    <?}?>
+                <?php }?>
 
             </div>
         </div>

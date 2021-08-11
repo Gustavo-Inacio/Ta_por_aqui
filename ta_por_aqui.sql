@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 24-Jun-2021 às 15:04
--- Versão do servidor: 10.4.11-MariaDB
--- versão do PHP: 7.4.4
+-- Tempo de geração: 11-Ago-2021 às 15:25
+-- Versão do servidor: 10.4.19-MariaDB
+-- versão do PHP: 8.0.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -37,10 +37,7 @@ CREATE TABLE `categorias` (
 --
 
 INSERT INTO `categorias` (`id_categoria`, `nome_categoria`) VALUES
-(1, 'Serviços domésticos'),
-(2, 'Saúde'),
-(3, 'Assistência técnica'),
-(4, 'programação/design gráfico e audiovisual');
+(1, 'Serviços domésticos');
 
 -- --------------------------------------------------------
 
@@ -57,6 +54,34 @@ CREATE TABLE `comentarios` (
   `id_usuario` int(11) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
+--
+-- Extraindo dados da tabela `comentarios`
+--
+
+INSERT INTO `comentarios` (`id_comentario`, `id_servico`, `nota`, `comentario`, `data`, `id_usuario`) VALUES
+(1, 1, 4.0, 'servico muito bom esse aí', '2021-06-25 10:41:24', 3),
+(2, 1, 5.0, 'v', '2021-06-25 10:41:58', 3),
+(3, 1, 1.0, 'd', '2021-06-25 10:42:16', 3),
+(4, 2, 4.0, 'teste', '2021-06-25 10:44:32', 3),
+(5, 5, 3.0, 'sdsdsd', '2021-06-25 15:04:16', 1),
+(6, 4, 2.0, 'ssdsdssd', '2021-06-25 18:42:05', 1),
+(7, 4, 2.0, 's', '2021-06-25 18:43:55', 1),
+(8, 4, 3.0, 's', '2021-06-25 18:44:56', 1),
+(9, 4, 5.0, 's', '2021-06-25 18:45:46', 1),
+(10, 9, 2.0, 'e', '2021-07-27 14:00:21', 3),
+(11, 9, 3.0, 'asasas', '2021-07-27 14:00:25', 3),
+(12, 9, 5.0, 'sd', '2021-07-27 14:01:49', 3),
+(13, 9, 4.0, 'comentário do serviço ', '2021-08-04 07:58:22', 3),
+(14, 10, 3.0, 'Teste nota 3', '2021-08-04 08:09:34', 3),
+(15, 9, 3.0, 'Teste de comentário\n', '2021-08-04 08:34:49', 3),
+(16, 11, 3.0, 'serico otimo\n', '2021-08-04 08:37:38', 3),
+(17, 10, 3.0, 'bla\n', '2021-08-09 15:34:36', 3),
+(18, 10, 4.0, 'ola', '2021-08-09 15:35:07', 3),
+(19, 10, 4.0, 'kkkk', '2021-08-09 15:36:21', 3),
+(20, 10, 1.0, 'oi', '2021-08-09 15:36:27', 3),
+(21, 10, 5.0, 'ioiiiiioioioio', '2021-08-09 15:44:12', 3),
+(22, 10, 3.0, 'j', '2021-08-09 15:44:27', 3);
+
 -- --------------------------------------------------------
 
 --
@@ -71,6 +96,17 @@ CREATE TABLE `contratos` (
   `data_contrato` datetime NOT NULL DEFAULT current_timestamp(),
   `status_contrato` int(11) NOT NULL COMMENT '0 = não aceito, 1 = pendente, 2 = rejeitado '
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `contratos`
+--
+
+INSERT INTO `contratos` (`id_contrato`, `id_servico`, `id_cliente`, `id_prestador`, `data_contrato`, `status_contrato`) VALUES
+(14, 13, 3, 3, '2021-08-05 11:43:48', 0),
+(13, 12, 3, 3, '2021-08-05 11:40:05', 1),
+(12, 11, 3, 3, '2021-08-04 08:37:05', 1),
+(11, 10, 3, 3, '2021-08-04 08:08:48', 1),
+(10, 9, 3, 3, '2021-07-27 13:41:03', 1);
 
 -- --------------------------------------------------------
 
@@ -125,6 +161,15 @@ CREATE TABLE `fale_conosco` (
   `mensagem` text NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
+--
+-- Extraindo dados da tabela `fale_conosco`
+--
+
+INSERT INTO `fale_conosco` (`id_contato`, `nome`, `email`, `empresa`, `telefone`, `mensagem`) VALUES
+(1, 'Gustavo', 'gutiinacio@gmail.com', 'minha empresa', '5151616551161', 'Serviço sensacional!'),
+(2, 'Gustavo', 'gutiinacio@gmail.com', 'minha empresa', '5151616551161', 'Serviço sensacional!'),
+(3, 'João', 'teste@gmail.com', 'teste', '15646448', 'MensagemMensagemMensagemMensagemMensagemMensagemMensagemMensagemMensagemMensagemMensagem');
+
 -- --------------------------------------------------------
 
 --
@@ -155,6 +200,15 @@ CREATE TABLE `servicos_salvos` (
   `id_usuario` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
+--
+-- Extraindo dados da tabela `servicos_salvos`
+--
+
+INSERT INTO `servicos_salvos` (`id_servico_salvo`, `id_servico`, `id_usuario`) VALUES
+(71, 10, 3),
+(52, 5, 0),
+(57, 9, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -168,6 +222,26 @@ CREATE TABLE `servico_categoria` (
   `id_subcategoria` int(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
+--
+-- Extraindo dados da tabela `servico_categoria`
+--
+
+INSERT INTO `servico_categoria` (`id_servico_categoria`, `id_servico`, `id_categoria`, `id_subcategoria`) VALUES
+(38, 14, 1, 4),
+(37, 14, 1, 3),
+(36, 14, 1, 2),
+(35, 13, 1, 4),
+(34, 13, 1, 3),
+(33, 13, 1, 2),
+(32, 12, 1, 2),
+(31, 11, 1, 3),
+(30, 11, 1, 2),
+(29, 11, 1, 1),
+(28, 10, 1, 4),
+(27, 9, 1, 3),
+(26, 9, 1, 2),
+(25, 9, 1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -179,6 +253,57 @@ CREATE TABLE `servico_imagens` (
   `id_servico` int(11) NOT NULL,
   `dir_imagem` varchar(30) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `servico_imagens`
+--
+
+INSERT INTO `servico_imagens` (`id_imagem`, `id_servico`, `dir_imagem`) VALUES
+(1, 1, '162462839860d5dcae00c11.jpg'),
+(2, 1, '162462839860d5dcae03371.jpg'),
+(3, 1, '162462839860d5dcae0352a.png'),
+(4, 1, '162462839860d5dcae036ce.png'),
+(5, 2, '162462862360d5dd8fca3bb.jpg'),
+(6, 2, '162462862360d5dd8fcad9f.jpg'),
+(7, 2, '162462862360d5dd8fcaf55.jpg'),
+(8, 2, '162462862360d5dd8fcb0fa.jpg'),
+(9, 3, '162462903360d5df29cb0ae.jpg'),
+(10, 3, '162462903360d5df29cb30c.jpg'),
+(11, 3, '162462903360d5df29cb4f0.png'),
+(12, 3, '162462903360d5df29cbd5d.png'),
+(13, 4, '162462910060d5df6cf2b52.jpg'),
+(14, 4, '162462910060d5df6cf2de0.jpg'),
+(15, 4, '162462910060d5df6cf3079.jpg'),
+(16, 4, '162462910060d5df6cf334c.png'),
+(17, 5, '162462934360d5e05f91477.jpg'),
+(18, 5, '162462934360d5e05f9163d.jpg'),
+(19, 5, '162462934360d5e05f9181c.jpg'),
+(20, 5, '162462934360d5e05f91cfb.png'),
+(21, 6, '162464418860d61a5c54d9e.jpg'),
+(22, 6, '162464418860d61a5c54ff3.jpg'),
+(23, 6, '162464418860d61a5c56265.png'),
+(24, 6, '162464418860d61a5c5642b.png'),
+(25, 7, '162466709860d673dacbd7b.jpeg'),
+(26, 7, '162466709860d673dacc065.jpeg'),
+(27, 7, '162466709860d673dacc291.jpeg'),
+(28, 7, '162466709860d673dacc400.jpeg'),
+(29, 8, '162473314360d775d7c0051.jpeg'),
+(30, 8, '162473314360d775d7c1289.jpeg'),
+(31, 8, '162473314360d775d7c143d.jpeg'),
+(32, 8, '162473314360d775d7c15c7.jpeg'),
+(33, 9, '162473331760d7768536753.jpeg'),
+(34, 9, '162473331760d776853693f.jpeg'),
+(35, 9, '162473331760d7768537989.jpeg'),
+(36, 9, '162473331760d7768537b59.jpeg'),
+(37, 10, '1628075249610a74f155a51.jpg'),
+(38, 10, '1628075249610a74f159297.jpg'),
+(39, 10, '1628075249610a74f15949c.jpg'),
+(40, 11, '1628076974610a7baed2354.jpg'),
+(41, 11, '1628076974610a7baed2917.jpg'),
+(42, 11, '1628076974610a7baed2af4.jpg'),
+(43, 12, '1628174391610bf837303bd.png'),
+(44, 13, '1628174549610bf8d50261a.png'),
+(45, 14, '1628250373610d2105c5df5.png');
 
 -- --------------------------------------------------------
 
@@ -200,32 +325,7 @@ INSERT INTO `subcategorias` (`id_subcategoria`, `nome_subcategoria`, `id_categor
 (1, 'Diarista', 1),
 (2, 'Serviços para pets', 1),
 (3, 'Limpesa de piscina', 1),
-(4, 'lavadeira', 1),
-(5, 'Babá', 1),
-(6, 'Cozinheira', 1),
-(7, 'Motorista', 1),
-(8, 'Nutricionista', 2),
-(9, 'Dentista', 2),
-(10, 'enfermeira', 2),
-(11, 'Psicóloga', 2),
-(12, 'Terapeuta', 2),
-(13, 'Fisioterapeuta', 2),
-(14, 'Conserto de som', 3),
-(15, 'Conserto de relógio', 3),
-(16, 'Conserto de celular/tablet', 3),
-(17, 'Conserto de notebook', 3),
-(18, 'Conserto de desktop', 3),
-(19, 'Conserto de impressora', 3),
-(20, 'Conserto de eletrodomésticos', 3),
-(21, 'Cabeamento e redes', 3),
-(22, 'Design de logo', 4),
-(23, 'Design UI/UX', 4),
-(24, 'Edição de áudio/vídeo', 4),
-(25, 'Edição de imagens', 4),
-(26, 'Desenvolvimento de games', 4),
-(27, 'Desenvolvimento de sites', 4),
-(28, 'Desenvolvimento de apps', 4),
-(29, 'Animador', 4);
+(4, 'lavadeira', 1);
 
 -- --------------------------------------------------------
 
@@ -255,16 +355,16 @@ CREATE TABLE `usuarios` (
   `site` varchar(40) DEFAULT NULL,
   `status_usuario` int(11) NOT NULL DEFAULT 0 COMMENT '0 = ativa, 1 = banida, 2 = suspensa',
   `imagem_perfil` varchar(40) DEFAULT 'no_picture.jpg',
-  `nota_media` float(2,1) DEFAULT NULL
+  `nota_media` float(2,1) DEFAULT NULL,
+  `posicao` point DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
 --
 -- Extraindo dados da tabela `usuarios`
 --
 
-INSERT INTO `usuarios` (`id_usuario`, `nome`, `sobrenome`, `telefone`, `email`, `senha`, `data_nascimento`, `sexo`, `classificacao`, `cep`, `estado`, `cidade`, `bairro`, `rua`, `numero`, `complemento`, `data_entrada`, `descricao`, `site`, `status_usuario`, `imagem_perfil`, `nota_media`) VALUES
-(1, 'Natan', 'Barbosa', '(11) 99182-5452', 'natanbarbosa525@gmail.com', '123', '2003-07-28', 'M', 1, '09771220', 'SP', 'São Bernardo do Campo', 'Nova Petrópolis', 'Rua Ernesta Pelosini', '195', 'apto. 85 BL. A', '2021-06-24 08:31:34', 'Sou designer programador front end e te ajudarei a desenvolver um site bacana do zero do seu jeito e estilo', 'https://www.youtube.com/channel/UCNqmecU', 0, '162454534260d4983e0dbf4.jpg', NULL),
-(2, 'Fabricia', 'Santos', '(52) 35478-9651', 'vaxitij447@pigicorn.com', '123456', '1993-02-07', 'F', 0, '41515140', 'BA', 'Salvador', 'Bairro da Paz', 'Rua Duque de Caxias', '54', NULL, '2021-06-24 11:48:20', NULL, NULL, 0, 'no_picture.jpg', NULL);
+INSERT INTO `usuarios` (`id_usuario`, `nome`, `sobrenome`, `telefone`, `email`, `senha`, `data_nascimento`, `sexo`, `classificacao`, `cep`, `estado`, `cidade`, `bairro`, `rua`, `numero`, `complemento`, `data_entrada`, `descricao`, `site`, `status_usuario`, `imagem_perfil`, `nota_media`, `posicao`) VALUES
+(13, '', '', '', '', '', '0000-00-00', '', 0, '', '', '', '', '', '', NULL, '2021-08-11 09:49:46', NULL, NULL, 0, 'no_picture.jpg', NULL, 0x000000000101000000f1ba7ec16ee037c01f85eb51b86247c0);
 
 -- --------------------------------------------------------
 
@@ -292,7 +392,15 @@ INSERT INTO `usuario_redes_sociais` (`id_rede_social`, `id_usuario`, `rede_socia
 (5, 2, 'instagram', NULL, NULL),
 (6, 2, 'facebook', NULL, NULL),
 (7, 2, 'twitter', NULL, NULL),
-(8, 2, 'linkedin', NULL, NULL);
+(8, 2, 'linkedin', NULL, NULL),
+(9, 3, 'instagram', NULL, NULL),
+(10, 3, 'facebook', NULL, NULL),
+(11, 3, 'twitter', NULL, NULL),
+(12, 3, 'linkedin', NULL, NULL),
+(13, 12, 'instagram', NULL, NULL),
+(14, 12, 'facebook', NULL, NULL),
+(15, 12, 'twitter', NULL, NULL),
+(16, 12, 'linkedin', NULL, NULL);
 
 --
 -- Índices para tabelas despejadas
@@ -407,19 +515,19 @@ ALTER TABLE `usuario_redes_sociais`
 -- AUTO_INCREMENT de tabela `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `comentarios`
 --
 ALTER TABLE `comentarios`
-  MODIFY `id_comentario` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_comentario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de tabela `contratos`
 --
 ALTER TABLE `contratos`
-  MODIFY `id_contrato` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_contrato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de tabela `denuncia_comentario`
@@ -443,31 +551,31 @@ ALTER TABLE `denuncia_servico`
 -- AUTO_INCREMENT de tabela `fale_conosco`
 --
 ALTER TABLE `fale_conosco`
-  MODIFY `id_contato` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_contato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `servico`
 --
 ALTER TABLE `servico`
-  MODIFY `id_servico` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_servico` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de tabela `servicos_salvos`
 --
 ALTER TABLE `servicos_salvos`
-  MODIFY `id_servico_salvo` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_servico_salvo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT de tabela `servico_categoria`
 --
 ALTER TABLE `servico_categoria`
-  MODIFY `id_servico_categoria` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_servico_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT de tabela `servico_imagens`
 --
 ALTER TABLE `servico_imagens`
-  MODIFY `id_imagem` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_imagem` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT de tabela `subcategorias`
@@ -479,13 +587,13 @@ ALTER TABLE `subcategorias`
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de tabela `usuario_redes_sociais`
 --
 ALTER TABLE `usuario_redes_sociais`
-  MODIFY `id_rede_social` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_rede_social` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- Restrições para despejos de tabelas

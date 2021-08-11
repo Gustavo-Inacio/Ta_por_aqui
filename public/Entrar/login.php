@@ -84,24 +84,24 @@ if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSIO
                 <div id="loginContent">
                     <h1> Entre </h1>
 
-                    <?if( isset($_GET['erro']) && $_GET['erro'] == "login_invalido" ) {?>
+                    <?php if( isset($_GET['erro']) && $_GET['erro'] == "login_invalido" ) {?>
                         <div class="alert alert-danger alert-dismissible" role="alert">
                             Email ou senha Inválidas
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                    <?}?>
+                    <?php }?>
 
                     <form action="../../logic/entrar_login.php" method="POST" id="loginForm">
                         <label for="loginEmail" class="myLabel">Email</label> <br>
-                        <input type="text" class="form-control" name="loginEmail" id="loginEmail" class="mb-4" placeholder="Insira o seu e-mail" required>
+                        <input type="text" class="form-control" name="loginEmail" id="loginEmail" placeholder="Insira o seu e-mail" required maxlength="40">
 
                         <br>
 
                         <label for="loginPass" class="myLabel">Senha</label> <br>
                         <div class="input-group mb-2">
-                            <input type="password" class="form-control" name="loginPass" id="loginPass" class="mb-4" placeholder="Insira a sua senha" aria-describedby="viewPass" required>
+                            <input type="password" class="form-control" name="loginPass" id="loginPass" placeholder="Insira a sua senha" aria-describedby="viewPass" required maxlength="40">
                             <div class="input-group-append">
                                 <button type="button" class="input-group-text" id="viewPass" onclick="showPass()"> <i class="fas fa-eye" id="eye"></i> </button>
                             </div>

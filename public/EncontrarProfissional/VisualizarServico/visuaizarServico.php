@@ -102,14 +102,14 @@
             <li class="nav-item">
                 <a href="../../Chat/chat.html" class="nav-link">Chat</a>
             </li>
-            <? if( empty($_SESSION['idUsuario']) ){ ?>
+            <?php if( empty($_SESSION['idUsuario']) ){ ?>
                 <li class="nav-item">
                     <a href="../../Entrar/login.php" class="nav-link">Entrar/cadastrar</a>
                 </li>
-            <?}?>
+            <?php }?>
         </ul>
 
-            <? if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSION['senha']) && isset($_SESSION['classificacao']) ) {?>
+            <?php if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSION['senha']) && isset($_SESSION['classificacao']) ) {?>
                 <div class="dropdown">
                     <img src="../../../assets/images/profile_images/<?=$_SESSION['imagemPerfil']?>" alt="imagem de perfil" id="profileMenu" class="img-fluid" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
@@ -118,7 +118,7 @@
                         <a class="dropdown-item text-danger" href="../../../logic/entrar_logoff.php">Sair</a>
                     </div>
                 </div>
-            <? } ?>
+            <?php } ?>
     </div>
         
     </nav>

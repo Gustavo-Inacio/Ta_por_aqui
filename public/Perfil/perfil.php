@@ -94,14 +94,14 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
                     <li class="nav-item">
                         <a href="../Chat/chat.html" class="nav-link">Chat</a>
                     </li>
-                    <? if( empty($_SESSION) ){ ?>
+                    <?php if( empty($_SESSION) ){ ?>
                         <li class="nav-item">
                             <a href="../Entrar/login.php" class="nav-link">Entrar/cadastrar</a>
                         </li>
-                    <?}?>
+                    <?php }?>
                 </ul>
 
-                <? if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSION['senha']) && isset($_SESSION['classificacao']) ) {?>
+                <?php if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSION['senha']) && isset($_SESSION['classificacao']) ) {?>
                     <div class="dropdown">
                         <img src="../../assets/images/profile_images/<?=$_SESSION['imagemPerfil']?>" alt="imagem de perfil" id="profileMenu" class="img-fluid" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
@@ -110,7 +110,7 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
                             <a class="dropdown-item text-danger" href="../../logic/entrar_logoff.php">Sair</a>
                         </div>
                     </div>
-                <? } ?>
+                <?php } ?>
 
             </div>
         </nav>
@@ -174,7 +174,7 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
     </body>
     </html>
 
-<? } else { ?>
+<?php } else { ?>
 
 <!-- HTML normal -->
 <!DOCTYPE html>
@@ -237,14 +237,14 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
                 <li class="nav-item">
                     <a href="../Chat/chat.html" class="nav-link">Chat</a>
                 </li>
-                <? if( empty($_SESSION) ){ ?>
+                <?php if( empty($_SESSION) ){ ?>
                     <li class="nav-item">
                         <a href="../Entrar/login.php" class="nav-link">Entrar/cadastrar</a>
                     </li>
-                <?}?>
+                <?php }?>
             </ul>
 
-            <? if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSION['senha']) && isset($_SESSION['classificacao']) ) {?>
+            <?php if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSION['senha']) && isset($_SESSION['classificacao']) ) {?>
                 <div class="dropdown">
                     <img src="../../assets/images/profile_images/<?=$_SESSION['imagemPerfil']?>" alt="imagem de perfil" id="profileMenu" class="img-fluid" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
@@ -253,7 +253,7 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
                         <a class="dropdown-item text-danger" href="../../logic/entrar_logoff.php">Sair</a>
                     </div>
                 </div>
-            <? } ?>
+            <?php } ?>
 
         </div>
     </nav>
@@ -266,10 +266,29 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
             <br>
             <img src="../../assets/images/profile_images/<?=$user->imagem_perfil?>" alt="Imagem de perfil" class="rounded-image"
                  id="profileImage">
-            <br>
-            <h3>Avaliação</h3>
-            <p> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i class="fas fa-star"></i> <i
-                    class="fas fa-star"></i> <i class="fas fa-star"></i> </p>
+
+            <?php if($user->classificacao != 0) { ?>
+                <br>
+                <h3>Avaliação</h3>
+                <?php if($user->nota_media === null) {
+                    echo "<p class='text-secondary'>O usuário ainda não foi avaliado</p>";
+                } else {?>
+                    <h4 style="color: #309A6D"><?=$user->nota_media?></h4>
+                    <div>
+                        <?php for ($i = 1; $i <= 5; $i++) {
+                            if ($i <= round($user->nota_media)) {
+                                echo '<svg class="provider-rate-star" width="25" height="25" viewBox="0 0 17 14" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"></path>
+                                      </svg>';
+                            } else {
+                                echo '<svg class="provider-rate-star" width="25" height="25" viewBox="0 0 17 14" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#AAAA" stroke="black" stroke-width="0.2"></path>
+                                      </svg>';
+                            }
+                        }?>
+                    </div>
+                <?php }?>
+            <?php }?>
         </div>
 
         <div id="editProfileInformation" class="col-md-8">
@@ -301,12 +320,12 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
 
                         <br>
 
-                        <?if( $user->site != "" ) {?>
+                        <?php if( $user->site != "" ) {?>
                             <label for="showUserSite">Site</label> <br>
                             <div id="showUserSite"> <a href="<?=$user->site?>" target="_blank"> <?=$user->site?> </a> </div>
 
                             <br>
-                        <?}?>
+                        <?php }?>
 
                         <label for="userDescription">Descrição</label> <br>
                         <textarea name="userDescription" class="form-control" id="userDescription" placeholder="O usuário não colocou nenhuma descrição"
@@ -326,7 +345,7 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
 
                 <form>
                     <div class="row">
-                        <?
+                        <?php
                         //contar quantas redes sociais estão preenchidas
                         $columns = 12;
                         $divider = 4;
@@ -348,14 +367,15 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
                                     <a target="_blank" href="<?=$media->link_perfil?>"><i class="mb-3 fab fa-<?=$media->rede_social?> ativa"></i></a>
                                     <a target="_blank" href="<?=$media->link_perfil?>" class="mediaLink ativa"><?=$media->nome_usuario?></a>
                                 </div>
-                            <?}
+                            <?php
+                            }
                         } else {?>
                             <div class="col-12 mt-3">
                                 <p class="text-light">
                                     O usuário não adicionou nenhuma rede social até o momento
                                 </p>
                             </div>
-                        <?}?>
+                        <?php }?>
                     </div>
                 </form>
             </div>
@@ -364,7 +384,7 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
     </section>
     <!-- Div de redes sociais fim-->
 
-<? if($user->classificacao == 1 || $user->classificacao == 2) { ?>
+    <?php if($user->classificacao == 1 || $user->classificacao == 2) { ?>
     <!-- Div serviços disponibilizados -->
     <section id="availableServices">
         <div class="container">
@@ -374,7 +394,7 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
 
                 <div class="row" id="serviceCards">
 
-                    <? if( count($userServices) !== 0 ) {
+                    <?php if( count($userServices) !== 0 ) {
                         foreach ($userServices as $key => $service) {
                             if ($key == 3){
                                 break;
@@ -390,30 +410,32 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
                                         <p class="card-text">
                                             <strong>Informações básicas:</strong> <br>
                                             <strong>Orçamento:</strong> <?=$service->orcamento?> <br>
-                                            <?if($service->tipo == 1) {?>
+                                            <?php if($service->tipo == 1) {?>
                                                 <strong>Localização:</strong> <?=$user->cidade?>, <?=$user->estado?>
-                                            <?} else {?>
+                                            <?php } else {?>
                                                 <strong>Serviço remoto</strong>
-                                            <?}?>
+                                            <?php
+                                            }?>
                                         </p>
                                         <a href="../EncontrarProfissional/VisualizarServico/visuaizarServico.php?serviceID=<?=$service->id_servico?>" class="btn myCardButton">+ detalhes</a>
                                     </div>
                                 </div>
                             </div>
-                        <?}
+                        <?php
+                        }
                     } else {?>
                         <div class="col-12 mt-3">
                             <p class="text-info text-center">
                                 O prestador ainda não adicionou nenhum serviço
                             </p>
                         </div>
-                    <?}?>
+                    <?php }?>
                 </div>
             </div>
 
-            <?if(count($userServices) > 3) {?>
+            <?php if(count($userServices) > 3) {?>
                 <button type="button" class="showServicesButtons mr-4 mb-4" id="showAllAvailableServices" onclick="showAllServices('availableServices', <?=$_GET['id']?>)">Todos os serviços</button>
-            <?}?>
+            <?php }?>
         </div>
     </section>
     <!-- Fim serviços disponibilizados -->
@@ -426,7 +448,7 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
 
         </div>
     </div>
-<? } ?>
+    <?php } ?>
 
     <!-- footer -->
     <footer id="myMainFooter">
@@ -455,4 +477,4 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
 </body>
 
 </html>
-<? } ?>
+<?php } ?>

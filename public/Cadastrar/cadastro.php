@@ -89,20 +89,20 @@ if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSIO
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="userName" class="myLabel">Nome</label> <br>
-                                <input type="text" class="form-control required" name="userName" id="userName" placeholder="Insira seu nome">
+                                <input type="text" class="form-control required" name="userName" id="userName" placeholder="Insira seu nome" maxlength="15">
                                 <br>
                                 <label for="userLastName" class="myLabel">Sobrenome</label> <br>
-                                <input type="text" class="form-control required" name="userLastName" id="userLastName" placeholder="Insira o seu sobrenome">
+                                <input type="text" class="form-control required" name="userLastName" id="userLastName" placeholder="Insira o seu sobrenome" maxlength="15">
                                 <br>
                                 <label for="userPhone" class="myLabel">Telefone</label> <br>
                                 <input type="tel" class="form-control required" name="userPhone" id="userPhone" placeholder="ex.: (11)91234-5678">
                                 <br>
                                 <label for="userEmail" class="myLabel">Email</label> <br>
-                                <input type="email" class="form-control required" name="userEmail" id="userEmail" placeholder="ex.: pearrudas@gmail.com">
+                                <input type="email" class="form-control required" name="userEmail" id="userEmail" placeholder="ex.: pearrudas@gmail.com" maxlength="40">
                                 <br>
                                 <label for="userPass" class="myLabel">Senha</label> <br>
                                 <div class="input-group">
-                                    <input type="password" class="form-control password required" name="userPass" id="userPass" placeholder="Crie uma senha" aria-describedby="viewPass">
+                                    <input type="password" class="form-control password required" name="userPass" id="userPass" placeholder="Crie uma senha" aria-describedby="viewPass" maxlength="40">
                                     <div class="input-group-append">
                                         <button type="button" class="input-group-text btnShowPass" id="viewPass" onclick="showPass()"> <i class="fas fa-eye" id="eye"></i> </button>
                                     </div>
@@ -110,7 +110,7 @@ if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSIO
                                 <br>
                                 <label for="userConfirmPass" class="myLabel">Confirmar senha</label> <br>
                                 <div class="input-group">
-                                    <input type="password" class="form-control password required" name="userConfirmPass" id="userConfirmPass" placeholder="Confirme a senha anterior" aria-describedby="viewPass">
+                                    <input type="password" class="form-control password required" name="userConfirmPass" id="userConfirmPass" placeholder="Confirme a senha anterior" aria-describedby="viewPass" maxlength="40">
                                     <div class="input-group-append">
                                         <button type="button" class="input-group-text btnShowPass" id="viewConfirmPass" onclick="showConfirmPass()"> <i class="fas fa-eye" id="eye2"></i> </button>
                                     </div>
@@ -158,12 +158,12 @@ if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSIO
                                                 </div>
                                                 <div class="col-3">
                                                     <label for="userAdressNumber" class="myLabel">Número</label> <br>
-                                                    <input type="number" class="form-control required mb-3" name="userAdressNumber" id="userAdressNumber" >
+                                                    <input type="number" class="form-control required mb-3" name="userAdressNumber" id="userAdressNumber" maxlength="5">
                                                 </div>
                                             </div>
 
                                             <label for="userAdressComplement" class="myLabel">Complemento</label> <br>
-                                            <input type="text" class="form-control mb-3" name="userAdressComplement" id="userAdressComplement" placeholder="Digite o complemento (caso tenha)" data-toggle="popover" data-trigger="hover" title="Exemplo" data-content="apto. 24 BL A" data-placement="top">
+                                            <input type="text" class="form-control mb-3" name="userAdressComplement" id="userAdressComplement" placeholder="Digite o complemento (caso tenha)" data-toggle="popover" data-trigger="hover" title="Exemplo" data-content="apto. 24 BL A" data-placement="top" maxlength="20">
                                             
                                         </div>
 
@@ -176,7 +176,7 @@ if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSIO
                                 
                                 <br>
                                 <label for="userBirthDate" class="myLabel">Data de nascimento</label> <br>
-                                <input type="date" class="form-control required" name="userBirthDate" id="userBirthDate" class="mb-3">
+                                <input type="date" class="form-control required" name="userBirthDate" id="userBirthDate">
                                 <br>
                                 <label class="myLabel">Sexo</label> <br>
                                 <label for="M"> <input type="radio" name="userSex" value="M" id="M" checked> Masculino </label> <br>
@@ -240,7 +240,7 @@ if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSIO
     </div>
 
     <!-- Modal de email confirmado com sucesso -->
-    <?if( isset($_GET['status']) && $_GET['status'] == "1" ){?>
+    <?php if( isset($_GET['status']) && $_GET['status'] == "1" ){?>
         <div class="modal show" id="confirmedEmailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-xl">
                 <div class="modal-content">
@@ -258,7 +258,7 @@ if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSIO
             </div>
         </div>
         <script> document.getElementById('page').style.filter = "blur(3px)" </script>
-    <?}?>
+    <?php }?>
 
 
     <svg width="761" height="567" viewBox="0 0 761 567" fill="none" xmlns="http://www.w3.org/2000/svg" class="d-none d-md-block">

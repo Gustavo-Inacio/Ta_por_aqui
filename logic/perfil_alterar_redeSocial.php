@@ -15,6 +15,41 @@ foreach ($_POST as $i => $rede_social){
     }
 }
 
+echo "<pre>";
+print_r($_POST);
+echo "</pre>";
+
+//verificando os links da rede social
+$valid = true;
+
+#verificando instagram
+if ($_POST['instagram'][0] !== null && $_POST['instagram'][1] !== null){
+    if (!str_contains($_POST['instagram'][1], "https://www.instagram.com/")){
+        header('location: ../public/Perfil/meu_perfil.php');
+        exit();
+    }
+}
+
+if ($_POST['facebook'][0] !== null && $_POST['facebook'][1] !== null){
+    if (!str_contains($_POST['facebook'][1], "https://www.facebook.com/")){
+        header('location: ../public/Perfil/meu_perfil.php');
+        exit();
+    }
+}
+
+if ($_POST['twitter'][0] !== null && $_POST['twitter'][1] !== null){
+    if (!str_contains($_POST['twitter'][1], "https://twitter.com/")){
+        header('location: ../public/Perfil/meu_perfil.php');
+        exit();
+    }
+}
+
+if ($_POST['linkedin'][0] !== null && $_POST['linkedin'][1] !== null){
+    if (!str_contains($_POST['linkedin'][1], "https://br.linkedin.com/in/")){
+        header('location: ../public/Perfil/meu_perfil.php');
+        exit();
+    }
+}
 
 //update no instagram
 $query1 = "UPDATE usuario_redes_sociais SET nome_usuario = :nome_instagram, link_perfil = :link_instagram WHERE rede_social = 'instagram' AND id_usuario = :id_usuario";

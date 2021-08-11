@@ -140,14 +140,14 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
             <br>
 
             <!-- Alerta fechável de erro -->
-            <? if(isset($_GET['erro'])) {?>
+            <?php if(isset($_GET['erro'])) {?>
                 <div class="alert alert-danger alert-dismissible" role="alert">
                     <strong>Erro!</strong> <?= $_GET['erro'] ?>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-            <?}?>
+            <?php }?>
 
             <!-- Botão menu de alterar foto -->
             <button type="button" id="profilePicMenu" data-toggle="modal" data-target="#profilePicMenuModal"> <i class="fas fa-pen"></i> Editar foto </button>
@@ -191,26 +191,28 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                     </div>
                 </div>
             </div>
-            <br>
-            <h3>Avaliação</h3>
-            <?if($user->nota_media === null) {
-                echo "<p class='text-secondary'>O usuário ainda não foi avaliado</p>";
-            } else {?>
-                <h4 style="color: #309A6D"><?=$user->nota_media?></h4>
-                <div>
-                    <? for ($i = 1; $i <= 5; $i++) {
-                        if ($i <= round($user->nota_media)) {
-                            echo '<svg class="provider-rate-star" width="25" height="25" viewBox="0 0 17 14" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"></path>
-                                  </svg>';
-                        } else {
-                            echo '<svg class="provider-rate-star" width="25" height="25" viewBox="0 0 17 14" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#AAAA" stroke="black" stroke-width="0.2"></path>
-                                  </svg>';
-                        }
-                    }?>
-                </div>
-            <?}?>
+            <?php if($_SESSION['classificacao'] != 0) { ?>
+                <br>
+                <h3>Avaliação</h3>
+                <?php if($user->nota_media === null) {
+                    echo "<p class='text-secondary'>O usuário ainda não foi avaliado</p>";
+                } else {?>
+                    <h4 style="color: #309A6D"><?=$user->nota_media?></h4>
+                    <div>
+                        <?php for ($i = 1; $i <= 5; $i++) {
+                            if ($i <= round($user->nota_media)) {
+                                echo '<svg class="provider-rate-star" width="25" height="25" viewBox="0 0 17 14" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"></path>
+                                      </svg>';
+                            } else {
+                                echo '<svg class="provider-rate-star" width="25" height="25" viewBox="0 0 17 14" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#AAAA" stroke="black" stroke-width="0.2"></path>
+                                      </svg>';
+                            }
+                        }?>
+                    </div>
+                <?php }?>
+            <?php } ?>
         </div>
 
         <div id="editProfileInformation" class="col-md-8">
@@ -220,13 +222,13 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
                     <div class="col-md-6">
                         <label for="userName">Nome</label> <br>
-                        <input type="text" class="form-control" name="userName" id="userName" readonly required
+                        <input type="text" class="form-control" name="userName" id="userName" readonly required maxlength="15"
                             value="<?=$user->nome?>">
 
                         <br>
 
                         <label for="userLastName">Sobrenome</label> <br>
-                        <input type="text" class="form-control" name="userLastName" id="userLastName" required
+                        <input type="text" class="form-control" name="userLastName" id="userLastName" required maxlength="15"
                             readonly value="<?=$user->sobrenome?>">
 
                         <br>
@@ -238,33 +240,26 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                         <br>
 
                         <label for="userPass">Senha</label> <br>
-                        <div class="input-group mb-3">
-                            <input type="password" class="form-control" id="userPass" readonly
-                                value="******">
-                            <div class="input-group-append">
-                                <button class="input-group-text" id="changePass" data-toggle="modal"
-                                    data-target="#changePassModal" onclick="alteraSenha()">Alterar senha</button>
-                            </div>
-                        </div>
+                        <button type="button" class="btn" id="changePass" data-toggle="modal" data-target="#changePassModal" onclick="">Alterar senha</button>
 
                     </div>
 
                     <div class="col-md-6 mt-3 mt-md-0">
                         <label for="userEmail">Email</label> <br>
-                        <input type="text" class="form-control" name="userEmail" id="userEmail" readonly
+                        <input type="text" class="form-control" name="userEmail" id="userEmail" readonly maxlength="40"
                             value="<?=$user->email?>">
 
                         <br>
 
                         <label for="userSite">Site</label> <br>
-                        <input type="url" class="form-control d-none" name="userSite" id="userSite" readonly placeholder="Caso tenha, insira seu site ou porfólio online"
+                        <input type="url" class="form-control d-none" name="userSite" id="userSite" readonly placeholder="Caso tenha, insira seu site ou porfólio online" maxlength="40"
                             value="<?=$user->site?>">
                         <div id="showUserSite"><a href="<?=$user->site?>" target="_blank"><?=$user->site?></a></div>
 
                         <br>
 
                         <label for="userDescription">Descrição</label> <br>
-                        <textarea name="userDescription" class="form-control" id="userDescription" placeholder="Adicione uma breve descrição sobre você e como trabalha"
+                        <textarea name="userDescription" class="form-control" id="userDescription" placeholder="Adicione uma breve descrição sobre você e como trabalha" maxlength="65535"
                             readonly><?=$user->descricao?></textarea>
                     </div>
 
@@ -299,7 +294,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p> Um link para uma  nova senha será enviado para seu email</p>
+                    <p>Enviamos um email com um link para trocar sua senha. O link expirará em 2 horas.</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
@@ -320,15 +315,15 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
                 <form action="../../logic/perfil_alterar_redeSocial.php" method="POST" id="socialMediaForm">
                     <div class="row">
-                        <?foreach ($userSocialMedia as $media) {?>
+                        <?php foreach ($userSocialMedia as $media) {?>
                             <div class="col-6 col-md-3 mt-3 d-flex flex-column align-items-center">
                                 <a target="_blank" <?= $media->link_perfil !== null ? "href='$media->link_perfil'" : ""; ?>><i class="mb-3 fab fa-<?=$media->rede_social?> <?= $media->link_perfil !== null ? "ativa" : "inativa"; ?>"></i></a>
                                 <a target="_blank" <?= $media->link_perfil !== null ? "href='$media->link_perfil'" : ""; ?> class="mediaLink <?=$media->nome_usuario !== null ? "ativa" : "inativa"?>"><?=$media->nome_usuario !== null ? $media->nome_usuario : "seu nome" ?></a>
 
-                                <input type="text" name="<?=$media->rede_social?>[]" id="<?=$media->rede_social?>Name" class="d-none form-control socialInput <?=$media->rede_social?>" value="<?=$media->nome_usuario?>" placeholder="seu nome">
-                                <input type="text" name="<?=$media->rede_social?>[]" id="<?=$media->rede_social?>Link" class="d-none form-control socialInput <?=$media->rede_social?> mt-2" value="<?=$media->link_perfil?>" placeholder="link do perfil">
+                                <input type="text" name="<?=$media->rede_social?>[]" id="<?=$media->rede_social?>Name" class="d-none form-control socialInput <?=$media->rede_social?>" value="<?=$media->nome_usuario?>" placeholder="seu nome" maxlength="30">
+                                <input type="text" name="<?=$media->rede_social?>[]" id="<?=$media->rede_social?>Link" class="d-none form-control socialInput <?=$media->rede_social?> mt-2" value="<?=$media->link_perfil?>" placeholder="link do perfil" maxlength="60">
                             </div>
-                        <?}?>
+                        <?php }?>
                     </div>
                     <button type="button" class="btn btn-success mt-3 d-none" id="btnSalvarRedes" onclick="verifySocialMedia()">Salvar</button>
                     <button type="button" class="btn btn-outline-danger mt-3 d-none" id="btnCancelarRedes"
@@ -350,7 +345,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
     <!-- Div de redes sociais fim-->
 
-<? if($_SESSION['classificacao'] == 1 || $_SESSION['classificacao'] == 2) { ?>
+    <?php if($_SESSION['classificacao'] == 1 || $_SESSION['classificacao'] == 2) { ?>
 
     <!-- div serviços solicitados -->
     <section id="requestedServices">
@@ -361,7 +356,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
                 <div class="row" id="requestedCards">
 
-                    <? if( count($asProviderRequestedServices) > 0 ) {
+                    <?php if( count($asProviderRequestedServices) > 0 ) {
                         foreach ($asProviderRequestedServices as $key => $service) {
                             if ($key == 3){
                                 break;
@@ -396,31 +391,33 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
                                     </div>
                                     <div class="card-footer">
-                                        <?if($service->status_contrato == 0) {?>
+                                        <?php if($service->status_contrato == 0) {?>
                                             <button class="btn myCardAccept my-1" onclick="acceptRejectService('accept', <?=$service->id_contrato?>, '<?=$client_name->nome?>')">Aceitar</button>
                                             <button class="btn myCardReject my-1" onclick="acceptRejectService('reject', <?=$service->id_contrato?>, '<?=$client_name->nome?>')">Rejeitar</button>
-                                        <?} else if($service->status_contrato == 1) {?>
+                                        <?php } else if($service->status_contrato == 1) {?>
                                             <div class="alert alert-success" role="alert">Serviço aceito</div>
-                                        <?} else if($service->status_contrato == 2) {?>
+                                        <?php } else if($service->status_contrato == 2) {?>
                                             <div class="alert alert-danger" role="alert">Serviço rejeitado</div>
-                                        <?}?>
+                                        <?php
+                                        }?>
                                     </div>
                                 </div>
                             </div>
-                        <?}
+                        <?php
+                        }
                     } else {?>
                         <div class="col-12 mt-3">
                             <p class="text-info text-center">
                                 Por enquanto nenhum serviço seu foi solicitado. Fique atendo às notificações que lhe informaremos quando alguem te contratar!
                             </p>
                         </div>
-                    <?}?>
+                    <?php }?>
                 </div>
             </div>
 
-            <?if(count($asProviderRequestedServices) > 3) {?>
+            <?php if(count($asProviderRequestedServices) > 3) {?>
                 <button type="button" class="showServicesButtons mt-3" id="showAllAvailableServices" onclick="showAllServices('requestedServices', <?=$_SESSION['idUsuario']?>)">Todos os serviços</button>
-            <?}?>
+            <?php }?>
         </div>
     </section>
     <!-- Fim serviços solicitados -->
@@ -434,7 +431,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
                 <div class="row" id="serviceCards">
 
-                    <? if( count($userServices) > 0 ) {
+                    <?php if( count($userServices) > 0 ) {
                         foreach ($userServices as $key => $service) {
                             if ($key == 3){
                                 break;
@@ -450,37 +447,39 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                                         <p class="card-text">
                                             <strong>Informações básicas:</strong> <br>
                                             <strong>Orçamento:</strong> <?=$service->orcamento?> <br>
-                                            <?if($service->tipo == 1) {?>
+                                            <?php if($service->tipo == 1) {?>
                                                 <strong>Localização:</strong> <?=$user->cidade?>, <?=$user->estado?>
-                                            <?} else {?>
+                                            <?php } else {?>
                                                 <strong>Serviço remoto</strong>
-                                            <?}?>
+                                            <?php
+                                            }?>
                                         </p>
                                         <a href="../EncontrarProfissional/VisualizarServico/visuaizarServico.php?serviceID=<?=$service->id_servico?>" class="btn myCardButton">+ detalhes</a>
                                     </div>
                                 </div>
                             </div>
-                        <?}
+                        <?php
+                        }
                     } else {?>
                         <div class="col-12 mt-3">
                             <p class="text-info text-center">
                                 Monetize seus conhecimentos e habilidades agora mesmo. Crie um serviço clicando no botão abaixo
                             </p>
                         </div>
-                    <?}?>
+                    <?php }?>
 
                 </div>
             </div>
 
-            <?if(count($userServices) > 3) {?>
+            <?php if(count($userServices) > 3) {?>
                 <button type="button" class="showServicesButtons mr-4 mb-4" id="showAllAvailableServices" onclick="showAllServices('availableServices', <?=$_SESSION['idUsuario']?>)">Todos os serviços</button>
-            <?}?>
+            <?php }?>
             <button id="addService" onclick="location.href='CriacaoServico/criar_servico.php'">Adicionar serviço <i class="fas fa-plus"></i></button>
         </div>
     </section>
 
     <!-- Fim serviços disponibilizados -->
-<? } ?>
+    <?php } ?>
 
     <!-- div serviços que você solicitou -->
     <section id="servicesRequestedByYou">
@@ -491,7 +490,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
                 <div class="row" id="servicesRequestedByYouCards">
 
-                    <? if( count($asClientRequestedServices) > 0 ) {
+                    <?php if( count($asClientRequestedServices) > 0 ) {
                         foreach ($asClientRequestedServices as $key => $service) {
                             if ($key == 3){
                                 break;
@@ -526,29 +525,31 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
                                     </div>
                                     <div class="card-footer">
-                                        <?if($service->status_contrato == 0) {?>
+                                        <?php if($service->status_contrato == 0) {?>
                                             <div class="alert alert-secondary" role="alert">Serviço pendente</div>
-                                        <?} else if($service->status_contrato == 1) {?>
+                                        <?php } else if($service->status_contrato == 1) {?>
                                             <div class="alert alert-success" role="alert">Serviço aceito</div>
-                                        <?} else if($service->status_contrato == 2) {?>
+                                        <?php } else if($service->status_contrato == 2) {?>
                                             <div class="alert alert-danger" role="alert">Serviço rejeitado</div>
-                                        <?}?>
+                                        <?php
+                                        }?>
                                     </div>
                                 </div>
                             </div>
-                        <?}
+                        <?php
+                        }
                     } else {?>
                         <div class="col-12 mt-3">
                             <p class="text-info text-center">
                                 Você ainda não contratou nenhum serviço. Encontre o melhor serviço para você <a class="text-primary" href="../EncontrarProfissional/Listagem/listagem.php">aqui</a>.
                             </p>
                         </div>
-                    <?}?>
+                    <?php }?>
                 </div>
             </div>
-            <?if(count($asClientRequestedServices) > 3) {?>
+            <?php if(count($asClientRequestedServices) > 3) {?>
                 <button type="button" class="showServicesButtons mt-3" id="showAllAvailableServices" onclick="showAllServices('servicesRequestedByYou', <?=$_SESSION['idUsuario']?>)">Todos os serviços</button>
-            <?}?>
+            <?php }?>
         </div>
     </section>
     <!-- FIM div serviços que você solicitou -->
@@ -562,7 +563,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
                 <div class="row" id="recentServicesCards">
 
-                    <? if( count($contractedServicesHistory) > 0 ) {
+                    <?php if( count($contractedServicesHistory) > 0 ) {
                         foreach ($contractedServicesHistory as $key => $service) {
                             if ($key == 3){
                                 break;
@@ -608,19 +609,20 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                                     </div>
                                 </div>
                             </div>
-                        <?}
+                        <?php
+                        }
                     } else {?>
                         <div class="col-12 mt-3">
                             <p class="text-info text-center">
                                 Você ainda não contratou nenhum serviço. Encontre o melhor serviço para você <a class="text-primary" href="../EncontrarProfissional/Listagem/listagem.php">aqui</a>.
                             </p>
                         </div>
-                    <?}?>
+                    <?php }?>
                 </div>
             </div>
-            <?if(count($contractedServicesHistory) > 3) {?>
+            <?php if(count($contractedServicesHistory) > 3) {?>
                 <button type="button" class="showServicesButtons mt-3" id="showAllAvailableServices" onclick="showAllServices('recentServices', <?=$_SESSION['idUsuario']?>)">Todos os serviços</button>
-            <?}?>
+            <?php }?>
         </div>
     </section>
     <!-- Div de histórico de serviços contrtados-->
@@ -634,7 +636,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
                 <div class="row" id="savedCards">
 
-                    <? if( count($userSavedServices) > 0 ) {
+                    <?php if( count($userSavedServices) > 0 ) {
                         foreach ($userSavedServices as $key => $service) {
                             if ($key == 3){
                                 break;
@@ -668,19 +670,20 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                                 </div>
                             </div>
 
-                        <?}
+                        <?php
+                        }
                     } else {?>
                         <div class="col-12 mt-3">
                             <p class="text-info text-center">
                                 Você ainda não salvou nenhum serviço
                             </p>
                         </div>
-                    <?}?>
+                    <?php }?>
                 </div>
             </div>
-            <?if(count($userSavedServices) > 3) {?>
+            <?php if(count($userSavedServices) > 3) {?>
                 <button type="button" class="showServicesButtons mr-4 mt-2" id="showAllAvailableServices" onclick="showAllServices('savedServices', <?=$_SESSION['idUsuario']?>)">Todos os serviços</button>
-            <?}?>
+            <?php }?>
         </div>
     </section>
     <!-- Div salvos salvos fim -->

@@ -77,9 +77,9 @@ function verifySocialMedia() {
     //Verificação dos campos do instagram
     if( document.getElementsByClassName('instagram')[0].value !== "" || document.getElementsByClassName('instagram')[1].value !== "" ){
         //verifica se é uma url válida
-        if( document.getElementsByClassName('instagram')[1].value.indexOf("https://") === -1 ){
+        if( document.getElementsByClassName('instagram')[1].value.indexOf("https://www.instagram.com/") === -1 ){
             valido = false
-            msgErro = "Digite um link válido"
+            msgErro = "Digite um link como: 'https://www.instagram.com/seu_nome' no campo do instagram"
         }
 
         //verifica se ambos campos do instagram estão digitados caso 1 esteja digitado
@@ -94,9 +94,9 @@ function verifySocialMedia() {
     //Verificação dos campos do facebook
     if( document.getElementsByClassName('facebook')[0].value !== "" || document.getElementsByClassName('facebook')[1].value !== "" ){
         //verifica se é uma url válida
-        if( document.getElementsByClassName('facebook')[1].value.indexOf("https://") === -1 ){
+        if( document.getElementsByClassName('facebook')[1].value.indexOf("https://www.facebook.com/") === -1 ){
             valido = false
-            msgErro = "Digite um link válido"
+            msgErro = "Digite um link como: 'https://www.facebook.com/seunome' no campo do facebook"
         }
 
         //verifica se ambos campos do facebook estão digitados caso 1 esteja digitado
@@ -111,9 +111,9 @@ function verifySocialMedia() {
     //Verificação dos campos do twitter
     if( document.getElementsByClassName('twitter')[0].value !== "" || document.getElementsByClassName('twitter')[1].value !== "" ){
         //verifica se é uma url válida
-        if( document.getElementsByClassName('twitter')[1].value.indexOf("https://") === -1 ){
+        if( document.getElementsByClassName('twitter')[1].value.indexOf("https://twitter.com/") === -1 ){
             valido = false
-            msgErro = "Digite um link válido"
+            msgErro = "Digite um link como: 'https://twitter.com/seu_nome' no campo do twitter"
         }
 
         //verifica se ambos campos do twitter estão digitados caso 1 esteja digitado
@@ -128,9 +128,9 @@ function verifySocialMedia() {
     //Verificação dos campos do linkedin
     if( document.getElementsByClassName('linkedin')[0].value !== "" || document.getElementsByClassName('linkedin')[1].value !== "" ){
         //verifica se é uma url válida
-        if( document.getElementsByClassName('linkedin')[1].value.indexOf("https://") === -1 ){
+        if( document.getElementsByClassName('linkedin')[1].value.indexOf("https://br.linkedin.com/in/") === -1 ){
             valido = false
-            msgErro = "Digite um link válido"
+            msgErro = "Digite um link como: 'https://br.linkedin.com/in/seu-perfil' no campo do linkedin"
         }
 
         //verifica se ambos campos do linkedin estão digitados caso 1 esteja digitado
