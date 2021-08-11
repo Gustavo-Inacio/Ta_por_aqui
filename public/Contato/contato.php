@@ -42,16 +42,16 @@ session_start();
         <div id="myMainTopNavbarNav" class="collapse navbar-collapse">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a href="../Home/home.html" class="nav-link">Home</a>
+                    <a href="../Home/home.php" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../EncontrarProfissional/Listagem/listagem.html" class="nav-link">Encontre um pofissional</a> 
+                    <a href="../EncontrarProfissional/Listagem/listagem.php" class="nav-link">Encontre um pofissional</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../Artigos/artigos.html" class="nav-link">Artigos</a>      
+                    <a href="../Artigos/artigos.html" class="nav-link">Artigos</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../Contato/contato.html" class="nav-link">Fale conosco</a>
+                    <a href="../Contato/contato.php" class="nav-link">Fale conosco</a>
                 </li>
                 <li class="nav-item">
                     <a href="../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
@@ -68,15 +68,11 @@ session_start();
 
             <?php if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSION['senha']) && isset($_SESSION['classificacao']) ) {?>
                 <div class="dropdown">
-                    <img src="../../assets/images/profile_images/<?=$_SESSION['imagemPerfil']?>" alt="imagem de perfil" id="profileMenu" class="img-fluid" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="../../assets/images/users/<?=$_SESSION['imagemPerfil']?>" alt="imagem de perfil" id="profileMenu" class="img-fluid" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
                     <div class="dropdown-menu" aria-labelledby="profileMenu">
-                        <?php if($_SESSION['classificacao'] == 0) {?>
-                            <a class="dropdown-item" href="../Perfil/Cliente/meu_perfil.php">Perfil</a>
-                        <?php }else if($_SESSION['classificacao'] == 1 || $_SESSION['classificacao'] == 2) {?>
-                            <a class="dropdown-item" href="../Perfil/Prestador/meu_perfil.php">Perfil</a>
-                        <?php }?>
-                        <a class="dropdown-item text-danger" href="../../logic/entrar_logoff.php">Sair</a>
+                        <a class="dropdown-item" href="../Perfil/meu_perfil.php">Perfil</a>
+                        <a class="dropdown-item text-danger" href="../../../logic/entrar_logoff.php">Sair</a>
                     </div>
                 </div>
             <?php } ?>
