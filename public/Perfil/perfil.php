@@ -86,7 +86,7 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
                         <a href="../Artigos/artigos.html" class="nav-link">Artigos</a>
                     </li>
                     <li class="nav-item">
-                        <a href="../Contato/contato.html" class="nav-link">Fale conosco</a>
+                        <a href="../Contato/contato.php" class="nav-link">Fale conosco</a>
                     </li>
                     <li class="nav-item">
                         <a href="../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
@@ -246,7 +246,7 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
 
             <?php if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSION['senha']) && isset($_SESSION['classificacao']) ) {?>
                 <div class="dropdown">
-                    <img src="../../assets/images/profile_images/<?=$_SESSION['imagemPerfil']?>" alt="imagem de perfil" id="profileMenu" class="img-fluid" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="../../assets/images/users/<?=$_SESSION['imagemPerfil']?>" alt="imagem de perfil" id="profileMenu" class="img-fluid" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
                     <div class="dropdown-menu" aria-labelledby="profileMenu">
                         <a class="dropdown-item" href="meu_perfil.php">Perfil</a>
@@ -264,7 +264,7 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
         <div id="profilePictureArea" class="col-md-4">
             <h1>Foto de perfil</h1>
             <br>
-            <img src="../../assets/images/profile_images/<?=$user->imagem_perfil?>" alt="Imagem de perfil" class="rounded-image"
+            <img src="../../assets/images/users/<?=$user->imagem_perfil?>" alt="Imagem de perfil" class="rounded-image"
                  id="profileImage">
 
             <?php if($user->classificacao != 0) { ?>

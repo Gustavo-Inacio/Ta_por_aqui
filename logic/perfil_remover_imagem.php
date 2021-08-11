@@ -6,7 +6,7 @@ $con = $con->connect();
 
 if ($_SESSION['imagemPerfil'] !== "no_picture.jpg"){
     //remover foto da pasta do servidor
-    $dirImg = "../assets/images/profile_images/" . $_SESSION['imagemPerfil'];
+    $dirImg = "../assets/images/users/".$_SESSION['imagemPerfil'];
 
     if ( unlink($dirImg) ) {
         //trocar nome no banco de dados para referenciar para a no_picture.jpg

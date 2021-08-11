@@ -107,7 +107,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                     <a href="../Artigos/artigos.html" class="nav-link">Artigos</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../Contato/contato.html" class="nav-link">Fale conosco</a>
+                    <a href="../Contato/contato.php" class="nav-link">Fale conosco</a>
                 </li>
                 <li class="nav-item">
                     <a href="../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
@@ -118,7 +118,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
             </ul>
 
             <div class="dropdown">
-                <img src="../../assets/images/profile_images/<?=$_SESSION['imagemPerfil']?>" alt="imagem de perfil" id="profileMenu"
+                <img src="../../assets/images/users/<?=$_SESSION['imagemPerfil']?>" alt="imagem de perfil" id="profileMenu"
                     class="img-fluid" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
                 <div class="dropdown-menu" aria-labelledby="profileMenu">
@@ -135,7 +135,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
         <div id="profilePictureArea" class="col-md-4">
             <h1>Foto de perfil</h1>
             <br>
-            <img src="../../assets/images/profile_images/<?=$user->imagem_perfil?>" alt="Imagem de perfil" class="rounded-image"
+            <img src="../../assets/images/users/<?=$user->imagem_perfil?>" alt="Imagem de perfil" class="rounded-image"
                  id="profileImage">
             <br>
 

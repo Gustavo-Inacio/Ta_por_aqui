@@ -94,7 +94,7 @@
                 <a href="../../Artigos/artigos.html" class="nav-link">Artigos</a>
             </li>
             <li class="nav-item">
-                <a href="../../Contato/contato.html" class="nav-link">Fale conosco</a>
+                <a href="../../Contato/contato.php" class="nav-link">Fale conosco</a>
             </li>
             <li class="nav-item">
                 <a href="../../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
@@ -111,7 +111,7 @@
 
             <?php if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSION['senha']) && isset($_SESSION['classificacao']) ) {?>
                 <div class="dropdown">
-                    <img src="../../../assets/images/profile_images/<?=$_SESSION['imagemPerfil']?>" alt="imagem de perfil" id="profileMenu" class="img-fluid" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="../../../assets/images/users/<?=$_SESSION['imagemPerfil']?>" alt="imagem de perfil" id="profileMenu" class="img-fluid" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
                     <div class="dropdown-menu" aria-labelledby="profileMenu">
                         <a class="dropdown-item" href="../../Perfil/meu_perfil.php">Perfil</a>
@@ -208,7 +208,7 @@
                         <div class="carousel-inner">
                             <?php foreach ($serviceImg as $i => $img) {?>
                                 <div class="carousel-item <?=$i === 0 ? "active" : ""?>">
-                                    <img src="../../../assets/images/service_images/<?php echo $img;?>" class="d-block w-100" alt="SERVICE-IMG">
+                                    <img src="../../../assets/images/users/<?php echo $img;?>" class="d-block w-100" alt="SERVICE-IMG">
                                 </div>
                             <?php }?>
                         </div>
@@ -226,7 +226,7 @@
                     <div class="my-service-carousel-img-indicators">
                         <?php foreach ($serviceImg as $i => $img) {?>
                             <div class="my-carousel-indicator-item <?=$i == 0 ? "active" : ""?>">
-                                <img src="../../../assets/images/service_images/<?php echo $img;?>" class="d-block w-100" alt="SERVICE-IMG">
+                                <img src="../../../assets/images/users/<?php echo $img;?>" class="d-block w-100" alt="SERVICE-IMG">
                             </div>
                         <?php }?>
                     </div>

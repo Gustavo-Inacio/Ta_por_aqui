@@ -16,26 +16,31 @@ if ( count($_FILES) > 0 ){
             $extension = pathinfo($_FILES['newProfilePic']['name'], PATHINFO_EXTENSION);
             $extension = strtolower($extension);
             $newName = uniqid(time()) . "." . $extension;
-            $dir = "../assets/images/profile_images/" . $newName;
+            $dir = "../assets/images/users/user".$_SESSION['idUsuario']."/profile_image/";
+
+            //criar pasta do usuário caso não exista
+            if(!file_exists($dir)){
+                mkdir($dir, 0777, true);
+            }
 
             //enviar arquivo para pasta de imagens de usuário
-            if ( @move_uploaded_file($_FILES['newProfilePic']['tmp_name'], $dir) ){
+            if ( @move_uploaded_file($_FILES['newProfilePic']['tmp_name'], $dir.$newName) ){
                 //salvar o nome do arquivo no banco de dados
                 $query = "UPDATE usuarios SET imagem_perfil = :newName WHERE id_usuario = :id_usuario";
                 $stmt = $con->prepare($query);
-                $stmt->bindValue(":newName", $newName);
+                $stmt->bindValue(":newName", "user".$_SESSION['idUsuario']."/profile_image/".$newName);
                 $stmt->bindValue(":id_usuario", $_SESSION['idUsuario']);
                 $stmt->execute();
 
                 //deletar foto de perfil atual do banco caso ela não seja a no_picture.jpg
                 if($_SESSION['imagemPerfil'] !== "no_picture.jpg"){
-                    unlink("../assets/images/profile_images/" . $_SESSION['imagemPerfil']);
+                    unlink("../assets/images/users/".$_SESSION['imagemPerfil']);
                 }
 
                 //atualizar foto na session e no cookie
-                $_SESSION['imagemPerfil'] = $newName;
+                $_SESSION['imagemPerfil'] = "user".$_SESSION['idUsuario']."/profile_image/".$newName;
                 if (isset($_COOKIE['imagemPerfil'])){
-                    setcookie('imagemPerfil', $newName, time() + (60*60*24*30), '/');
+                    setcookie('imagemPerfil', "user".$_SESSION['idUsuario']."/profile_image/".$newName, time() + (60*60*24*30), '/');
                 }
 
                 //redirecionando

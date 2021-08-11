@@ -65,7 +65,7 @@ if($_SESSION['classificacao'] == 0){
                 <a href="../../../Artigos/artigos.html" class="nav-link">Artigos</a>
             </li>
             <li class="nav-item">
-                <a href="../../Contato/contato.html" class="nav-link">Fale conosco</a>
+                <a href="../../Contato/contato.php" class="nav-link">Fale conosco</a>
             </li>
             <li class="nav-item">
                 <a href="../../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
@@ -76,7 +76,7 @@ if($_SESSION['classificacao'] == 0){
         </ul>
 
         <div class="dropdown">
-            <img src="../../../assets/images/profile_images/<?=$_SESSION['imagemPerfil']?>" alt="imagem de perfil" id="profileMenu"
+            <img src="../../../assets/images/users/<?=$_SESSION['imagemPerfil']?>" alt="imagem de perfil" id="profileMenu"
                  class="img-fluid" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
             <div class="dropdown-menu" aria-labelledby="profileMenu">

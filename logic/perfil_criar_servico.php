@@ -79,15 +79,20 @@ foreach($_FILES['imagens']['tmp_name'] as $i => $tmpFile){
     $newName = uniqid( time() ) . "." . $extension;
 
     #referenciando diretório
-    $dir = "../assets/images/service_images/" . $newName;
+    $dir = "../assets/images/users/user".$_SESSION['idUsuario']."/service_images/service$ultimo_id_servico/";
+
+    #criar pasta do usuário caso não exista
+    if(!file_exists($dir)){
+        mkdir($dir, 0777, true);
+    }
 
     #movendo imagem
-    if ( @move_uploaded_file($tmpFile, $dir) ){
+    if ( @move_uploaded_file($tmpFile, $dir.$newName) ){
         #caso movido com sucesso --> salvar no banco de dados
         $query3 = "INSERT INTO servico_imagens(id_servico, dir_imagem) VALUES (:ultimo_id_servico, :nome_imagem)";
         $stmt = $con->prepare($query3);
         $stmt->bindValue(":ultimo_id_servico", $ultimo_id_servico);
-        $stmt->bindValue(":nome_imagem", $newName);
+        $stmt->bindValue(":nome_imagem", "user".$_SESSION['idUsuario']."/service_images/service$ultimo_id_servico/".$newName);
         $stmt->execute();
     }
 }
