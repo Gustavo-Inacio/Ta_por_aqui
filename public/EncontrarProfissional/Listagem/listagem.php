@@ -157,158 +157,7 @@ require "../../../logic/entrar_cookie.php";
                     <h1>Categorias</h1>
                 </div>
                 <div class="categoriesSectionBody my-nice-scroll-bar">
-                    <!-- <div class="a">
-                        <div class="categorie-item">
-                            <p class="categorieName">Programação e Tecnologia</p>
-                            <svg class="categorieArrow" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M0 10.59L4.58 6L0 1.41L1.41 0L7.41 6L1.41 12L0 10.59Z" fill="black"/>
-                            </svg>
-                        </div>
-
-                        <div id="subCategorieItem-2" class="subcategorie-container">   
-                            <div class="subCategorie-header">
-                                <h1 class="subCategorie-section-title">Culinária</h1>
-                            </div> 
-                            <div class="subCategorieBody">
-                                <div class="subCategorie-item">
-                                    <label class="subCategorie-title left-col">Marmitas 01</label>
-                                </div>
-                                <div class="subCategorie-item">
-                                    <label class="subCategorie-title right-col">Marmitas 02</label>
-                                </div>
-                                <div class="subCategorie-item">
-                                    <label class="subCategorie-title left-col">Marmitas 03</label>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div> -->
-                   <!-- <div class="a">
-                        <div class="categorie-item">
-                            <p class="categorieName">Programação e Tecnologia</p>
-                            <svg class="categorieArrow" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M0 10.59L4.58 6L0 1.41L1.41 0L7.41 6L1.41 12L0 10.59Z" fill="black"/>
-                            </svg>
-                        </div>
-
-                        <div id="subCategorieItem-2" class="subcategorie-container">   
-                            <div class="subCategorie-header">
-                                <h1 class="subCategorie-section-title">Culinária</h1>
-                            </div> 
-                            <div class="subCategorieBody">
-                                <div class="subCategorie-item">
-                                    <label class="subCategorie-title left-col">Marmitas 01</label>
-                                </div>
-                                <div class="subCategorie-item">
-                                    <label class="subCategorie-title right-col">Marmitas 02</label>
-                                </div>
-                                <div class="subCategorie-item">
-                                    <label class="subCategorie-title left-col">Marmitas 03</label>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>-->
-                   
-                
-                   <!-- <div class="categorie-item">
-                        <p class="categorieName">Programação e Tecnologia</p>
-                        <svg class="categorieArrow" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 10.59L4.58 6L0 1.41L1.41 0L7.41 6L1.41 12L0 10.59Z" fill="black"/>
-                        </svg>
-                    </div>
-                    <div id="categorieItem-2" class="categorie-item">
-                        <p class="categorieName">Programação e Tecnologia</p>
-                        <svg class="categorieArrow" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 10.59L4.58 6L0 1.41L1.41 0L7.41 6L1.41 12L0 10.59Z" fill="black"/>
-                        </svg>
-                        
-                    <div>
-
-                    <div id="subCategorieItem-2" class="subcategorie-container">   
-                        <div class="subCategorie-header">
-                            <h1 class="subCategorie-section-title">Culinária</h1>
-                        </div> 
-                        <div class="subCategorieBody">
-                            <div class="subCategorie-item">
-                                <label class="subCategorie-title left-col">Marmitas 01</label>
-                            </div>
-                            <div class="subCategorie-item">
-                                <label class="subCategorie-title right-col">Marmitas 02</label>
-                            </div>
-                            <div class="subCategorie-item">
-                                <label class="subCategorie-title left-col">Marmitas 03</label>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="categorie-item">
-                        <p class="categorieName">Programação e Tecnologia</p>
-                        <svg class="categorieArrow" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 10.59L4.58 6L0 1.41L1.41 0L7.41 6L1.41 12L0 10.59Z" fill="black"/>
-                        </svg>
-                    </div>
-                    <div class="categorie-item">
-                        <p class="categorieName">Programação e Tecnologia</p>
-                        <svg class="categorieArrow" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 10.59L4.58 6L0 1.41L1.41 0L7.41 6L1.41 12L0 10.59Z" fill="black"/>
-                        </svg>
-                    </div>
-                    <div class="categorie-item">
-                        <p class="categorieName">Programação e Tecnologia</p>
-                        <svg class="categorieArrow" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 10.59L4.58 6L0 1.41L1.41 0L7.41 6L1.41 12L0 10.59Z" fill="black"/>
-                        </svg>
-                    </div>
-                    <div class="categorie-item">
-                        <p class="categorieName">Programação e Tecnologia tt</p>
-                        <svg class="categorieArrow" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 10.59L4.58 6L0 1.41L1.41 0L7.41 6L1.41 12L0 10.59Z" fill="black"/>
-                        </svg>
-                    </div>
-                    <div class="categorie-item">
-                        <p class="categorieName">Programação e Tecnologia</p>
-                        <svg class="categorieArrow" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 10.59L4.58 6L0 1.41L1.41 0L7.41 6L1.41 12L0 10.59Z" fill="black"/>
-                        </svg>
-                    </div>
-                    <div class="categorie-item">
-                        <p class="categorieName">Programação e Tecnologia</p>
-                        <svg class="categorieArrow" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 10.59L4.58 6L0 1.41L1.41 0L7.41 6L1.41 12L0 10.59Z" fill="black"/>
-                        </svg>
-                    </div>
-                    <div class="categorie-item">
-                        <p class="categorieName">Programação e Tecnologia</p>
-                        <svg class="categorieArrow" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 10.59L4.58 6L0 1.41L1.41 0L7.41 6L1.41 12L0 10.59Z" fill="black"/>
-                        </svg>
-                    </div>
-                    <div class="categorie-item">
-                        <p class="categorieName">Programação e Tecnologia uu</p>
-                        <svg class="categorieArrow" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 10.59L4.58 6L0 1.41L1.41 0L7.41 6L1.41 12L0 10.59Z" fill="black"/>
-                        </svg>
-                    </div>
-                    <div class="categorie-item">
-                        <p class="categorieName">Programação e Tecnologia</p>
-                        <svg class="categorieArrow" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 10.59L4.58 6L0 1.41L1.41 0L7.41 6L1.41 12L0 10.59Z" fill="black"/>
-                        </svg>
-                    </div>
-                    <div class="categorie-item">
-                        <p class="categorieName">Programação e Tecnologia aa</p>
-                        <svg class="categorieArrow" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 10.59L4.58 6L0 1.41L1.41 0L7.41 6L1.41 12L0 10.59Z" fill="black"/>
-                        </svg>
-                    </div>
-                    <div class="categorie-item">
-                        <p class="categorieName">Programação e Tecnologia ultimo</p>
-                        <svg class="categorieArrow" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 10.59L4.58 6L0 1.41L1.41 0L7.41 6L1.41 12L0 10.59Z" fill="black"/>
-                        </svg>
-                    </div> -->
+                    
                 </div>
             </section>
         </div>
@@ -342,10 +191,62 @@ require "../../../logic/entrar_cookie.php";
             </button>
         </section>
 
+        <template id="serviceCardTemplate">
+            <a href="#" class="service-card-link">
+                <div class="service-card-container">
+                    <div class="service-card">
+                        <div class="service-card--profile-img-div loading">
+                            <!--<img src="../../../assets/images/profile_images/no_picture.jpg" alt="Perfil" class="service-card--profile-img">-->
+                        </div>
+                        
+                        <p class="service-card-provider-name">Marcos</p>
+                        <div class="service-card-location-div">
+                            <svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4.03753 11.7579C0.632109 6.82104 0 6.31437 0 4.5C0 2.01471 2.01471 0 4.5 0C6.98529 0 9 2.01471 9 4.5C9 6.31437 8.36789 6.82104 4.96247 11.7579C4.73899 12.0807 4.26098 12.0807 4.03753 11.7579ZM4.5 6.375C5.53554 6.375 6.375 5.53554 6.375 4.5C6.375 3.46446 5.53554 2.625 4.5 2.625C3.46446 2.625 2.625 3.46446 2.625 4.5C2.625 5.53554 3.46446 6.375 4.5 6.375Z" fill="#0C0C23"/>
+                            </svg>
+
+                            <p class="service-location">Moab, UT</p>
+                        </div>
+
+                        <div class="service-card--service-name--service-rate">
+                            <p class="service-card--service-name">Pedreiro</p>
+
+                            <div class="service-card--rate-div">
+                                <div class="service-card--rate-stars">
+                                    <svg width="13" height="13" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M4.96763 0.857178L6.14033 4.29487H10L6.8651 6.41948L8.0378 9.85718L4.96763 7.73257L1.89747 9.85718L3.07017 6.41948L0 4.29487H3.79493L4.96763 0.857178Z" fill="#FF9839"/>
+                                    </svg>
+                                    <svg width="13" height="13" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M4.96763 0.857178L6.14033 4.29487H10L6.8651 6.41948L8.0378 9.85718L4.96763 7.73257L1.89747 9.85718L3.07017 6.41948L0 4.29487H3.79493L4.96763 0.857178Z" fill="#FF9839"/>
+                                    </svg>
+                                    <svg width="13" height="13" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M4.96763 0.857178L6.14033 4.29487H10L6.8651 6.41948L8.0378 9.85718L4.96763 7.73257L1.89747 9.85718L3.07017 6.41948L0 4.29487H3.79493L4.96763 0.857178Z" fill="#FF9839"/>
+                                    </svg>
+                                    <svg width="13" height="13" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M4.96763 0.857178L6.14033 4.29487H10L6.8651 6.41948L8.0378 9.85718L4.96763 7.73257L1.89747 9.85718L3.07017 6.41948L0 4.29487H3.79493L4.96763 0.857178Z" fill="#FF9839"/>
+                                    </svg>
+                                    <svg width="13" height="13" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M4.96763 0.857178L6.14033 4.29487H10L6.8651 6.41948L8.0378 9.85718L4.96763 7.73257L1.89747 9.85718L3.07017 6.41948L0 4.29487H3.79493L4.96763 0.857178Z" fill="#FF9839"/>
+                                    </svg>
+                                    
+                                </div>
+
+                                <p class="service-card--avaliation-quantity">(47)</p>
+                            </div>
+                        </div>
+                        
+
+                        <div class="service-card--price">$ Orçamento</div>
+                    </div>
+                </div>
+            </a>
+            
+        </template>
+
         <section id="serviceCadsSection" class="my-nice-scroll-bar">
             <div class="service-cards-path">
 
-                <div class="service-card-container">
+               <!-- <!-- <div class="service-card-container">
                     <div class="service-card">
                         <img src="../../../assets/images/profile_images/no_picture.jpg" alt="Perfil" class="service-card--profile-img">
                         <p class="service-card-provider-name">Marcos</p>
@@ -731,7 +632,7 @@ require "../../../logic/entrar_cookie.php";
 
                         <div class="service-card--price">$ Orçamento</div>
                     </div>
-                </div>
+                </div> -->
 
             </div>
         </section>

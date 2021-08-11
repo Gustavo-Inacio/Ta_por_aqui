@@ -415,7 +415,11 @@ body{
     max-width: 400px; 
 }
 
-.service-card--profile-img{
+.service-card-link, .service-card-link:hover{
+    text-decoration: none;
+}
+
+.service-card--profile-img, .service-card--profile-img-div{
     grid-area: picture;
     width: 80px;
     height: 80px;
