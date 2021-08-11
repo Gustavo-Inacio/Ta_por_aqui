@@ -16,12 +16,13 @@
 </div>
 
 <div class="modal-body">
-    <?foreach ($listaCategorias as $i => $categoria) {
+    <?php foreach ($listaCategorias as $i => $categoria) {
         if($i === count($listaCategorias) - 1) {
     ?>
             <div class="masterCategory d-flex last" onclick="loadCategory('subcategorias.php?id_categoria=<?=$categoria->id_categoria?>')"> <span><?=$categoria->nome_categoria?></span> <span class="ml-auto"> <i class="fas fa-arrow-right"></i> </span> </div>
-    <?} else {?>
+        <?php } else {?>
             <div class="masterCategory d-flex" onclick="loadCategory('subcategorias.php?id_categoria=<?=$categoria->id_categoria?>')"> <span><?=$categoria->nome_categoria?></span> <span class="ml-auto"> <i class="fas fa-arrow-right"></i> </span> </div>
-        <?}
+        <?php
+        }
     }?>
 </div>

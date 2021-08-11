@@ -47,68 +47,20 @@ function registerConfirm(){
     let valid = true
     let errorMsg = ""
 
-    //confirmar senha igual
     let userPass = document.getElementById('userPass')
     let userConfirmPass = document.getElementById('userConfirmPass')
-    if (userPass.value !== userConfirmPass.value){
-        valid = false
-        errorMsg = "As senhas não batem"
 
-        userPass.classList.add("is-invalid")
-        userPass.style.border = "1.5px solid red"
-
-        userConfirmPass.classList.add("is-invalid")
-        userConfirmPass.style.border = "1.5px solid red"
-
-    } else{
-        userPass.classList.remove("is-invalid")
-        userPass.style.border = "1.5px solid 888F98"
-
-        userConfirmPass.classList.remove("is-invalid")
-        userConfirmPass.style.border = "1.5px solid 888F98"
-    }
-
-    //telefone tem 15 caracteres
-    let userPhone = document.getElementById('userPhone')
-    if (userPhone.value.length !== 15){
-        valid = false
-        errorMsg = "Número de telefone inválido. Siga o padrão do exemplo"
-
-        userPhone.classList.add("is-invalid")
-        userPhone.style.border = "1.5px solid red"
-
-    } else{
-        userPhone.classList.remove("is-invalid")
-        userPhone.style.border = "1.5px solid 888F98"
-    }
-
-    //CEP tem 8 caracteres
-    let userAdressCEP = document.getElementById('userAdressCEP')
-    if (userAdressCEP.value.length !== 8){
-        valid = false
-        errorMsg = "CEP inválido. Siga o padrão do exemplo"
-
-        userAdressCEP.classList.add("is-invalid")
-        userAdressCEP.style.border = "1.5px solid red"
-
-    } else{
-        userAdressCEP.classList.remove("is-invalid")
-        userAdressCEP.style.border = "1.5px solid 888F98"
-    }
-
-    //Aceitar os termos de uso
-    let termsOfUse = document.getElementById('termsOfUse')
-    if(termsOfUse.checked == false){
-        valid = false
-        errorMsg = "Aceite os termos de uso"
-    }
+    const regexnum = /[0-9]/
+    const regexword = /[a-zA-Z]/
 
     //nada nulo
+    let nullinputs = false
     let inputs = []
     inputs = document.getElementsByClassName('required')
     $(inputs).each((index, input)=>{
         if(input.value == ""){
             valid = false
+            nullinputs = true
             errorMsg = "Preencha todos os campos"
 
             input.classList.add("is-invalid")
@@ -120,8 +72,75 @@ function registerConfirm(){
         }
     })
 
-    document.getElementById('msgErro').innerHTML = errorMsg
+    if (!nullinputs){
+        //confirmar senha igual
+        if (userPass.value !== userConfirmPass.value){
+            valid = false
+            errorMsg = "As senhas não batem"
 
+            userPass.classList.add("is-invalid")
+            userPass.style.border = "1.5px solid red"
+
+            userConfirmPass.classList.add("is-invalid")
+            userConfirmPass.style.border = "1.5px solid red"
+
+        } else{
+            userPass.classList.remove("is-invalid")
+            userPass.style.border = "1.5px solid 888F98"
+
+            userConfirmPass.classList.remove("is-invalid")
+            userConfirmPass.style.border = "1.5px solid 888F98"
+        }
+
+        //verificar senha segura
+        if (userPass.value.length < 8 || !regexnum.test(userPass.value) || !regexword.test(userPass.value)){
+            valid = false
+            errorMsg = "Digite uma senha com pelo menos 8 caracteres contendo letras e números"
+
+            userPass.classList.add("is-invalid")
+            userPass.style.border = "1.5px solid red"
+        } else {
+            userPass.classList.remove("is-invalid")
+            userPass.style.border = "1.5px solid 888F98"
+        }
+
+        //telefone tem 15 caracteres
+        let userPhone = document.getElementById('userPhone')
+        if (userPhone.value.length !== 15){
+            valid = false
+            errorMsg = "Número de telefone inválido. Siga o padrão do exemplo"
+
+            userPhone.classList.add("is-invalid")
+            userPhone.style.border = "1.5px solid red"
+
+        } else{
+            userPhone.classList.remove("is-invalid")
+            userPhone.style.border = "1.5px solid 888F98"
+        }
+
+        //CEP tem 8 caracteres
+        let userAdressCEP = document.getElementById('userAdressCEP')
+        if (userAdressCEP.value.length !== 8){
+            valid = false
+            errorMsg = "CEP inválido. Siga o padrão do exemplo"
+
+            userAdressCEP.classList.add("is-invalid")
+            userAdressCEP.style.border = "1.5px solid red"
+
+        } else{
+            userAdressCEP.classList.remove("is-invalid")
+            userAdressCEP.style.border = "1.5px solid 888F98"
+        }
+
+        //Aceitar os termos de uso
+        let termsOfUse = document.getElementById('termsOfUse')
+        if(termsOfUse.checked == false){
+            valid = false
+            errorMsg = "Aceite os termos de uso"
+        }
+    }
+
+    document.getElementById('msgErro').innerHTML = errorMsg
     
     if(valid){
         //requisição do arquivo php que vai gerar o código do usuário e mandar por email

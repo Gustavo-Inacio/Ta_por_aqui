@@ -63,14 +63,14 @@ require "../../logic/entrar_cookie.php";
                 <li class="nav-item">
                     <a href="../Chat/chat.html" class="nav-link">Chat</a>
                 </li>
-                <? if( empty($_SESSION['idUsuario']) ){ ?>
+                <?php if( empty($_SESSION['idUsuario']) ){ ?>
                     <li class="nav-item">
                         <a href="../Entrar/login.php" class="nav-link">Entrar/cadastrar</a>
                     </li>
-                <?}?>
+                <?php }?>
             </ul>
 
-            <? if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSION['senha']) && isset($_SESSION['classificacao']) ) {?>
+            <?php if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSION['senha']) && isset($_SESSION['classificacao']) ) {?>
                 <div class="dropdown">
                     <img src="../../assets/images/profile_images/<?=$_SESSION['imagemPerfil']?>" alt="imagem de perfil" id="profileMenu" class="img-fluid" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
@@ -79,7 +79,7 @@ require "../../logic/entrar_cookie.php";
                         <a class="dropdown-item text-danger" href="../../logic/entrar_logoff.php">Sair</a>
                     </div>
                 </div>
-            <? } ?>
+            <?php } ?>
         </div>
     </nav>
     
@@ -171,7 +171,7 @@ require "../../logic/entrar_cookie.php";
             <div class="row">
                 <div id="myLoginSectionCol" class="col">
 
-                    <? if(!isset($_SESSION['idUsuario'])) {?>
+                    <?php if(!isset($_SESSION['idUsuario'])) {?>
                         <!-- Botão de login para pessoas não logadas -->
                         <h1 class="my-login-section--title">Você tem um negócio local? </h1>
                         <p class="my-login-section--text">Já pensou em possuir uma vitrine digital? Poisé, nossa plataforma é especialisada em vitrines para negócios, faça já a sua! Áh, e não esqueça de adicionar a localização, os clientes precisam te encontrar!</p>
@@ -180,14 +180,14 @@ require "../../logic/entrar_cookie.php";
                             <a class="btn-signup-a" href="../Cadastrar/cadastro.php"> <button>Cadastre-se</button> </a>
                         </div>
 
-                    <? } else {?>
+                    <?php } else {?>
                         <!-- Botão de login para pessoas não logadas -->
                         <h1 class="my-login-section--title"> Personalize seu perfil </h1>
                         <p class="my-login-section--text"> É muito importante manter seu perfil sempre com as informações atualizadas para quando as pessoas entrarem em contato com você! </p>
                         <div class="my-login-section--btn-area">
                             <a class="btn-signup-a" href="../Perfil/meu_perfil.php"> <button>Meu perfil</button> </a>
                         </div>
-                    <?}?>
+                    <?php }?>
                 </div>
             </div>
         </div>

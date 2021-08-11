@@ -24,9 +24,9 @@
 </div>
 
 <div class="modal-body">
-    <?foreach ($listaSubcategorias as $subcategoria) {?>
+    <?php foreach ($listaSubcategorias as $subcategoria) {?>
         <div class="subCategory"> <input type="checkbox" class="checkCategory" name="subcategoria[]" id="subcategoria<?=$subcategoria->id_subcategoria?>" value="<?=$subcategoria->id_subcategoria?>"> <label for="subcategoria<?=$subcategoria->id_subcategoria?>" class="text-dark"> <?=$subcategoria->nome_subcategoria?> </label> </div>
-    <?}?>
+    <?php }?>
 </div>
 
 <div class="modal-footer">

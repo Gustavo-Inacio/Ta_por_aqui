@@ -90,14 +90,14 @@ if($_SESSION['classificacao'] == 0){
 
 <div id="page">
     <div class="container">
-        <? if(isset($_GET['erro'])) { ?>
+        <?php if(isset($_GET['erro'])) { ?>
             <div class="alert alert-danger alert-dismissible" role="alert">
                 <?= $_GET['erro'] ?>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-        <? } ?>
+        <?php } ?>
         <form enctype="multipart/form-data" action="../../../logic/perfil_criar_servico.php" method="POST" id="serviceForm">
 
             <!-- 1. Etapa de criação do serviço -->
@@ -119,7 +119,7 @@ if($_SESSION['classificacao'] == 0){
                 <section class="col-md-6 ml-5 d-flex align-items-center p-0">
                     <div class="formItems">
                         <label for="nome">Nome do serviço</label> <br>
-                        <input type="text" class="form-control required" name="nome" id="nome" placeholder="ex.: encanamento" onchange="createConfirmCard(1,this.value)">
+                        <input type="text" class="form-control required" name="nome" id="nome" placeholder="ex.: encanamento" onchange="createConfirmCard(1,this.value)" maxlength="30">
                     </div>
                 </section>
             </div>
@@ -164,7 +164,7 @@ if($_SESSION['classificacao'] == 0){
                         </div>
                         <br>
                         <label for="descricao">Descrição</label> <br>
-                        <textarea class="form-control required" name="descricao" id="descricao" rows="6" placeholder="Escreva aqui os detalhes do seu serviço, como por exemplo como ele é feito, quanto tempo leva aproximadamente, que materiais serão usados, no que ele ajuda o seu cliente, qual seu critério de cobrança, entre outras coisas que você achar relevante" onchange="createConfirmCard(4, this.value)"></textarea>
+                        <textarea class="form-control required" name="descricao" id="descricao" rows="6" placeholder="Escreva aqui os detalhes do seu serviço, como por exemplo como ele é feito, quanto tempo leva aproximadamente, que materiais serão usados, no que ele ajuda o seu cliente, qual seu critério de cobrança, entre outras coisas que você achar relevante" onchange="createConfirmCard(4, this.value)" maxlength="65535"></textarea>
                     </div>
                 </section>
 
@@ -217,12 +217,12 @@ if($_SESSION['classificacao'] == 0){
                         <div class="row d-none" id="divOrcamentoComMedia">
                             <div class="col-6" id="divOrcamento">
                                 <label for="orcamento">Defina o valor</label> <br>
-                                <input type='number' class='form-control' name='orcamento' id='orcamento' onchange="createConfirmCard(6)">
+                                <input type='number' class='form-control' name='orcamento' id='orcamento' onchange="createConfirmCard(6)" maxlength="20">
                             </div>
 
                             <div class='col-6' id='divCriterio'>
                                 <label for='criterio'>Defina o critério</label>
-                                <input type="text" class="form-control" name="criterio" id="criterio" list="listaCriterios" onchange="createConfirmCard(6)">
+                                <input type="text" class="form-control" name="criterio" id="criterio" list="listaCriterios" onchange="createConfirmCard(6)" maxlength="25">
                                 <datalist id="listaCriterios">
                                     <option value="por hora">
                                     <option value="por m²">
