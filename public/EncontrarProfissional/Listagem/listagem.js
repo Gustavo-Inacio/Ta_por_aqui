@@ -84,7 +84,6 @@ const fillCategories = (data) => {
         let subCategorieNode = document.importNode(document.querySelector("#mySUBCategorieItemTemplate").content, true);
 
         if(! typeof item === 'object') return;
-        else console.log(item)
 
         let DOM = {
             categorie : {
@@ -171,8 +170,6 @@ const fillCategories = (data) => {
 
         addFunctions(wrapper);
 
-        console.log(wrapper)
-
         return wrapper;
     }
 
@@ -191,18 +188,202 @@ const fillCategories = (data) => {
 
     data.forEach((item) => {
         listPath.appendChild(categorieItem(item));
-        console.log(data)
+    });
+}
+
+const serviceCardsRender = (data) => {
+    if(! (typeof data === 'object')){
+        console.log('[serviceCardsRender] --> wrong type of data');
+        return;
+    }
+
+    let serviceCard_e = document.querySelector('#serviceCardTemplate').content;
+    let serviceCadrPath_e = document.querySelector('.service-cards-path');
+
+    const serviceCard = (info) => {
+        if(! (typeof info === 'object')){
+            console.log('[serviceCard] --> wrong type of data');
+            return;
+        }
+
+        let node = document.importNode(serviceCard_e, true);
+        console.log(node)
+
+        let structureDOM = {
+            providerName: node.querySelector('.service-card-provider-name'),
+            serviceName: node.querySelector('.service-card--service-name'),
+            location: node.querySelector('.service-location'),
+            price: node.querySelector('.service-card--price')
+        };
+
+        let structureData = {
+            serviceID: '',
+            imgSRC: '',
+            avaliation: '',
+        }
+
+        const dataHandler = () => {
+            let nodeLink = node.querySelector('.service-card-link');
+            let link = `../VisualizarServico/visuaizarServico.php?serviceID=${structureData.serviceID}`;
+            nodeLink.href = link;
+
+            let stars = node.querySelectorAll('.service-card--rate-stars path');
+
+            stars.forEach(star => {
+                star.setAttribute('fill', '#ccc');
+            })
+            for(let i = 0; i < Math.round(structureData.avaliation) && i < stars.length; i++){
+                stars[i].setAttribute('fill', '#FF9839');
+            }
+            node.querySelector('.service-card--avaliation-quantity').innerHTML = `(${structureData.avaliation.toFixed(2)})`;
+
+            console.log({node})
+            const imgHandler = () => {
+                let profileIMG = new Image();
+                profileIMG.classList.add('service-card--profile-img');
+                let imgDiv = node.querySelector('.service-card--profile-img-div');
+
+                profileIMG.onload = () => {
+                    console.log({node})
+                    imgDiv.innerHTML = "";
+                    imgDiv.appendChild(profileIMG);
+                    imgDiv.classList.remove('loading');
+                };
+
+                profileIMG.src = structureData.imgSRC;
+
+            }
+
+            imgHandler();
+        }
+
+        const fillData = () => {
+            for(let i in structureData){
+                if(info[i]) structureData[i] = info[i];
+            }
+
+            dataHandler();
+        }
+
+        for(let i in structureDOM){
+            if(info[i]) structureDOM[i].innerHTML = info[i];
+        }
+
+        fillData();
+
+        return node;
+        
+    }
+
+    data.forEach(item => {
+        let node = serviceCard(item);
+        console.log({node})
+        serviceCadrPath_e.appendChild(node);
     });
 
-    
 }
+
+const serviceCardData = [
+    {
+        serviceID: '10',
+        imgSRC: 'https://picsum.photos/2000?random=1',
+        location: 'rua pequetita vila olimpia',
+        serviceName: 'nome do servico kk',
+        providerName: 'nome do cara lá',
+        avaliation: 2.49,
+        avaliationQuant: 90,
+        price: '30 por cabeça'
+    },
+    {
+        serviceID: '10',
+        imgSRC: 'https://picsum.photos/2000?random=2',
+        location: 'rua pequetita vila olimpia',
+        serviceName: 'nome do servico kk 2',
+        providerName: 'nome do cara lá',
+        avaliation: 5.49,
+        avaliationQuant: 90,
+        price: '30 por hora'
+    },
+    {
+        serviceID: '10',
+        imgSRC: 'https://picsum.photos/2000?random=2',
+        location: 'rua pequetita vila olimpia',
+        serviceName: 'nome do servico kk 2',
+        providerName: 'nome do cara lá',
+        avaliation: 5.49,
+        avaliationQuant: 90,
+        price: '30 por hora'
+    },
+    {
+        serviceID: '10',
+        imgSRC: 'https://picsum.photos/2000?random=2',
+        location: 'rua pequetita vila olimpia',
+        serviceName: 'nome do servico kk 2',
+        providerName: 'nome do cara lá',
+        avaliation: 5.49,
+        avaliationQuant: 90,
+        price: '30 por hora'
+    },
+    {
+        serviceID: '10',
+        imgSRC: 'https://picsum.photos/2000?random=2',
+        location: 'rua pequetita vila olimpia',
+        serviceName: 'nome do servico kk 2',
+        providerName: 'nome do cara lá',
+        avaliation: 5.49,
+        avaliationQuant: 90,
+        price: '30 por hora'
+    },
+    {
+        serviceID: '10',
+        imgSRC: 'https://picsum.photos/2000?random=2',
+        location: 'rua pequetita vila olimpia',
+        serviceName: 'nome do servico kk 2',
+        providerName: 'nome do cara lá',
+        avaliation: 5.49,
+        avaliationQuant: 90,
+        price: '30 por hora'
+    },
+    {
+        serviceID: '10',
+        imgSRC: 'https://picsum.photos/2000?random=2',
+        location: 'rua pequetita vila olimpia',
+        serviceName: 'nome do servico kk 2',
+        providerName: 'Ultimo',
+        avaliation: 5.49,
+        avaliationQuant: 90,
+        price: '30 por hora'
+    },
+];
+
+const emptyServiceData = {
+    serviceID: '10',
+    imgSRC: ' ',
+    location: ' ',
+    serviceName: ' ',
+    providerName: ' ',
+    avaliation: 1,
+    avaliationQuant: 0,
+    price: ' '
+}
+let count = 0;
+// setInterval(() => {
+//     serviceCardsRender([serviceCardData[count]]);
+//     count++;
+//     if(count >= serviceCardData.length) count = 0;
+// }, 1000)
+
+serviceCardsRender([serviceCardData[0]]);
+
+
+
 
 const categories = [
     {
         categorie : {
             title: "pato",
             subItems : [
-                {title: 'sub pato w'},
+                {title: 'sub pato wsub pato wsub pato wsub pato wsub pato wsub pato wsub pato wsub pato w'},
                 {title: 'sub pato 2'},
                 {title: 'subpato 23'},
                 {title: 'subpato 23'},

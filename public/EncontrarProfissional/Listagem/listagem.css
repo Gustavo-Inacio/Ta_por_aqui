@@ -26,48 +26,11 @@ button:focus{
 }
 
 #contentSection{
-    display: grid;
-
-    grid-template-areas: 
-    'search-bar search-bar' 
-    'catories-container filter-section'
-    'catories-container service-card-section'
-    ;
-
-    grid-template-columns: 0 auto;
-
-    max-height: 85vh;
-    overflow-y: hidden;
+    height: calc(100vh - 80px);
 }
 
-
-body{
-    display: grid;
-    grid-template-rows: min-content auto min-content;
-    max-height: 100vh;
-    /* height: 100vh; */
-
-    grid-template-areas: 
-    'main-navbar' 
-    'main-content' 
-    'main-footer'
-    ;
-}
-
-#myMainTopNavbar{
-    grid-area: main-navbar;
-}
-
-#contentSection{
-    grid-area: main-content;
-}
-
-#myMainFooter{
-    grid-area: main-footer;
-}
 /* --- Search Bar -- */
 #mySearchBarSection{
-    grid-area: search-bar; 
 
     z-index: 900;
     position: relative;
@@ -80,7 +43,7 @@ body{
 }
 
 .categories-container{
-    grid-area: catories-container;
+    position: absolute;
 }
 
 .my-categories-toggle-btn{
@@ -153,15 +116,15 @@ body{
 }
 
 .categoriesSection{
-    position: sticky;
+    position: absolute;
     z-index: 900;
     min-height: inherit;
     min-width: 280px;
     width: 309px;
     max-width: 309px;
-    max-height: 100vh;
+    height: calc(100vh - 130px);
+    margin-top: 50px;
     overflow-y: auto; 
-    padding-bottom: 150px;
 
     transition: transform 0.5s;
 }
@@ -187,14 +150,14 @@ body{
 .categoriesSectionBody{
     background: #EFEFEF;
     border-radius: 0px 10px 0px 0px;
-    min-height: inherit;
-    max-height: inherit ;
-    height: inherit;
+    /* min-height: inherit; */
+    /* max-height: inherit ; */
+    /* height: inherit; */
 
     overflow-y: hidden;
 
     padding-bottom: 5px;
-    max-height: fit-content;
+    /* max-height: fit-content; */
 }
 
 .categorie-item{
@@ -260,14 +223,13 @@ body{
 }
 
 .subCategorieBody{
-    display: grid;
-    grid-template-areas: 
-    'left-col right-col'
-    ;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .subCategorie-item{
-    width: 100%;
+    width: 50%;
+    max-width: 100%;
     padding: 4px 0;
 }
 
@@ -304,10 +266,15 @@ body{
 
 /* categorie Secttion */
 
+.filter-service-cards{
+    display: flex;
+    flex-direction: column;
+    height: inherit;
+    transition: padding 0.5s;
+}
+
 /* filter sction */
 #filterSection{
-    grid-area: filter-section;
-
     display: flex;
     flex-wrap: wrap;
     padding: 12px;
@@ -386,10 +353,8 @@ body{
 
 /* service-card */ 
 #serviceCadsSection{
-    grid-area: service-card-section;
     max-height: inherit;
     overflow: auto;
-    padding-bottom: 110px;
 }
 
 .service-card-container{
@@ -400,56 +365,65 @@ body{
 }
 
 .service-card{
-    display: grid;
-    grid-template-areas: 
-    'picture provider-name provider-name' 
-    'picture location service-price' 
-    'picture service-name service-name' 
-    ;
-
     background: #FFFCFC;
-    
-    grid-auto-columns: 80px auto auto;
-    column-gap: 12px;
-    width: 100%;
-    max-width: 400px; 
+    display: flex;
+    width: inherit;
 }
 
-.service-card--profile-img{
-    grid-area: picture;
+.service-card-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.service-card-link, .service-card-link:hover{
+    text-decoration: none;
+}
+
+.service-card--profile-img, .service-card--profile-img-div{
     width: 80px;
     height: 80px;
     border-radius: 50%;
+    margin-right: 10px;
 }
 .service-card-provider-name{
-    grid-area: provider-name;
     font-weight: bold;
     font-size: 18px;
     line-height: 21px;
     color: #888F98;
+    width: fit-content;
 }
 
 .service-card-location-div{
-    grid-area: location;
     display: flex;
-    align-self: center;
+    flex-basis: 50%;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 10px 0;
 }
-.service-card-location-div > svg{
-    margin-right: 6.75px;
+.service-card-location-div svg{
+    margin-right: 5px;
 }
-.service-card-location-div > p{
+
+
+.service-card-location-div {
     font-weight: 500;
     font-size: 14px;
     line-height: 16px;
     color: #8F8D92;
+    margin-right: 6.75px;
+    justify-content: space-between;
+}
+.service-card-location-div > .row{
+    margin: 0;
 }
 .service-card--service-name--service-rate{
-    grid-area: service-name;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
 }
 .service-card--service-name{
-    /* grid-area: service-name; */
     font-weight: normal;
     font-size: 14px;
     line-height: 16px;
@@ -482,7 +456,6 @@ body{
 }
 
 .service-card--rate-div{
-    /* grid-area: service-name; */
     display: flex;
     align-items: center;
 }
@@ -498,8 +471,6 @@ body{
 }
 
 .service-card--price{
-    grid-area: service-price;
-
     font-weight: 500;
     font-size: 14px;
     line-height: 16px;
@@ -507,6 +478,7 @@ body{
     
     justify-self: flex-end;
     align-self: center;
+    width: fit-content;
 }
 /* service-card */ 
 
@@ -535,35 +507,7 @@ body{
 
 @media( min-width: 768px){
         
-    #contentSection{
-        /* display: grid; */
-
-       /* grid-template-areas: 
-        'search-bar search-bar' 
-        'catories-container filter-section'
-        'catories-container service-card-section'
-        ;*/ 
-        grid-template-areas: 
-        'catories-container search-bar' 
-        'catories-container filter-section'
-        'catories-container service-card-section'
-        ;
-
-        grid-template-columns: min-content;
-        grid-template-rows: max-content max-content min-content;
-
-    }
-
     .categoriesSection{
-        position: initial;
-        /* z-index: 900;
-        min-height: 100vh;
-        min-width: 280px;
-        max-width: 309px;
-        max-height: 100vh;
-        overflow-y: auto;
-
-        transition: transform 0.5s; */
         padding-bottom: 0;
     }
 
@@ -578,9 +522,6 @@ body{
     .show-sidebar, .hide-sidebar{
         transform: translateX(0) !important;
     }
-    /* .hide-sidebar{
-        transform: translateX(-100%);
-    } */
 
     .serarch-icon-btn{
         margin-left: 0;
@@ -588,12 +529,26 @@ body{
 
     .categoriesSection{
         overflow-y: hidden;
+        display: flex;
+        flex-direction: column;
+        height: inherit;
+        margin-top: 0;
+    }
+
+    .categoriesSection > .title-area{
+        display: flex;
+        flex-direction: column;
+        flex-basis: fit-content;
     }
 
     .categoriesSectionBody{
         overflow-y: auto;
-        max-height: inherit;
-        padding-bottom: 150px;
+        height: inherit;
+        flex-basis: auto;
+    }
+
+    .filter-service-cards{
+        padding-left: 310px;
     }
 }
 
