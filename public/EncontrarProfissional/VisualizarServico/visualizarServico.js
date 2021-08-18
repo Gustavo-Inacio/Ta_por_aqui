@@ -622,15 +622,15 @@ const loadOtherService = () => {
             if(!elem.service.nota_media) elem.service.nota_media = '0';
             dataFormated.push({
                 link : `./visuaizarServico.php?serviceID=${elem.service.id_servico}`,
-                providerName: elem.user.nome,
+                providerName: elem.user.nome_usuario,
                 serviceName: elem.service.nome_servico,
-                providerPicture: `../../../assets/images/profile_images/${elem.user.imagem_perfil}`,
-                serviceRateNumber: elem.service.nota_media,
-                serviceLoaction: elem.user.cidade,
-                servicePrice: elem.service.orcamento,
+                providerPicture: `../../../assets/images/users/${elem.user.imagem_usuario}`,
+                serviceRateNumber: elem.service.nota_media_servico,
+                serviceLoaction: elem.user.cidade_usuario,
+                servicePrice: elem.service.orcamento_servico,
             });
 
-            console.log(elem.service.nota_media)
+            console.log(elem.service.nota_media_servico)
         
         });
 
@@ -873,7 +873,7 @@ async function loadCommentsData(){
     xhr.onload = () => {
         if(xhr.status === 200 && xhr.readyState === XMLHttpRequest.DONE ){
             let data = xhr.response;
-            //console.log(data)
+            console.log(data)
             commentsDataHandler(JSON.parse(data).comments);
 
             if(config.averageRate) refreshAverageRate(JSON.parse(data).averageRate);
@@ -890,21 +890,23 @@ async function commentsDataHandler(response){
     let commentQuantity = 0;
     let rateSum = 0;
 
-    let pictureFolderPath = "../../../assets/images/profile_images/";
+    let pictureFolderPath = "../../../assets/images/users/";
+
+    console.log(data)
     data.forEach((elem, index) => {
         commentsData.push({
-            userName: `${elem.user.nome}  ${elem.user.sobrenome}`,
-            profilePicture: pictureFolderPath + elem.user.imagem_perfil,
-            rateStars : elem.comment.nota,
-            publishDate: elem.comment.data,
-            text: elem.comment.comentario
+            userName: `${elem.user.nome_usuario}  ${elem.user.sobrenome_usuario}`,
+            profilePicture: pictureFolderPath + elem.user.imagem_usuario,
+            rateStars : elem.comment.nota_comentario,
+            publishDate: elem.comment.data_comentario,
+            text: elem.comment.desc_comentario
         });
         commentQuantity++;
 
         if(elem.comment.nota > 5) elem.comment.nota = 5;
         rateSum += elem.comment.nota * 1;
     });
-
+    console.log(commentsData)
     commentSectionHandler(commentsData);
 
 
@@ -928,8 +930,8 @@ async function getCommentsData00(){
 
             data.forEach((elem, index) => {
                 commentsData.push({
-                    userName: `${elem.user.nome}  ${elem.user.sobrenome}`,
-                    profilePicture: pictureFolderPath + elem.user.imagem_perfil,
+                    userName: `${elem.user.nome_usuario}  ${elem.user.sobrenome_usuario}`,
+                    profilePicture: pictureFolderPath + elem.user.imagem_usuario,
                     rateStars : elem.comment.nota,
                     publishDate: elem.comment.data,
                     text: elem.comment.comentario

@@ -35,22 +35,24 @@ if ($_FILES['imagens']['name'][0] !== ""){
 //adicionando as informações gerais do serviço no banco de dados
 
 #montando orcamento
-$orcamento = "";
-if($_POST['tipoPagamento'] == 1){
-    $orcamento = "A definir orçamento";
-} else if($_POST['tipoPagamento'] == 2){
-    $orcamento = "R$" . $_POST['orcamento'] . " " . $_POST['criterio'];
+$query = "";
+if($_POST['tipoPagamento'] == 1){ //orçamento sem critério ("a definir orçamento")
+    $query = "INSERT INTO servicos(id_prestador_servico, nome_servico, tipo_servico, desc_servico, crit_orcamento_servico) values(:prestador, :nome_servico, :tipo, :descricao, 'A definir orcamento')";
+} else if($_POST['tipoPagamento'] == 2){ //orçamento com critério (tem valor estipulado)
+    $query = "INSERT INTO servicos(id_prestador_servico, nome_servico, tipo_servico, desc_servico, orcamento_servico, crit_orcamento_servico) values(:prestador, :nome_servico, :tipo, :descricao, :orcamento_valor, :orcamento_criterio)";
 }
 
 #inserindo informações
-$query = "INSERT INTO servico(prestador, nome_servico, tipo, descricao, orcamento) values(:prestador, :nome_servico, :tipo, :descricao, :orcamento)";
 
 $stmt = $con->prepare($query);
 $stmt->bindValue(":prestador", $_SESSION['idUsuario']);
 $stmt->bindValue(":nome_servico", $_POST['nome']);
 $stmt->bindValue(":tipo", $_POST['tipo']);
 $stmt->bindValue(":descricao", $_POST['descricao']);
-$stmt->bindValue(":orcamento", $orcamento);
+if($_POST['tipoPagamento'] == 2){
+    $stmt->bindValue(":orcamento_valor", $_POST['orcamento']);
+    $stmt->bindValue(":orcamento_criterio", $_POST['criterio']);
+}
 $stmt->execute();
 
 //Adicionando as categorias do serviço
@@ -61,7 +63,7 @@ $stmt = $con->query($query2);
 $id_categoria_subcategoria = $stmt->fetch(PDO::FETCH_OBJ);
 
 foreach ($_POST['subcategoria'] as $subcategoria){
-    $query3 = "INSERT INTO servico_categoria(id_servico, id_categoria, id_subcategoria) values (:id_servico, :id_categoria, :id_subcategoria)";
+    $query3 = "INSERT INTO servico_categorias(id_servico, id_categoria, id_subcategoria) values (:id_servico, :id_categoria, :id_subcategoria)";
     $stmt = $con->prepare($query3);
     $stmt->bindValue(":id_servico", $ultimo_id_servico);
     $stmt->bindValue(":id_categoria", $id_categoria_subcategoria->id_categoria);
@@ -89,7 +91,7 @@ foreach($_FILES['imagens']['tmp_name'] as $i => $tmpFile){
     #movendo imagem
     if ( @move_uploaded_file($tmpFile, $dir.$newName) ){
         #caso movido com sucesso --> salvar no banco de dados
-        $query3 = "INSERT INTO servico_imagens(id_servico, dir_imagem) VALUES (:ultimo_id_servico, :nome_imagem)";
+        $query3 = "INSERT INTO servico_imagens(id_servico, dir_servico_imagem) VALUES (:ultimo_id_servico, :nome_imagem)";
         $stmt = $con->prepare($query3);
         $stmt->bindValue(":ultimo_id_servico", $ultimo_id_servico);
         $stmt->bindValue(":nome_imagem", "user".$_SESSION['idUsuario']."/service_images/service$ultimo_id_servico/".$newName);

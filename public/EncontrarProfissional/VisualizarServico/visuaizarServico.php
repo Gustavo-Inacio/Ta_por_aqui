@@ -129,7 +129,7 @@
             <div class="row my-top-service-info-row">
                 <div class="col">
                     <h2 id="myTopRow--providerName" class="provider-name">
-                        <?php echo $providerData['nome']. ' ' .$providerData['sobrenome']?>
+                        <?php echo $providerData['nome_usuario']. ' ' .$providerData['sobrenome_usuario']?>
                     </h2>
 
                     <div class="provider-rate-div">
@@ -160,7 +160,7 @@
 
                     <div class="service-techinical-info">
                         <p class="service-publish-date">Seviço publicado em 
-                            <?php echo $serviceData['data_publicacao']; ?>
+                            <?php echo $serviceData['data_public_servico']; ?>
                         </p>
 
                         <div class="service-dot-options">
@@ -235,17 +235,17 @@
                         <i class="fas fa-map-marker-alt"></i>
                         <p class="my-service-location">
                             <?php 
-                                echo $providerData['estado'].", ".$providerData['cidade'].", ".$providerData['rua'].' '.$providerData['numero']; 
+                                echo $providerData['uf_usuario'].", ".$providerData['cidade_usuario'].", ".$providerData['rua_usuario'].' '.$providerData['numero_usuario'];
                             ?>
                     </div>
                 </div>
 
                 <div class="my-service-main-content--info-area">
                     <div class="service-price">
-                        <h1 class="service-price-text"><?php echo $serviceData['orcamento']; ?></h1>
+                        <h1 class="service-price-text"><?php echo "R$ " . $serviceData['orcamento_servico'] ." " . $serviceData['crit_orcamento_servico']; ?></h1>
                     </div>
 
-                    <h2 id="myProviderName" class="provider-name provider-name-mobile"><?php echo $providerData['nome']; ?></h2>
+                    <h2 id="myProviderName" class="provider-name provider-name-mobile"><?php echo $providerData['nome_usuario']; ?></h2>
                     <h2 id="myServiceName" class="service-name"><?php echo $serviceData['nome_servico']; ?></h2>
 
                     
@@ -299,15 +299,15 @@
                             </defs>
                         </svg>
                         
-                        <p class="celphone-number"><?php echo $providerData['telefone'] ?></p>
+                        <p class="celphone-number"><?php echo $providerData['fone_usuario'] ?></p>
                     </div>
 
                     <div class="my-service-location-div">
-                        <?php if($serviceData['tipo'] == 1) {?>
+                        <?php if($serviceData['tipo_servico'] == 1) {?>
                             <i class="fas fa-map-marker-alt"></i>
                             <p class="my-service-location">
                                 <?php
-                                    echo $providerData['estado'].", ".$providerData['cidade'].", ".$providerData['rua'].' '.$providerData['numero'];
+                                    echo $providerData['uf_usuario'].", ".$providerData['cidade_usuario'].", ".$providerData['rua_usuario'].' '.$providerData['numero_usuario'];
                                 ?>
                             </p>
                         <?php } else {?>
@@ -377,7 +377,7 @@
                 <div class="col-12">
                     <h2 class="my-description-title">Descrição</h2>
                     <p id="myDescriptionText" class="my-description-text">
-                        <?php echo $serviceData['descricao'] ?> 
+                        <?php echo $serviceData['desc_servico'] ?>
                     </p>
 
                     <label id="myDescriptionToggleLabel" class="my-description-text--label-extend">Ler mais</label>
@@ -487,7 +487,7 @@
     
                     <div class="my-write-coment-content">
                        <!-- <img src="../../../assets/images/profile_images/teste.jpeg" alt="Foto de perfil" class="my-coment-profile-picture">-->
-                        <img src="../../../assets/images/profile_images/<?=$_SESSION['imagemPerfil']?>" alt="Foto de perfil" class="my-coment-profile-picture">
+                        <img src="../../../assets/images/users/<?=$_SESSION['imagemPerfil']?>" alt="Foto de perfil" class="my-coment-profile-picture">
                         <textarea id="myWriteComentTextArea" class="my-write-coment-input" placeholder="Deixe seu comentário"></textarea>
                     </div>
     

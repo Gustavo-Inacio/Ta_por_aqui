@@ -5,7 +5,7 @@ require "DbConnection.php";
 $con = new DbConnection();
 $con = $con->connect();
 
-$query = "UPDATE usuarios SET nome = :nome, sobrenome = :sobrenome, telefone = :telefone, site = :site, descricao = :descricao WHERE id_usuario = :id_usuario";
+$query = "UPDATE usuarios SET nome_usuario = :nome, sobrenome_usuario = :sobrenome, fone_usuario = :telefone, site_usuario = :site, desc_usuario = :descricao WHERE id_usuario = :id_usuario";
 $stmt = $con->prepare($query);
 $stmt->bindValue(':nome', $_POST['userName']);
 $stmt->bindValue(':sobrenome', $_POST['userLastName']);

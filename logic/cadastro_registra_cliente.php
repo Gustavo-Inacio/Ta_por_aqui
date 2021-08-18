@@ -49,9 +49,9 @@ $coordinates = getCoordinates($adressData);
 //salvando o cadastro no banco de dados
 $query = "";
 if( $_POST['userAdressComplement'] !== "" ){
-    $query = "INSERT INTO usuarios(nome, sobrenome, telefone, email, senha, data_nascimento, sexo, classificacao, cep, estado, cidade, bairro, rua, numero, posicao, complemento) VALUES (:nome, :sobrenome, :telefone, :email, :senha, :data_nascimento, :sexo, :classificacao, :cep, :estado, :cidade, :bairro, :rua, :numero, ST_GeomFromText('POINT(".$coordinates['lat'] . " " . $coordinates['lng'].")'), :complemento)";
+    $query = "INSERT INTO usuarios(nome_usuario, sobrenome_usuario, fone_usuario, email_usuario, senha_usuario, data_nasc_usuario, sexo_usuario, classif_usuario, cep_usuario, uf_usuario, cidade_usuario, bairro_usuario, rua_usuario, numero_usuario, posicao_usuario, comple_usuario) VALUES (:nome, :sobrenome, :telefone, :email, :senha, :data_nascimento, :sexo, :classificacao, :cep, :estado, :cidade, :bairro, :rua, :numero, ST_GeomFromText('POINT(".$coordinates['lat'] . " " . $coordinates['lng'].")'), :complemento)";
 } else {
-    $query = "INSERT INTO usuarios(nome, sobrenome, telefone, email, senha, data_nascimento, sexo, classificacao, cep, estado, cidade, bairro, rua, numero, posicao) VALUES (:nome, :sobrenome, :telefone, :email, :senha, :data_nascimento, :sexo, :classificacao, :cep, :estado, :cidade, :bairro, :rua, :numero,  ST_GeomFromText('POINT(".$coordinates['lat'] . " " . $coordinates['lng'].")'))";
+    $query = "INSERT INTO usuarios(nome_usuario, sobrenome_usuario, fone_usuario, email_usuario, senha_usuario, data_nasc_usuario, sexo_usuario, classif_usuario, cep_usuario, uf_usuario, cidade_usuario, bairro_usuario, rua_usuario, numero_usuario, posicao_usuario) VALUES (:nome, :sobrenome, :telefone, :email, :senha, :data_nascimento, :sexo, :classificacao, :cep, :estado, :cidade, :bairro, :rua, :numero,  ST_GeomFromText('POINT(".$coordinates['lat'] . " " . $coordinates['lng'].")'))";
 }
 
 $stmt = $con->prepare($query);

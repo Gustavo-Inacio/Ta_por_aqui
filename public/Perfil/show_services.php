@@ -29,12 +29,12 @@ if ($_GET['servicetype'] === "requestedServices") {
 
                 <?php foreach ($asProviderRequestedServices as $service) {
                     //nome do cliente que solicitou
-                    $query = "SELECT nome FROM usuarios WHERE id_usuario = $service->id_cliente";
+                    $query = "SELECT nome_usuario FROM usuarios WHERE id_usuario = $service->id_cliente";
                     $stmt = $con->query($query);
                     $client_name = $stmt->fetch(PDO::FETCH_OBJ);
 
                     //detalhes do serviço que foi solicitado
-                    $query = "SELECT nome_servico, orcamento FROM servico WHERE id_servico = $service->id_servico";
+                    $query = "SELECT nome_servico, crit_orcamento_servico FROM servicos WHERE id_servico = $service->id_servico";
                     $stmt = $con->query($query);
                     $service_details = $stmt->fetch(PDO::FETCH_OBJ);
 
@@ -88,7 +88,7 @@ if ($_GET['servicetype'] === "requestedServices") {
 
     <!-- Selecionando os serviços que o prestador em questão adicionou -->
 <?php } else if ($_GET['servicetype'] === "availableServices") {
-    $query = "SELECT id_servico, nome_servico, tipo, orcamento, data_publicacao FROM servico WHERE prestador = " . $_GET['user'] . " ORDER BY nome_servico ASC";
+    $query = "SELECT id_servico, nome_servico, tipo_servico, crit_orcamento_servico, data_public_servico FROM servicos WHERE id_prestador_servico = " . $_GET['user'] . " ORDER BY nome_servico ASC";
     $stmt = $con->query($query);
     $userServices = $stmt->fetchAll(PDO::FETCH_OBJ);
     ?>
@@ -150,12 +150,12 @@ if ($_GET['servicetype'] === "requestedServices") {
 
                 <?php foreach ($asClientRequestedServices as $service) {
                     //nome do cliente que solicitou
-                    $query = "SELECT nome FROM usuarios WHERE id_usuario = $service->id_cliente";
+                    $query = "SELECT nome_usuario FROM usuarios WHERE id_usuario = $service->id_cliente";
                     $stmt = $con->query($query);
                     $client_name = $stmt->fetch(PDO::FETCH_OBJ);
 
                     //detalhes do serviço que foi solicitado
-                    $query = "SELECT nome_servico, orcamento FROM servico WHERE id_servico = $service->id_servico";
+                    $query = "SELECT nome_servico, crit_orcamento_servico FROM servicos WHERE id_servico = $service->id_servico";
                     $stmt = $con->query($query);
                     $service_details = $stmt->fetch(PDO::FETCH_OBJ);
 
@@ -216,7 +216,7 @@ if ($_GET['servicetype'] === "requestedServices") {
         <div class="modal-body">
             <div class="row" id="savedCardsModal">
                 <?php foreach ($userSavedServices as $service) {
-                    $query = "SELECT nome_servico, tipo, orcamento, data_publicacao FROM servico WHERE id_servico = " . $service->id_servico;
+                    $query = "SELECT nome_servico, tipo_servico, crit_orcamento_servico, data_public_servico FROM servicos WHERE id_servico = " . $service->id_servico;
                     $stmt = $con->query($query);
                     $savedService = $stmt->fetch(PDO::FETCH_OBJ);
                     ?>
@@ -267,12 +267,12 @@ if ($_GET['servicetype'] === "requestedServices") {
 
                 <?php foreach ($contractedServicesHistory as $key => $service) {
                         //nome, número e foto do prestador que solicitou
-                        $query = "SELECT nome, telefone, imagem_perfil, estado, cidade FROM usuarios WHERE id_usuario = $service->id_prestador";
+                        $query = "SELECT nome_usuario, fone_usuario, imagem_usuario, uf_usuario, cidade_usuario FROM usuarios WHERE id_usuario = $service->id_prestador";
                         $stmt = $con->query($query);
                         $provider_info = $stmt->fetch(PDO::FETCH_OBJ);
 
                         //detalhes do serviço que foi solicitado
-                        $query = "SELECT nome_servico, orcamento, tipo FROM servico WHERE id_servico = $service->id_servico";
+                        $query = "SELECT nome_servico, crit_orcamento_servico, tipo_servico FROM servicos WHERE id_servico = $service->id_servico";
                         $stmt = $con->query($query);
                         $service_details = $stmt->fetch(PDO::FETCH_OBJ);
 

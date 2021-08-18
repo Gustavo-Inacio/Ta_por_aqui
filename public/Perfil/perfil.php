@@ -16,13 +16,13 @@ if(isset($_GET['id'])) {
     $user = $stmt->fetch(PDO::FETCH_OBJ);
 
     //puxando as redes sociais do usuário
-    $query2 = "SELECT rede_social, nome_usuario, link_perfil FROM usuario_redes_sociais WHERE id_usuario = " . $_GET['id'];
+    $query2 = "SELECT rede_social, nick_rede_social, link_rede_social FROM usuario_redes_sociais WHERE id_usuario = " . $_GET['id'];
     $stmt = $con->query($query2);
     $userSocialMedia = $stmt->fetchAll(PDO::FETCH_OBJ);
 
     //puxando os serviços do prestador
     if($_SESSION['classificacao'] !== 0){
-        $query = "SELECT id_servico, nome_servico, tipo, orcamento, data_publicacao FROM servico WHERE prestador = " . $_GET['id'] . " ORDER BY id_servico DESC";
+        $query = "SELECT id_servico, nome_servico, tipo_servico, orcamento_servico, crit_orcamento_servico, data_public_servico FROM servicos WHERE id_prestador_servico = " . $_GET['id'] . " ORDER BY id_servico DESC";
         $stmt = $con->query($query);
         $userServices = $stmt->fetchAll(PDO::FETCH_OBJ);
     }
@@ -187,7 +187,7 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
 
     <script src="https://kit.fontawesome.com/2a19bde8ca.js" crossorigin="anonymous" defer></script>
 
-    <title>Tá por aqui - <?=$user->nome?> <?=$user->sobrenome?> </title>
+    <title>Tá por aqui - <?=$user->nome_usuario?> <?=$user->sobrenome_usuario?> </title>
 
     <link rel="stylesheet" href="../../assets/bootstrap/bootstrap-4.5.3-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../assets/global/globalStyles.css">
@@ -264,16 +264,16 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
         <div id="profilePictureArea" class="col-md-4">
             <h1>Foto de perfil</h1>
             <br>
-            <img src="../../assets/images/users/<?=$user->imagem_perfil?>" alt="Imagem de perfil" class="rounded-image"
+            <img src="../../assets/images/users/<?=$user->imagem_usuario?>" alt="Imagem de perfil" class="rounded-image"
                  id="profileImage">
 
-            <?php if($user->classificacao != 0) { ?>
+            <?php if($user->classif_usuario != 0) { ?>
                 <br>
                 <h3>Avaliação</h3>
-                <?php if($user->nota_media === null) {
+                <?php if($user->nota_media_usuario === null) {
                     echo "<p class='text-secondary'>O usuário ainda não foi avaliado</p>";
                 } else {?>
-                    <h4 style="color: #309A6D"><?=$user->nota_media?></h4>
+                    <h4 style="color: #309A6D"><?=$user->nota_media_usuario?></h4>
                     <div>
                         <?php for ($i = 1; $i <= 5; $i++) {
                             if ($i <= round($user->nota_media)) {
@@ -297,39 +297,39 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
                     <div class="col-md-6">
                         <label for="userName">Nome</label> <br>
                         <input type="text" class="form-control" name="userName" id="userName" readonly
-                            value="<?=$user->nome?>">
+                            value="<?=$user->nome_usuario?>">
 
                         <br>
 
                         <label for="userLastName">Sobrenome</label> <br>
                         <input type="text" class="form-control" name="userLastName" id="userLastName"
-                            readonly value="<?=$user->sobrenome?>">
+                            readonly value="<?=$user->sobrenome_usuario?>">
 
                         <br>
 
                         <label for="userCell">Celular</label> <br>
                         <input type="text" class="form-control" name="userCell" id="userCell" readonly
-                            value="<?=$user->telefone?>">
+                            value="<?=$user->fone_usuario?>">
 
                     </div>
 
                     <div class="col-md-6 mt-3 mt-md-0">
                         <label for="userEmail">Email</label> <br>
                         <input type="text" class="form-control" name="userEmail" id="userEmail" readonly
-                            value="<?=$user->email?>">
+                            value="<?=$user->email_usuario?>">
 
                         <br>
 
-                        <?php if( $user->site != "" ) {?>
+                        <?php if( $user->site_usuario != "" ) {?>
                             <label for="showUserSite">Site</label> <br>
-                            <div id="showUserSite"> <a href="<?=$user->site?>" target="_blank"> <?=$user->site?> </a> </div>
+                            <div id="showUserSite"> <a href="<?=$user->site_usuario?>" target="_blank"> <?=$user->site_usuario?> </a> </div>
 
                             <br>
                         <?php }?>
 
                         <label for="userDescription">Descrição</label> <br>
                         <textarea name="userDescription" class="form-control" id="userDescription" placeholder="O usuário não colocou nenhuma descrição"
-                            readonly><?=$user->descricao?></textarea>
+                            readonly><?=$user->desc_usuario?></textarea>
                     </div>
                 </div>
         </div>
@@ -350,7 +350,7 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
                         $columns = 12;
                         $divider = 4;
                         foreach ($userSocialMedia as $media) {
-                            if($media->nome_usuario === null){
+                            if($media->nick_rede_social === null){
                                 $divider -= 1;
                             }
                         }
@@ -359,13 +359,13 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
                         if ($column_distribution !== 0){
                             foreach ($userSocialMedia as $media) {
 
-                                if($media->nome_usuario === null){
+                                if($media->nick_rede_social === null){
                                     continue;
                                 }
                             ?>
                                 <div class="<?=$column_distribution === 12 ? "col-12" : "col-6"?> col-md-<?=$column_distribution?> mt-3 d-flex flex-column align-items-center">
-                                    <a target="_blank" href="<?=$media->link_perfil?>"><i class="mb-3 fab fa-<?=$media->rede_social?> ativa"></i></a>
-                                    <a target="_blank" href="<?=$media->link_perfil?>" class="mediaLink ativa"><?=$media->nome_usuario?></a>
+                                    <a target="_blank" href="<?=$media->link_rede_social?>"><i class="mb-3 fab fa-<?=$media->rede_social?> ativa"></i></a>
+                                    <a target="_blank" href="<?=$media->link_rede_social?>" class="mediaLink ativa"><?=$media->nick_rede_social?></a>
                                 </div>
                             <?php
                             }
@@ -384,7 +384,7 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
     </section>
     <!-- Div de redes sociais fim-->
 
-    <?php if($user->classificacao == 1 || $user->classificacao == 2) { ?>
+    <?php if($user->classif_usuario == 1 || $user->classif_usuario == 2) { ?>
     <!-- Div serviços disponibilizados -->
     <section id="availableServices">
         <div class="container">
@@ -403,15 +403,15 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
                             <div class="col-lg-4 col-sm-6 mt-3">
                                 <div class="card myCard mx-3">
                                     <div class="card-header myCardHeader">
-                                        Serviço <?= $service->tipo == 0 ? "remoto" : "presencial" ?>
+                                        Serviço <?= $service->tipo_servico == 0 ? "remoto" : "presencial" ?>
                                     </div>
                                     <div class="card-body">
                                         <h3 class="card-title"><?=$service->nome_servico?></h3>
                                         <p class="card-text">
                                             <strong>Informações básicas:</strong> <br>
-                                            <strong>Orçamento:</strong> <?=$service->orcamento?> <br>
-                                            <?php if($service->tipo == 1) {?>
-                                                <strong>Localização:</strong> <?=$user->cidade?>, <?=$user->estado?>
+                                            <strong>Orçamento:</strong> R$ <?=$service->orcamento_servico?> <?=$service->crit_orcamento_servico?> <br>
+                                            <?php if($service->tipo_servico == 1) {?>
+                                                <strong>Localização:</strong> <?=$user->cidade_usuario?>, <?=$user->uf_usuario?>
                                             <?php } else {?>
                                                 <strong>Serviço remoto</strong>
                                             <?php
