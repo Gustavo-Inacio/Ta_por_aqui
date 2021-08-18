@@ -103,7 +103,7 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
 
                 <?php if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSION['senha']) && isset($_SESSION['classificacao']) ) {?>
                     <div class="dropdown">
-                        <img src="../../assets/images/profile_images/<?=$_SESSION['imagemPerfil']?>" alt="imagem de perfil" id="profileMenu" class="img-fluid" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="../../assets/images/users/<?=$_SESSION['imagemPerfil']?>" alt="imagem de perfil" id="profileMenu" class="img-fluid" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
                         <div class="dropdown-menu" aria-labelledby="profileMenu">
                             <a class="dropdown-item" href="meu_perfil.php">Perfil</a>
@@ -121,7 +121,7 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
             <div id="profilePictureArea" class="col-md-4">
                 <h1>Usuário inexistente</h1>
                 <br>
-                <img src="../../assets/images/profile_images/no_picture.jpg" alt="Imagem de perfil" class="rounded-image"
+                <img src="../../assets/images/users/no_picture.jpg" alt="Imagem de perfil" class="rounded-image"
                      id="profileImage">
                 <br>
                 <h3>Avaliação</h3>

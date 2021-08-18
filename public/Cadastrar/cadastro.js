@@ -49,6 +49,7 @@ function registerConfirm(){
 
     let userPass = document.getElementById('userPass')
     let userConfirmPass = document.getElementById('userConfirmPass')
+    let userBirth = document.getElementById('userBirthDate')
 
     const regexnum = /[0-9]/
     const regexword = /[a-zA-Z]/
@@ -56,6 +57,7 @@ function registerConfirm(){
     //nada nulo
     let nullinputs = false
     let inputs = []
+
     inputs = document.getElementsByClassName('required')
     $(inputs).each((index, input)=>{
         if(input.value == ""){
@@ -137,6 +139,31 @@ function registerConfirm(){
         if(termsOfUse.checked == false){
             valid = false
             errorMsg = "Aceite os termos de uso"
+        }
+
+        //usuário maior de 18 anos
+        let d = new Date()
+        let birthArray = userBirth.value.split('-')
+
+        let thisYear = d.getFullYear()
+        let userBirthYear = Number(birthArray[0])
+        let thisMonth = d.getMonth() + 1
+        let userBirthMonth = Number(birthArray[1])
+        let thisDay = d.getDate()
+        let userBirthDay = Number(birthArray[2])
+
+        let userAge = thisYear - userBirthYear
+
+        if(userBirthMonth >= thisMonth && thisDay < userBirthDay){
+            userAge--
+        }
+
+        if (userAge < 18) {
+            valid = false
+            errorMsg = "Você precisa ser maior de 18 anos para criar uma conta"
+
+            userBirth.classList.add("is-invalid")
+            userBirth.style.border = "1.5px solid red"
         }
     }
 

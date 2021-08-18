@@ -246,7 +246,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
                     <div class="col-md-6 mt-3 mt-md-0">
                         <label for="userEmail">Email</label> <br>
-                        <input type="text" class="form-control" name="userEmail" id="userEmail" readonly maxlength="40"
+                        <input type="text" class="form-control" id="userEmail" readonly maxlength="40"
                             value="<?=$user->email?>">
 
                         <br>
@@ -294,10 +294,11 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Enviamos um email com um link para trocar sua senha. O link expirará em 2 horas.</p>
+                    <p>Enviaremos um email com um link para trocar sua senha. O link expirará em 2 horas.</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Confirmar envio</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Deixa pra lá</button>
                 </div>
             </div>
         </div>
@@ -602,7 +603,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                                                 <?=$provider_info->telefone?>
                                             </div>
                                             <div class="d-none d-sm-block col-sm-4 ">
-                                                <img src="../../assets/images/profile_images/<?=$provider_info->imagem_perfil?>" alt="foto de perfil"
+                                                <img src="../../assets/images/users/<?=$provider_info->imagem_perfil?>" alt="foto de perfil"
                                                      class="recentServicesPic">
                                             </div>
                                         </div>

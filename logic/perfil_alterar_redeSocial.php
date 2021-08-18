@@ -15,10 +15,6 @@ foreach ($_POST as $i => $rede_social){
     }
 }
 
-echo "<pre>";
-print_r($_POST);
-echo "</pre>";
-
 //verificando os links da rede social
 $valid = true;
 
