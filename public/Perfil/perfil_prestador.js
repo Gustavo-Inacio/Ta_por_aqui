@@ -21,7 +21,6 @@ function changeButtonColor(){
     let name = document.getElementById("userName")
     let lastName = document.getElementById("userLastName")
     let cell = document.getElementById("userCell")
-    let email = document.getElementById("userEmail")
     let site = document.getElementById("userSite")
     let description = document.getElementById("userDescription")
 
@@ -34,9 +33,6 @@ function changeButtonColor(){
 
     cell.removeAttribute('readonly')
     cell.style.color = 'black'
-
-    email.removeAttribute('readonly')
-    email.style.color = 'black'
 
     site.removeAttribute('readonly')
     site.style.color = 'black'

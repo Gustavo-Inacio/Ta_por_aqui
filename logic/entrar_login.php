@@ -6,7 +6,7 @@ require "DbConnection.php";
 $con = new DbConnection();
 $con = $con->connect();
 
-$query = "SELECT id_usuario, email, senha, classificacao, imagem_perfil FROM usuarios WHERE email = :email AND senha = :senha";
+$query = "SELECT id_usuario, email_usuario, senha_usuario, classif_usuario, imagem_usuario FROM usuarios WHERE email_usuario = :email AND senha_usuario = :senha";
 $stmt = $con->prepare($query);
 $stmt->bindValue(":email", $_POST['loginEmail']);
 $stmt->bindValue(":senha", $_POST['loginPass']);
@@ -19,18 +19,18 @@ if( empty($user) ){
 } else {
     //criando a session do usuário
     $_SESSION['idUsuario'] = $user->id_usuario;
-    $_SESSION['email'] = $user->email;
-    $_SESSION['senha'] = $user->senha;
-    $_SESSION['classificacao'] = $user->classificacao;
-    $_SESSION['imagemPerfil'] = $user->imagem_perfil;
+    $_SESSION['email'] = $user->email_usuario;
+    $_SESSION['senha'] = $user->senha_usuario;
+    $_SESSION['classificacao'] = $user->classif_usuario;
+    $_SESSION['imagemPerfil'] = $user->imagem_usuario;
 
     //mantendo o usuário logado com cookies (caso desejado)
     if( isset($_POST['stayLogged']) ){
         setcookie('idUsuario', $user->id_usuario, time() + (60*60*24*30), '/'); //expira em 30 dias
-        setcookie('email', $user->email, time() + (60*60*24*30), '/');
-        setcookie('senha', $user->senha, time() + (60*60*24*30), '/');
-        setcookie('classificacao', $user->classificacao, time() + (60*60*24*30), '/');
-        setcookie('imagemPerfil', $user->imagem_perfil, time() + (60*60*24*30), '/');
+        setcookie('email', $user->email_usuario, time() + (60*60*24*30), '/');
+        setcookie('senha', $user->senha_usuario, time() + (60*60*24*30), '/');
+        setcookie('classificacao', $user->classif_usuario, time() + (60*60*24*30), '/');
+        setcookie('imagemPerfil', $user->imagem_usuario, time() + (60*60*24*30), '/');
     }
 
     header('Location: ../public/Home/home.php');

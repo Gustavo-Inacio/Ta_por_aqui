@@ -10,7 +10,7 @@ if ($_SESSION['imagemPerfil'] !== "no_picture.jpg"){
 
     if ( unlink($dirImg) ) {
         //trocar nome no banco de dados para referenciar para a no_picture.jpg
-        $query = "UPDATE usuarios SET imagem_perfil = 'no_picture.jpg'";
+        $query = "UPDATE usuarios SET imagem_usuario = 'no_picture.jpg'";
         $stmt = $con->query($query);
 
         //trocar da session e do cookie

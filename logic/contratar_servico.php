@@ -47,13 +47,13 @@ else{
         
     }
     else{ // caso  o registro ainda nao exista na tabela
-        $command = $con->query("SELECT prestador FROM servico WHERE id_servico='$serviceID'");
+        $command = $con->query("SELECT id_prestador_servico FROM servicos WHERE id_servico='$serviceID'");
         $provider_id = $command->fetch(PDO::FETCH_ASSOC); // id do prestador do servico atual, que devera ser insireido posteriormente na tabela de contratos
 
         $stmt = $con->prepare('INSERT INTO contratos (id_servico, id_cliente, id_prestador, status_contrato) VALUES (:id_ser, :id_cli, :id_pres, :contract_stat)');
         $stmt->bindValue(":id_ser", $_SESSION['serviceID']);
         $stmt->bindValue(":id_cli", $_SESSION['idUsuario']);
-        $stmt->bindValue(":id_pres", $provider_id['prestador']);
+        $stmt->bindValue(":id_pres", $provider_id['id_prestador_servico']);
         $stmt->bindValue(":contract_stat", 0);
         $stmt->execute(); // inclui um registro de pedido pendente na tabela de contratos entre o prestador, o servico e o cliente.
 

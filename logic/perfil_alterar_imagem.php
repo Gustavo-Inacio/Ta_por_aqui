@@ -26,7 +26,7 @@ if ( count($_FILES) > 0 ){
             //enviar arquivo para pasta de imagens de usuário
             if ( @move_uploaded_file($_FILES['newProfilePic']['tmp_name'], $dir.$newName) ){
                 //salvar o nome do arquivo no banco de dados
-                $query = "UPDATE usuarios SET imagem_perfil = :newName WHERE id_usuario = :id_usuario";
+                $query = "UPDATE usuarios SET imagem_usuario = :newName WHERE id_usuario = :id_usuario";
                 $stmt = $con->prepare($query);
                 $stmt->bindValue(":newName", "user".$_SESSION['idUsuario']."/profile_image/".$newName);
                 $stmt->bindValue(":id_usuario", $_SESSION['idUsuario']);

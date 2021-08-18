@@ -7,7 +7,7 @@ $email = $_GET['email'];
 require "DbConnection.php";
 $con = new DbConnection();
 $con = $con->connect();
-$query = "SELECT email FROM usuarios WHERE email = '$email'";
+$query = "SELECT email_usuario FROM usuarios WHERE email_usuario = '$email'";
 $stmt = $con->query($query);
 $DbEmail = $stmt->fetch(PDO::FETCH_OBJ);
 

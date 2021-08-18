@@ -46,7 +46,7 @@
 	$connectClass = new DbConnection();
 	$con = $connectClass->connect();
 
-	$command = $con->query("select cep, estado, cidade, bairro, rua from usuarios");
+	$command = $con->query("select cep_usuario, uf_usuario, cidade_usuario, bairro_usuario, rua_usuario from usuarios");
 	$data = $command->fetch(PDO::FETCH_ASSOC);
 
 	$apiKey = '2BHqTlrrRZyJOYbFEl47yRbagjjwSaY-Eu3iriuEgvY';

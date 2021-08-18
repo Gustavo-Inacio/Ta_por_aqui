@@ -18,14 +18,14 @@ $stmt = $con->query($query);
 $user = $stmt->fetch(PDO::FETCH_OBJ);
 
 //puxando as redes sociais do banco de dados
-$query = "SELECT rede_social, nome_usuario, link_perfil FROM usuario_redes_sociais WHERE id_usuario = " . $_SESSION['idUsuario'];
+$query = "SELECT rede_social, nick_rede_social, link_rede_social FROM usuario_redes_sociais WHERE id_usuario = " . $_SESSION['idUsuario'];
 $stmt = $con->query($query);
 $userSocialMedia = $stmt->fetchAll(PDO::FETCH_OBJ);
 
 //puxando os serviços relacionados ao prestador
 if($_SESSION['classificacao'] !== 0){
     //serviços disponibilizados
-    $query = "SELECT id_servico, nome_servico, tipo, orcamento, data_publicacao FROM servico WHERE prestador = " . $_SESSION['idUsuario'] . " ORDER BY id_servico DESC";
+    $query = "SELECT id_servico, nome_servico, tipo_servico, crit_orcamento_servico, orcamento_servico, data_public_servico FROM servicos WHERE id_prestador_servico = " . $_SESSION['idUsuario'] . " ORDER BY id_servico DESC";
     $stmt = $con->query($query);
     $userServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
@@ -135,7 +135,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
         <div id="profilePictureArea" class="col-md-4">
             <h1>Foto de perfil</h1>
             <br>
-            <img src="../../assets/images/users/<?=$user->imagem_perfil?>" alt="Imagem de perfil" class="rounded-image"
+            <img src="../../assets/images/users/<?=$user->imagem_usuario?>" alt="Imagem de perfil" class="rounded-image"
                  id="profileImage">
             <br>
 
@@ -194,13 +194,13 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
             <?php if($_SESSION['classificacao'] != 0) { ?>
                 <br>
                 <h3>Avaliação</h3>
-                <?php if($user->nota_media === null) {
+                <?php if($user->nota_media_usuario === null) {
                     echo "<p class='text-secondary'>O usuário ainda não foi avaliado</p>";
                 } else {?>
-                    <h4 style="color: #309A6D"><?=$user->nota_media?></h4>
+                    <h4 style="color: #309A6D"><?=$user->nota_media_usuario?></h4>
                     <div>
                         <?php for ($i = 1; $i <= 5; $i++) {
-                            if ($i <= round($user->nota_media)) {
+                            if ($i <= round($user->nota_media_usuario)) {
                                 echo '<svg class="provider-rate-star" width="25" height="25" viewBox="0 0 17 14" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"></path>
                                       </svg>';
@@ -223,19 +223,19 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                     <div class="col-md-6">
                         <label for="userName">Nome</label> <br>
                         <input type="text" class="form-control" name="userName" id="userName" readonly required maxlength="15"
-                            value="<?=$user->nome?>">
+                            value="<?=$user->nome_usuario?>">
 
                         <br>
 
                         <label for="userLastName">Sobrenome</label> <br>
                         <input type="text" class="form-control" name="userLastName" id="userLastName" required maxlength="15"
-                            readonly value="<?=$user->sobrenome?>">
+                            readonly value="<?=$user->sobrenome_usuario?>">
 
                         <br>
 
                         <label for="userCell">Celular</label> <br>
                         <input type="text" class="form-control" name="userCell" id="userCell" readonly required
-                            value="<?=$user->telefone?>">
+                            value="<?=$user->fone_usuario?>">
 
                         <br>
 
@@ -246,21 +246,21 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
                     <div class="col-md-6 mt-3 mt-md-0">
                         <label for="userEmail">Email</label> <br>
-                        <input type="text" class="form-control" name="userEmail" id="userEmail" readonly maxlength="40"
-                            value="<?=$user->email?>">
+                        <input type="text" class="form-control" id="userEmail" readonly maxlength="40"
+                            value="<?=$user->email_usuario?>">
 
                         <br>
 
                         <label for="userSite">Site</label> <br>
                         <input type="url" class="form-control d-none" name="userSite" id="userSite" readonly placeholder="Caso tenha, insira seu site ou porfólio online" maxlength="40"
-                            value="<?=$user->site?>">
-                        <div id="showUserSite"><a href="<?=$user->site?>" target="_blank"><?=$user->site?></a></div>
+                            value="<?=$user->site_usuario?>">
+                        <div id="showUserSite"><a href="<?=$user->site_usuario?>" target="_blank"><?=$user->site_usuario?></a></div>
 
                         <br>
 
                         <label for="userDescription">Descrição</label> <br>
                         <textarea name="userDescription" class="form-control" id="userDescription" placeholder="Adicione uma breve descrição sobre você e como trabalha" maxlength="65535"
-                            readonly><?=$user->descricao?></textarea>
+                            readonly><?=$user->desc_usuario?></textarea>
                     </div>
 
                 </div>
@@ -294,10 +294,11 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Enviamos um email com um link para trocar sua senha. O link expirará em 2 horas.</p>
+                    <p>Enviaremos um email com um link para trocar sua senha. O link expirará em 2 horas.</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Confirmar envio</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Deixa pra lá</button>
                 </div>
             </div>
         </div>
@@ -317,11 +318,11 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                     <div class="row">
                         <?php foreach ($userSocialMedia as $media) {?>
                             <div class="col-6 col-md-3 mt-3 d-flex flex-column align-items-center">
-                                <a target="_blank" <?= $media->link_perfil !== null ? "href='$media->link_perfil'" : ""; ?>><i class="mb-3 fab fa-<?=$media->rede_social?> <?= $media->link_perfil !== null ? "ativa" : "inativa"; ?>"></i></a>
-                                <a target="_blank" <?= $media->link_perfil !== null ? "href='$media->link_perfil'" : ""; ?> class="mediaLink <?=$media->nome_usuario !== null ? "ativa" : "inativa"?>"><?=$media->nome_usuario !== null ? $media->nome_usuario : "seu nome" ?></a>
+                                <a target="_blank" <?= $media->link_rede_social !== null ? "href='$media->link_rede_social'" : ""; ?>><i class="mb-3 fab fa-<?=$media->rede_social?> <?= $media->link_rede_social !== null ? "ativa" : "inativa"; ?>"></i></a>
+                                <a target="_blank" <?= $media->link_rede_social !== null ? "href='$media->link_rede_social'" : ""; ?> class="mediaLink <?=$media->nick_rede_social !== null ? "ativa" : "inativa"?>"><?=$media->nick_rede_social !== null ? $media->nick_rede_social : "seu nome" ?></a>
 
-                                <input type="text" name="<?=$media->rede_social?>[]" id="<?=$media->rede_social?>Name" class="d-none form-control socialInput <?=$media->rede_social?>" value="<?=$media->nome_usuario?>" placeholder="seu nome" maxlength="30">
-                                <input type="text" name="<?=$media->rede_social?>[]" id="<?=$media->rede_social?>Link" class="d-none form-control socialInput <?=$media->rede_social?> mt-2" value="<?=$media->link_perfil?>" placeholder="link do perfil" maxlength="60">
+                                <input type="text" name="<?=$media->rede_social?>[]" id="<?=$media->rede_social?>Name" class="d-none form-control socialInput <?=$media->rede_social?>" value="<?=$media->nick_rede_social?>" placeholder="seu nome" maxlength="30">
+                                <input type="text" name="<?=$media->rede_social?>[]" id="<?=$media->rede_social?>Link" class="d-none form-control socialInput <?=$media->rede_social?> mt-2" value="<?=$media->link_rede_social?>" placeholder="link do perfil" maxlength="60">
                             </div>
                         <?php }?>
                     </div>
@@ -362,12 +363,12 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                                 break;
                             }
                             //nome do cliente que solicitou
-                            $query = "SELECT nome FROM usuarios WHERE id_usuario = $service->id_cliente";
+                            $query = "SELECT nome_usuario FROM usuarios WHERE id_usuario = $service->id_cliente";
                             $stmt = $con->query($query);
                             $client_name = $stmt->fetch(PDO::FETCH_OBJ);
 
                             //detalhes do serviço que foi solicitado
-                            $query = "SELECT nome_servico, orcamento FROM servico WHERE id_servico = $service->id_servico";
+                            $query = "SELECT nome_servico, crit_orcamento_servico FROM servicos WHERE id_servico = $service->id_servico";
                             $stmt = $con->query($query);
                             $service_details = $stmt->fetch(PDO::FETCH_OBJ);
 
@@ -377,13 +378,13 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                             <div class="col-lg-4 col-md-6 mt-3">
                                 <div class="card myCard2 mx-3">
                                     <div class="card-header myCardHeader2">
-                                        Seu serviço foi solicitado por <a href="perfil.php?id=<?=$service->id_cliente?>"><?=$client_name->nome?></a>
+                                        Seu serviço foi solicitado por <a href="perfil.php?id=<?=$service->id_cliente?>"><?=$client_name->nome_usuario?></a>
                                     </div>
                                     <div class="card-body">
                                         <h3 class="card-title"><?=$service_details->nome_servico?></h3>
                                         <p class="card-text">
                                             <strong>Informações básicas:</strong> <br>
-                                            <strong>Orçamento:</strong> <?=$service_details->orcamento?><br>
+                                            <strong>Orçamento:</strong> <?=$service_details->crit_orcamento_servico?><br>
                                             <strong>Data da solicitação:</strong> <?=$date->format('d/m/Y')?>
                                         </p>
 
@@ -392,8 +393,8 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                                     </div>
                                     <div class="card-footer">
                                         <?php if($service->status_contrato == 0) {?>
-                                            <button class="btn myCardAccept my-1" onclick="acceptRejectService('accept', <?=$service->id_contrato?>, '<?=$client_name->nome?>')">Aceitar</button>
-                                            <button class="btn myCardReject my-1" onclick="acceptRejectService('reject', <?=$service->id_contrato?>, '<?=$client_name->nome?>')">Rejeitar</button>
+                                            <button class="btn myCardAccept my-1" onclick="acceptRejectService('accept', <?=$service->id_contrato?>, '<?=$client_name->nome_usuario?>')">Aceitar</button>
+                                            <button class="btn myCardReject my-1" onclick="acceptRejectService('reject', <?=$service->id_contrato?>, '<?=$client_name->nome_usuario?>')">Rejeitar</button>
                                         <?php } else if($service->status_contrato == 1) {?>
                                             <div class="alert alert-success" role="alert">Serviço aceito</div>
                                         <?php } else if($service->status_contrato == 2) {?>
@@ -440,15 +441,15 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                             <div class="col-lg-4 col-md-6 mt-3">
                                 <div class="card myCard mx-3 availableServiceCards">
                                     <div class="card-header myCardHeader">
-                                        Serviço <?= $service->tipo == 0 ? "remoto" : "presencial" ?>
+                                        Serviço <?= $service->tipo_servico == 0 ? "remoto" : "presencial" ?>
                                     </div>
                                     <div class="card-body">
                                         <h3 class="card-title"><?=$service->nome_servico?></h3>
                                         <p class="card-text">
                                             <strong>Informações básicas:</strong> <br>
-                                            <strong>Orçamento:</strong> <?=$service->orcamento?> <br>
-                                            <?php if($service->tipo == 1) {?>
-                                                <strong>Localização:</strong> <?=$user->cidade?>, <?=$user->estado?>
+                                            <strong>Orçamento:</strong> R$ <?=$service->orcamento_servico?> <?=$service->crit_orcamento_servico?> <br>
+                                            <?php if($service->tipo_servico == 1) {?>
+                                                <strong>Localização:</strong> <?=$user->cidade_usuario?>, <?=$user->uf_usuario?>
                                             <?php } else {?>
                                                 <strong>Serviço remoto</strong>
                                             <?php
@@ -496,12 +497,12 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                                 break;
                             }
                             //nome do cliente que solicitou
-                            $query = "SELECT nome FROM usuarios WHERE id_usuario = $service->id_prestador";
+                            $query = "SELECT nome_usuario FROM usuarios WHERE id_usuario = $service->id_prestador";
                             $stmt = $con->query($query);
                             $provider_name = $stmt->fetch(PDO::FETCH_OBJ);
 
                             //detalhes do serviço que foi solicitado
-                            $query = "SELECT nome_servico, orcamento FROM servico WHERE id_servico = $service->id_servico";
+                            $query = "SELECT nome_servico, crit_orcamento_servico FROM servicos WHERE id_servico = $service->id_servico";
                             $stmt = $con->query($query);
                             $service_details = $stmt->fetch(PDO::FETCH_OBJ);
 
@@ -511,13 +512,13 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                             <div class="col-lg-4 col-md-6 mt-3">
                                 <div class="card myCard2 mx-3">
                                     <div class="card-header myCardHeader2">
-                                        Você solicitou o serviço de <a href="perfil.php?id=<?=$service->id_prestador?>"><?=$provider_name->nome?></a>
+                                        Você solicitou o serviço de <a href="perfil.php?id=<?=$service->id_prestador?>"><?=$provider_name->nome_usuario?></a>
                                     </div>
                                     <div class="card-body">
                                         <h3 class="card-title"><?=$service_details->nome_servico?></h3>
                                         <p class="card-text">
                                             <strong>Informações básicas:</strong> <br>
-                                            <strong>Orçamento:</strong> <?=$service_details->orcamento?><br>
+                                            <strong>Orçamento:</strong> <?=$service_details->crit_orcamento_servico?><br>
                                             <strong>Data da solicitação:</strong> <?=$date->format('d/m/Y')?>
                                         </p>
 
@@ -569,12 +570,12 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                                 break;
                             }
                             //nome, número e foto do prestador que solicitou
-                            $query = "SELECT nome, telefone, imagem_perfil, estado, cidade FROM usuarios WHERE id_usuario = $service->id_prestador";
+                            $query = "SELECT nome_usuario, fone_usuario, imagem_usuario, uf_usuario, cidade_usuario FROM usuarios WHERE id_usuario = $service->id_prestador";
                             $stmt = $con->query($query);
                             $provider_info = $stmt->fetch(PDO::FETCH_OBJ);
 
                             //detalhes do serviço que foi solicitado
-                            $query = "SELECT nome_servico, orcamento, tipo FROM servico WHERE id_servico = $service->id_servico";
+                            $query = "SELECT nome_servico, crit_orcamento_servico, tipo_servico FROM servicos WHERE id_servico = $service->id_servico";
                             $stmt = $con->query($query);
                             $service_details = $stmt->fetch(PDO::FETCH_OBJ);
 
@@ -590,19 +591,19 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                                         <h3 class="card-title"><?=$service_details->nome_servico?></h3>
                                         <p class="card-text">
                                             <strong>Informações básicas:</strong> <br>
-                                            <strong>Orçamento:</strong> <?=$service_details->orcamento?> <br>
-                                            <strong>Localização:</strong> <?=$service_details->tipo == 0 ? "Serviço remoto" : $provider_info->estado . ', ' . $provider_info->cidade?>
+                                            <strong>Orçamento:</strong> <?=$service_details->crit_orcamento_servico?> <br>
+                                            <strong>Localização:</strong> <?=$service_details->tipo_servico == 0 ? "Serviço remoto" : $provider_info->uf_usuario . ', ' . $provider_info->cidade_usuario?>
                                         </p>
 
                                         <a href="../EncontrarProfissional/VisualizarServico/visuaizarServico.php?serviceID=<?=$service->id_servico?>" class="text-primary">Mais detalhes</a>
                                         <hr>
                                         <div class="row">
                                             <div class="col-12 col-sm-8">
-                                                <a href="perfil.php?id=<?=$service->id_prestador?>" class="font-weight-bold text-dark"><?=$provider_info->nome?></a> <br>
-                                                <?=$provider_info->telefone?>
+                                                <a href="perfil.php?id=<?=$service->id_prestador?>" class="font-weight-bold text-dark"><?=$provider_info->nome_usuario?></a> <br>
+                                                <?=$provider_info->fone_usuario?>
                                             </div>
                                             <div class="d-none d-sm-block col-sm-4 ">
-                                                <img src="../../assets/images/profile_images/<?=$provider_info->imagem_perfil?>" alt="foto de perfil"
+                                                <img src="../../assets/images/users/<?=$provider_info->imagem_usuario?>" alt="foto de perfil"
                                                      class="recentServicesPic">
                                             </div>
                                         </div>
@@ -642,24 +643,24 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                                 break;
                             }
                             //detalhes do serviço
-                            $query = "SELECT nome_servico, tipo, orcamento, data_publicacao FROM servico WHERE id_servico = " . $service->id_servico;
+                            $query = "SELECT nome_servico, tipo_servico, crit_orcamento_servico, data_public_servico FROM servicos WHERE id_servico = " . $service->id_servico;
                             $stmt = $con->query($query);
                             $savedService = $stmt->fetch(PDO::FETCH_OBJ);
 
                             //data do serviço
-                            $date = new DateTime($savedService->data_publicacao);
+                            $date = new DateTime($savedService->data_public_servico);
                             ?>
 
                             <div class="col-lg-4 col-md-6 mt-3">
                                 <div class="card myCard mx-3">
                                     <div class="card-header myCardHeader">
-                                        Serviço <?= $savedService->tipo == 0 ? "remoto" : "presencial" ?>
+                                        Serviço <?= $savedService->tipo_servico == 0 ? "remoto" : "presencial" ?>
                                     </div>
                                     <div class="card-body">
                                         <h3 class="card-title"><?= $savedService->nome_servico ?></h3>
                                         <p class="card-text">
                                             <strong>Informações básicas:</strong> <br>
-                                            <strong>Orçamento:</strong> <?= $savedService->orcamento ?> <br>
+                                            <strong>Orçamento:</strong> <?= $savedService->crit_orcamento_servico ?> <br>
                                             <strong>Data de publicação:</strong> <?=$date->format('d/m/Y')?>
                                         </p>
                                         <a href="../EncontrarProfissional/VisualizarServico/visuaizarServico.php?serviceID=<?=$service->id_servico?>" class="text-primary">Mais detalhes</a> <br>
