@@ -184,7 +184,7 @@ class SMTP
         'postfix' => '/[\d]{3} 2.0.0 Ok: queued as (.*)/',
         'Microsoft_ESMTP' => '/[0-9]{3} 2.[\d].0 (.*)@(?:.*) Queued mail for delivery/',
         'Amazon_SES' => '/[\d]{3} Ok (.*)/',
-        'SendGrid' => '/[\d]{3} Ok: queued as (.*)/',
+        'Send" "' => '/[\d]{3} Ok: queued as (.*)/',
         'CampaignMonitor' => '/[\d]{3} 2.0.0 OK:([a-zA-Z\d]{48})/',
     ];
 

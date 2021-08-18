@@ -304,8 +304,77 @@ const serviceCardData = [
         avaliationQuant: 90,
         price: '30 por hora'
     },
+    {
+        serviceID: '10',
+        imgSRC: 'https://picsum.photos/2000?random=2',
+        location: 'rua pequetita vila olimpia',
+        serviceName: 'nome do servico kk 2',
+        providerName: 'nome do cara lá',
+        avaliation: 5.49,
+        avaliationQuant: 90,
+        price: '30 por hora'
+    },
+    {
+        serviceID: '10',
+        imgSRC: 'https://picsum.photos/2000?random=2',
+        location: 'rua pequetita vila olimpia',
+        serviceName: 'nome do servico kk 2',
+        providerName: 'nome do cara lá',
+        avaliation: 5.49,
+        avaliationQuant: 90,
+        price: '30 por hora'
+    },
+    {
+        serviceID: '10',
+        imgSRC: 'https://picsum.photos/2000?random=2',
+        location: 'rua pequetita vila olimpia',
+        serviceName: 'nome do servico kk 2',
+        providerName: 'nome do cara lá',
+        avaliation: 5.49,
+        avaliationQuant: 90,
+        price: '30 por hora'
+    },
+    {
+        serviceID: '10',
+        imgSRC: 'https://picsum.photos/2000?random=2',
+        location: 'rua pequetita vila olimpia',
+        serviceName: 'nome do servico kk 2',
+        providerName: 'nome do cara lá',
+        avaliation: 5.49,
+        avaliationQuant: 90,
+        price: '30 por hora'
+    },
+    {
+        serviceID: '10',
+        imgSRC: 'https://picsum.photos/2000?random=2',
+        location: 'rua pequetita vila olimpia',
+        serviceName: 'nome do servico kk 2',
+        providerName: 'Ultimo',
+        avaliation: 5.49,
+        avaliationQuant: 90,
+        price: '30 por hora'
+    },
 ];
-serviceCardsRender(serviceCardData)
+
+const emptyServiceData = {
+    serviceID: '10',
+    imgSRC: ' ',
+    location: ' ',
+    serviceName: ' ',
+    providerName: ' ',
+    avaliation: 1,
+    avaliationQuant: 0,
+    price: ' '
+}
+let count = 0;
+// setInterval(() => {
+//     serviceCardsRender([serviceCardData[count]]);
+//     count++;
+//     if(count >= serviceCardData.length) count = 0;
+// }, 1000)
+
+serviceCardsRender([serviceCardData[0]]);
+
 
 
 
@@ -314,7 +383,7 @@ const categories = [
         categorie : {
             title: "pato",
             subItems : [
-                {title: 'sub pato w'},
+                {title: 'sub pato wsub pato wsub pato wsub pato wsub pato wsub pato wsub pato wsub pato w'},
                 {title: 'sub pato 2'},
                 {title: 'subpato 23'},
                 {title: 'subpato 23'},
