@@ -60,7 +60,6 @@ try {
     $return = ['status' => 'enviado', 'code' => $_SESSION['confirmCode']];
     echo json_encode($return);
 } catch (Exception $e){
-
-    $return = ['status' => 'erro', 'code' => $_SESSION['confirmCode']];
+    $return = ['status' => 'erro', 'erro' => print_r($e)];
     echo json_encode($return);
 }

@@ -106,7 +106,7 @@ if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSIO
                                 <button type="button" class="input-group-text" id="viewPass" onclick="showPass()"> <i class="fas fa-eye" id="eye"></i> </button>
                             </div>
                         </div>
-                        <a href="#" class="text-secondary">Esqueci a senha</a>
+                        <a href="" class="text-secondary" data-toggle="modal" data-target="#changePassModal">Esqueci a senha</a>
                         <br><br>
                         <input type="checkbox" name="stayLogged" id="stayLogged" class="mb-4"> <label for="stayLogged"> Manter-se logado </label>
                         <br>
@@ -132,6 +132,31 @@ if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSIO
             </div>
         </section>
     </div>
+
+    <!-- modal esqueci senha -->
+
+    <div class="modal fade" id="changePassModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Mudar senha</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-2">Digite seu email para enviarmos uma mensagem com um link para trocar sua senha. O link expirará em 2 horas.</p>
+                    <input type="text" class="form-control" id="emailForgotPass" name="emailForgotPass">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Confirmar envio</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Deixa pra lá</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- modal esqueci senha fim -->
 
     <svg width="761" height="567" viewBox="0 0 761 567" fill="none" xmlns="http://www.w3.org/2000/svg" class="d-none d-md-block">
         <path opacity="0.8" d="M258.947 218.405C188.4 61.0687 31.9052 7.24484 -37.5238 0L-57 625H761C746.032 565.804 682.771 442.218 549.467 421.438C382.837 395.462 347.131 415.076 258.947 218.405Z" fill="#45E586"/>
