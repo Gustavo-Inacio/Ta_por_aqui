@@ -239,8 +239,9 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
                         <br>
 
-                        <label for="userPass">Senha</label> <br>
-                        <button type="button" class="btn" id="changePass" data-toggle="modal" data-target="#changePassModal" onclick="">Alterar senha</button>
+                        <label for="userPass">Configurações da conta</label> <br>
+                        <button type="button" class="btn" id="changePass" data-toggle="modal" data-target="#changePassModal">Alterar senha</button>
+                        <button type="button" class="btn" id="changeEmail" data-toggle="modal" data-target="#changeEmailModal">Alterar email</button>
 
                     </div>
 
@@ -271,9 +272,8 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                     </div>
 
                     <div class="col-lg-6 mb-3 d-lg-flex flex-row-reverse" id="divButtonSave">
-                        <button type="submit" id="buttonSave" class="myDisabled" disabled> Salvar </button> &nbsp;
-                        <button type="button" id="buttonCancel" class="myDisabled mt-2 mt-md-0" disabled onclick="location.reload()">
-                            Cancelar </button>
+                        <button type="submit" id="buttonSave" class="myDisabled" disabled>Salvar</button> &nbsp;
+                        <button type="button" id="buttonCancel" class="myDisabled mt-2 mt-md-0" disabled onclick="location.reload()">Cancelar</button>
                     </div>
                 </div>
             </form>
@@ -294,10 +294,10 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>Enviaremos um email com um link para trocar sua senha. O link expirará em 2 horas.</p>
+                    <p>Você tem certeza que deseja trocar a sua senha?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" data-dismiss="modal">Confirmar envio</button>
+                    <a href="../TrocarSenha/trocarSenha.php" class="btn btn-success">Tenho!</a>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Deixa pra lá</button>
                 </div>
             </div>
@@ -305,6 +305,70 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
     </div>
 
     <!-- modal esqueci senha fim -->
+
+    <!-- modal trocar email -->
+
+    <div class="modal fade" id="changeEmailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Trocar de email</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="" method="" id="emailChangeForm">
+                    <div class="modal-body">
+                        <label for="newEmail" class="mb-2">Insira o seu novo email</label>
+                        <input type="text" class="form-control" name="email" id="newEmail">
+
+                        <small class="text-danger" id="msgErro"></small>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" id="btnConfirmaTroca" class="btn btn-success" onclick="recebeEmail()">Confirmar troca</button>
+                        <button type="reset" class="btn btn-secondary" data-dismiss="modal">Deixa pra lá</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- modal trocar email fim -->
+
+    <!-- modal confirmar novo email (código) -->
+
+    <div class="modal fade" id="confirmEmailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Trocar de email</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-3">Precisamos ter certeza que você tem acesso ao email que será trocado. Por isso enviamos um código de confirmação para o novo email.</p>
+                    <form action="" method="" id="confirmEmailChangeForm">
+                        <label for="confirmEmailChangeCode" class="mb-2">Insira o código enviado para o email <strong id="emailSentCode">teste@teste.com</strong> </label>
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="confirmEmailChangeCode" id="confirmEmailChangeCode">
+                            </div>
+
+                            <div class="col-sm-3">
+                                <button type="button" class="btn btn-success btn-block" onclick="confirmEmailChange()">Confirmar</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <small class="text-danger" id="incorrectCode"></small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- modal confirmar novo email (código) fim -->
 
     <!-- Div de redes sociais -->
 

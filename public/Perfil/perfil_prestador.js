@@ -244,3 +244,59 @@ function acceptRejectService(choice, contract, client) {
 
     $('#confirmAcceptRejectModal').modal('show')
 }
+
+let sessionConfirmCode
+function recebeEmail() {
+    let email = document.getElementById('newEmail').value
+
+    //requisição do arquivo php que vai gerar o código do usuário e mandar por email
+    $.ajax({
+        type: 'GET',
+        url: '../../logic/cadastro_confirma_email.php',
+        data: `email=${email}`,
+        dataType: 'json',
+        beforeSend: () => {
+            //criar gif de carregamento
+            let loadingGif = document.createElement('img')
+            loadingGif.src = "../../assets/images/loading.gif"
+            loadingGif.width = 16
+            loadingGif.id = "loadingGif"
+            document.getElementById('btnConfirmaTroca').appendChild(loadingGif)
+        },
+        complete: () => {
+            //tirar gif
+            document.getElementById('loadingGif').remove()
+        },
+        success: sendEmailStatus => {
+            if(sendEmailStatus.status === "enviado"){
+                //fechar modal de inserção de email
+                $('#changeEmailModal').modal('hide')
+
+                //mostrar modal de confirmação de email
+                $('#confirmEmailModal').modal('show')
+
+                //preenchendo email
+                document.getElementById('emailSentCode').innerHTML = email
+
+                //codigo do email
+                sessionConfirmCode = sendEmailStatus.code
+            } else if(sendEmailStatus.status === "erro") {
+                document.getElementById('msgErro').innerHTML = "O email de confirmação não pôde ser enviado. Verifique se você digitou um email válido. Se o erro persistir entre em contato pelo 'Fale conosco'"
+            } else if(sendEmailStatus.status === "email_cadastrado"){
+                document.getElementById('msgErro').innerHTML = "O email informado já está cadastrado."
+            }
+        },
+        error: error => {
+            alert("Erro ao se conectar com o servidor. Tente recarregar a página. Se o erro persistir entre em contato pelo 'Fale conosco'")
+            console.log(error)
+        }
+    })
+}
+
+function confirmEmailChange() {
+    if (document.getElementById('confirmEmailChangeCode').value == sessionConfirmCode){
+        location.href = `../../logic/perfil_alterar_email.php?email=${document.getElementById('newEmail').value}`
+    } else {
+        document.getElementById('incorrectCode').innerText = "código incorreto. Verifique se você digitou e email corretamente"
+    }
+}

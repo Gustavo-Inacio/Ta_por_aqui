@@ -230,7 +230,6 @@ function confirmEmail(){
         document.getElementById('confirmEmailError').classList.remove('d-none')
         typedCode.classList.add('is-invalid')
     } else{
-        console.log('deu bom')
         document.getElementById('registerForm').submit()
     }
 }
