@@ -432,7 +432,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                             $client_name = $stmt->fetch(PDO::FETCH_OBJ);
 
                             //detalhes do serviço que foi solicitado
-                            $query = "SELECT nome_servico, crit_orcamento_servico FROM servicos WHERE id_servico = $service->id_servico";
+                            $query = "SELECT nome_servico, crit_orcamento_servico, orcamento_servico FROM servicos WHERE id_servico = $service->id_servico";
                             $stmt = $con->query($query);
                             $service_details = $stmt->fetch(PDO::FETCH_OBJ);
 
@@ -448,7 +448,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                                         <h3 class="card-title"><?=$service_details->nome_servico?></h3>
                                         <p class="card-text">
                                             <strong>Informações básicas:</strong> <br>
-                                            <strong>Orçamento:</strong> <?=$service_details->crit_orcamento_servico?><br>
+                                            <strong>Orçamento:</strong> R$ <?=$service_details->orcamento_servico?> <?=$service_details->crit_orcamento_servico?> <br>
                                             <strong>Data da solicitação:</strong> <?=$date->format('d/m/Y')?>
                                         </p>
 
