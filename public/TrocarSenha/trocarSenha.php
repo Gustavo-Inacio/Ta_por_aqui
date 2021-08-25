@@ -1,4 +1,14 @@
 <?php
+//erro ao trocar de senha
+if (isset($_GET['erro']) && $_GET['erro'] === "1") {
+    echo "Ocorreu um erro ao trocar sua senha. <a href='../Perfil/meu_perfil.php'>Volte para página de perfil</a> e tente novamente";
+}
+
+//Essa página só será carregada se o usuário tiver passado pela p=agina perfil_allowChangePass.php
+if (!isset($_COOKIE['allowChangePass'])){
+    die("Essa página expirou <a href='../Perfil/meu_perfil.php'> volte para página de perfil</a>");
+}
+
 session_start();
 
 //caso haja cookies salvos no pc do usuário, ele vai logar com os cookies salvos
@@ -24,7 +34,7 @@ require "../../logic/entrar_cookie.php";
     <script src="../../assets/bootstrap/bootstrap-4.5.3-dist/js/bootstrap.min.js" defer></script>
 
     <script src="../../assets/global/globalScripts.js" defer></script>
-    <script src="login.js" defer></script>
+    <script src="trocarSenha.js" defer></script>
 </head>
 <body>
 <!--NavBar Comeco-->
@@ -89,29 +99,21 @@ require "../../logic/entrar_cookie.php";
     <section id="masterDiv">
         <div>
             <div id="content">
+                <div id="alertError" class="alert alert-danger d-none" role="alert" style="margin-top: -30px">
+                    <span id="msgErro"></span>
+                </div>
+
                 <div id="changePass" class="border p-4">
                     <p class="text-info mb-4">
                         Crie uma nova senha com pelo menos 8 caracteres, contendo letras e números
                     </p>
 
-                    <form action="" method="">
-                        <input type="text" class="form-control mb-2" id="newPass" name="newPass" placeholder="Nova senha">
-                        <input type="text" class="form-control mb-2" id="confirmNewPass" name="confirmNewPass" placeholder="Confirme a nova senha">
+                    <form id="changePassForm" action="../../logic/trocarsenha_logado.php" method="POST">
+                        <input type="password" class="form-control mb-2" id="oldPass" name="oldPass" placeholder="Senha antiga" required>
+                        <input type="password" class="form-control mb-2" id="newPass" name="newPass" placeholder="Nova senha" required>
+                        <input type="password" class="form-control mb-2" id="confirmNewPass" name="confirmNewPass" placeholder="Confirme a nova senha" required>
 
-                        <button type="button" class="btn btn-success">Alterar senha</button>
-                    </form>
-                </div>
-
-                <div id="login" class="border p-4">
-                    <p class="text-info mb-4">
-                        Faça login antes de trocar sua senha
-                    </p>
-
-                    <form action="" method="">
-                        <input type="text" class="form-control mb-2" id="newPass" name="newPass" placeholder="Email">
-                        <input type="text" class="form-control mb-2" id="confirmNewPass" name="confirmNewPass" placeholder="Senha">
-
-                        <button type="button" class="btn btn-success">Entrar</button>
+                        <button type="button" class="btn btn-success" onclick="validateNewPass('<?=$_SESSION['senha']?>')">Alterar senha</button>
                     </form>
                 </div>
             </div>
