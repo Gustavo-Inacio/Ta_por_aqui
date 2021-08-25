@@ -217,6 +217,17 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
         <div id="editProfileInformation" class="col-md-8">
             <h1 class="formTitle d-inline">Edição de perfil</h1>
+
+            <?php if (isset($_GET['status'])) {?>
+                <!-- alerta de troca bem sucedida -->
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <span><?=$_GET['status']?></span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            <?php }?>
+
             <form action="../../logic/perfil_alterar_informacoes.php" method="POST">
                 <div id="myForms" class="row">
 
@@ -282,7 +293,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
     </section>
     <!-- Cartão do perfil fim -->
 
-    <!-- modal esqueci senha -->
+    <!-- modal trocar senha -->
 
     <div class="modal fade" id="changePassModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -297,14 +308,14 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                     <p>Você tem certeza que deseja trocar a sua senha?</p>
                 </div>
                 <div class="modal-footer">
-                    <a href="../TrocarSenha/trocarSenha.php" class="btn btn-success">Tenho!</a>
+                    <a href="../../logic/perfil_allowChangePass.php" class="btn btn-success">Tenho!</a>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Deixa pra lá</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- modal esqueci senha fim -->
+    <!-- modal trocar senha fim -->
 
     <!-- modal trocar email -->
 
