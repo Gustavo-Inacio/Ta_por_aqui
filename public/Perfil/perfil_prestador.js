@@ -227,7 +227,7 @@ function acceptRejectService(choice, contract, client) {
         document.getElementById('confirmModalMessage').className = "text-success"
         document.getElementById('confirmModalMessage').innerText = "Ao aceitar prestar esse serviço, seu cliente poderá comentar e avaliar publicamente seu serviço prestado"
 
-        document.getElementById('confirmModalConfirmChoice').className = 'btn btn-success'
+        document.getElementById('confirmModalConfirmChoice').className = 'mybtn mybtn-conversion'
         document.getElementById('confirmModalConfirmChoice').innerText = 'Aceitar'
     } else {
         document.getElementById('confirmModalChoice').className = "text-danger"
@@ -236,10 +236,10 @@ function acceptRejectService(choice, contract, client) {
         document.getElementById('confirmModalMessage').className = "text-danger"
         document.getElementById('confirmModalMessage').innerHTML = "Ao rejeitar prestar esse serviço, o usuário que pediu receberá uma notificação de que o serviço solicitado foi rejeitado e ele não poderá avaliar e comentar no seu serviço. <br> Todavia o usuário poderá requisitar seu serviço denovo mais tarde."
 
-        document.getElementById('confirmModalConfirmChoice').className = 'btn btn-danger'
+        document.getElementById('confirmModalConfirmChoice').className = 'mybtn mybtn-danger'
         document.getElementById('confirmModalConfirmChoice').innerText = 'Rejeitar'
     }
-    document.getElementById('confirmModalConfirmChoice').href = `../../logic/perfil_aceitar_servico.php?escolha=${choice}&contrato=${contract}`
+    document.getElementById('confirmModalConfirmChoice').onclick = () => {location.href = `../../logic/perfil_aceitar_servico.php?escolha=${choice}&contrato=${contract}`}
     document.getElementById('confirmModalUserName').innerText = client
 
     $('#confirmAcceptRejectModal').modal('show')
@@ -300,3 +300,25 @@ function confirmEmailChange() {
         document.getElementById('incorrectCode').innerText = "código incorreto. Verifique se você digitou e email corretamente"
     }
 }
+
+function becomeProvider(situation) {
+    if (situation === "clientToProvider") {
+        if (confirm("Você tem certeza que deseja virar um prestador? Você poderá criar e monetizar seus serviços em nossa plataforma. Você ainda poderá se tornar cliente novamente")) {
+            console.log("sim")
+        }
+    } else {
+        if (confirm("Você tem certeza que deseja virar um cliente? Seus serviços continuarão em nossos servidores, porém serão inacessíveis para os outros. Você ainda poderá se tornar prestador novamente")) {
+            console.log("sim")
+        }
+    }
+}
+
+function deleteAccount() {
+    if (confirm("Você tem certeza que deseja deletar a sua conta?")){
+        console.log("sim")
+    }
+}
+
+$('.closeConfigModal').on('click', () => {
+    $('#accountConfigModal').modal('hide')
+})

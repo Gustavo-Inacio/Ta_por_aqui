@@ -30,5 +30,5 @@
 </div>
 
 <div class="modal-footer">
-    <button type="button" class="btn btn-primary" data-dismiss="modal">Salvar categorias</button>
+    <button type="button" class="mybtn mybtn-complement" data-dismiss="modal">Salvar categorias</button>
 </div>
