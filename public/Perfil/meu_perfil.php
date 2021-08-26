@@ -178,8 +178,8 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                                     </div>
 
                                     <div id="NewProfileImageButtons">
-                                        <button type="submit" class="btn btn-primary mt-2" id="saveNewProfileImage"> Salvar imagem </button>
-                                        <button type="button" class="btn btn-danger mt-2" id="cancelNewProfileImage" onclick="location.reload()"> Cancelar mudanças </button>
+                                        <button type="submit" class="mybtn mybtn-conversion mt-2" id="saveNewProfileImage"> Salvar imagem </button>
+                                        <button type="button" class="mybtn mybtn-danger mt-2" id="cancelNewProfileImage" onclick="location.reload()"> Cancelar mudanças </button>
                                     </div>
                                 </div>
                             </form>
@@ -310,7 +310,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                             <p>Mude sua senha caso você ache que alguém a sabe, ou se ela está muito fraca. mantenha sua conta protegida</p>
                         </div>
                         <div class="col-sm-4 d-flex align-items-center">
-                            <button type="button" class="btn btn-success closeConfigModal" id="changePass" data-toggle="modal" data-target="#changePassModal">Alterar senha</button>
+                            <button type="button" class="mybtn mybtn-conversion closeConfigModal" id="changePass" data-toggle="modal" data-target="#changePassModal">Alterar senha</button>
                         </div>
                     </div>
 
@@ -322,25 +322,37 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                             <p>Mude seu email caso você tenha trocado para um novo.</p>
                         </div>
                         <div class="col-sm-4 d-flex align-items-center">
-                            <button type="button" class="btn btn-success closeConfigModal" id="changeEmail" data-toggle="modal" data-target="#changeEmailModal">Alterar email</button>
+                            <button type="button" class="mybtn mybtn-complement closeConfigModal" id="changeEmail" data-toggle="modal" data-target="#changeEmailModal">Alterar email</button>
                         </div>
                     </div>
 
                     <hr>
 
-                    <?php if($_SESSION['classificacao'] == "2") { ?>
+                    <?php if($_SESSION['classificacao'] == "0") { ?>
                     <div class="divConfig row">
                         <div class="col-sm-8">
                             <h6>Trabalhe em nossa plataforma</h6>
                             <p>Mude sua classificação para virar um prestador em nossa plataforma e publicar seus serviços</p>
                         </div>
                         <div class="col-sm-4 d-flex align-items-center">
-                            <button type="button" class="btn btn-warning closeConfigModal" id="becomeProvider" onclick="becomeProvider()">Tornar-se prestador</button>
+                            <button type="button" class="btn btn-warning closeConfigModal" id="becomeProvider" onclick="becomeProvider('clientToProvider')">Tornar-se prestador</button>
                         </div>
                     </div>
 
                     <hr>
 
+                    <?php }else { ?>
+                    <div class="divConfig row">
+                        <div class="col-sm-8">
+                            <h6>Não quer mais prestar serviços?</h6>
+                            <p>Não tem problema! Continue usando nossa plataforma como apenas um cliente. Seus serviços continuarão em nosso servidores, porém não aparecerão para mais ninguém</p>
+                        </div>
+                        <div class="col-sm-4 d-flex align-items-center">
+                            <button type="button" class="mybtn mybtn-outline-complement closeConfigModal" id="becomeProvider" onclick="becomeProvider('providerToClient')">Ser cliente</button>
+                        </div>
+                    </div>
+
+                    <hr>
                     <?php } ?>
 
                     <div class="divConfig row">
@@ -349,12 +361,12 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                             <p class="text-danger"><strong>Você tem certeza?</strong> Sua conta será suspensa de nossa plataforma, tornando seu usuário e serviços inacessíveis</p>
                         </div>
                         <div class="col-sm-4 d-flex align-items-center">
-                            <button type="button" class="btn btn-danger closeConfigModal" id="deleteAccount" onclick="deleteAccount()">Excluir conta</button>
+                            <button type="button" class="mybtn mybtn-outline-danger closeConfigModal" id="deleteAccount" onclick="deleteAccount()">Excluir conta</button>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="mybtn mybtn-secondary" data-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>
@@ -470,8 +482,8 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                             </div>
                         <?php }?>
                     </div>
-                    <button type="button" class="btn btn-success mt-3 d-none" id="btnSalvarRedes" onclick="verifySocialMedia()">Salvar</button>
-                    <button type="button" class="btn btn-outline-danger mt-3 d-none" id="btnCancelarRedes"
+                    <button type="button" class="mybtn mybtn-conversion mt-3 d-none" id="btnSalvarRedes" onclick="verifySocialMedia()" style="color: black;">Salvar</button>
+                    <button type="button" class="mybtn mybtn-outline-danger mt-3 d-none" id="btnCancelarRedes"
                         onclick="location.reload()">Cancelar</button>
                     <small id="socialMediaMsgError" class="d-none text-danger mt-1"></small>
                 </form>
@@ -537,8 +549,8 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                                     </div>
                                     <div class="card-footer">
                                         <?php if($service->status_contrato == 0) {?>
-                                            <button class="btn myCardAccept my-1" onclick="acceptRejectService('accept', <?=$service->id_contrato?>, '<?=$client_name->nome_usuario?>')">Aceitar</button>
-                                            <button class="btn myCardReject my-1" onclick="acceptRejectService('reject', <?=$service->id_contrato?>, '<?=$client_name->nome_usuario?>')">Rejeitar</button>
+                                            <button class="mybtn mybtn-conversion my-1" onclick="acceptRejectService('accept', <?=$service->id_contrato?>, '<?=$client_name->nome_usuario?>')">Aceitar</button>
+                                            <button class="mybtn mybtn-danger my-1" onclick="acceptRejectService('reject', <?=$service->id_contrato?>, '<?=$client_name->nome_usuario?>')">Rejeitar</button>
                                         <?php } else if($service->status_contrato == 1) {?>
                                             <div class="alert alert-success" role="alert">Serviço aceito</div>
                                         <?php } else if($service->status_contrato == 2) {?>
@@ -646,7 +658,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                             $provider_name = $stmt->fetch(PDO::FETCH_OBJ);
 
                             //detalhes do serviço que foi solicitado
-                            $query = "SELECT nome_servico, crit_orcamento_servico FROM servicos WHERE id_servico = $service->id_servico";
+                            $query = "SELECT nome_servico, crit_orcamento_servico, orcamento_servico FROM servicos WHERE id_servico = $service->id_servico";
                             $stmt = $con->query($query);
                             $service_details = $stmt->fetch(PDO::FETCH_OBJ);
 
@@ -662,7 +674,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                                         <h3 class="card-title"><?=$service_details->nome_servico?></h3>
                                         <p class="card-text">
                                             <strong>Informações básicas:</strong> <br>
-                                            <strong>Orçamento:</strong> <?=$service_details->crit_orcamento_servico?><br>
+                                            <strong>Orçamento:</strong> R$ <?=$service_details->orcamento_servico?> <?=$service_details->crit_orcamento_servico?><br>
                                             <strong>Data da solicitação:</strong> <?=$date->format('d/m/Y')?>
                                         </p>
 
@@ -719,7 +731,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                             $provider_info = $stmt->fetch(PDO::FETCH_OBJ);
 
                             //detalhes do serviço que foi solicitado
-                            $query = "SELECT nome_servico, crit_orcamento_servico, tipo_servico FROM servicos WHERE id_servico = $service->id_servico";
+                            $query = "SELECT nome_servico, crit_orcamento_servico, orcamento_servico, tipo_servico FROM servicos WHERE id_servico = $service->id_servico";
                             $stmt = $con->query($query);
                             $service_details = $stmt->fetch(PDO::FETCH_OBJ);
 
@@ -735,7 +747,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                                         <h3 class="card-title"><?=$service_details->nome_servico?></h3>
                                         <p class="card-text">
                                             <strong>Informações básicas:</strong> <br>
-                                            <strong>Orçamento:</strong> <?=$service_details->crit_orcamento_servico?> <br>
+                                            <strong>Orçamento:</strong> R$ <?=$service_details->orcamento_servico?> <?=$service_details->crit_orcamento_servico?><br>
                                             <strong>Localização:</strong> <?=$service_details->tipo_servico == 0 ? "Serviço remoto" : $provider_info->uf_usuario . ', ' . $provider_info->cidade_usuario?>
                                         </p>
 
@@ -787,7 +799,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                                 break;
                             }
                             //detalhes do serviço
-                            $query = "SELECT nome_servico, tipo_servico, crit_orcamento_servico, data_public_servico FROM servicos WHERE id_servico = " . $service->id_servico;
+                            $query = "SELECT nome_servico, tipo_servico, crit_orcamento_servico, orcamento_servico, data_public_servico FROM servicos WHERE id_servico = " . $service->id_servico;
                             $stmt = $con->query($query);
                             $savedService = $stmt->fetch(PDO::FETCH_OBJ);
 
@@ -804,13 +816,13 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                                         <h3 class="card-title"><?= $savedService->nome_servico ?></h3>
                                         <p class="card-text">
                                             <strong>Informações básicas:</strong> <br>
-                                            <strong>Orçamento:</strong> <?= $savedService->crit_orcamento_servico ?> <br>
+                                            <strong>Orçamento:</strong> R$ <?=$savedService->orcamento_servico?> <?=$savedService->crit_orcamento_servico?><br>
                                             <strong>Data de publicação:</strong> <?=$date->format('d/m/Y')?>
                                         </p>
                                         <a href="../EncontrarProfissional/VisualizarServico/visuaizarServico.php?serviceID=<?=$service->id_servico?>" class="text-primary">Mais detalhes</a> <br>
                                     </div>
                                     <div class="card-footer">
-                                        <a href="../../logic/perfil_remover_servicosalvo.php?id=<?=$service->id_servico_salvo?>" class="btn myCardReject">Remover</a>
+                                        <button onclick="location.href = '../../logic/perfil_remover_servicosalvo.php?id=<?=$service->id_servico_salvo?>'" class="mybtn mybtn-danger">Remover</button>
                                     </div>
                                 </div>
                             </div>
@@ -856,8 +868,8 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                     <p id="confirmModalMessage"></p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                    <a id="confirmModalConfirmChoice">Confirmar</a>
+                    <button type="button" class="mybtn mybtn-secondary" data-dismiss="modal">Fechar</button>
+                    <button id="confirmModalConfirmChoice"></button>
                 </div>
             </div>
         </div>

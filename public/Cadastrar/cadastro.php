@@ -95,7 +95,7 @@ if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSIO
                                 <input type="text" class="form-control required" name="userLastName" id="userLastName" placeholder="Insira o seu sobrenome" maxlength="15">
                                 <br>
                                 <label for="userPhone" class="myLabel">Telefone</label> <br>
-                                <input type="tel" class="form-control required" name="userPhone" id="userPhone" placeholder="ex.: (11)91234-5678">
+                                <input type="tel" class="form-control required" name="userPhone" id="userPhone" placeholder="ex.: (00) 00000-0000">
                                 <br>
                                 <label for="userEmail" class="myLabel">Email</label> <br>
                                 <input type="email" class="form-control required" name="userEmail" id="userEmail" placeholder="ex.: pearrudas@gmail.com" maxlength="40">
@@ -168,7 +168,7 @@ if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSIO
                                         </div>
 
                                         <div class="modal-footer">
-                                          <button type="button" class="btn btn-primary" data-dismiss="modal">Salvar endereço</button>
+                                          <button type="button" class="mybtn mybtn-complement" data-dismiss="modal">Salvar endereço</button>
                                         </div>
                                       </div>
                                     </div>

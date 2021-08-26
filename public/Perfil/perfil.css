@@ -345,36 +345,6 @@ i.inativa{
     background-color: #3333CC;
 }
 
-.myCardAccept{
-    border: 1px solid #45E586;
-    background: #45E586;
-    color: white;
-    border-radius: 32px;
-    padding: 5px 25px;
-    font-weight: 600;
-}
-
-.myCardAccept:hover{
-    border: 1px solid #34b367;
-    background: #34b367;
-    color: white;
-}
-
-.myCardReject{
-    border: 1px solid #e54545;
-    background: #e54545;
-    color: white;
-    border-radius: 32px;
-    padding: 5px 25px;
-    font-weight: 600;
-}
-
-.myCardReject:hover{
-    color: white;
-    border: 1px solid #b93636;
-    background: #b93636;
-}
-
 #requestedCards a, #servicesRequestedByYouCards a{
     font-weight: 700;
     color: white;
@@ -506,6 +476,12 @@ i.inativa{
 .tinyCard .myCardHeader3{
     background-color: #0C0C23;
 }
+
+#confirmModalConfirmChoice{
+    text-decoration: none;
+
+}
+
 /*Histórico de serviços contratados*/
 #recentServices{
     margin-top: 50px;
@@ -617,6 +593,12 @@ i.inativa{
 @media (min-width: 768px) and (max-width: 991.98px) {
     #profilePictureArea {
         border-radius: 0 0 170px 0;
+    }
+}
+
+@media (max-width: 991.98px) {
+    #accountConfigBtn{
+        padding: 6px 20px;
     }
 }
 
