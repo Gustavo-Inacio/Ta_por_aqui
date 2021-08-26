@@ -300,3 +300,19 @@ function confirmEmailChange() {
         document.getElementById('incorrectCode').innerText = "código incorreto. Verifique se você digitou e email corretamente"
     }
 }
+
+function becomeProvider() {
+    if (confirm("Você tem certeza que deseja virar um prestador?")){
+        console.log("sim")
+    }
+}
+
+function deleteAccount() {
+    if (confirm("Você tem certeza que deseja deletar a sua conta?")){
+        console.log("sim")
+    }
+}
+
+$('.closeConfigModal').on('click', () => {
+    $('#accountConfigModal').modal('hide')
+})

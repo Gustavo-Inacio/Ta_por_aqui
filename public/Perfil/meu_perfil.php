@@ -131,7 +131,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
     <!--NavBar Fim-->
 
     <!-- Cartão do perfil comeco-->
-    <section id="myProfileSection" class="row">
+    <section id="myProfileSection" class="row mx-0" style="width: 100%">
         <div id="profilePictureArea" class="col-md-4">
             <h1>Foto de perfil</h1>
             <br>
@@ -250,9 +250,8 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
                         <br>
 
-                        <label for="userPass">Configurações da conta</label> <br>
-                        <button type="button" class="btn" id="changePass" data-toggle="modal" data-target="#changePassModal">Alterar senha</button>
-                        <button type="button" class="btn" id="changeEmail" data-toggle="modal" data-target="#changeEmailModal">Alterar email</button>
+                        <label for="userConfig">Configurações da conta</label> <br>
+                        <button type="button" class="btn" id="accountConfigBtn" data-toggle="modal" data-target="#accountConfigModal">Outras configurações</button>
 
                     </div>
 
@@ -292,6 +291,76 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
         </div>
     </section>
     <!-- Cartão do perfil fim -->
+
+    <!-- modal de confirgurações de conta -->
+
+    <div class="modal fade" id="accountConfigModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Configurações da conta</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="divConfig row">
+                        <div class="col-sm-8">
+                            <h6>Altere sua senha</h6>
+                            <p>Mude sua senha caso você ache que alguém a sabe, ou se ela está muito fraca. mantenha sua conta protegida</p>
+                        </div>
+                        <div class="col-sm-4 d-flex align-items-center">
+                            <button type="button" class="btn btn-success closeConfigModal" id="changePass" data-toggle="modal" data-target="#changePassModal">Alterar senha</button>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="divConfig row">
+                        <div class="col-sm-8">
+                            <h6>Altere seu email</h6>
+                            <p>Mude seu email caso você tenha trocado para um novo.</p>
+                        </div>
+                        <div class="col-sm-4 d-flex align-items-center">
+                            <button type="button" class="btn btn-success closeConfigModal" id="changeEmail" data-toggle="modal" data-target="#changeEmailModal">Alterar email</button>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <?php if($_SESSION['classificacao'] == "2") { ?>
+                    <div class="divConfig row">
+                        <div class="col-sm-8">
+                            <h6>Trabalhe em nossa plataforma</h6>
+                            <p>Mude sua classificação para virar um prestador em nossa plataforma e publicar seus serviços</p>
+                        </div>
+                        <div class="col-sm-4 d-flex align-items-center">
+                            <button type="button" class="btn btn-warning closeConfigModal" id="becomeProvider" onclick="becomeProvider()">Tornar-se prestador</button>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <?php } ?>
+
+                    <div class="divConfig row">
+                        <div class="col-sm-8">
+                            <h6 class="text-danger">Excluir conta</h6>
+                            <p class="text-danger"><strong>Você tem certeza?</strong> Sua conta será suspensa de nossa plataforma, tornando seu usuário e serviços inacessíveis</p>
+                        </div>
+                        <div class="col-sm-4 d-flex align-items-center">
+                            <button type="button" class="btn btn-danger closeConfigModal" id="deleteAccount" onclick="deleteAccount()">Excluir conta</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- modal de confirgurações de conta fim -->
 
     <!-- modal trocar senha -->
 
