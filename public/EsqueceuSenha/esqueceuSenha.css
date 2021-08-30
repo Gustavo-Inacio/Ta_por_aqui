@@ -11,7 +11,7 @@ body{
     height: 100%;
 }
 
-#aboutUsDiv{
+#masterDiv{
     padding: 0;
     border-radius: 10px;
     align-self: center;
@@ -19,33 +19,22 @@ body{
     background-color: white;
 }
 
-#aboutUsDiv .colorComplement{
-    border-radius: 10px;
-    background-color: #3333CC;
-}
-
-#aboutUsContent{
+#content{
     padding: 50px 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-#aboutUsContent h1{
+#content h1{
     font-size: 48px;
     font-weight: 900;
     color: #3333CC;
 }
 
-#aboutUsContent i{
+#content i{
     font-size: 56px;
     text-align: center;
-}
-
-#aboutUsInfo{
-    padding: 15px;
-    background-color: #45E586;
-    border-radius: 10px;
 }
 
 #myMainFooter{
@@ -55,15 +44,15 @@ body{
 }
 
 @media (max-width: 991.98px) {
-    #aboutUsContent{
+    #content{
         padding: 30px 20px;
     }
-    #aboutUsContent h1{
+    #content h1{
         font-size: 36px;
     }
 }
 
-@media (max-height: 860px){
+@media (max-height: 700px){
     #myMainFooter{
         position: relative;
     }

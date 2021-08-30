@@ -304,18 +304,18 @@ function confirmEmailChange() {
 function becomeProvider(situation) {
     if (situation === "clientToProvider") {
         if (confirm("Você tem certeza que deseja virar um prestador? Você poderá criar e monetizar seus serviços em nossa plataforma. Você ainda poderá se tornar cliente novamente")) {
-            console.log("sim")
+            location.href = `../../logic/perfil_trocar_classe.php?newclass=${1}`
         }
     } else {
         if (confirm("Você tem certeza que deseja virar um cliente? Seus serviços continuarão em nossos servidores, porém serão inacessíveis para os outros. Você ainda poderá se tornar prestador novamente")) {
-            console.log("sim")
+            location.href = `../../logic/perfil_trocar_classe.php?newclass=${0}`
         }
     }
 }
 
 function deleteAccount() {
-    if (confirm("Você tem certeza que deseja deletar a sua conta?")){
-        console.log("sim")
+    if (confirm("Você tem certeza que deseja deletar a sua conta? Você ser´redirecionado para outra página.")){
+        location.href = "../SuspenderUsuario/suspenderUsuario.php"
     }
 }
 

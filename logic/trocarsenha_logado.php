@@ -51,15 +51,15 @@ if ($valid){
     $stmt->bindValue(':senha', $_POST['newPass']);
     $stmt->execute();
 
-//atualizar novo email na session
+//atualizar nova senha na session
     $_SESSION['senha'] = $_POST['newPass'];
 
-//atualizar novo email nos cookies
+//atualizar nova senha nos cookies
     if (isset($_COOKIE['senha'])){
         setcookie('senha', $_POST['newPass'], time() + (60*60*24*30), '/');
     }
 
     header('location:../public/Perfil/meu_perfil.php?status=senha%20alterada%20com%20sucesso');
 } else {
-    header('location:../public/TrocarSenha/trocarSenha.php?erro=1');
+    header('location:../public/TrocarSenha/esqueceuSenha.php?erro=1');
 }
