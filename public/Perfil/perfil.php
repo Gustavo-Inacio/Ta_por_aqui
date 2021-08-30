@@ -11,7 +11,7 @@ $con = $con->connect();
 
 //Puxando os dados do meu perfil do banco de dados
 if(isset($_GET['id'])) {
-    $query = "SELECT * FROM usuarios where id_usuario = " . $_GET['id'];
+    $query = "SELECT * FROM usuarios where id_usuario = " . $_GET['id'] . " AND status_usuario = 1";
     $stmt = $con->query($query);
     $user = $stmt->fetch(PDO::FETCH_OBJ);
 

@@ -36,63 +36,6 @@ if (!isset($_SESSION['expireTime']) || $_SESSION['currentTime'] >= $_SESSION['ex
     <script src="esqueceuSenha.js" defer></script>
 </head>
 <body>
-<!--NavBar Comeco-->
-<div id="myMainTopNavbarNavBackdrop" class=""></div>
-<nav id="myMainTopNavbar" class="navbar navbar-expand-md">
-    <a href="#" id="myMainTopNavbarBrand" class="navbar-brand">
-        <img src="../../assets/images/dumb-brand.png" alt="Tá por aqui" class="my-brand-img">
-    </a>
-
-    <button id="myMainTopNavbarToggler" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myMainTopNavbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="my-navbar-toggler-icon">
-                <div></div>
-                <div></div>
-                <div></div>
-            </span>
-    </button>
-
-    <div id="myMainTopNavbarNav" class="collapse navbar-collapse">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a href="../Home/home.php" class="nav-link">Home</a>
-            </li>
-            <li class="nav-item">
-                <a href="../EncontrarProfissional/Listagem/listagem.php" class="nav-link">Encontre um pofissional</a>
-            </li>
-            <li class="nav-item">
-                <a href="../Artigos/artigos.html" class="nav-link">Artigos</a>
-            </li>
-            <li class="nav-item">
-                <a href="../Contato/contato.php" class="nav-link">Fale conosco</a>
-            </li>
-            <li class="nav-item">
-                <a href="sobreNos.php" class="nav-link">Sobre</a>
-            </li>
-            <li class="nav-item">
-                <a href="../Chat/chat.html" class="nav-link">Chat</a>
-            </li>
-            <?php if( empty($_SESSION) ){ ?>
-                <li class="nav-item">
-                    <a href="../Entrar/login.php" class="nav-link">Entrar/cadastrar</a>
-                </li>
-            <?php }?>
-        </ul>
-
-        <?php if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSION['senha']) && isset($_SESSION['classificacao']) ) {?>
-            <div class="dropdown">
-                <img src="../../assets/images/users/<?=$_SESSION['imagemPerfil']?>" alt="imagem de perfil" id="profileMenu" class="img-fluid" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-
-                <div class="dropdown-menu" aria-labelledby="profileMenu">
-                    <a class="dropdown-item" href="../Perfil/meu_perfil.php">Perfil</a>
-                    <a class="dropdown-item text-danger" href="../../logic/entrar_logoff.php">Sair</a>
-                </div>
-            </div>
-        <?php } ?>
-
-    </div>
-
-</nav>
-<!--NavBar Fim-->
 
 <div id="page">
     <section id="masterDiv">
