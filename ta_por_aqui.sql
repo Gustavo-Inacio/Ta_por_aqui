@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 18-Ago-2021 às 19:00
+-- Tempo de geração: 30-Ago-2021 às 13:23
 -- Versão do servidor: 10.4.20-MariaDB
 -- versão do PHP: 8.0.9
 
@@ -54,13 +54,6 @@ CREATE TABLE `comentarios` (
   `data_comentario` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Extraindo dados da tabela `comentarios`
---
-
-INSERT INTO `comentarios` (`id_comentario`, `id_servico`, `id_usuario`, `nota_comentario`, `desc_comentario`, `data_comentario`) VALUES
-(1, 1, 1, '4.0', 'Muito bom meu próprio serviço kkkkkkkkkkkkkkkk', '2021-08-18 17:21:44');
-
 -- --------------------------------------------------------
 
 --
@@ -76,12 +69,33 @@ CREATE TABLE `contratos` (
   `status_contrato` int(11) NOT NULL COMMENT '0 = pendente, 1 = aceito, 2 = rejeitado'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
 --
--- Extraindo dados da tabela `contratos`
+-- Estrutura da tabela `deletar_conta_motivos`
 --
 
-INSERT INTO `contratos` (`id_contrato`, `id_servico`, `id_cliente`, `id_prestador`, `data_contrato`, `status_contrato`) VALUES
-(1, 1, 1, 1, '2021-08-18 17:17:57', 1);
+CREATE TABLE `deletar_conta_motivos` (
+  `id_del_motivo` int(11) NOT NULL,
+  `del_motivo` varchar(75) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `deletar_conta_motivos`
+--
+
+INSERT INTO `deletar_conta_motivos` (`id_del_motivo`, `del_motivo`) VALUES
+(1, 'Outro'),
+(2, 'A plataforma é travada'),
+(3, 'A plataforma não é responsiva com o meu celular'),
+(4, 'Experienciei muitos bugs'),
+(5, 'Tive problemas de segurança'),
+(6, 'Vou criar uma nova conta do zero'),
+(7, 'Meu serviço foi banido injustamente'),
+(8, 'Achei uma outra plataforma que atende melhor minhas necessidades'),
+(9, 'Raramente um serviço que eu peço, como cliente, é aceito'),
+(10, 'Raramente um serviço meu, como prestador, é solicitado'),
+(11, 'A plataforma não localiza corretamente prestadores próximos de mim');
 
 -- --------------------------------------------------------
 
@@ -139,6 +153,19 @@ CREATE TABLE `fale_conosco` (
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `motivos_saida_usuario`
+--
+
+CREATE TABLE `motivos_saida_usuario` (
+  `id_mot_saida_usuario` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `id_del_motivo` int(11) NOT NULL,
+  `outro_del_motivo` varchar(75) DEFAULT NULL COMMENT 'preencher caso id_del_motivo = 1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `servicos`
 --
 
@@ -152,15 +179,8 @@ CREATE TABLE `servicos` (
   `crit_orcamento_servico` varchar(30) NOT NULL,
   `data_public_servico` datetime DEFAULT current_timestamp(),
   `nota_media_servico` decimal(2,1) DEFAULT NULL,
-  `status_servico` int(11) DEFAULT 1 COMMENT '0 = negado, 1 = permitido'
+  `status_servico` int(11) DEFAULT 1 COMMENT '0 = suspenso, 1 = disponível, 2 = denunciado/banido'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Extraindo dados da tabela `servicos`
---
-
-INSERT INTO `servicos` (`id_servico`, `id_prestador_servico`, `nome_servico`, `tipo_servico`, `desc_servico`, `orcamento_servico`, `crit_orcamento_servico`, `data_public_servico`, `nota_media_servico`, `status_servico`) VALUES
-(1, 1, 'Manutenção de impressora', 1, 'Manutenção e troca de peças de impressora', '60.00', 'por peça', '2021-08-18 16:57:06', '0.0', 1);
 
 -- --------------------------------------------------------
 
@@ -173,13 +193,6 @@ CREATE TABLE `servicos_salvos` (
   `id_servico` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Extraindo dados da tabela `servicos_salvos`
---
-
-INSERT INTO `servicos_salvos` (`id_servico_salvo`, `id_servico`, `id_usuario`) VALUES
-(2, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -194,14 +207,6 @@ CREATE TABLE `servico_categorias` (
   `id_subcategoria` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Extraindo dados da tabela `servico_categorias`
---
-
-INSERT INTO `servico_categorias` (`id_servico_categoria`, `id_servico`, `id_categoria`, `id_subcategoria`) VALUES
-(1, 1, 1, 5),
-(2, 1, 1, 6);
-
 -- --------------------------------------------------------
 
 --
@@ -213,14 +218,6 @@ CREATE TABLE `servico_imagens` (
   `id_servico` int(11) NOT NULL,
   `dir_servico_imagem` varchar(70) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Extraindo dados da tabela `servico_imagens`
---
-
-INSERT INTO `servico_imagens` (`id_imagem`, `id_servico`, `dir_servico_imagem`) VALUES
-(1, 1, 'user1/service_images/service1/1629316627611d66130e519.jpg'),
-(2, 1, 'user1/service_images/service1/1629316627611d661325c92.jpg');
 
 -- --------------------------------------------------------
 
@@ -272,18 +269,11 @@ CREATE TABLE `usuarios` (
   `data_entrada_usuario` datetime DEFAULT current_timestamp(),
   `desc_usuario` text DEFAULT NULL,
   `site_usuario` varchar(40) DEFAULT NULL,
-  `status_usuario` int(11) NOT NULL COMMENT '0 = ativa, 1 = banida, 2 = suspensa',
+  `status_usuario` int(11) NOT NULL DEFAULT 1 COMMENT '0 = suspenso, 1 = ativo, 2 = denunciado/banido',
   `imagem_usuario` varchar(60) DEFAULT 'no_picture.jpg',
   `nota_media_usuario` decimal(2,1) DEFAULT NULL,
   `posicao_usuario` point DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Extraindo dados da tabela `usuarios`
---
-
-INSERT INTO `usuarios` (`id_usuario`, `nome_usuario`, `sobrenome_usuario`, `fone_usuario`, `email_usuario`, `senha_usuario`, `data_nasc_usuario`, `sexo_usuario`, `classif_usuario`, `cep_usuario`, `uf_usuario`, `cidade_usuario`, `bairro_usuario`, `rua_usuario`, `numero_usuario`, `comple_usuario`, `data_entrada_usuario`, `desc_usuario`, `site_usuario`, `status_usuario`, `imagem_usuario`, `nota_media_usuario`, `posicao_usuario`) VALUES
-(1, 'Natan', 'Barbosa', '(11) 99182-5452', 'natanbarbosa525@gmail.com', 'Nate1234', '2003-07-28', 'M', 2, '09771220', 'SP', 'São Bernardo do Campo', 'Nova Petrópolis', 'Rua Ernesta Pelosini', '12', NULL, '2021-08-18 16:21:35', '', 'https://www.kekw.com', 0, 'user1/profile_image/1629315796611d62d4bb711.jpg', NULL, 0x00000000010100000024b4e55c8ab337c018b2bad5734647c0);
 
 -- --------------------------------------------------------
 
@@ -298,16 +288,6 @@ CREATE TABLE `usuario_redes_sociais` (
   `nick_rede_social` varchar(30) DEFAULT NULL,
   `link_rede_social` varchar(60) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Extraindo dados da tabela `usuario_redes_sociais`
---
-
-INSERT INTO `usuario_redes_sociais` (`id_rede_social`, `id_usuario`, `rede_social`, `nick_rede_social`, `link_rede_social`) VALUES
-(1, 1, 'instagram', '@Nate Rock', 'https://www.instagram.com/natan_rocha_/'),
-(2, 1, 'facebook', 'Natan Rocha', 'https://www.facebook.com/NatanRocha'),
-(3, 1, 'twitter', NULL, NULL),
-(4, 1, 'linkedin', NULL, NULL);
 
 --
 -- Índices para tabelas despejadas
@@ -337,6 +317,12 @@ ALTER TABLE `contratos`
   ADD KEY `FK_PrestadorContrato` (`id_prestador`);
 
 --
+-- Índices para tabela `deletar_conta_motivos`
+--
+ALTER TABLE `deletar_conta_motivos`
+  ADD PRIMARY KEY (`id_del_motivo`);
+
+--
 -- Índices para tabela `denuncia_comentario`
 --
 ALTER TABLE `denuncia_comentario`
@@ -362,6 +348,14 @@ ALTER TABLE `denuncia_servico`
 --
 ALTER TABLE `fale_conosco`
   ADD PRIMARY KEY (`id_contato`);
+
+--
+-- Índices para tabela `motivos_saida_usuario`
+--
+ALTER TABLE `motivos_saida_usuario`
+  ADD PRIMARY KEY (`id_mot_saida_usuario`),
+  ADD KEY `FK_motivo_saida_usuario` (`id_usuario`),
+  ADD KEY `FK_mot_saida_usuario_del_motivo` (`id_del_motivo`);
 
 --
 -- Índices para tabela `servicos`
@@ -428,13 +422,19 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de tabela `comentarios`
 --
 ALTER TABLE `comentarios`
-  MODIFY `id_comentario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_comentario` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `contratos`
 --
 ALTER TABLE `contratos`
-  MODIFY `id_contrato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_contrato` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `deletar_conta_motivos`
+--
+ALTER TABLE `deletar_conta_motivos`
+  MODIFY `id_del_motivo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de tabela `denuncia_comentario`
@@ -461,28 +461,34 @@ ALTER TABLE `fale_conosco`
   MODIFY `id_contato` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de tabela `motivos_saida_usuario`
+--
+ALTER TABLE `motivos_saida_usuario`
+  MODIFY `id_mot_saida_usuario` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de tabela `servicos`
 --
 ALTER TABLE `servicos`
-  MODIFY `id_servico` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_servico` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `servicos_salvos`
 --
 ALTER TABLE `servicos_salvos`
-  MODIFY `id_servico_salvo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_servico_salvo` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `servico_categorias`
 --
 ALTER TABLE `servico_categorias`
-  MODIFY `id_servico_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_servico_categoria` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `servico_imagens`
 --
 ALTER TABLE `servico_imagens`
-  MODIFY `id_imagem` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_imagem` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `subcategorias`
@@ -494,13 +500,13 @@ ALTER TABLE `subcategorias`
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `usuario_redes_sociais`
 --
 ALTER TABLE `usuario_redes_sociais`
-  MODIFY `id_rede_social` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_rede_social` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restrições para despejos de tabelas
@@ -533,6 +539,13 @@ ALTER TABLE `denuncia_comentario`
 ALTER TABLE `denuncia_servico`
   ADD CONSTRAINT `FK_MotivoDenuncia` FOREIGN KEY (`id_denuncia_motivo`) REFERENCES `denuncia_motivo` (`id_denuncia_motivo`),
   ADD CONSTRAINT `FK_ServicoDenuncia` FOREIGN KEY (`id_servico`) REFERENCES `servicos` (`id_servico`);
+
+--
+-- Limitadores para a tabela `motivos_saida_usuario`
+--
+ALTER TABLE `motivos_saida_usuario`
+  ADD CONSTRAINT `FK_mot_saida_usuario_del_motivo` FOREIGN KEY (`id_del_motivo`) REFERENCES `deletar_conta_motivos` (`id_del_motivo`),
+  ADD CONSTRAINT `FK_motivo_saida_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`);
 
 --
 -- Limitadores para a tabela `servicos`

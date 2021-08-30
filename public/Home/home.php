@@ -3,7 +3,6 @@ session_start();
 
 //caso haja cookies salvos no pc do usuário, ele vai logar com os cookies salvos
 require "../../logic/entrar_cookie.php";
-
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">

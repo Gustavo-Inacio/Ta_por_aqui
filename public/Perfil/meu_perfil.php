@@ -335,7 +335,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                             <p>Mude sua classificação para virar um prestador em nossa plataforma e publicar seus serviços</p>
                         </div>
                         <div class="col-sm-4 d-flex align-items-center">
-                            <button type="button" class="btn btn-warning closeConfigModal" id="becomeProvider" onclick="becomeProvider('clientToProvider')">Tornar-se prestador</button>
+                            <button type="button" class="mybtn mybtn-outline-complement closeConfigModal" id="becomeProvider" onclick="becomeProvider('clientToProvider')">Ser prestador</button>
                         </div>
                     </div>
 
@@ -418,8 +418,8 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" id="btnConfirmaTroca" class="btn btn-success" onclick="recebeEmail()">Confirmar troca</button>
-                        <button type="reset" class="btn btn-secondary" data-dismiss="modal">Deixa pra lá</button>
+                        <button type="button" id="btnConfirmaTroca" class="mybtn mybtn-conversion" onclick="recebeEmail()">Confirmar troca</button>
+                        <button type="reset" class="mybtn mybtn-secondary" data-dismiss="modal">Deixa pra lá</button>
                     </div>
                 </form>
             </div>
@@ -449,7 +449,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                             </div>
 
                             <div class="col-sm-3">
-                                <button type="button" class="btn btn-success btn-block" onclick="confirmEmailChange()">Confirmar</button>
+                                <button type="button" class="mybtn mybtn-conversion" onclick="confirmEmailChange()">Confirmar</button>
                             </div>
                         </div>
                     </form>

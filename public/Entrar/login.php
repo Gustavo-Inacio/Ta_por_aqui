@@ -93,6 +93,15 @@ if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSIO
                         </div>
                     <?php }?>
 
+                    <?php if( isset($_GET['status'])) {?>
+                        <div class="alert alert-<?=$_GET['class']?> alert-dismissible" role="alert">
+                            <?=$_GET['status']?>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    <?php }?>
+
                     <form action="../../logic/entrar_login.php" method="POST" id="loginForm">
                         <label for="loginEmail" class="myLabel">Email</label> <br>
                         <input type="text" class="form-control" name="loginEmail" id="loginEmail" placeholder="Insira o seu e-mail" required maxlength="40">
@@ -144,14 +153,16 @@ if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSIO
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <p class="mb-2">Digite seu email para enviarmos uma mensagem com um link para trocar sua senha. O link expirará em 2 horas.</p>
-                    <input type="text" class="form-control" id="emailForgotPass" name="emailForgotPass">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success" data-dismiss="modal">Confirmar envio</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Deixa pra lá</button>
-                </div>
+                <form action="../../logic/entrar_esqueci_senha.php" method="POST">
+                    <div class="modal-body">
+                        <p class="mb-2">Digite seu email para enviarmos uma mensagem com um link para trocar sua senha. O link expirará em 2 horas.</p>
+                        <input type="text" class="form-control" id="emailForgotPass" name="emailForgotPass">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="mybtn mybtn-conversion">Confirmar envio</button>
+                        <button type="button" class="mybtn mybtn-secondary" data-dismiss="modal">Deixa pra lá</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

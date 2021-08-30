@@ -1,15 +1,21 @@
 <?php
-//erro ao trocar de senha
-if (isset($_GET['erro']) && $_GET['erro'] === "1") {
-    echo "Ocorreu um erro ao trocar sua senha. <a href='../Perfil/meu_perfil.php'>Volte para página de perfil</a> e tente novamente";
-}
-
-//Essa página só será carregada se o usuário tiver passado pela p=agina perfil_allowChangePass.php
-if (!isset($_COOKIE['allowChangePass'])){
-    die("Essa página expirou <a href='../Perfil/meu_perfil.php'> volte para página de perfil</a>");
-}
-
 session_start();
+
+//caso haja cookies salvos no pc do usuário, ele vai logar com os cookies salvos
+require "../../logic/entrar_cookie.php";
+
+if( empty($_SESSION) ){
+    header('Location: ../Home/home.php');
+}
+
+require "../../logic/DbConnection.php";
+$con = new DbConnection();
+$con = $con->connect();
+
+//buscando motivos para exclusão de conta
+$query = "SELECT * FROM deletar_conta_motivos ORDER BY id_del_motivo DESC";
+$stmt = $con->query($query);
+$motivos = $stmt->fetchAll(PDO::FETCH_OBJ);
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -24,14 +30,14 @@ session_start();
 
     <link rel="stylesheet" href="../../assets/bootstrap/bootstrap-4.5.3-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../assets/global/globalStyles.css">
-    <link rel="stylesheet" href="trocarSenha.css">
+    <link rel="stylesheet" href="suspenderUsuario.css">
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script src="../../assets/bootstrap/popper.min.js" defer></script>
     <script src="../../assets/bootstrap/bootstrap-4.5.3-dist/js/bootstrap.min.js" defer></script>
 
     <script src="../../assets/global/globalScripts.js" defer></script>
-    <script src="trocarSenha.js" defer></script>
+    <script src="suspenderUsuario.js" defer></script>
 </head>
 <body>
 <!--NavBar Comeco-->
@@ -96,21 +102,21 @@ session_start();
     <section id="masterDiv">
         <div>
             <div id="content">
-                <div id="alertError" class="alert alert-danger d-none" role="alert" style="margin-top: -30px">
-                    <span id="msgErro"></span>
-                </div>
-
                 <div id="changePass" class="border p-4">
-                    <p class="text-info mb-4">
-                        Crie uma nova senha com pelo menos 8 caracteres, contendo letras e números
-                    </p>
+                    <div class="text-info mb-4">
+                        <p>É realmente uma pena que você tenha decidido sair de nossa plataforma <i class="fas fa-sad-tear" style="font-size: 19px"></i></p>
+                        <p>Marque os motivos pelo qual você fez essa decisão para que possamos melhora-la.</p>
+                    </div>
 
-                    <form id="changePassForm" action="../../logic/trocarsenha_logado.php" method="POST">
-                        <input type="password" class="form-control mb-2" id="oldPass" name="oldPass" placeholder="Senha antiga" required>
-                        <input type="password" class="form-control mb-2" id="newPass" name="newPass" placeholder="Nova senha" required>
-                        <input type="password" class="form-control mb-2" id="confirmNewPass" name="confirmNewPass" placeholder="Confirme a nova senha" required>
-
-                        <button type="button" class="mybtn mybtn-conversion" onclick="validateNewPass('<?=$_SESSION['senha']?>')">Alterar senha</button>
+                    <form id="changePassForm" action="../../logic/suspender_usuario.php" method="POST">
+                        <?php foreach ($motivos as $motivo) {?>
+                            <div><label for="<?=$motivo->id_del_motivo?>"><input type="checkbox" name="<?=$motivo->id_del_motivo?>" id="<?=$motivo->id_del_motivo?>"> <?=$motivo->del_motivo?></label></div>
+                        <?php } ?>
+                        <div id="outroMotivoDiv">
+                            <!-- 8.checked -->
+                        </div>
+                        <br>
+                        <button type="submit" class="mybtn mybtn-outline-danger">Excluir conta</button>
                     </form>
                 </div>
             </div>
@@ -142,3 +148,4 @@ session_start();
 </footer>
 </body>
 </html>
+
