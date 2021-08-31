@@ -52,7 +52,7 @@ body{
     }
 }
 
-@media (max-height: 700px){
+@media (max-height: 500px){
     #myMainFooter{
         position: relative;
     }

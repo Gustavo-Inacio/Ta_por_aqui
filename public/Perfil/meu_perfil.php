@@ -4,7 +4,7 @@ session_start();
 //caso haja cookies salvos no pc do usuário, ele vai logar com os cookies salvos
 require "../../logic/entrar_cookie.php";
 
-if( empty($_SESSION) ){
+if( empty($_SESSION['idUsuario']) ){
     header('Location: ../Home/home.php');
 }
 
@@ -389,8 +389,8 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                     <p>Você tem certeza que deseja trocar a sua senha?</p>
                 </div>
                 <div class="modal-footer">
-                    <a href="../../logic/perfil_allowChangePass.php" class="btn btn-success">Tenho!</a>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Deixa pra lá</button>
+                    <button type="button" onclick="location.href='../../logic/perfil_allowChangePass.php'" class="mybtn mybtn-conversion">Tenho!</button>
+                    <button type="button" class="mybtn mybtn-secondary" data-dismiss="modal">Deixa pra lá</button>
                 </div>
             </div>
         </div>
