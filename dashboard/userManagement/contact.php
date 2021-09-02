@@ -55,7 +55,6 @@
             </li>
             <ul class="sub-menu collapse" id="gerenciamentoUsuarios">
                 <li><a href="userReport.php"><i class="fa fa-angle-right"></i> Relatório de usuários</a></li>
-                <li><a href="userBan.php"><i class="fa fa-angle-right"></i> Banimentos de usuários</a></li>
                 <li><a href="commentComplaint.php"><i class="fa fa-angle-right"></i> Denúncias de comentários</a></li>
                 <li class="active"><a href="contact.php"><i class="fa fa-angle-right"></i> Fale conosco</a></li>
             </ul>
@@ -65,7 +64,6 @@
             </li>
             <ul class="sub-menu collapse" id="gerenciamentoServicos">
                 <li><a href="../serviceManagement/serviceReport.php"><i class="fa fa-angle-right"></i> Relatório de serviços</a></li>
-                <li><a href="../serviceManagement/serviceBan.php"><i class="fa fa-angle-right"></i> Banimentos de serviços</a></li>
                 <li><a href="../serviceManagement/serviceComplaint.php"><i class="fa fa-angle-right"></i> Denúncias de serviços</a></li>
             </ul>
 
@@ -74,7 +72,6 @@
             </li>
             <ul class="sub-menu collapse" id="appControl">
                 <li><a href="../appControl/addCategory.php"><i class="fa fa-angle-right"></i> Adicionar categorias</a></li>
-                <li><a href="../appControl/addReason.php"><i class="fa fa-angle-right"></i> Adicionar motivos</a></li>
             </ul>
         </ul>
     </div>
@@ -83,17 +80,13 @@
 <!-- paginas -->
 <div class="main" id="pagina">
     <h1>Fale conosco</h1>
-    <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae consequatur excepturi quae sit vitae! A ab aperiam commodi delectus error laboriosam libero obcaecati quis ullam veritatis. Delectus dolores nobis quos!
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet aperiam architecto asperiores assumenda consequuntur doloremque ducimus ea eius enim et facere, incidunt maxime, necessitatibus nemo nihil nulla quae sunt, veniam.
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad cupiditate error harum impedit laboriosam laudantium, minima nesciunt non quae sunt! Consequuntur deserunt fuga fugit hic impedit officia, perspiciatis quos sequi.
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus at aut commodi culpa dolor fugiat impedit itaque laudantium molestias mollitia, nam nemo nisi nulla odio pariatur quae vel vero voluptates!
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam at consequatur cumque dolor, dolores eos eum excepturi, fugit illum ipsam libero magnam nobis odit perferendis repudiandae sequi sit vitae!
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus, ad animi deleniti, distinctio doloribus dolorum ex facere hic natus neque nesciunt odit pariatur provident quibusdam quis tempora tempore totam voluptatibus?
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque nisi officia quod ratione sequi tempora, voluptatem. Aperiam aspernatur commodi, doloribus fugiat iusto, molestias praesentium saepe sequi sunt totam unde voluptatibus.
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dicta dolor doloribus eligendi et, fugit libero molestias neque, officia placeat provident quos recusandae rerum, sequi tempore unde voluptatem voluptates voluptatibus!
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores atque, cumque doloribus ducimus numquam officiis praesentium quaerat quisquam recusandae sint. Architecto at dolor explicabo illum perspiciatis rem ut voluptate voluptatum!
-    </p>
+    <ul>
+        <li>Listará todos os "fale conosco"s e contatos enviados para a gente</li>
+        <li>Cada contato será clicável e levará para uma página específica do contato solicitado</li>
+        <li>Essa página específica do contato conterá: nome, email, motivo, telefone e a mensagem</li>
+        <li>Haverá um botão para filtrar os contatos por nome, email, etc. em ordem alfabética ASC ou DESC</li>
+        <li>Haverá um botão para filtrar os contatos por motivo</li>
+    </ul>
 </div>
 
 </body>

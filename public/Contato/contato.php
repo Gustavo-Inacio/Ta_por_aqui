@@ -150,9 +150,16 @@ if(isset($_SESSION['idUsuario'])) {
                             <label for="contactEmail">Endereço de Email</label>
                             <input type="email" name="contactEmail" id="contactEmail" class="form-control required" placeholder="seu@email.com" required value="<?=$user_info['email_usuario']?>">
                         </div>
-                        <div class="form-group col-md-6" id="company">
-                            <label for="contactCompany">Empresa</label>
-                            <input type="text" name="contactCompany" id="contactCompany" class="form-control required" placeholder="Não obrigatório">
+                        <div class="form-group col-md-6" id="reason">
+                            <label for="contactReason">Motivos de contato</label> <br>
+                            <select class="form-control" name="contactReason" id="contactReason" required>
+                                <option value="">Selecione uma motivo</option>
+                                <option value="1">Elogios</option>
+                                <option value="2">Sugestões</option>
+                                <option value="3">Reclamações</option>
+                                <option value="4">Problemas/bugs</option>
+                                <option value="5">Outros</option>
+                            </select>
                         </div>
                         <div class="form-group col-md-6" id="phone">
                             <label for="contactPhone">Telefone / Cel.</label>

@@ -17,16 +17,7 @@
 
     <script src="../script.js" defer></script>
 
-    <script>
-        //remover transição do collapse quando a página carrega e devolve-la quando clicado
-        $(document).ready(() => {
-            $('#appControl').collapse('show')
-            $('#appControl').removeClass('collapsing')
-            $('#appControl').on("click", () => {
-                $('#appControl').addClass('collapsing')
-            })
-        })
-    </script>
+    <script src="addCategory.js"></script>
 </head>
 
 <body>
@@ -55,7 +46,6 @@
             </li>
             <ul class="sub-menu collapse" id="gerenciamentoUsuarios">
                 <li><a href="../userManagement/userReport.php"><i class="fa fa-angle-right"></i> Relatório de usuários</a></li>
-                <li><a href="../userManagement/userBan.php"><i class="fa fa-angle-right"></i> Banimentos de usuários</a></li>
                 <li><a href="../userManagement/commentComplaint.php"><i class="fa fa-angle-right"></i> Denúncias de comentários</a></li>
                 <li><a href="../userManagement/contact.php"><i class="fa fa-angle-right"></i> Fale conosco</a></li>
             </ul>
@@ -65,7 +55,6 @@
             </li>
             <ul class="sub-menu collapse" id="gerenciamentoServicos">
                 <li><a href="../serviceManagement/serviceReport.php"><i class="fa fa-angle-right"></i> Relatório de serviços</a></li>
-                <li><a href="../serviceManagement/serviceBan.php"><i class="fa fa-angle-right"></i> Banimentos de serviços</a></li>
                 <li><a href="../serviceManagement/serviceComplaint.php"><i class="fa fa-angle-right"></i> Denúncias de serviços</a></li>
             </ul>
 
@@ -74,7 +63,6 @@
             </li>
             <ul class="sub-menu collapse" id="appControl">
                 <li class="active"><a href="addCategory.php"><i class="fa fa-angle-right"></i> Adicionar categorias</a></li>
-                <li><a href="addReason.php"><i class="fa fa-angle-right"></i> Adicionar motivos</a></li>
             </ul>
         </ul>
     </div>
@@ -83,17 +71,40 @@
 <!-- paginas -->
 <div class="main" id="pagina">
     <h1>Adicionar categoria</h1>
-    <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae consequatur excepturi quae sit vitae! A ab aperiam commodi delectus error laboriosam libero obcaecati quis ullam veritatis. Delectus dolores nobis quos!
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet aperiam architecto asperiores assumenda consequuntur doloremque ducimus ea eius enim et facere, incidunt maxime, necessitatibus nemo nihil nulla quae sunt, veniam.
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad cupiditate error harum impedit laboriosam laudantium, minima nesciunt non quae sunt! Consequuntur deserunt fuga fugit hic impedit officia, perspiciatis quos sequi.
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus at aut commodi culpa dolor fugiat impedit itaque laudantium molestias mollitia, nam nemo nisi nulla odio pariatur quae vel vero voluptates!
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam at consequatur cumque dolor, dolores eos eum excepturi, fugit illum ipsam libero magnam nobis odit perferendis repudiandae sequi sit vitae!
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus, ad animi deleniti, distinctio doloribus dolorum ex facere hic natus neque nesciunt odit pariatur provident quibusdam quis tempora tempore totam voluptatibus?
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque nisi officia quod ratione sequi tempora, voluptatem. Aperiam aspernatur commodi, doloribus fugiat iusto, molestias praesentium saepe sequi sunt totam unde voluptatibus.
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dicta dolor doloribus eligendi et, fugit libero molestias neque, officia placeat provident quos recusandae rerum, sequi tempore unde voluptatem voluptates voluptatibus!
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores atque, cumque doloribus ducimus numquam officiis praesentium quaerat quisquam recusandae sint. Architecto at dolor explicabo illum perspiciatis rem ut voluptate voluptatum!
-    </p>
+    <small>Fai ficar tipo assim ó</small>
+
+    <div id="addMasterCategoryDiv" class="my-5 p-2 border border-primary">
+        <h3>Adicionar categoria mestre</h3>
+        <form action="">
+            <label for="qntMasters">Digite as categorias mestres que serão Adicionadas </label> <br>
+            <textarea name="categoriasMestre" id="masterCategories" cols="50" rows="4" placeholder="escreva a(s) categoria(s) e caso haja mais de uma separe por vírgula e espaço. Exemplo: Informática, Serviços domésticos, Limpeza, Organização escolar"></textarea>
+            <br>
+            <button type="button">Adicionar</button>
+        </form>
+    </div>
+
+    <div id="addSubCategoryDiv" class="my-5 p-2 border border-primary">
+        <h3>Adicionar subcategoria</h3>
+        <form action="">
+            <label for="masterCategoriesForSub">Escolha a categoria mestre para qual as subcategorias vão pertencer: </label>
+            <br>
+            <select name="categoriaMestreDaSub" id="masterCategoriesForSub">
+                <option value="">Selecionar categoria mastre</option>
+                <option value="">listagem de categorias mestre adicionadas no site</option>
+                <option value="">Cat 1</option>
+                <option value="">Cat 1</option>
+                <option value="">Cat 1</option>
+                <option value="">Cat 1</option>
+                <option value="">Cat 1</option>
+            </select>
+            <br> <br>
+
+            <label for="subCategories">Digite as subcategorias mestres que serão Adicionadas</label> <br>
+            <textarea name="subCategorias" id="subCategories" cols="50" rows="4" placeholder="escreva a(s) categoria(s) e caso haja mais de uma separe por vírgula e espaço. Exemplo: Informática, Serviços domésticos, Limpeza, Organização escolar"></textarea> <br>
+            <button type="button">Adicionar</button>
+        </form>
+
+    </div>
 </div>
 
 </body>
