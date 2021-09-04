@@ -15,7 +15,9 @@
 		<script src="../assets/bootstrap/popper.min.js" defer></script>
 		<script src="../assets/bootstrap/bootstrap-4.5.3-dist/js/bootstrap.min.js" defer></script>
 
-		<script src="script.js" defer></script>
+        <script src="assets/chart.js/chart.js"></script>
+
+		<script src="script.js"></script>
 	</head>
 
 	<body>
@@ -78,87 +80,153 @@
                 <option value="">mensagem</option>
             </select>
             <button type="button">pesquisar</button>
+
+            <br>
+
+            <small>obs: essa página vai ter um select assim:</small> <br>
+            <select name="" id="">
+                <option value="">Ano de análise</option>
+                <option value="">2021</option>
+                <option value="">2020</option>
+                <option value="">2019</option>
+            </select>
+
             <h1>Estatísticas do site</h1> <br>
 
-            <h3>Sobre usuários</h3>
-            <ul>
-                <li>Quantidade de usuários do site</li>
-                <li>Quantidade de prestadores</li>
-                <li>Quantidade de clientes</li>
-                <li>Média de usuários masculinos</li>
-                <li>Média de usuários femininos</li>
-                <li>Média de usuários de outros sexos</li>
-            </ul>
-            <br>
-            <h3>Sobre serviços</h3>
-            <ul>
-                <li>Quantidade de serviços</li>
-                <li>Quantidade de serviços banidos/denunciados</li>
-                <li>Média de serviços presenciais X remotos</li>
-                <li>Média de preço dos serviços con critérios</li>
-                <li>Média de notas dos serviços</li>
-            </ul>
-            <br>
-            <h3>Sobre Contratos</h3>
-            <ul>
-                <li>Média de contratos aceitos X rejeitados</li>
-            </ul>
-            <br>
-            <h3>Top 5 serviços mais acessados</h3>
-            <ul>
-                <li>Servico 1</li>
-                <li>servico 2</li>
-                <li>servico 3</li>
-                <li>servico 4</li>
-                <li>servico 5</li>
-            </ul>
-            <br>
-            <h3>Top 5 categorias mais escolhidas para serviços</h3>
-            <ul>
-                <li>Categoria 1</li>
-                <li>Categoria 2</li>
-                <li>Categoria 3</li>
-                <li>Categoria 4</li>
-                <li>Categoria 5</li>
-            </ul>
-            <br>
-            <h3>Top 5 motivos que fazem o usuário sair da plataforma</h3>
-            <ul>
-                <li>Categoria 1</li>
-                <li>Categoria 2</li>
-                <li>Categoria 3</li>
-                <li>Categoria 4</li>
-                <li>Categoria 5</li>
-            </ul>
-            <br>
-            <h3>Motivos mais comuns de denuncias de serviços</h3>
-            <ul>
-                <li>Motivo 1</li>
-                <li>Motivo 2</li>
-                <li>Motivo 3</li>
-                <li>Motivo 4</li>
-                <li>Motivo 5</li>
-            </ul>
-            <br>
-            <h3>Motivos mais comuns de denuncias de coment´rios</h3>
-            <ul>
-                <li>Motivo 1</li>
-                <li>Motivo 2</li>
-                <li>Motivo 3</li>
-                <li>Motivo 4</li>
-                <li>Motivo 5</li>
-            </ul>
-            <br>
-            <h3>Média de motivos de contato</h3>
-            <ul>
-                <li>Elogios: ?</li>
-                <li>Sugestões: ?</li>
-                <li>Reclamações: ?</li>
-                <li>Problemas/bugs: ?</li>
-                <li>Outro motivo: ?</li>
-            </ul>
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Estatísticas de usuários</h3>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="card">
+                                <h6 class="card-header">Total usuários</h6>
+                                <div class="card-body">
+                                    <div class="analisysNum">1057</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="card">
+                                <h6 class="card-header">Total prestadores</h6>
+                                <div class="card-body">
+                                    <div class="analisysNum">1057</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="card">
+                                <h6 class="card-header">Total clientes</h6>
+                                <div class="card-body">
+                                    <div class="analisysNum">1057</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+            <div class="row">
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <h3>Sobre usuários</h3>
+                    <ul>
+                        <li>Quantidade de usuários do site</li>
+                        <li>Quantidade de prestadores</li>
+                        <li>Quantidade de clientes</li>
+                        <li>Média de usuários masculinos</li>
+                        <li>Média de usuários femininos</li>
+                        <li>Média de usuários de outros sexos</li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <h3>Sobre serviços</h3>
+                    <ul>
+                        <li>Quantidade de serviços</li>
+                        <li>Quantidade de serviços banidos/denunciados</li>
+                        <li>Média de serviços presenciais X remotos</li>
+                        <li>Média de preço dos serviços con critérios</li>
+                        <li>Média de notas dos serviços</li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <h3>Sobre Contratos</h3>
+                    <ul>
+                        <li>Média de contratos aceitos X rejeitados X pendentes</li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4">
+                    <h3>Top 5 serviços mais acessados</h3>
+                    <ul>
+                        <li>Servico 1</li>
+                        <li>servico 2</li>
+                        <li>servico 3</li>
+                        <li>servico 4</li>
+                        <li>servico 5</li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <h3>Top 5 categorias mais escolhidas para serviços</h3>
+                    <ul>
+                        <li>Categoria 1</li>
+                        <li>Categoria 2</li>
+                        <li>Categoria 3</li>
+                        <li>Categoria 4</li>
+                        <li>Categoria 5</li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <h3>Top 5 motivos que fazem o usuário sair da plataforma</h3>
+                    <ul>
+                        <li>Categoria 1</li>
+                        <li>Categoria 2</li>
+                        <li>Categoria 3</li>
+                        <li>Categoria 4</li>
+                        <li>Categoria 5</li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <h3>Motivos mais comuns de denuncias de serviços</h3>
+                    <ul>
+                        <li>Motivo 1</li>
+                        <li>Motivo 2</li>
+                        <li>Motivo 3</li>
+                        <li>Motivo 4</li>
+                        <li>Motivo 5</li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <h3>Motivos mais comuns de denuncias de coment´rios</h3>
+                    <ul>
+                        <li>Motivo 1</li>
+                        <li>Motivo 2</li>
+                        <li>Motivo 3</li>
+                        <li>Motivo 4</li>
+                        <li>Motivo 5</li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <h3>Média de motivos de contato</h3>
+                    <ul>
+                        <li>Elogios: ?</li>
+                        <li>Sugestões: ?</li>
+                        <li>Reclamações: ?</li>
+                        <li>Problemas/bugs: ?</li>
+                        <li>Outro motivo: ?</li>
+                    </ul>
+                </div>
+            </div>
 		</div>
-
 	</body>
-
 </html>
