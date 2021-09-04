@@ -44,7 +44,6 @@
             </li>
             <ul class="sub-menu collapse" id="gerenciamentoUsuarios">
                 <li><a href="../userManagement/userReport.php"><i class="fa fa-angle-right"></i> Relatório de usuários</a></li>
-                <li><a href="../userManagement/userBan.php"><i class="fa fa-angle-right"></i> Banimentos de usuários</a></li>
                 <li><a href="../userManagement/commentComplaint.php"><i class="fa fa-angle-right"></i> Denúncias de comentários</a></li>
                 <li><a href="../userManagement/contact.php"><i class="fa fa-angle-right"></i> Fale conosco</a></li>
             </ul>
@@ -54,7 +53,6 @@
             </li>
             <ul class="sub-menu collapse" id="gerenciamentoServicos">
                 <li><a href="../serviceManagement/serviceReport.php"><i class="fa fa-angle-right"></i> Relatório de serviços</a></li>
-                <li><a href="../serviceManagement/serviceBan.php"><i class="fa fa-angle-right"></i> Banimentos de serviços</a></li>
                 <li><a href="../serviceManagement/serviceComplaint.php"><i class="fa fa-angle-right"></i> Denúncias de serviços</a></li>
             </ul>
 
@@ -63,7 +61,6 @@
             </li>
             <ul class="sub-menu collapse" id="appControl">
                 <li><a href="../appControl/addCategory.php"><i class="fa fa-angle-right"></i> Adicionar categorias</a></li>
-                <li><a href="../appControl/addReason.php"><i class="fa fa-angle-right"></i> Adicionar motivos</a></li>
             </ul>
         </ul>
     </div>

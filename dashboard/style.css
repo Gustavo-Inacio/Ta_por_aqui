@@ -152,6 +152,18 @@ body {
   padding: 0 10px;
 }
 
+.card-header{
+  font-weight: 0;
+  font-size: 16px;
+  text-align: center;
+}
+
+.analisysNum{
+  font-weight: 600;
+  font-size: 28px;
+  text-align: center;
+}
+
 @media (min-width: 991.98px) {
   .nav-side-menu .menu-list .menu-content {
     display: block;

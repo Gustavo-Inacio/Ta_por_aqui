@@ -15,7 +15,9 @@
 		<script src="../assets/bootstrap/popper.min.js" defer></script>
 		<script src="../assets/bootstrap/bootstrap-4.5.3-dist/js/bootstrap.min.js" defer></script>
 
-		<script src="script.js" defer></script>
+        <script src="assets/chart.js/chart.js"></script>
+
+		<script src="script.js"></script>
 	</head>
 
 	<body>
@@ -44,7 +46,6 @@
 		                </li>
 		                <ul class="sub-menu collapse" id="gerenciamentoUsuarios">
 							<li><a href="userManagement/userReport.php"><i class="fa fa-angle-right"></i> Relatório de usuários</a></li>
-		                    <li><a href="userManagement/userBan.php"><i class="fa fa-angle-right"></i> Banimentos de usuários</a></li>
 							<li><a href="userManagement/commentComplaint.php"><i class="fa fa-angle-right"></i> Denúncias de comentários</a></li>
 							<li><a href="userManagement/contact.php"><i class="fa fa-angle-right"></i> Fale conosco</a></li>
 		                </ul>
@@ -54,7 +55,6 @@
 						</li>
 						<ul class="sub-menu collapse" id="gerenciamentoServicos">
 							<li><a href="serviceManagement/serviceReport.php"><i class="fa fa-angle-right"></i> Relatório de serviços</a></li>
-							<li><a href="serviceManagement/serviceBan.php"><i class="fa fa-angle-right"></i> Banimentos de serviços</a></li>
 							<li><a href="serviceManagement/serviceComplaint.php"><i class="fa fa-angle-right"></i> Denúncias de serviços</a></li>
 						</ul>
 
@@ -63,7 +63,6 @@
 						</li>
 						<ul class="sub-menu collapse" id="appControl">
 							<li><a href="appControl/addCategory.php"><i class="fa fa-angle-right"></i> Adicionar categorias</a></li>
-							<li><a href="appControl/addReason.php"><i class="fa fa-angle-right"></i> Adicionar motivos</a></li>
 						</ul>
 		            </ul>
 		     </div>
@@ -71,20 +70,163 @@
 
 		<!-- paginas -->
 		<div class="main" id="pagina">
-            <h1>Estatísticas do site</h1>
-		    <p>
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae consequatur excepturi quae sit vitae! A ab aperiam commodi delectus error laboriosam libero obcaecati quis ullam veritatis. Delectus dolores nobis quos!
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet aperiam architecto asperiores assumenda consequuntur doloremque ducimus ea eius enim et facere, incidunt maxime, necessitatibus nemo nihil nulla quae sunt, veniam.
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad cupiditate error harum impedit laboriosam laudantium, minima nesciunt non quae sunt! Consequuntur deserunt fuga fugit hic impedit officia, perspiciatis quos sequi.
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus at aut commodi culpa dolor fugiat impedit itaque laudantium molestias mollitia, nam nemo nisi nulla odio pariatur quae vel vero voluptates!
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam at consequatur cumque dolor, dolores eos eum excepturi, fugit illum ipsam libero magnam nobis odit perferendis repudiandae sequi sit vitae!
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus, ad animi deleniti, distinctio doloribus dolorum ex facere hic natus neque nesciunt odit pariatur provident quibusdam quis tempora tempore totam voluptatibus?
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque nisi officia quod ratione sequi tempora, voluptatem. Aperiam aspernatur commodi, doloribus fugiat iusto, molestias praesentium saepe sequi sunt totam unde voluptatibus.
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dicta dolor doloribus eligendi et, fugit libero molestias neque, officia placeat provident quos recusandae rerum, sequi tempore unde voluptatem voluptates voluptatibus!
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores atque, cumque doloribus ducimus numquam officiis praesentium quaerat quisquam recusandae sint. Architecto at dolor explicabo illum perspiciatis rem ut voluptate voluptatum!
-			</p>
+            <small>obs: as páginas de gerenciamento de usuário e gerenciamento de serviço terão uma barra de pesquisa tipo assim:</small>
+            <br>
+            <input type="text">
+            <select name="" id="">
+                <option value="">Campos pesquisáveis</option>
+                <option value="">nome</option>
+                <option value="">email</option>
+                <option value="">mensagem</option>
+            </select>
+            <button type="button">pesquisar</button>
+
+            <br>
+
+            <small>obs: essa página vai ter um select assim:</small> <br>
+            <select name="" id="">
+                <option value="">Ano de análise</option>
+                <option value="">2021</option>
+                <option value="">2020</option>
+                <option value="">2019</option>
+            </select>
+
+            <h1>Estatísticas do site</h1> <br>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Estatísticas de usuários</h3>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="card">
+                                <h6 class="card-header">Total usuários</h6>
+                                <div class="card-body">
+                                    <div class="analisysNum">1057</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="card">
+                                <h6 class="card-header">Total prestadores</h6>
+                                <div class="card-body">
+                                    <div class="analisysNum">1057</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="card">
+                                <h6 class="card-header">Total clientes</h6>
+                                <div class="card-body">
+                                    <div class="analisysNum">1057</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+            <div class="row">
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <h3>Sobre usuários</h3>
+                    <ul>
+                        <li>Quantidade de usuários do site</li>
+                        <li>Quantidade de prestadores</li>
+                        <li>Quantidade de clientes</li>
+                        <li>Média de usuários masculinos</li>
+                        <li>Média de usuários femininos</li>
+                        <li>Média de usuários de outros sexos</li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <h3>Sobre serviços</h3>
+                    <ul>
+                        <li>Quantidade de serviços</li>
+                        <li>Quantidade de serviços banidos/denunciados</li>
+                        <li>Média de serviços presenciais X remotos</li>
+                        <li>Média de preço dos serviços con critérios</li>
+                        <li>Média de notas dos serviços</li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <h3>Sobre Contratos</h3>
+                    <ul>
+                        <li>Média de contratos aceitos X rejeitados X pendentes</li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4">
+                    <h3>Top 5 serviços mais acessados</h3>
+                    <ul>
+                        <li>Servico 1</li>
+                        <li>servico 2</li>
+                        <li>servico 3</li>
+                        <li>servico 4</li>
+                        <li>servico 5</li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <h3>Top 5 categorias mais escolhidas para serviços</h3>
+                    <ul>
+                        <li>Categoria 1</li>
+                        <li>Categoria 2</li>
+                        <li>Categoria 3</li>
+                        <li>Categoria 4</li>
+                        <li>Categoria 5</li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <h3>Top 5 motivos que fazem o usuário sair da plataforma</h3>
+                    <ul>
+                        <li>Categoria 1</li>
+                        <li>Categoria 2</li>
+                        <li>Categoria 3</li>
+                        <li>Categoria 4</li>
+                        <li>Categoria 5</li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <h3>Motivos mais comuns de denuncias de serviços</h3>
+                    <ul>
+                        <li>Motivo 1</li>
+                        <li>Motivo 2</li>
+                        <li>Motivo 3</li>
+                        <li>Motivo 4</li>
+                        <li>Motivo 5</li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <h3>Motivos mais comuns de denuncias de coment´rios</h3>
+                    <ul>
+                        <li>Motivo 1</li>
+                        <li>Motivo 2</li>
+                        <li>Motivo 3</li>
+                        <li>Motivo 4</li>
+                        <li>Motivo 5</li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <h3>Média de motivos de contato</h3>
+                    <ul>
+                        <li>Elogios: ?</li>
+                        <li>Sugestões: ?</li>
+                        <li>Reclamações: ?</li>
+                        <li>Problemas/bugs: ?</li>
+                        <li>Outro motivo: ?</li>
+                    </ul>
+                </div>
+            </div>
 		</div>
-
 	</body>
-
 </html>
