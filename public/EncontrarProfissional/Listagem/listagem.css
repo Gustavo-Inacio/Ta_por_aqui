@@ -218,6 +218,7 @@ button:focus{
     font-size: 20px;
     line-height: 23px;
     margin-bottom: 0;
+    
 
     color: #FFFFFF;
 }
@@ -231,18 +232,29 @@ button:focus{
     width: 50%;
     max-width: 100%;
     padding: 4px 0;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
 }
 
 .subCategorie-item .left-col{
-    padding-left: 32px;
+    /* padding-left: 32px; */
 }
 .subCategorie-item .right-col{
-    padding-right: 32px;
-    padding-left: 10px;
+    /* padding-right: 32px;
+    padding-left: 10px; */
 }
 
 .subCategorie-item:hover{
     background: rgba(194, 194, 194, 0.48);
+}
+
+.sucategorie-selected{
+    background: linear-gradient(176.28deg, #4545EA 3.03%, #2A6DAB 96.95%);
+    border: 0.5px solid #FFFFFF;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 2px 2px #3A56D0;
+    border-radius: 21px;;
 }
 
 .subCategorie-title{
@@ -253,6 +265,8 @@ button:focus{
     line-height: 19px;
     color: #FFFFFF;
     margin: 0;
+    justify-self: center;
+    pointer-events: none;
 }
 
 .selected-categorie-item .categorie-item{
@@ -350,6 +364,49 @@ button:focus{
     max-width: 1px;
 }
 /* filter sction */
+
+/* search tag section */
+#searchTagSection{
+    display: flex;
+    flex-flow: row wrap;
+    padding: 7px 10px;
+}
+
+.clear-tags-div{
+    margin-right: 10px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.search-tag{
+    display: inline-block;
+    background: #545463;
+    box-sizing: border-box;
+    border-radius: 37px;
+    padding: 0px 30px 0 25px;   
+    position: relative; 
+}
+
+.search-tag-title{
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+
+    color: #FFFFFF;
+    pointer-events: none;
+    margin: 0;
+}
+
+.search-tag-clear-tag{
+    cursor: pointer;
+    position: absolute;
+    height: 16px;
+    width: 16px;
+    right: 3px;
+    top: calc(50% - 8px);
+}
+/* search tag section */
 
 /* service-card */ 
 #serviceCadsSection{
