@@ -1,3 +1,8 @@
+body {
+    position: relative;
+    height: 100vh;
+}
+
 #title{
     justify-content: center;
     text-align: center;
@@ -80,7 +85,7 @@
 #contactArea{
     background: white;
     border-radius: 20px;
-    
+
 }
 
 #message textarea{
@@ -95,15 +100,14 @@
 }
 
 #contactForms input{
-    color: red;
+    color: black;
 }
 
-#contactForms button{
-    margin-left: 14px;
-    font-size: 1rem;
+#myMainFooter{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
-
-
 
 @media (max-width:767px) {
     #title{
@@ -114,14 +118,31 @@
         padding: 0;
         margin: 0;
     }
-    
+
     #contactForms button{
         margin: 15px;
-        font-size: 2rem;
     }
+
     #contactForms label{
         margin-top: 5px;
         font-size: 1rem;
     }
 
+}
+
+@media (max-width: 991.98px){
+    #myMainFooter{
+        position: relative;
+    }
+
+    body {
+        position: relative;
+        height: unset;
+    }
+}
+
+@media (max-height: 860px){
+    #myMainFooter{
+        position: relative;
+    }
 }

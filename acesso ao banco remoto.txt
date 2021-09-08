@@ -1,0 +1,14 @@
+LOGIN NO SITE
+login: lauringamesbr@gmail.com
+senha: taporaquibd
+
+https://www.freemysqlhosting.net/login/
+
+LOGIN NO BD
+
+Server: sql10.freemysqlhosting.net
+Name: sql10435599
+Username: sql10435599
+Password: buc8h6VbjS
+Port number: 3306
+bdname: sql10435599

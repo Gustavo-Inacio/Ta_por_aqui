@@ -6,7 +6,7 @@ require "DbConnection.php";
 $con = new DbConnection();
 $con = $con->connect();
 
-$query = "SELECT id_usuario, email_usuario, senha_usuario, classif_usuario, imagem_usuario FROM usuarios WHERE email_usuario = :email AND senha_usuario = :senha";
+$query = "SELECT id_usuario, email_usuario, senha_usuario, classif_usuario, imagem_usuario FROM usuarios WHERE email_usuario = :email AND senha_usuario = :senha AND status_usuario = 1";
 $stmt = $con->prepare($query);
 $stmt->bindValue(":email", $_POST['loginEmail']);
 $stmt->bindValue(":senha", $_POST['loginPass']);

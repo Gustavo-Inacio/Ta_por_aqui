@@ -236,8 +236,123 @@
 }
 
 
+/*btn patterns and colors*/
+.mybtn {
+    box-sizing: border-box;
+    display: inline-block;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: unset;
+    text-align: center;
+    vertical-align: middle;
+    background: transparent;
+    border: 1px solid unset;
+    width: auto;
+    padding: 7px 1.5em;
+    border-radius: 30px;
+}
 
+.mybtn:focus {
+    outline: none;
+}
 
+.mybtn-sm{
+    padding: 4px 30px;
+}
+
+.mybtn-conversion{
+    color: white;
+    background: #45E586;
+    border-radius: 34px;
+    border: 1px solid #45E586;
+}
+
+.mybtn-conversion:hover{
+    background: #40d67c;
+    transition: .5s;
+}
+
+.mybtn-outline-conversion{
+    color: #45E586;
+    background: transparent;
+    border-radius: 34px;
+    border: 2px solid #45E586;
+}
+
+.mybtn-outline-conversion:hover{
+    color: white;
+    background: #45E586;
+    border-radius: 34px;
+    border: 2px solid #45E586;
+    transition: .2s;
+}
+
+.mybtn-complement{
+    color: white;
+    background: #3333CC;
+    border-radius: 34px;
+    border: 1px solid #3333CC;
+}
+
+.mybtn-complement:hover{
+    background: #2727a4;
+    transition: .5s;
+}
+
+.mybtn-outline-complement{
+    color: #3333CC;
+    background: transparent;
+    border-radius: 34px;
+    border: 2px solid #3333CC;
+}
+
+.mybtn-outline-complement:hover{
+    color: white;
+    background: #3333CC;
+    border-radius: 34px;
+    border: 2px solid #3333CC;
+    transition: .2s;
+}
+
+.mybtn-danger{
+    color: white;
+    background: #FF6F6F;
+    border-radius: 34px;
+    border: 1px solid #FF6F6F;
+}
+
+.mybtn-danger:hover{
+    background: #c25555;
+    transition: .5s;
+}
+
+.mybtn-outline-danger{
+    color: #FF6F6F;
+    background: transparent;
+    border-radius: 34px;
+    border: 2px solid #FF6F6F;
+}
+
+.mybtn-outline-danger:hover{
+    color: white;
+    background: #FF6F6F;
+    border-radius: 34px;
+    border: 2px solid #FF6F6F;
+    transition: .2s;
+}
+
+.mybtn-secondary{
+    color: white;
+    background: #0C0C23;
+    border-radius: 34px;
+    border: 1px solid #0C0C23;
+}
+
+.mybtn-secondary:hover{
+    background: #232369;
+    transition: .5s;
+}
 
 /* --- Main Footer Fim -- */
 

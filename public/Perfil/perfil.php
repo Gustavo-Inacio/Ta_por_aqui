@@ -11,7 +11,7 @@ $con = $con->connect();
 
 //Puxando os dados do meu perfil do banco de dados
 if(isset($_GET['id'])) {
-    $query = "SELECT * FROM usuarios where id_usuario = " . $_GET['id'];
+    $query = "SELECT * FROM usuarios where id_usuario = " . $_GET['id'] . " AND status_usuario = 1";
     $stmt = $con->query($query);
     $user = $stmt->fetch(PDO::FETCH_OBJ);
 
@@ -199,6 +199,12 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
 
     <script src="../../assets/global/globalScripts.js" defer></script>
     <script src="show_services.js" defer></script>
+
+    <style>
+        #profilePictureArea{
+            padding: 70px 0 150px 0;
+        }
+    </style>
 </head>
 
 <body>
@@ -288,7 +294,9 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
                         }?>
                     </div>
                 <?php }?>
-            <?php }?>
+            <?php } else {
+                echo "<p class='text-secondary mt-2'>Esse usuário é um cliente</p>";
+            }?>
         </div>
 
         <div id="editProfileInformation" class="col-md-8">

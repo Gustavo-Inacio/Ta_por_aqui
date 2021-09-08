@@ -1,10 +1,10 @@
 <?php
 
 class DbConnection {
-    private $host = 'localhost';
-    private $dbname = 'ta_por_aqui';
-    private $user = 'root';
-    private $password = '';
+    private $host = 'sql10.freemysqlhosting.net';
+    private $dbname = 'sql10435599';
+    private $user = 'sql10435599';
+    private $password = 'buc8h6VbjS';
 
     public function connect(){
         //Iniciando conexão com o bd com PDO
@@ -22,5 +22,4 @@ class DbConnection {
             echo 'Código do erro: ' . $e->getCode() . '<br> Mensagem de erro: ' . $e->getMessage();
         }
     }
-
 }

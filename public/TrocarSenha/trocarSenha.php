@@ -10,9 +10,6 @@ if (!isset($_COOKIE['allowChangePass'])){
 }
 
 session_start();
-
-//caso haja cookies salvos no pc do usuário, ele vai logar com os cookies salvos
-require "../../logic/entrar_cookie.php";
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -113,7 +110,7 @@ require "../../logic/entrar_cookie.php";
                         <input type="password" class="form-control mb-2" id="newPass" name="newPass" placeholder="Nova senha" required>
                         <input type="password" class="form-control mb-2" id="confirmNewPass" name="confirmNewPass" placeholder="Confirme a nova senha" required>
 
-                        <button type="button" class="btn btn-success" onclick="validateNewPass('<?=$_SESSION['senha']?>')">Alterar senha</button>
+                        <button type="button" class="mybtn mybtn-conversion" onclick="validateNewPass('<?=$_SESSION['senha']?>')">Alterar senha</button>
                     </form>
                 </div>
             </div>

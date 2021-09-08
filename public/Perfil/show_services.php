@@ -82,7 +82,7 @@ if ($_GET['servicetype'] === "requestedServices") {
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            <button type="button" class="mybtn mybtn-secondary" data-dismiss="modal">Fechar</button>
         </div>
     </div>
 
@@ -127,7 +127,7 @@ if ($_GET['servicetype'] === "requestedServices") {
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            <button type="button" class="mybtn mybtn-secondary" data-dismiss="modal">Fechar</button>
         </div>
     </div>
 
@@ -195,7 +195,7 @@ if ($_GET['servicetype'] === "requestedServices") {
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            <button type="button" class="mybtn mybtn-secondary" data-dismiss="modal">Fechar</button>
         </div>
     </div>
 
@@ -245,7 +245,7 @@ if ($_GET['servicetype'] === "requestedServices") {
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            <button type="button" class="mybtn mybtn-secondary" data-dismiss="modal">Fechar</button>
         </div>
     </div>
 
@@ -308,7 +308,7 @@ if ($_GET['servicetype'] === "requestedServices") {
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            <button type="button" class="mybtn mybtn-secondary" data-dismiss="modal">Fechar</button>
         </div>
     </div>
 <?php }?>
