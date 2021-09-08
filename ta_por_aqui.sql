@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 04-Set-2021 às 18:35
+-- Tempo de geração: 08-Set-2021 às 09:01
 -- Versão do servidor: 10.4.20-MariaDB
 -- versão do PHP: 8.0.9
 
@@ -60,8 +60,17 @@ CREATE TABLE `comentarios` (
   `id_usuario` int(11) NOT NULL,
   `nota_comentario` decimal(2,1) NOT NULL,
   `desc_comentario` text DEFAULT NULL,
-  `data_comentario` datetime DEFAULT current_timestamp()
+  `data_comentario` timestamp NULL DEFAULT current_timestamp(),
+  `status_comentario` int(11) NOT NULL DEFAULT 1 COMMENT '0 = excluído, 1 = exibido'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `comentarios`
+--
+
+INSERT INTO `comentarios` (`id_comentario`, `id_servico`, `id_usuario`, `nota_comentario`, `desc_comentario`, `data_comentario`, `status_comentario`) VALUES
+(1, 3, 2, '4.0', 'O site ficou legal, mas deu bug em uma página', '2021-09-07 13:11:36', 1),
+(2, 2, 2, '5.0', 'Montou meu pc direitinho e nem saiu tão caro.', '2021-09-07 13:13:10', 1);
 
 -- --------------------------------------------------------
 
@@ -74,9 +83,22 @@ CREATE TABLE `contratos` (
   `id_servico` int(11) NOT NULL,
   `id_cliente` int(11) NOT NULL,
   `id_prestador` int(11) NOT NULL,
-  `data_contrato` datetime DEFAULT current_timestamp(),
+  `data_contrato` timestamp NULL DEFAULT current_timestamp(),
   `status_contrato` int(11) NOT NULL COMMENT '0 = pendente, 1 = aceito, 2 = rejeitado'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `contratos`
+--
+
+INSERT INTO `contratos` (`id_contrato`, `id_servico`, `id_cliente`, `id_prestador`, `data_contrato`, `status_contrato`) VALUES
+(1, 3, 2, 1, '2021-09-07 13:08:45', 1),
+(2, 2, 2, 1, '2021-09-07 13:08:47', 1),
+(3, 1, 2, 1, '2021-09-07 13:08:49', 2),
+(4, 3, 1, 1, '2021-09-07 14:13:10', 1),
+(5, 2, 1, 1, '2021-09-07 15:05:51', 1),
+(6, 5, 1, 2, '2021-09-07 15:12:51', 1),
+(7, 4, 1, 2, '2021-09-07 15:12:54', 1);
 
 -- --------------------------------------------------------
 
@@ -118,9 +140,16 @@ CREATE TABLE `denuncia_comentario` (
   `id_denuncia_motivo` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL COMMENT 'usuário que fez a denúncia',
   `desc_denuncia_comen` text NOT NULL,
-  `data_denuncia_comen` datetime NOT NULL DEFAULT current_timestamp(),
-  `status_denuncia_comen` int(11) NOT NULL COMMENT '0 = não resolvido, 1 = resolvido'
+  `data_denuncia_comen` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status_denuncia_comen` int(11) NOT NULL DEFAULT 0 COMMENT '0 = não resolvido, 1 = em análise, 2 = resolvido'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `denuncia_comentario`
+--
+
+INSERT INTO `denuncia_comentario` (`id_denuncia_comentario`, `id_comentario`, `id_denuncia_motivo`, `id_usuario`, `desc_denuncia_comen`, `data_denuncia_comen`, `status_denuncia_comen`) VALUES
+(1, 1, 2, 2, 'comentário machista', '2021-09-07 17:39:33', 0);
 
 -- --------------------------------------------------------
 
@@ -134,6 +163,14 @@ CREATE TABLE `denuncia_motivo` (
   `categoria_motivo` int(11) NOT NULL COMMENT '1 = para serviços, 2 = para comentários'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Extraindo dados da tabela `denuncia_motivo`
+--
+
+INSERT INTO `denuncia_motivo` (`id_denuncia_motivo`, `denuncia_motivo`, `categoria_motivo`) VALUES
+(1, 'serviço enganoso', 1),
+(2, 'comentário ofensivo', 2);
+
 -- --------------------------------------------------------
 
 --
@@ -146,9 +183,16 @@ CREATE TABLE `denuncia_servico` (
   `id_denuncia_motivo` int(11) NOT NULL,
   `id_usuario` int(11) NOT NULL COMMENT 'usuário que fez a denúncia',
   `desc_denuncia_serv` text NOT NULL,
-  `data_denuncia_serv` datetime NOT NULL DEFAULT current_timestamp(),
-  `status_denuncia_serv` int(11) NOT NULL COMMENT '0 = não resolvido, 1 = resolvido'
+  `data_denuncia_serv` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status_denuncia_serv` int(11) NOT NULL DEFAULT 0 COMMENT '0 = não resolvido, 1 = em análise, 2 = resolvido'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `denuncia_servico`
+--
+
+INSERT INTO `denuncia_servico` (`id_denuncia_servico`, `id_servico`, `id_denuncia_motivo`, `id_usuario`, `desc_denuncia_serv`, `data_denuncia_serv`, `status_denuncia_serv`) VALUES
+(1, 1, 1, 2, 'é scam. O cara não faz o serviço que promete', '2021-09-07 17:28:27', 0);
 
 -- --------------------------------------------------------
 
@@ -163,15 +207,16 @@ CREATE TABLE `fale_conosco` (
   `motivo_contato` int(11) NOT NULL COMMENT '1 = Elogios, 2 = Sugestões, 3 = Reclamações, 4 = Problemas/bugs, 5 = Outros',
   `fone_contato` varchar(20) NOT NULL,
   `msg_contato` text NOT NULL,
-  `data_contato` datetime NOT NULL DEFAULT current_timestamp()
+  `data_contato` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status_contato` int(11) NOT NULL DEFAULT 0 COMMENT '0 = não visto, 1 = ignorado, 2 = resolvendo, 3 = resolvido'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Extraindo dados da tabela `fale_conosco`
 --
 
-INSERT INTO `fale_conosco` (`id_contato`, `nome_contato`, `email_contato`, `motivo_contato`, `fone_contato`, `msg_contato`, `data_contato`) VALUES
-(1, 'Teste contato', 'email@email.com', 3, '(21) 56165-1651', 'dsadsadasasd', '2021-09-04 10:45:46');
+INSERT INTO `fale_conosco` (`id_contato`, `nome_contato`, `email_contato`, `motivo_contato`, `fone_contato`, `msg_contato`, `data_contato`, `status_contato`) VALUES
+(1, 'Teste contato', 'email@email.com', 3, '(21) 56165-1651', 'dsadsadasasd', '2021-09-04 13:45:46', 0);
 
 -- --------------------------------------------------------
 
@@ -184,7 +229,7 @@ CREATE TABLE `motivos_saida_usuario` (
   `id_usuario` int(11) NOT NULL,
   `id_del_motivo` int(11) NOT NULL,
   `outro_del_motivo` varchar(75) DEFAULT NULL COMMENT 'preencher caso id_del_motivo = 1',
-  `data_del_conta` datetime NOT NULL DEFAULT current_timestamp()
+  `data_del_conta` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -192,9 +237,13 @@ CREATE TABLE `motivos_saida_usuario` (
 --
 
 INSERT INTO `motivos_saida_usuario` (`id_mot_saida_usuario`, `id_usuario`, `id_del_motivo`, `outro_del_motivo`, `data_del_conta`) VALUES
-(1, 2, 10, NULL, '2021-09-04 10:46:41'),
-(2, 2, 9, NULL, '2021-09-04 10:46:41'),
-(3, 2, 1, 'A plataforma tem poucos usuários', '2021-09-04 10:46:41');
+(1, 2, 10, NULL, '2021-09-04 13:46:41'),
+(2, 2, 9, NULL, '2021-09-04 13:46:41'),
+(3, 2, 1, 'A plataforma tem poucos usuários', '2021-09-04 13:46:41'),
+(4, 1, 11, NULL, '2021-09-07 18:16:18'),
+(5, 1, 5, NULL, '2021-09-07 18:16:18'),
+(6, 1, 4, NULL, '2021-09-07 18:16:18'),
+(7, 1, 9, NULL, '2021-09-07 18:16:18');
 
 -- --------------------------------------------------------
 
@@ -210,11 +259,23 @@ CREATE TABLE `servicos` (
   `desc_servico` text NOT NULL,
   `orcamento_servico` decimal(8,2) DEFAULT NULL,
   `crit_orcamento_servico` varchar(30) NOT NULL,
-  `data_public_servico` datetime DEFAULT current_timestamp(),
+  `data_public_servico` timestamp NULL DEFAULT current_timestamp(),
   `nota_media_servico` decimal(2,1) DEFAULT NULL,
   `status_servico` int(11) DEFAULT 1 COMMENT '0 = suspenso, 1 = disponível, 2 = denunciado/banido',
   `qnt_visualizacoes_servico` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `servicos`
+--
+
+INSERT INTO `servicos` (`id_servico`, `id_prestador_servico`, `nome_servico`, `tipo_servico`, `desc_servico`, `orcamento_servico`, `crit_orcamento_servico`, `data_public_servico`, `nota_media_servico`, `status_servico`, `qnt_visualizacoes_servico`) VALUES
+(1, 1, 'Ajuda na mudança de casa', 1, 'ajudo com o transporte na mudança de casa', '20.00', 'por quilo', '2021-09-07 12:52:11', NULL, 0, 0),
+(2, 1, 'Montagem completa de PC', 1, 'Me diga sua necessidade e eu monto um pc com as peças ideais para você', NULL, 'A definir orcamento', '2021-09-07 12:53:32', '5.0', 0, 0),
+(3, 1, 'Desenvolvimento de site', 0, 'faço site', '100.00', 'por página', '2021-09-07 12:54:23', '4.0', 0, 0),
+(4, 2, 'conserto de eletrodoméstico', 1, 'Seus eletrodomésticos ficarão novinhos em folha', NULL, 'A definir orcamento', '2021-09-07 15:10:30', NULL, 1, 0),
+(5, 2, 'Matador de insetos', 1, 'mato os insetos ', '100.00', 'por serviço', '2021-09-07 15:12:33', NULL, 1, 0),
+(6, 1, 'Adestrador de cachorro', 1, 'adestro cachorro', '80.00', 'por hora', '2021-09-07 16:54:43', NULL, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -241,6 +302,25 @@ CREATE TABLE `servico_categorias` (
   `id_subcategoria` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Extraindo dados da tabela `servico_categorias`
+--
+
+INSERT INTO `servico_categorias` (`id_servico_categoria`, `id_servico`, `id_categoria`, `id_subcategoria`) VALUES
+(1, 1, 8, 89),
+(2, 1, 8, 90),
+(3, 1, 8, 92),
+(4, 2, 1, 1),
+(5, 2, 1, 2),
+(6, 2, 1, 7),
+(7, 3, 1, 6),
+(8, 4, 7, 74),
+(9, 4, 7, 77),
+(10, 4, 7, 88),
+(11, 5, 5, 43),
+(12, 5, 5, 44),
+(13, 6, 2, 8);
+
 -- --------------------------------------------------------
 
 --
@@ -252,6 +332,26 @@ CREATE TABLE `servico_imagens` (
   `id_servico` int(11) NOT NULL,
   `dir_servico_imagem` varchar(70) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `servico_imagens`
+--
+
+INSERT INTO `servico_imagens` (`id_imagem`, `id_servico`, `dir_servico_imagem`) VALUES
+(1, 1, 'user1/service_images/service1/16310191326137607c21ae7.jpg'),
+(2, 1, 'user1/service_images/service1/16310191326137607c2ab63.jpg'),
+(3, 2, 'user1/service_images/service2/1631019212613760ccb199a.jpg'),
+(4, 2, 'user1/service_images/service2/1631019212613760ccb4dd7.jpg'),
+(5, 3, 'user1/service_images/service3/1631019263613760ffe08bc.png'),
+(6, 3, 'user1/service_images/service3/1631019263613760ffe98ec.jpg'),
+(7, 3, 'user1/service_images/service3/1631019263613760fff2e3d.jpg'),
+(8, 4, 'user2/service_images/service4/1631027430613780e624143.png'),
+(9, 4, 'user2/service_images/service4/1631027430613780e62703c.jpg'),
+(10, 4, 'user2/service_images/service4/1631027430613780e63076a.jpg'),
+(11, 5, 'user2/service_images/service5/16310275536137816114300.jpg'),
+(12, 6, 'user1/service_images/service6/1631033683613799537ea52.jpg'),
+(13, 6, 'user1/service_images/service6/1631033683613799538193a.jpg'),
+(14, 6, 'user1/service_images/service6/16310336836137995384d38.jpg');
 
 -- --------------------------------------------------------
 
@@ -409,7 +509,7 @@ CREATE TABLE `usuarios` (
   `rua_usuario` varchar(30) NOT NULL,
   `numero_usuario` varchar(5) NOT NULL,
   `comple_usuario` varchar(20) DEFAULT NULL,
-  `data_entrada_usuario` datetime DEFAULT current_timestamp(),
+  `data_entrada_usuario` timestamp NULL DEFAULT current_timestamp(),
   `desc_usuario` text DEFAULT NULL,
   `site_usuario` varchar(40) DEFAULT NULL,
   `status_usuario` int(11) NOT NULL DEFAULT 1 COMMENT '0 = suspenso, 1 = ativo, 2 = denunciado/banido',
@@ -423,8 +523,8 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `nome_usuario`, `sobrenome_usuario`, `fone_usuario`, `email_usuario`, `senha_usuario`, `data_nasc_usuario`, `sexo_usuario`, `classif_usuario`, `cep_usuario`, `uf_usuario`, `cidade_usuario`, `bairro_usuario`, `rua_usuario`, `numero_usuario`, `comple_usuario`, `data_entrada_usuario`, `desc_usuario`, `site_usuario`, `status_usuario`, `imagem_usuario`, `nota_media_usuario`, `posicao_usuario`) VALUES
-(1, 'Natan', 'Barbosa', '(11) 95789-6526', 'lauringamesbr@gmail.com', 'natan1234', '2003-07-28', 'M', 1, '09771220', 'SP', 'São Bernardo do Campo', 'Nova Petrópolis', 'Rua Ernesta Pelosini', '14', NULL, '2021-08-30 14:04:07', NULL, NULL, 1, 'no_picture.jpg', NULL, 0x00000000010100000024b4e55c8ab337c018b2bad5734647c0),
-(2, 'Natan', 'Barbosa', '(11) 99182-5452', 'natanbarbosa525@gmail.com', 'temp1234', '2003-07-28', 'M', 2, '09771220', 'SP', 'São Bernardo do Campo', 'Nova Petrópolis', 'Rua Ernesta Pelosini', '23', NULL, '2021-09-01 08:36:21', NULL, NULL, 1, 'no_picture.jpg', NULL, 0x00000000010100000024b4e55c8ab337c018b2bad5734647c0);
+(1, 'Lauro', 'Gomes', '(11) 95789-6526', 'lauringamesbr@gmail.com', 'senha2222', '2003-07-28', 'M', 1, '09771220', 'SP', 'São Bernardo do Campo', 'Nova Petrópolis', 'Rua Ernesta Pelosini', '14', NULL, '2021-08-30 17:04:07', 'Caso se interesse por um serviço, chama pv', 'https://www.lauro.com', 0, 'user1/profile_image/163101887361375f790b7ce.png', '4.5', 0x00000000010100000024b4e55c8ab337c018b2bad5734647c0),
+(2, 'Natan', 'Barbosa', '(11) 99182-5452', 'natanbarbosa525@gmail.com', 'temp1234', '2003-07-28', 'M', 1, '09771220', 'SP', 'São Bernardo do Campo', 'Nova Petrópolis', 'Rua Ernesta Pelosini', '23', NULL, '2021-09-01 11:36:21', NULL, NULL, 1, 'user2/profile_image/1631020084613764344cd0e.jpg', NULL, 0x00000000010100000024b4e55c8ab337c018b2bad5734647c0);
 
 -- --------------------------------------------------------
 
@@ -445,9 +545,9 @@ CREATE TABLE `usuario_redes_sociais` (
 --
 
 INSERT INTO `usuario_redes_sociais` (`id_rede_social`, `id_usuario`, `rede_social`, `nick_rede_social`, `link_rede_social`) VALUES
-(1, 1, 'instagram', NULL, NULL),
+(1, 1, 'instagram', '@lauro_gomes', 'https://www.instagram.com/lauro_gomes'),
 (2, 1, 'facebook', NULL, NULL),
-(3, 1, 'twitter', NULL, NULL),
+(3, 1, 'twitter', '@lauro_gomes', 'https://twitter.com/lauro_gomes'),
 (4, 1, 'linkedin', NULL, NULL),
 (5, 2, 'instagram', NULL, NULL),
 (6, 2, 'facebook', NULL, NULL),
@@ -590,13 +690,13 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de tabela `comentarios`
 --
 ALTER TABLE `comentarios`
-  MODIFY `id_comentario` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_comentario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `contratos`
 --
 ALTER TABLE `contratos`
-  MODIFY `id_contrato` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_contrato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de tabela `deletar_conta_motivos`
@@ -608,19 +708,19 @@ ALTER TABLE `deletar_conta_motivos`
 -- AUTO_INCREMENT de tabela `denuncia_comentario`
 --
 ALTER TABLE `denuncia_comentario`
-  MODIFY `id_denuncia_comentario` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_denuncia_comentario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `denuncia_motivo`
 --
 ALTER TABLE `denuncia_motivo`
-  MODIFY `id_denuncia_motivo` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_denuncia_motivo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `denuncia_servico`
 --
 ALTER TABLE `denuncia_servico`
-  MODIFY `id_denuncia_servico` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_denuncia_servico` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `fale_conosco`
@@ -632,13 +732,13 @@ ALTER TABLE `fale_conosco`
 -- AUTO_INCREMENT de tabela `motivos_saida_usuario`
 --
 ALTER TABLE `motivos_saida_usuario`
-  MODIFY `id_mot_saida_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_mot_saida_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de tabela `servicos`
 --
 ALTER TABLE `servicos`
-  MODIFY `id_servico` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_servico` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `servicos_salvos`
@@ -650,13 +750,13 @@ ALTER TABLE `servicos_salvos`
 -- AUTO_INCREMENT de tabela `servico_categorias`
 --
 ALTER TABLE `servico_categorias`
-  MODIFY `id_servico_categoria` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_servico_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de tabela `servico_imagens`
 --
 ALTER TABLE `servico_imagens`
-  MODIFY `id_imagem` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_imagem` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de tabela `subcategorias`

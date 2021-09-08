@@ -47,15 +47,13 @@
                 <a href="../index.php"><i class="fas fa-chart-bar sidebar-icon"></i> Estatísticas do site</a>
             </li>
 
-            </li>
-
             <li data-toggle="collapse" data-target="#gerenciamentoUsuarios" class="collapsed active">
                 <div class="moreItems"><i class="fas fa-users sidebar-icon"></i> Gerenciamento usuários <span class="arrow"><i class="fa fa-angle-down"></i></span></div>
             </li>
             <ul class="sub-menu collapse" id="gerenciamentoUsuarios">
                 <li><a href="userReport.php"><i class="fa fa-angle-right"></i> Relatório de usuários</a></li>
-                <li class="active"><a href="commentComplaint.php"><i class="fa fa-angle-right"></i> Denúncias de comentários</a></li>
-                <li><a href="contactReport.php"><i class="fa fa-angle-right"></i> Fale conosco</a></li>
+                <li><a href="commentComplaint.php"><i class="fa fa-angle-right"></i> Denúncias de comentários</a></li>
+                <li class="active"><a href="contactReport.php"><i class="fa fa-angle-right"></i> Fale conosco</a></li>
             </ul>
 
             <li data-toggle="collapse" data-target="#gerenciamentoServicos" class="collapsed">
@@ -77,16 +75,29 @@
 
 <!-- paginas -->
 <div class="main" id="pagina">
-    <h1>Denúncias de comentários</h1>
+    <h1>Fale conosco</h1>
 
     <form action="">
         <div class="float-left">
-            <label for="">Pesquisar comentário:</label> <br>
+            <label for="userFilter">Filtrar por motivo: </label> <br>
+            <select name="" id="userFilter">
+                <option value="">Todos motivos</option>
+                <option value="">Elogios</option>
+                <option value="">Sugestões</option>
+                <option value="">Reclamações</option>
+                <option value="">Problemas/bugs</option>
+                <option value="">Outros</option>
+            </select>
+        </div>
+
+        <div class="float-left">
+            <label for="">Pesquisar contato:</label> <br>
             <input type="text">
             <select name="" id="">
-                <option value="">id comentário</option>
+                <option value="">id contato</option>
                 <option value="">usuário (nome)</option>
-                <option value="">comentário (desc)</option>
+                <option value="">usuário (email)</option>
+                <option value="">mensagem</option>
             </select>
         </div>
 
@@ -97,22 +108,22 @@
 
     <div class="row my-2">
         <div class="col-md-12 col-lg-10">
-            <div class="listDiv row my-3" onclick="redirecionaPagina('comment.php', 2)">
+            <div class="listDiv row my-3" onclick="redirecionaPagina('contact.php', 1)">
                 <div class="col-sm-2 mb-3 mb-sm-0">
-                    <div class="text-center">Id comentário:</div>
-                    <div class="text-center font-weight-bold">2</div>
+                    <div class="text-center">Id contato:</div>
+                    <div class="text-center font-weight-bold">1</div>
                 </div>
                 <div class="col-sm-3 mb-3 mb-sm-0">
                     <div>Feito pelo usuário</div>
-                    <div class="font-weight-bold">Natan Barbosa (id 4)</div>
+                    <div class="font-weight-bold">emaildouser@gmail.com (id 5)</div>
                 </div>
                 <div class="col-sm-4 mb-3 mb-sm-0">
-                    <div>Comentário</div>
+                    <div>Mensagem</div>
                     <div class="font-weight-bold allowTextOverflow">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi atque autem distinctio explicabo fuga impedit, in neque officia. Accusamus consequatur culpa deserunt ea impedit iure modi numquam perferendis quis, voluptatibus?</div>
                 </div>
                 <div class="col-sm-3 mb-3 mb-sm-0">
-                    <div class="text-center">Quantidade denúncias</div>
-                    <div class="font-weight-bold text-center">5</div>
+                    <div class="text-center">Motivo contato</div>
+                    <div class="font-weight-bold text-center">sugestões (2)</div>
                 </div>
             </div>
         </div>

@@ -26,6 +26,10 @@
                 $('#gerenciamentoServicos').addClass('collapsing')
             })
         })
+
+        function redirecionaPagina(pag, param){
+            location.href = `${pag}?id=${param}`
+        }
     </script>
 </head>
 
@@ -43,20 +47,13 @@
                 <a href="../index.php"><i class="fas fa-chart-bar sidebar-icon"></i> Estatísticas do site</a>
             </li>
 
-            <li>
-                <a href="../analisys/charts.php"><i class="fas fa-chart-pie sidebar-icon"></i> Gráficos</a>
-            </li>
-            <li>
-                <a href="../analisys/webalizer.php"><i class="fas fa-chart-line sidebar-icon"></i> Webalizer</a>
-            </li>
-
             <li data-toggle="collapse" data-target="#gerenciamentoUsuarios" class="collapsed">
                 <div class="moreItems"><i class="fas fa-users sidebar-icon"></i> Gerenciamento usuários <span class="arrow"><i class="fa fa-angle-down"></i></span></div>
             </li>
             <ul class="sub-menu collapse" id="gerenciamentoUsuarios">
                 <li><a href="../userManagement/userReport.php"><i class="fa fa-angle-right"></i> Relatório de usuários</a></li>
                 <li><a href="../userManagement/commentComplaint.php"><i class="fa fa-angle-right"></i> Denúncias de comentários</a></li>
-                <li><a href="../userManagement/contact.php"><i class="fa fa-angle-right"></i> Fale conosco</a></li>
+                <li><a href="../userManagement/contactReport.php"><i class="fa fa-angle-right"></i> Fale conosco</a></li>
             </ul>
 
             <li data-toggle="collapse" data-target="#gerenciamentoServicos" class="collapsed active">
@@ -64,7 +61,6 @@
             </li>
             <ul class="sub-menu collapse" id="gerenciamentoServicos">
                 <li class="active"><a href="serviceReport.php"><i class="fa fa-angle-right"></i> Relatório de serviços</a></li>
-                <li><a href="serviceComplaint.php"><i class="fa fa-angle-right"></i> Denúncias de serviços</a></li>
             </ul>
 
             <li data-toggle="collapse" data-target="#appControl" class="collapsed">
@@ -80,15 +76,117 @@
 <!-- paginas -->
 <div class="main" id="pagina">
     <h1>Relatório de serviços</h1>
-    <br>
-    <ul>
-        <li>Colocar filtro de serviços banidos, suspensos ou ativos</li>
-        <li>Listar todos os serviços do site em ordem alfabética</li>
-        <li>Cada serviço listado será um link para uma página específica do serviço</li>
-        <li>Essa página gerará relatórios de: Informações básicas, quantidade de denuncias nesse serviço, quantidade de avaliações, visualizações, avaliação média, etc.</li>
-        <li>Botão para banir ou desbanir o serviço</li>
-        <li>Essa página exibirá também uma listagem de todas as denúncias feitas para aquele serviço (quem fez a denúncia, motivo da denúncia, descrição da denúncia, etc.)</li>
-    </ul>
+
+    <form action="">
+        <div class="float-left">
+            <label for="userFilter">Filtrar por atividade: </label> <br>
+            <select name="" id="userFilter">
+                <option value="">Todos os serviços</option>
+                <option value="">Serviços ativos</option>
+                <option value="">Serviços banidos</option>
+                <option value="">Serviços suspensos</option>
+            </select>
+        </div>
+
+        <div class="float-left">
+            <label for="userFilter">Filtrar denúncias: </label> <br>
+            <select name="" id="userFilter">
+                <option value="">Todos os serviços</option>
+                <option value="">Serviços denunciados</option>
+            </select>
+        </div>
+
+        <div class="float-left">
+            <label for="">Pesquisar serviço:</label> <br>
+            <input type="text">
+            <select name="" id="">
+                <option value="">id</option>
+                <option value="">nome</option>
+                <option value="">descrição</option>
+            </select>
+        </div>
+
+        <div class="clearfix my-3"></div>
+
+        <button type="button">Aplicar filtros</button>
+    </form>
+
+
+    <div class="row my-2">
+        <div class="col-md-12 col-lg-10">
+            <div class="listDiv row my-3" onclick="redirecionaPagina('service.php', 1)">
+                <div class="col-sm-1 mr-2 mb-3 mb-sm-0">
+                    <img src="../../assets/images/service_images/1629286141611ceefd50e10.jpg" alt="imagem do serviço" class="userPicture">
+                </div>
+                <div class="col-sm-3 mb-3 mb-sm-0">
+                    <span>Pintura de parede (id 1)</span> <br>
+                    <span class="text-secondary">Natan Barbosa (id 3)</span>
+                </div>
+                <div class="col-sm-4 mb-3 mb-sm-0">
+                    <span>Serviço remoto</span> <br>
+                    <span class="text-secondary">nota média: 4/5</span>
+                </div>
+                <div class="col-sm-3 mb-3 mb-sm-0">
+                    <span class="text-success">Serviço ativo</span> <br>
+                    <span>Denúncias: 0</span>
+                </div>
+            </div>
+
+            <div class="listDiv row my-3" onclick="redirecionaPagina('service.php', 2)">
+                <div class="col-sm-1 mr-2 mb-3 mb-sm-0">
+                    <img src="../../assets/images/service_images/1629286141611ceefd50e10.jpg" alt="imagem do serviço" class="userPicture">
+                </div>
+                <div class="col-sm-3 mb-3 mb-sm-0">
+                    <span>Pintura de parede (id 2)</span> <br>
+                    <span class="text-secondary">Natan Barbosa (id 3)</span>
+                </div>
+                <div class="col-sm-4 mb-3 mb-sm-0">
+                    <span>Serviço remoto</span> <br>
+                    <span class="text-secondary">nota média: 4/5</span>
+                </div>
+                <div class="col-sm-3 mb-3 mb-sm-0">
+                    <span class="text-secondary">Serviço suspenso</span> <br>
+                    <span>Denúncias: 0</span>
+                </div>
+            </div>
+
+            <div class="listDiv row my-3" onclick="redirecionaPagina('service.php', 3)">
+                <div class="col-sm-1 mr-2 mb-3 mb-sm-0">
+                    <img src="../../assets/images/service_images/1629286141611ceefd50e10.jpg" alt="imagem do serviço" class="userPicture">
+                </div>
+                <div class="col-sm-3 mb-3 mb-sm-0">
+                    <span>Pintura de parede (id 3)</span> <br>
+                    <span class="text-secondary">Natan Barbosa (id 3)</span>
+                </div>
+                <div class="col-sm-4 mb-3 mb-sm-0">
+                    <span>Serviço remoto</span> <br>
+                    <span class="text-secondary">nota média: 4/5</span>
+                </div>
+                <div class="col-sm-3 mb-3 mb-sm-0">
+                    <span class="text-danger">Serviço banido</span> <br>
+                    <span class="text-danger">Denúncias: 4</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 </div>
 
 </body>
