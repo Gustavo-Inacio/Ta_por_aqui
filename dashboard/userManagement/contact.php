@@ -43,20 +43,13 @@
                 <a href="../index.php"><i class="fas fa-chart-bar sidebar-icon"></i> Estatísticas do site</a>
             </li>
 
-            <li>
-                <a href="../analisys/charts.php"><i class="fas fa-chart-pie sidebar-icon"></i> Gráficos</a>
-            </li>
-            <li>
-                <a href="../analisys/webalizer.php"><i class="fas fa-chart-line sidebar-icon"></i> Webalizer</a>
-            </li>
-
             <li data-toggle="collapse" data-target="#gerenciamentoUsuarios" class="collapsed active">
                 <div class="moreItems"><i class="fas fa-users sidebar-icon"></i> Gerenciamento usuários <span class="arrow"><i class="fa fa-angle-down"></i></span></div>
             </li>
             <ul class="sub-menu collapse" id="gerenciamentoUsuarios">
                 <li><a href="userReport.php"><i class="fa fa-angle-right"></i> Relatório de usuários</a></li>
                 <li><a href="commentComplaint.php"><i class="fa fa-angle-right"></i> Denúncias de comentários</a></li>
-                <li class="active"><a href="contact.php"><i class="fa fa-angle-right"></i> Fale conosco</a></li>
+                <li class="active"><a href="contactReport.php"><i class="fa fa-angle-right"></i> Fale conosco</a></li>
             </ul>
 
             <li data-toggle="collapse" data-target="#gerenciamentoServicos" class="collapsed">
@@ -64,7 +57,6 @@
             </li>
             <ul class="sub-menu collapse" id="gerenciamentoServicos">
                 <li><a href="../serviceManagement/serviceReport.php"><i class="fa fa-angle-right"></i> Relatório de serviços</a></li>
-                <li><a href="../serviceManagement/serviceComplaint.php"><i class="fa fa-angle-right"></i> Denúncias de serviços</a></li>
             </ul>
 
             <li data-toggle="collapse" data-target="#appControl" class="collapsed">
@@ -80,13 +72,54 @@
 <!-- paginas -->
 <div class="main" id="pagina">
     <h1>Fale conosco</h1>
-    <ul>
-        <li>Listará todos os "fale conosco"s e contatos enviados para a gente</li>
-        <li>Cada contato será clicável e levará para uma página específica do contato solicitado</li>
-        <li>Essa página específica do contato conterá: nome, email, motivo, telefone e a mensagem</li>
-        <li>Haverá um botão para filtrar os contatos por nome, email, etc. em ordem alfabética ASC ou DESC</li>
-        <li>Haverá um botão para filtrar os contatos por motivo</li>
-    </ul>
+
+    <a href="contactReport.php"> <i class="fas fa-arrow-left"></i> voltar </a>
+
+    <table class="table table-hover mt-3" style="max-width: 900px">
+        <thead class="thead-dark">
+        <tr>
+            <th colspan="2" class="text-center">Informações do contato</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th>Id do contato:</th>
+            <td><?=$_GET['id']?></td>
+        </tr>
+        <tr>
+            <th>Nome do usuário:</th>
+            <td>Guru do Inacio</td>
+        </tr>
+        <tr>
+            <th>Email:</th>
+            <td>gurudoinacio@gmail.com</td>
+        </tr>
+        <tr>
+            <th>Telefone:</th>
+            <td>(11)99999-9999</td>
+        </tr>
+        <tr>
+            <th>Data de envio:</th>
+            <td>01/01/2001</td>
+        </tr>
+        <tr>
+            <th>Motivo do contato:</th>
+            <td>Problemas/bugs</td>
+        </tr>
+        <tr>
+            <th>Mensagem:</th>
+            <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam assumenda cum deserunt dignissimos dolores exercitationem facilis perferendis, sed similique velit! Autem culpa doloribus, et eum fugit iste laudantium quidem sapiente.</td>
+        </tr>
+        <tr>
+            <th>status:</th>
+            <td>não visto</td>
+        </tr>
+        <tr>
+            <th>Marcar como:</th>
+            <td><button class="btn btn-secondary btn-sm">ignorado</button> | <button class="btn btn-primary btn-sm">resolvendo</button> | <button class="btn btn-success btn-sm">resolvido</button></td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 
 </body>

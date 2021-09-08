@@ -34,20 +34,13 @@
                 <a href="../index.php"><i class="fas fa-chart-bar sidebar-icon"></i> Estatísticas do site</a>
             </li>
 
-            <li>
-                <a href="../analisys/charts.php"><i class="fas fa-chart-pie sidebar-icon"></i> Gráficos</a>
-            </li>
-            <li>
-                <a href="../analisys/webalizer.php"><i class="fas fa-chart-line sidebar-icon"></i> Webalizer</a>
-            </li>
-
             <li data-toggle="collapse" data-target="#gerenciamentoUsuarios" class="collapsed">
                 <div class="moreItems"><i class="fas fa-users sidebar-icon"></i> Gerenciamento usuários <span class="arrow"><i class="fa fa-angle-down"></i></span></div>
             </li>
             <ul class="sub-menu collapse" id="gerenciamentoUsuarios">
                 <li><a href="../userManagement/userReport.php"><i class="fa fa-angle-right"></i> Relatório de usuários</a></li>
                 <li><a href="../userManagement/commentComplaint.php"><i class="fa fa-angle-right"></i> Denúncias de comentários</a></li>
-                <li><a href="../userManagement/contact.php"><i class="fa fa-angle-right"></i> Fale conosco</a></li>
+                <li><a href="../userManagement/contactReport.php"><i class="fa fa-angle-right"></i> Fale conosco</a></li>
             </ul>
 
             <li data-toggle="collapse" data-target="#gerenciamentoServicos" class="collapsed">
@@ -55,7 +48,6 @@
             </li>
             <ul class="sub-menu collapse" id="gerenciamentoServicos">
                 <li><a href="../serviceManagement/serviceReport.php"><i class="fa fa-angle-right"></i> Relatório de serviços</a></li>
-                <li><a href="../serviceManagement/serviceComplaint.php"><i class="fa fa-angle-right"></i> Denúncias de serviços</a></li>
             </ul>
 
             <li data-toggle="collapse" data-target="#appControl" class="collapsed active">
@@ -71,9 +63,8 @@
 <!-- paginas -->
 <div class="main" id="pagina">
     <h1>Adicionar categoria</h1>
-    <small>Fai ficar tipo assim ó</small>
 
-    <div id="addMasterCategoryDiv" class="my-5 p-2 border border-primary">
+    <div id="addMasterCategoryDiv" class="my-4">
         <h3>Adicionar categoria mestre</h3>
         <form action="">
             <label for="qntMasters">Digite as categorias mestres que serão Adicionadas </label> <br>
@@ -83,14 +74,15 @@
         </form>
     </div>
 
-    <div id="addSubCategoryDiv" class="my-5 p-2 border border-primary">
+    <hr>
+
+    <div id="addSubCategoryDiv" class="my-4">
         <h3>Adicionar subcategoria</h3>
         <form action="">
             <label for="masterCategoriesForSub">Escolha a categoria mestre para qual as subcategorias vão pertencer: </label>
             <br>
             <select name="categoriaMestreDaSub" id="masterCategoriesForSub">
                 <option value="">Selecionar categoria mastre</option>
-                <option value="">listagem de categorias mestre adicionadas no site</option>
                 <option value="">Cat 1</option>
                 <option value="">Cat 1</option>
                 <option value="">Cat 1</option>
