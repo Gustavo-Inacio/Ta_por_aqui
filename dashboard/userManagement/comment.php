@@ -1,3 +1,23 @@
+<?php
+require "../assets/getData.php";
+$commentReport = new CommentReport($_GET['id']);
+
+$banMsg = "";
+if (isset($_POST['changeCommentStatus']) && $_POST['changeCommentStatus'] == "ban"){
+    $banMsg = $commentReport->banThisComment();
+} else if (isset($_POST['changeCommentStatus']) && $_POST['changeCommentStatus'] == "unban"){
+    $banMsg = $commentReport->unbunThisComment();
+}
+$changeComplainMsg = "";
+if (isset($_POST['changeComplainStatus'])){
+    $changeComplainMsg = $commentReport->changeComplainStatus(intval($_POST['changeComplainStatus']), intval($_POST['complainId']));
+} else if (isset($_POST['changeComplainStatus']) && $_POST['changeComplainStatus'] == "resolve"){
+    $changeComplainMsg = $commentReport->changeComplainStatus(intval($_POST['changeComplainStatus']), intval($_POST['complainId']));
+}
+
+$commentInfo = $commentReport->getCommentInfo();
+$commentComplains = $commentReport->getConplainsToThisComment();
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -81,6 +101,24 @@
 
     <a href="commentComplaint.php"> <i class="fas fa-arrow-left"></i> voltar </a>
 
+    <?php if ($banMsg !== "") { ?>
+        <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert" style="max-width: 500px">
+            <span><?=$banMsg?></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    <?php }?>
+
+    <?php if ($changeComplainMsg !== "") { ?>
+        <div class="alert alert-info alert-dismissible fade show mt-3" role="alert" style="max-width: 500px">
+            <span><?=$changeComplainMsg?></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    <?php }?>
+
     <table class="table table-hover mt-3" style="max-width: 900px">
         <thead class="thead-dark">
         <tr>
@@ -94,160 +132,117 @@
         </tr>
         <tr>
             <th>Usuário que comentou:</th>
-            <td>Natan Rocha</td>
+            <td><?=$commentInfo['nome_usuario']?> <?=$commentInfo['sobrenome_usuario']?> (id<?=$commentInfo['id_usuario']?>) </td>
         </tr>
         <tr>
             <th>Serviço avaliado:</th>
-            <td>Pintura de parede (id 1)</td>
+            <td><?=$commentInfo['nome_servico']?> (id <?=$commentInfo['id_servico']?>)</td>
         </tr>
         <tr>
             <th>Nota da avaliação:</th>
-            <td>4.3</td>
+            <td><?=$commentInfo['nota_comentario']?></td>
         </tr>
         <tr>
             <th>Data do comentário:</th>
-            <td>01/01/2001</td>
+            <?php
+            $data_comen = new DateTime($commentInfo['data_comentario']);
+            ?>
+            <td><?=$data_comen->format('d/m/Y')?></td>
         </tr>
         <tr>
             <th>status:</th>
-            <td>exibido</td>
+            <td><?=$commentInfo['status_comentario'] == 1 ? "exibido" : "ocultado"?></td>
         </tr>
         <tr>
             <th>Quantidade de denúncias:</th>
-            <td>2</td>
+            <td><?=$commentReport->getComComplains($commentInfo['id_comentario'])?></td>
         </tr>
         <tr>
             <th>comentário:</th>
-            <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus blanditiis culpa cum dolor enim explicabo, fugit iure iusto magni maiores neque, quos ratione rem repudiandae sequi ullam unde, velit voluptatibus?</td>
+            <td><?=$commentInfo['desc_comentario']?></td>
         </tr>
         </tbody>
     </table>
 
-    <button type="button" class="btn btn-primary d-block" data-toggle="collapse" data-target="#complains"
+    <?php if ($commentInfo['status_comentario'] == 1) {?>
+        <form action="comment.php?id=<?=$_GET['id']?>" method="post">
+            <input type="hidden" name="changeCommentStatus" value="ban">
+            <button type="submit" class="btn btn-danger btn-lg mt-3">Banir comentário</button>
+        </form>
+    <?php } else if ($commentInfo['status_comentario'] == 0){?>
+        <form action="comment.php?id=<?=$_GET['id']?>" method="post">
+            <input type="hidden" name="changeCommentStatus" value="unban">
+            <button type="submit" class="btn btn-danger btn-lg mt-3">Desbanir comentário</button>
+        </form>
+    <?php }?>
+
+    <button type="button" class="btn btn-primary d-block mt-4" data-toggle="collapse" data-target="#complains"
             aria-expanded="false" aria-controls="complains">Listar denúncias desse comentário
     </button>
 
     <div class="collapse mt-3" id="complains">
         <div class="row">
-            <div class="col-md-4 mt-md-0 mt-3">
-                <table class="table table-hover table-sm mt-3" style="max-width: 900px">
-                    <thead class="table-danger">
-                    <tr>
-                        <th colspan="2" class="text-center">Detalhes da denúncia</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th>Id da denúncia:</th>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <th>Usuário que denunciou</th>
-                        <td>Carlos Barbosa (id 7)</td>
-                    </tr>
-                    <tr>
-                        <th>Motivo:</th>
-                        <td>spam de comentário</td>
-                    </tr>
-                    <tr>
-                        <th>Descrição</th>
-                        <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque dolorem earum ex explicabo minus quam repellendus. Ad animi aspernatur eaque enim eum, facilis, impedit nobis placeat quam qui quisquam rem!</td>
-                    </tr>
-                    <tr>
-                        <th>Data:</th>
-                        <td>01/01/2001</td>
-                    </tr>
-                    <tr>
-                        <th>status:</th>
-                        <td>não resolvido</td>
-                    </tr>
-                    <tr>
-                        <th>Marcar como:</th>
-                        <td> <button class="btn btn-secondary btn-sm">Em análise</button> | <button class="btn btn-success btn-sm">Resolvido</button> </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="col-md-4 mt-md-0 mt-3">
-                <table class="table table-hover table-sm mt-3" style="max-width: 900px">
-                    <thead class="table-danger">
-                    <tr>
-                        <th colspan="2" class="text-center">Detalhes da denúncia</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th>Id da denúncia:</th>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <th>Usuário que denunciou</th>
-                        <td>Carlos Barbosa (id 7)</td>
-                    </tr>
-                    <tr>
-                        <th>Motivo:</th>
-                        <td>spam de comentário</td>
-                    </tr>
-                    <tr>
-                        <th>Descrição</th>
-                        <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque dolorem earum ex explicabo minus quam repellendus. Ad animi aspernatur eaque enim eum, facilis, impedit nobis placeat quam qui quisquam rem!</td>
-                    </tr>
-                    <tr>
-                        <th>Data:</th>
-                        <td>01/01/2001</td>
-                    </tr>
-                    <tr>
-                        <th>status:</th>
-                        <td>não resolvido</td>
-                    </tr>
-                    <tr>
-                        <th>Marcar como:</th>
-                        <td> <button class="btn btn-secondary btn-sm">Em análise</button> | <button class="btn btn-success btn-sm">Resolvido</button> </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="col-md-4">
-                <table class="table table-hover table-sm mt-3" style="max-width: 900px">
-                    <thead class="table-danger">
-                    <tr>
-                        <th colspan="2" class="text-center">Detalhes da denúncia</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th>Id da denúncia:</th>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <th>Usuário que denunciou</th>
-                        <td>Carlos Barbosa (id 7)</td>
-                    </tr>
-                    <tr>
-                        <th>Motivo:</th>
-                        <td>spam de comentário</td>
-                    </tr>
-                    <tr>
-                        <th>Descrição</th>
-                        <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque dolorem earum ex explicabo minus quam repellendus. Ad animi aspernatur eaque enim eum, facilis, impedit nobis placeat quam qui quisquam rem!</td>
-                    </tr>
-                    <tr>
-                        <th>Data:</th>
-                        <td>01/01/2001</td>
-                    </tr>
-                    <tr>
-                        <th>status:</th>
-                        <td>não resolvido</td>
-                    </tr>
-                    <tr>
-                        <th>Marcar como:</th>
-                        <td> <button class="btn btn-secondary btn-sm">Em análise</button> | <button class="btn btn-success btn-sm">Resolvido</button> </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+            <?php foreach ($commentComplains as $complain) {?>
+                <div class="col-md-4 mt-md-0 mt-3">
+                    <table class="table table-hover table-sm mt-3">
+                        <thead class="table-danger">
+                        <tr>
+                            <th colspan="2" class="text-center">Detalhes da denúncia</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th>Id da denúncia:</th>
+                            <td><?=$complain['id_denuncia_comentario']?></td>
+                        </tr>
+                        <tr>
+                            <th>Usuário que denunciou</th>
+                            <td><?=$complain['nome_usuario']?> <?=$complain['sobrenome_usuario']?> (id <?=$complain['id_usuario']?>)</td>
+                        </tr>
+                        <tr>
+                            <th>Motivo:</th>
+                            <td><?=$complain['denuncia_motivo']?></td>
+                        </tr>
+                        <tr>
+                            <th>Descrição</th>
+                            <td><?=$complain['desc_denuncia_comen']?></td>
+                        </tr>
+                        <tr>
+                            <th>Data:</th>
+                            <?php
+                            $data_denuncia = new DateTime($complain['data_denuncia_comen']);
+                            ?>
+                            <td><?=$data_denuncia->format('d/m/Y')?></td>
+                        </tr>
+                        <tr>
+                            <th>status:</th>
+                            <td><?=$complain['status_denuncia_comen'] == 0 ? "Não resolvido" : "em análise"?></td>
+                        </tr>
+                        <tr>
+                            <th>Marcar como:</th>
+                            <td>
+                                <?php if ($complain['status_denuncia_comen'] != 1) {?>
+                                    <form action="comment.php?id=<?=$_GET['id']?>" method="post" class="d-inline">
+                                        <input type="hidden" name="changeComplainStatus" value="1">
+                                        <input type="hidden" name="complainId" value="<?=$complain['id_denuncia_comentario']?>">
+                                        <button type="submit" class="btn btn-secondary btn-sm">Em análise</button> |
+                                    </form>
+                                <?php }?>
+                                <form action="comment.php?id=<?=$_GET['id']?>" method="post" class="d-inline">
+                                    <input type="hidden" name="changeComplainStatus" value="2">
+                                    <input type="hidden" name="complainId" value="<?=$complain['id_denuncia_comentario']?>">
+                                    <button type="submit" class="btn btn-success btn-sm">Resolvido</button>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            <?php }
+            if (count($commentComplains) === 0){
+                echo "<span class='text-info'>Não há denúncias para esse comentário</span>";
+            }
+            ?>
         </div>
     </div>
 </div>
