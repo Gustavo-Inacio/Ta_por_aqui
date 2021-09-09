@@ -1,3 +1,15 @@
+<?php
+require "../assets/getData.php";
+$servicesListing = new ServicesListing();
+$services = [];
+if (isset($_POST['serviceStatus'])){
+    $services = $servicesListing->selectFilteredServices($_POST['serviceStatus'], $_POST['serviceComplainFilter']);
+} else if (isset($_POST['searchInput'])){
+    $services = $servicesListing->selectSearchedServices($_POST['searchInput'], $_POST['searchParam']);
+} else {
+    $services = $servicesListing->selectAllServices();
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -77,116 +89,79 @@
 <div class="main" id="pagina">
     <h1>Relatório de serviços</h1>
 
-    <form action="">
+    <form action="serviceReport.php" method="post">
         <div class="float-left">
-            <label for="userFilter">Filtrar por atividade: </label> <br>
-            <select name="" id="userFilter">
+            <label for="serviceStatus">Filtrar por atividade: </label> <br>
+            <select name="serviceStatus" id="serviceStatus">
                 <option value="">Todos os serviços</option>
-                <option value="">Serviços ativos</option>
-                <option value="">Serviços banidos</option>
-                <option value="">Serviços suspensos</option>
+                <option value="1" <?php if (isset($_POST['serviceStatus']) and $_POST['serviceStatus'] == 1) {echo 'selected';}?>>Serviços ativos</option>
+                <option value="2" <?php if (isset($_POST['serviceStatus']) and $_POST['serviceStatus'] == 2) {echo 'selected';}?>>Serviços banidos</option>
+                <option value="0" <?php if (isset($_POST['serviceStatus']) and $_POST['serviceStatus'] == 0) {echo 'selected';}?>>Serviços suspensos</option>
             </select>
         </div>
 
         <div class="float-left">
-            <label for="userFilter">Filtrar denúncias: </label> <br>
-            <select name="" id="userFilter">
+            <label for="serviceComplainFilter">Filtrar denúncias: </label> <br>
+            <select name="serviceComplainFilter" id="serviceComplainFilter">
                 <option value="">Todos os serviços</option>
-                <option value="">Serviços denunciados</option>
+                <option value="true" <?php if (isset($_POST['serviceComplainFilter']) and $_POST['serviceComplainFilter'] == true) {echo 'selected';}?>>Serviços denunciados</option>
             </select>
         </div>
-
-        <div class="float-left">
-            <label for="">Pesquisar serviço:</label> <br>
-            <input type="text">
-            <select name="" id="">
-                <option value="">id</option>
-                <option value="">nome</option>
-                <option value="">descrição</option>
-            </select>
-        </div>
-
-        <div class="clearfix my-3"></div>
-
-        <button type="button">Aplicar filtros</button>
+        <br>
+        <button type="submit" class="float-left">Aplicar filtros</button>
     </form>
 
+    <div class="clearfix my-3"></div>
+
+    <form action="serviceReport.php" method="post">
+        <div class="float-left">
+            <label for="searchInput">Pesquisar serviço:</label> <br>
+            <input type="text" name="searchInput" <?php if (isset($_POST['searchInput'])) {echo "value = '" . $_POST['searchInput'] . "'";}?>>
+            <select name="searchParam" id="searchParam">
+                <option value="id_servico" <?php if (isset($_POST['searchParam']) and $_POST['searchParam'] == 'id_servico') {echo 'selected';}?>>id do serviço</option>
+                <option value="id_prestador_servico" <?php if (isset($_POST['searchParam']) and $_POST['searchParam'] == 'id_prestador_servico') {echo 'selected';}?>>id do prestador</option>
+                <option value="nome_usuario" <?php if (isset($_POST['searchParam']) and $_POST['searchParam'] == 'nome_prestador') {echo 'selected';}?>>nome do prestador</option>
+                <option value="nome_servico" <?php if (isset($_POST['searchParam']) and $_POST['searchParam'] == 'nome_servico') {echo 'selected';}?>>nome do serviço</option>
+                <option value="crit_orcamento_servico" <?php if (isset($_POST['searchParam']) and $_POST['searchParam'] == 'crit_orcamento_servico') {echo 'selected';}?>>critério de preço</option>
+            </select>
+        </div>
+        <br>
+        <button type="submit" class="float-left">Pesquisar</button>
+    </form>
+
+    <div class="clearfix my-3"></div>
 
     <div class="row my-2">
         <div class="col-md-12 col-lg-10">
-            <div class="listDiv row my-3" onclick="redirecionaPagina('service.php', 1)">
-                <div class="col-sm-1 mr-2 mb-3 mb-sm-0">
-                    <img src="../../assets/images/service_images/1629286141611ceefd50e10.jpg" alt="imagem do serviço" class="userPicture">
-                </div>
-                <div class="col-sm-3 mb-3 mb-sm-0">
-                    <span>Pintura de parede (id 1)</span> <br>
-                    <span class="text-secondary">Natan Barbosa (id 3)</span>
-                </div>
-                <div class="col-sm-4 mb-3 mb-sm-0">
-                    <span>Serviço remoto</span> <br>
-                    <span class="text-secondary">nota média: 4/5</span>
-                </div>
-                <div class="col-sm-3 mb-3 mb-sm-0">
-                    <span class="text-success">Serviço ativo</span> <br>
-                    <span>Denúncias: 0</span>
-                </div>
-            </div>
-
-            <div class="listDiv row my-3" onclick="redirecionaPagina('service.php', 2)">
-                <div class="col-sm-1 mr-2 mb-3 mb-sm-0">
-                    <img src="../../assets/images/service_images/1629286141611ceefd50e10.jpg" alt="imagem do serviço" class="userPicture">
-                </div>
-                <div class="col-sm-3 mb-3 mb-sm-0">
-                    <span>Pintura de parede (id 2)</span> <br>
-                    <span class="text-secondary">Natan Barbosa (id 3)</span>
-                </div>
-                <div class="col-sm-4 mb-3 mb-sm-0">
-                    <span>Serviço remoto</span> <br>
-                    <span class="text-secondary">nota média: 4/5</span>
-                </div>
-                <div class="col-sm-3 mb-3 mb-sm-0">
-                    <span class="text-secondary">Serviço suspenso</span> <br>
-                    <span>Denúncias: 0</span>
-                </div>
-            </div>
-
-            <div class="listDiv row my-3" onclick="redirecionaPagina('service.php', 3)">
-                <div class="col-sm-1 mr-2 mb-3 mb-sm-0">
-                    <img src="../../assets/images/service_images/1629286141611ceefd50e10.jpg" alt="imagem do serviço" class="userPicture">
-                </div>
-                <div class="col-sm-3 mb-3 mb-sm-0">
-                    <span>Pintura de parede (id 3)</span> <br>
-                    <span class="text-secondary">Natan Barbosa (id 3)</span>
-                </div>
-                <div class="col-sm-4 mb-3 mb-sm-0">
-                    <span>Serviço remoto</span> <br>
-                    <span class="text-secondary">nota média: 4/5</span>
-                </div>
-                <div class="col-sm-3 mb-3 mb-sm-0">
-                    <span class="text-danger">Serviço banido</span> <br>
-                    <span class="text-danger">Denúncias: 4</span>
-                </div>
-            </div>
+            <?php foreach ($services as $service) {?>
+                <div class="listDiv row my-3" onclick="redirecionaPagina('service.php', <?=$service['id_servico']?>)">
+                    <div class="col-sm-1 mr-2 mb-3 mb-sm-0">
+                        <img src="../../assets/images/dumb-brand.png" alt="imagem do serviço" class="userPicture">
+                    </div>
+                    <div class="col-sm-3 mb-3 mb-sm-0">
+                        <span><?=$service['nome_servico']?> (id <?=$service['id_servico']?>)</span> <br>
+                        <span class="text-secondary"><?=$service['nome_usuario']?> (id <?=$service['id_prestador_servico']?>)</span>
+                    </div>
+                    <div class="col-sm-4 mb-3 mb-sm-0">
+                        <span>Serviço <?php echo $service['tipo_servico'] === 0 ? " presencial" : " remoto"?></span> <br>
+                        <span class="text-secondary">nota média: <?=$service['nota_media_servico']?>/5.0</span>
+                    </div>
+                        <div class="col-sm-3 mb-3 mb-sm-0">
+                            <?php
+                            if ($service['status_servico'] == 0){
+                                echo '<span class="text-secondary">Servico suspenso</span>';
+                            } else if ($service['status_servico'] == 1){
+                                echo '<span class="text-success">Servico ativo</span>';
+                            } else {
+                                echo '<span class="text-danger">Servico banido</span>';
+                            }
+                            ?> <br>
+                            <span>Denúncias: <?=$servicesListing->getQntComplains($service['id_servico'])?></span>
+                        </div>
+                    </div>
+            <?php }?>
         </div>
     </div>
-
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
 </div>
 
 </body>

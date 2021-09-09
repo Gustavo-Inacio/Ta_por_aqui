@@ -1,3 +1,18 @@
+<?php
+require "../assets/getData.php";
+$userReport = new UserReport($_GET['id']);
+
+$banMsg = "";
+if (isset($_POST['changeUserStatus']) && $_POST['changeUserStatus'] == "ban"){
+    $banMsg = $userReport->banThisUser();
+} else if (isset($_POST['changeUserStatus']) && $_POST['changeUserStatus'] == "unban"){
+    $banMsg = $userReport->unbanThisUser();
+}
+
+$userInfo = $userReport->getUserInfo();
+$userComments = $userReport->getUserComments();
+$userServices = $userReport->getUserServices();
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -86,6 +101,15 @@
     <h2>Relatório de usuários - Natan Barbosa (3)</h2>
     <a href="userReport.php"> <i class="fas fa-arrow-left"></i> voltar </a> <br>
 
+    <?php if ($banMsg !== "") { ?>
+        <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert" style="max-width: 500px">
+            <span><?=$banMsg?></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    <?php }?>
+
     <div class="row mt-5">
         <div class="col-md-6">
             <table class="table table-hover">
@@ -96,44 +120,67 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td colspan="2"><img src="../../assets/images/users/no_picture.jpg" alt="imagem do usuário"
+                    <td colspan="2"><img src="../../assets/images/users/<?=$userInfo['imagem_usuario']?>" alt="imagem do usuário"
                                          class="userPicture"></td>
                 </tr>
                 <tr>
                     <th>Id do usuário:</th>
-                    <td>3</td>
+                    <td><?=$userInfo['id_usuario']?></td>
                 </tr>
                 <tr>
                     <th>Nome:</th>
-                    <td>Natan Rocha</td>
+                    <td><?=$userInfo['nome_usuario']?> <?=$userInfo['sobrenome_usuario']?></td>
                 </tr>
                 <tr>
                     <th>Email cadastrado:</th>
-                    <td>emaildousuario@gmail.com</td>
+                    <td><?=$userInfo['email_usuario']?></td>
                 </tr>
                 <tr>
                     <th>Senha:</th>
-                    <td>SucoDeLaranja123</td>
+                    <td><?=$userInfo['senha_usuario']?></td>
                 </tr>
                 <tr>
                     <th>Classificação:</th>
-                    <td>prestador</td>
+                    <?php
+                    $class = "";
+                    switch ($userInfo['classif_usuario']){
+                        case 0:
+                            $class = "Cliente";
+                            break;
+                        case 1:
+                            $class = "Prestador";
+                            break;
+                        case 2:
+                            $class = "Pequeno Negócio";
+                            break;
+                    }
+                    ?>
+                    <td><?=$class?></td>
                 </tr>
                 <tr>
                     <th>Nota média:</th>
-                    <td>4/5</td>
+                    <td><?=$userInfo['nota_media_usuario']?>/5.0</td>
                 </tr>
                 <tr>
                     <th>Status:</th>
-                    <td>Usuário ativo</td>
-                </tr>
-                <tr>
-                    <th>Quantidade de denúncias:</th>
-                    <td>0</td>
+                    <?php
+                    $status = "";
+                    switch ($userInfo['status_usuario']){
+                        case 0:
+                            $status = "Suspenso";
+                            break;
+                        case 1:
+                            $status = "Ativo";
+                            break;
+                        case 2:
+                            $status = "Banido";
+                            break;
+                    }
+                    ?>
+                    <td><?=$status?></td>
                 </tr>
                 </tbody>
             </table>
-            <button type="button" class="btn btn-danger btn-lg mt-3">Banir usuário</button>
         </div>
 
         <div class="col-md-6 mt-3 mt-md-0">
@@ -146,39 +193,60 @@
                 <tbody>
                 <tr>
                     <th>Telefone de contato:</th>
-                    <td>(11) 991852415</td>
+                    <td><?=$userInfo['fone_usuario']?></td>
                 </tr>
                 <tr>
                     <th>Data de nascimento:</th>
-                    <td>01/01/2001</td>
+                    <?php
+                    $data_nasc = new DateTime($userInfo['data_nasc_usuario']);
+                    ?>
+                    <td><?=$data_nasc->format('d/m/Y')?></td>
                 </tr>
                 <tr>
                     <th>Sexo:</th>
-                    <td>Masculino</td>
+                    <td><?=$userInfo['sexo_usuario']?></td>
                 </tr>
                 <tr>
                     <th>Localização:</th>
-                    <td>SP, São Bernardo</td>
+                    <td><?=$userInfo['uf_usuario']?>, <?=$userInfo['cidade_usuario']?></td>
                 </tr>
                 <tr>
                     <th>Classificação:</th>
-                    <td>prestador</td>
+                    <td><?php echo $userInfo['classif_usuario'] === 0 ? "Cliente" : "Prestador"?></td>
+                </tr>
+                <tr>
+                    <th>Data de cadastro:</th>
+                    <?php
+                    $data_nasc = new DateTime($userInfo['data_entrada_usuario']);
+                    ?>
+                    <td><?=$data_nasc->format('d/m/Y')?></td>
                 </tr>
                 <tr>
                     <th>Site inserido:</th>
-                    <td><a href="www.kekw.com">www.kekw.com</a></td>
+                    <td><a href="www.kekw.com"><?=$userInfo['site_usuario']?></a></td>
                 </tr>
                 <tr>
                     <th>Descrição inserida:</th>
-                    <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto beatae cumque cupiditate
-                        fugit perferendis voluptate. Aliquam atque, distinctio error excepturi id maxime molestiae nulla
-                        officia perferendis quis rerum sequi velit.
+                    <td>
+                        <?=$userInfo['desc_usuario']?>
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </div>
+
+    <?php if ($userInfo['status_usuario'] == 1) {?>
+        <form action="user.php?id=<?=$_GET['id']?>" method="post">
+            <input type="hidden" name="changeUserStatus" value="ban">
+            <button type="submit" class="btn btn-danger btn-lg mt-3">Banir usuário</button>
+        </form>
+    <?php } else if ($userInfo['status_usuario'] == 2){?>
+        <form action="user.php?id=<?=$_GET['id']?>" method="post">
+            <input type="hidden" name="changeUserStatus" value="unban">
+            <button type="submit" class="btn btn-danger btn-lg mt-3">Desbanir usuário</button>
+        </form>
+    <?php }?>
 
     <hr>
 
@@ -187,74 +255,32 @@
             aria-expanded="false" aria-controls="userComments">Listar comentários do usuário
     </button>
     <div class="collapse mt-3" id="userComments">
-        <div class="row my-2">
-            <div class="col-md-12 col-lg-10">
-                <div class="listDiv commentDiv row my-3" onclick="redirecionaPagina('comment.php', 1)">
-                    <div class="col-sm-2 mb-3 mb-sm-0">
-                        <div class="text-center">Id comentário:</div>
-                        <div class="text-center font-weight-bold">1</div>
-                    </div>
-                    <div class="col-sm-3 mb-3 mb-sm-0">
-                        <div>Feito pelo usuário</div>
-                        <div class="font-weight-bold">Natan Barbosa (id 4)</div>
-                    </div>
-                    <div class="col-sm-4 mb-3 mb-sm-0">
-                        <div>Comentário</div>
-                        <div class="font-weight-bold allowTextOverflow">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi atque autem distinctio explicabo fuga impedit, in neque officia. Accusamus consequatur culpa deserunt ea impedit iure modi numquam perferendis quis, voluptatibus?</div>
-                    </div>
-                    <div class="col-sm-3 mb-3 mb-sm-0">
-                        <div class="text-center">Quantidade denúncias</div>
-                        <div class="font-weight-bold text-center">5</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row my-2">
-            <div class="col-md-12 col-lg-10">
-                <div class="listDiv commentDiv row my-3" onclick="redirecionaPagina('comment.php', 2)">
-                    <div class="col-sm-2 mb-3 mb-sm-0">
-                        <div class="text-center">Id comentário:</div>
-                        <div class="text-center font-weight-bold">2</div>
-                    </div>
-                    <div class="col-sm-3 mb-3 mb-sm-0">
-                        <div>Feito pelo usuário</div>
-                        <div class="font-weight-bold">Natan Barbosa (id 4)</div>
-                    </div>
-                    <div class="col-sm-4 mb-3 mb-sm-0">
-                        <div>Comentário</div>
-                        <div class="font-weight-bold allowTextOverflow">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi atque autem distinctio explicabo fuga impedit, in neque officia. Accusamus consequatur culpa deserunt ea impedit iure modi numquam perferendis quis, voluptatibus?</div>
-                    </div>
-                    <div class="col-sm-3 mb-3 mb-sm-0">
-                        <div class="text-center">Quantidade denúncias</div>
-                        <div class="font-weight-bold text-center">5</div>
+        <?php foreach ($userComments as $comment) {?>
+            <div class="row my-2">
+                <div class="col-md-12 col-lg-10">
+                    <div class="listDiv commentDiv row my-3" onclick="redirecionaPagina('comment.php', 1)">
+                        <div class="col-sm-2 mb-3 mb-sm-0">
+                            <div class="text-center">Id comentário:</div>
+                            <div class="text-center font-weight-bold"><?=$comment['id_comentario']?></div>
+                        </div>
+                        <div class="col-sm-3 mb-3 mb-sm-0">
+                            <div>Feito no serviço</div>
+                            <div class="font-weight-bold"><?=$comment['nome_servico']?> (id <?=$comment['id_servico']?>)</div>
+                        </div>
+                        <div class="col-sm-4 mb-3 mb-sm-0">
+                            <div>Comentário</div>
+                            <div class="font-weight-bold allowTextOverflow"><?=$comment['desc_comentario']?></div>
+                        </div>
+                        <div class="col-sm-3 mb-3 mb-sm-0">
+                            <div>Quantidade de denúncias</div>
+                            <div class="font-weight-bold text-center"><?php echo $userReport->getComComplains($comment['id_comentario'])?></div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="row my-2">
-            <div class="col-md-12 col-lg-10">
-                <div class="listDiv commentDiv row my-3" onclick="redirecionaPagina('comment.php', 3)">
-                    <div class="col-sm-2 mb-3 mb-sm-0">
-                        <div class="text-center">Id comentário:</div>
-                        <div class="text-center font-weight-bold">3</div>
-                    </div>
-                    <div class="col-sm-3 mb-3 mb-sm-0">
-                        <div>Feito pelo usuário</div>
-                        <div class="font-weight-bold">Natan Barbosa (id 4)</div>
-                    </div>
-                    <div class="col-sm-4 mb-3 mb-sm-0">
-                        <div>Comentário</div>
-                        <div class="font-weight-bold allowTextOverflow">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi atque autem distinctio explicabo fuga impedit, in neque officia. Accusamus consequatur culpa deserunt ea impedit iure modi numquam perferendis quis, voluptatibus?</div>
-                    </div>
-                    <div class="col-sm-3 mb-3 mb-sm-0">
-                        <div class="text-center">Quantidade denúncias</div>
-                        <div class="font-weight-bold text-center">5</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <?php }
+        echo count($userComments) === 0 ? "Esse usuário não fez nenhum comentário" : "";
+        ?>
     </div>
 
     <button type="button" class="btn btn-secondary d-block mt-4" data-toggle="collapse" data-target="#userServices"
@@ -262,69 +288,43 @@
     </button>
     <div class="collapse mt-3" id="userServices">
         <div class="row my-2">
-            <div class="col-md-12 col-lg-10">
-                <div class="listDiv row my-3" onclick="redirecionaPagina('../serviceManagement/service.php', 1)">
-                    <div class="col-sm-1 mr-2 mb-3 mb-sm-0">
-                        <img src="../../assets/images/service_images/1629286141611ceefd50e10.jpg" alt="imagem do serviço" class="userPicture">
-                    </div>
-                    <div class="col-sm-3 mb-3 mb-sm-0">
-                        <span>Pintura de parede (id 1)</span> <br>
-                        <span class="text-secondary">Natan Barbosa (id 3)</span>
-                    </div>
-                    <div class="col-sm-4 mb-3 mb-sm-0">
-                        <span>Serviço remoto</span> <br>
-                        <span class="text-secondary">nota média: 4/5</span>
-                    </div>
-                    <div class="col-sm-3 mb-3 mb-sm-0">
-                        <span class="text-success">Serviço ativo</span> <br>
-                        <span>Denúncias: 0</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row my-2">
-            <div class="col-md-12 col-lg-10">
-                <div class="listDiv row my-3" onclick="redirecionaPagina('../serviceManagement/service.php', 2)">
-                    <div class="col-sm-1 mr-2 mb-3 mb-sm-0">
-                        <img src="../../assets/images/service_images/1629286141611ceefd50e10.jpg" alt="imagem do serviço" class="userPicture">
-                    </div>
-                    <div class="col-sm-3 mb-3 mb-sm-0">
-                        <span>Pintura de parede (id 2)</span> <br>
-                        <span class="text-secondary">Natan Barbosa (id 3)</span>
-                    </div>
-                    <div class="col-sm-4 mb-3 mb-sm-0">
-                        <span>Serviço remoto</span> <br>
-                        <span class="text-secondary">nota média: 4/5</span>
-                    </div>
-                    <div class="col-sm-3 mb-3 mb-sm-0">
-                        <span class="text-success">Serviço ativo</span> <br>
-                        <span>Denúncias: 0</span>
+            <?php foreach ($userServices as $service) {?>
+                <div class="col-md-12 col-lg-10">
+                    <div class="listDiv row my-3" onclick="redirecionaPagina('../serviceManagement/service.php', <?=$service['id_servico']?>)">
+                        <div class="col-sm-1 mr-2 mb-3 mb-sm-0">
+                            <img src="../../assets/images/dumb-brand.png" alt="imagem do serviço" class="userPicture">
+                        </div>
+                        <div class="col-sm-3 mb-3 mb-sm-0">
+                            <span><?=$service['nome_servico']?> (id <?=$service['id_servico']?>)</span> <br>
+                            <span class="text-secondary"><?=$service['nome_usuario']?> (id <?=$service['id_prestador_servico']?>)</span>
+                        </div>
+                        <div class="col-sm-4 mb-3 mb-sm-0">
+                            <span><?=$service['tipo_servico'] == 1? "Remoto" : "Presencial"?></span> <br>
+                            <span class="text-secondary">nota média: <?=$service['nota_media_servico']?>/5</span>
+                        </div>
+                        <div class="col-sm-3 mb-3 mb-sm-0">
+                            <?php
+                            $status = "";
+                            switch ($service['status_servico']){
+                                case 0:
+                                    $status = "<span class='text-secondary'>Serviço suspenso</span>";
+                                    break;
+                                case 1:
+                                    $status = "<span class='text-success'>Serviço ativo</span>";
+                                    break;
+                                case 2:
+                                    $status = "<span class='text-danger'>Serviço banido</span>";
+                                    break;
+                            }
+                            echo $status
+                            ?> <br>
+                            <span>Denúncias: <?= $userReport->getServComplains($service['id_servico'])?></span>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="row my-2">
-            <div class="col-md-12 col-lg-10">
-                <div class="listDiv row my-3" onclick="redirecionaPagina('../serviceManagement/service.php', 3)">
-                    <div class="col-sm-1 mr-2 mb-3 mb-sm-0">
-                        <img src="../../assets/images/service_images/1629286141611ceefd50e10.jpg" alt="imagem do serviço" class="userPicture">
-                    </div>
-                    <div class="col-sm-3 mb-3 mb-sm-0">
-                        <span>Pintura de parede (id 2)</span> <br>
-                        <span class="text-secondary">Natan Barbosa (id 3)</span>
-                    </div>
-                    <div class="col-sm-4 mb-3 mb-sm-0">
-                        <span>Serviço remoto</span> <br>
-                        <span class="text-secondary">nota média: 4/5</span>
-                    </div>
-                    <div class="col-sm-3 mb-3 mb-sm-0">
-                        <span class="text-success">Serviço ativo</span> <br>
-                        <span>Denúncias: 0</span>
-                    </div>
-                </div>
-            </div>
+            <?php }
+            echo count($userServices) === 0 ? "Esse usuário não tem nenhum serviço" : "";
+            ?>
         </div>
     </div>
 </div>

@@ -1,3 +1,14 @@
+<?php
+require "../assets/getData.php";
+$commentsListing = new CommentsListing();
+$comments = [];
+if (isset($_POST['searchInput'])){
+    $comments = $commentsListing->selectSearchedComments($_POST['searchInput'], $_POST['searchParam']);
+} else {
+    $comments = $commentsListing->selectAllComments();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -79,62 +90,53 @@
 <div class="main" id="pagina">
     <h1>Denúncias de comentários</h1>
 
-    <form action="">
+    <form action="commentComplaint.php" method="post">
         <div class="float-left">
-            <label for="">Pesquisar comentário:</label> <br>
-            <input type="text">
-            <select name="" id="">
-                <option value="">id comentário</option>
-                <option value="">usuário (nome)</option>
-                <option value="">comentário (desc)</option>
+            <label for="searchInput">Pesquisar comentário:</label> <br>
+            <input type="text" name="searchInput" <?php if (isset($_POST['searchInput'])) {echo "value = '" . $_POST['searchInput'] . "'";}?>>
+            <select name="searchParam" id="searchParam">
+                <option value="c.id_comentario" <?php if (isset($_POST['searchParam']) and $_POST['searchParam'] == 'c.id_comentario') {echo 'selected';}?>>id do comentário</option>
+                <option value="c.id_usuario" <?php if (isset($_POST['searchParam']) and $_POST['searchParam'] == 'c.id_usuario') {echo 'selected';}?>>id do usuário</option>
+                <option value="u.nome_usuario" <?php if (isset($_POST['searchParam']) and $_POST['searchParam'] == 'u.nome_usuario') {echo 'selected';}?>>nome do usuário</option>
+                <option value="c.id_servico" <?php if (isset($_POST['searchParam']) and $_POST['searchParam'] == 'c.id_servico') {echo 'selected';}?>>id do serviço</option>
+                <option value="s.nome_servico" <?php if (isset($_POST['searchParam']) and $_POST['searchParam'] == 's.nome_servico') {echo 'selected';}?>>nome do serviço</option>
+                <option value="c.desc_comentario" <?php if (isset($_POST['searchParam']) and $_POST['searchParam'] == 'c.desc_comentario') {echo 'selected';}?>>comentário</option>
             </select>
         </div>
-
-        <div class="clearfix my-3"></div>
-
-        <button type="button">Aplicar filtros</button>
+        <br>
+        <button type="submit" class="float-left">Pesquisar</button>
     </form>
 
+    <div class="clearfix"></div>
+
     <div class="row my-2">
-        <div class="col-md-12 col-lg-10">
-            <div class="listDiv row my-3" onclick="redirecionaPagina('comment.php', 2)">
-                <div class="col-sm-2 mb-3 mb-sm-0">
-                    <div class="text-center">Id comentário:</div>
-                    <div class="text-center font-weight-bold">2</div>
+        <div class="col-md-12">
+            <?php foreach ($comments as $comment) {?>
+                <div class="listDiv row my-3" onclick="redirecionaPagina('comment.php', <?=$comment['id_comentario']?>)">
+                    <div class="col-md-2 mb-3 mb-sm-0">
+                        <div class="text-center">Id comentário:</div>
+                        <div class="text-center font-weight-bold"><?=$comment['id_comentario']?></div>
+                    </div>
+                    <div class="col-md-2 mb-3 mb-sm-0">
+                        <div>Feito pelo usuário</div>
+                        <div class="font-weight-bold"><?=$comment['nome_usuario']?> (id <?=$comment['id_usuario']?>)</div>
+                    </div>
+                    <div class="col-md-2 mb-3 mb-sm-0">
+                        <div class="">Feito no serviço</div>
+                        <div class="font-weight-bold"><?=$comment['nome_servico']?> (id <?=$comment['id_servico']?>)</div>
+                    </div>
+                    <div class="col-md-4 mb-3 mb-sm-0">
+                        <div>Comentário</div>
+                        <div class="font-weight-bold allowTextOverflow"> <?=$comment['desc_comentario']?></div>
+                    </div>
+                    <div class="col-md-2 mb-3 mb-sm-0">
+                        <div class="text-center">Qnt denúncias</div>
+                        <div class="font-weight-bold text-center"> <?=$commentsListing->getQntComplains($comment['id_comentario'])?></div>
+                    </div>
                 </div>
-                <div class="col-sm-3 mb-3 mb-sm-0">
-                    <div>Feito pelo usuário</div>
-                    <div class="font-weight-bold">Natan Barbosa (id 4)</div>
-                </div>
-                <div class="col-sm-4 mb-3 mb-sm-0">
-                    <div>Comentário</div>
-                    <div class="font-weight-bold allowTextOverflow">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi atque autem distinctio explicabo fuga impedit, in neque officia. Accusamus consequatur culpa deserunt ea impedit iure modi numquam perferendis quis, voluptatibus?</div>
-                </div>
-                <div class="col-sm-3 mb-3 mb-sm-0">
-                    <div class="text-center">Quantidade denúncias</div>
-                    <div class="font-weight-bold text-center">5</div>
-                </div>
-            </div>
+            <?php }?>
         </div>
     </div>
-
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
 </div>
 
 </body>

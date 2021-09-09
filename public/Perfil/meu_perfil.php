@@ -25,22 +25,22 @@ $userSocialMedia = $stmt->fetchAll(PDO::FETCH_OBJ);
 //puxando os serviços relacionados ao prestador
 if($_SESSION['classificacao'] !== 0){
     //serviços disponibilizados
-    $query = "SELECT id_servico, nome_servico, tipo_servico, crit_orcamento_servico, orcamento_servico, data_public_servico FROM servicos WHERE id_prestador_servico = " . $_SESSION['idUsuario'] . " ORDER BY id_servico DESC";
+    $query = "SELECT id_servico, nome_servico, tipo_servico, crit_orcamento_servico, orcamento_servico, data_public_servico FROM servicos WHERE id_prestador_servico = " . $_SESSION['idUsuario'] . " AND status_servico = 1 ORDER BY id_servico DESC";
     $stmt = $con->query($query);
     $userServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
     //serviços requisitados para esse prestador
-    $query = "SELECT * FROM contratos WHERE id_prestador = " . $_SESSION['idUsuario']  . " ORDER BY status_contrato ASC";
+    $query = "SELECT * FROM contratos as c join servicos as s on c.id_servico = s.id_servico WHERE c.id_prestador = " . $_SESSION['idUsuario']  . " AND s.status_servico = 1 ORDER BY c.status_contrato ASC";
     $stmt = $con->query($query);
     $asProviderRequestedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 }
 //serviços que você requisitou como cliente
-$query = "SELECT * FROM contratos WHERE id_cliente = " . $_SESSION['idUsuario']  . " ORDER BY status_contrato DESC";
+$query = "SELECT * FROM contratos as c join servicos as s on c.id_servico = s.id_servico WHERE c.id_cliente = " . $_SESSION['idUsuario']  . " AND s.status_servico = 1 ORDER BY c.status_contrato DESC";
 $stmt = $con->query($query);
 $asClientRequestedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
 //serviços que você contratou e foram aceitos
-$query = "SELECT * FROM contratos WHERE id_cliente = " . $_SESSION['idUsuario']  . " AND status_contrato = 1 ORDER BY id_contrato DESC";
+$query = "SELECT * FROM contratos as c join servicos as s on c.id_servico = s.id_servico WHERE c.id_cliente = " . $_SESSION['idUsuario']  . " AND s.status_servico = 1 ORDER BY c.id_contrato DESC";
 $stmt = $con->query($query);
 $contractedServicesHistory = $stmt->fetchAll(PDO::FETCH_OBJ);
 

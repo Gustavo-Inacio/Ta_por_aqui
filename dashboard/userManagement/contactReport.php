@@ -1,3 +1,15 @@
+<?php
+require "../assets/getData.php";
+$contactListing = new ContactListing();
+$contacts = [];
+if (isset($_POST['contactReason']) || isset($_POST['contactStatus'])){
+    $contacts = $contactListing->selectFilteredContacts($_POST['contactReason'], $_POST['contactStatus']);
+} else if (isset($_POST['searchInput'])){
+    $contacts = $contactListing->selectSearchedContacts($_POST['searchInput'], $_POST['searchParam']);
+} else {
+    $contacts = $contactListing->selectAllContacts();
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -77,75 +89,97 @@
 <div class="main" id="pagina">
     <h1>Fale conosco</h1>
 
-    <form action="">
+    <form action="contactReport.php" method="post">
         <div class="float-left">
-            <label for="userFilter">Filtrar por motivo: </label> <br>
-            <select name="" id="userFilter">
-                <option value="">Todos motivos</option>
-                <option value="">Elogios</option>
-                <option value="">Sugestões</option>
-                <option value="">Reclamações</option>
-                <option value="">Problemas/bugs</option>
-                <option value="">Outros</option>
+            <label for="contactReason">Filtrar por motivo: </label> <br>
+            <select name="contactReason" id="contactReason">
+                <option value="">Todos os serviços</option>
+                <option value="1" <?php if (isset($_POST['contactReason']) and $_POST['contactReason'] == 1) {echo 'selected';}?>>elogios</option>
+                <option value="2" <?php if (isset($_POST['contactReason']) and $_POST['contactReason'] == 2) {echo 'selected';}?>>sugestões</option>
+                <option value="3" <?php if (isset($_POST['contactReason']) and $_POST['contactReason'] == 3) {echo 'selected';}?>>reclamações</option>
+                <option value="4" <?php if (isset($_POST['contactReason']) and $_POST['contactReason'] == 4) {echo 'selected';}?>>problemas/bugs</option>
+                <option value="5" <?php if (isset($_POST['contactReason']) and $_POST['contactReason'] == 5) {echo 'selected';}?>>outros motivos</option>
             </select>
         </div>
 
         <div class="float-left">
-            <label for="">Pesquisar contato:</label> <br>
-            <input type="text">
-            <select name="" id="">
-                <option value="">id contato</option>
-                <option value="">usuário (nome)</option>
-                <option value="">usuário (email)</option>
-                <option value="">mensagem</option>
+            <label for="contactStatus">Filtrar por status: </label> <br>
+            <select name="contactStatus" id="contactStatus">
+                <option value="">Todos os serviços</option>
+                <option value="0" <?php if (isset($_POST['contactStatus']) and $_POST['contactStatus'] == 0) {echo 'selected';}?>>Não visto</option>
+                <option value="1" <?php if (isset($_POST['contactStatus']) and $_POST['contactStatus'] == 1) {echo 'selected';}?>>ignorado</option>
+                <option value="2" <?php if (isset($_POST['contactStatus']) and $_POST['contactStatus'] == 2) {echo 'selected';}?>>resolvendo</option>
+                <option value="3" <?php if (isset($_POST['contactStatus']) and $_POST['contactStatus'] == 3) {echo 'selected';}?>>resolvido</option>
             </select>
         </div>
-
-        <div class="clearfix my-3"></div>
-
-        <button type="button">Aplicar filtros</button>
+        <br>
+        <button type="submit" class="float-left">Aplicar filtro</button>
     </form>
+
+    <div class="clearfix my-3"></div>
+
+    <form action="contactReport.php" method="post">
+        <div class="float-left">
+            <label for="searchInput">Pesquisar contato:</label> <br>
+            <input type="text" name="searchInput" <?php if (isset($_POST['searchInput'])) {echo "value = '" . $_POST['searchInput'] . "'";}?>>
+            <select name="searchParam" id="searchParam">
+                <option value="id_contato" <?php if (isset($_POST['searchParam']) and $_POST['searchParam'] == 'id_contato') {echo 'selected';}?>>id do contato</option>
+                <option value="nome_contato" <?php if (isset($_POST['searchParam']) and $_POST['searchParam'] == 'nome_contato') {echo 'selected';}?>>nome</option>
+                <option value="email_contato" <?php if (isset($_POST['searchParam']) and $_POST['searchParam'] == 'email_contato') {echo 'selected';}?>>email</option>
+                <option value="fone_contato" <?php if (isset($_POST['searchParam']) and $_POST['searchParam'] == 'fone_contato') {echo 'selected';}?>>telefone</option>
+                <option value="msg_contato" <?php if (isset($_POST['searchParam']) and $_POST['searchParam'] == 'msg_contato') {echo 'selected';}?>>mensagem</option>
+            </select>
+        </div>
+        <br>
+        <button type="submit" class="float-left">Pesquisar</button>
+    </form>
+
+    <div class="clearfix my-3"></div>
 
     <div class="row my-2">
         <div class="col-md-12 col-lg-10">
-            <div class="listDiv row my-3" onclick="redirecionaPagina('contact.php', 1)">
-                <div class="col-sm-2 mb-3 mb-sm-0">
-                    <div class="text-center">Id contato:</div>
-                    <div class="text-center font-weight-bold">1</div>
+            <?php foreach ($contacts as $contact) {?>
+                <div class="listDiv row my-3" onclick="redirecionaPagina('contact.php', <?=$contact['id_contato']?>)">
+                    <div class="col-sm-2 mb-3 mb-sm-0">
+                        <div class="text-center">Id contato:</div>
+                        <div class="text-center font-weight-bold"><?=$contact['id_contato']?></div>
+                    </div>
+                    <div class="col-sm-3 mb-3 mb-sm-0">
+                        <div>Feito pelo usuário</div>
+                        <div class="font-weight-bold"><?=$contact['email_contato']?></div>
+                    </div>
+                    <div class="col-sm-4 mb-3 mb-sm-0">
+                        <div>Mensagem</div>
+                        <div class="font-weight-bold allowTextOverflow"><?=$contact['msg_contato']?></div>
+                    </div>
+                    <div class="col-sm-3 mb-3 mb-sm-0">
+                        <?php
+                            $tmpMotivo = "";
+                        switch ($contact['motivo_contato']) {
+                            case 1:
+                                $tmpMotivo = "Elogio";
+                                break;
+                            case 2:
+                                $tmpMotivo = "Sugestão";
+                                break;
+                            case 3:
+                                $tmpMotivo = "Reclamação";
+                                break;
+                            case 4:
+                                $tmpMotivo = "Problema/bug";
+                                break;
+                            case 5:
+                                $tmpMotivo = "Outro motivo";
+                                break;
+                        }
+                        ?>
+                        <div class="text-center">Motivo contato</div>
+                        <div class="font-weight-bold text-center"><?=$tmpMotivo?> (<?=$contact['motivo_contato']?>)</div>
+                    </div>
                 </div>
-                <div class="col-sm-3 mb-3 mb-sm-0">
-                    <div>Feito pelo usuário</div>
-                    <div class="font-weight-bold">emaildouser@gmail.com (id 5)</div>
-                </div>
-                <div class="col-sm-4 mb-3 mb-sm-0">
-                    <div>Mensagem</div>
-                    <div class="font-weight-bold allowTextOverflow">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi atque autem distinctio explicabo fuga impedit, in neque officia. Accusamus consequatur culpa deserunt ea impedit iure modi numquam perferendis quis, voluptatibus?</div>
-                </div>
-                <div class="col-sm-3 mb-3 mb-sm-0">
-                    <div class="text-center">Motivo contato</div>
-                    <div class="font-weight-bold text-center">sugestões (2)</div>
-                </div>
-            </div>
+            <?php }?>
         </div>
     </div>
-
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
 </div>
 
 </body>

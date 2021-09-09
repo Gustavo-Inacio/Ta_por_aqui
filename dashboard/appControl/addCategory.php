@@ -1,3 +1,16 @@
+<?php
+require "../assets/getData.php";
+$createCategories = new CreateCategories();
+$categories = $createCategories->getCategories();
+$operationMsg = "";
+if (isset($_POST['masterCategories'])){
+    $operationMsg = $createCategories->addMasterCategories($_POST['masterCategories']);
+}
+
+if (isset($_POST['masterCategoryForSub']) && isset($_POST['subCategories'])){
+    $operationMsg = $createCategories->addSubCategories($_POST['subCategories'], $_POST['masterCategoryForSub']);
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -64,13 +77,22 @@
 <div class="main" id="pagina">
     <h1>Adicionar categoria</h1>
 
+    <?php if ($operationMsg !== "") { ?>
+        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert" style="max-width: 500px">
+            <span><?=$operationMsg?></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    <?php }?>
+
     <div id="addMasterCategoryDiv" class="my-4">
         <h3>Adicionar categoria mestre</h3>
-        <form action="">
-            <label for="qntMasters">Digite as categorias mestres que serão Adicionadas </label> <br>
-            <textarea name="categoriasMestre" id="masterCategories" cols="50" rows="4" placeholder="escreva a(s) categoria(s) e caso haja mais de uma separe por vírgula e espaço. Exemplo: Informática, Serviços domésticos, Limpeza, Organização escolar"></textarea>
+        <form action="addCategory.php" method="post">
+            <label for="masterCategories">Digite as categorias mestres que serão Adicionadas </label> <br>
+            <textarea name="masterCategories" id="masterCategories" cols="50" rows="4" required placeholder="escreva a(s) categoria(s) e caso haja mais de uma separe por vírgula. Exemplo: Informática, Serviços domésticos, Limpeza, Organização escolar"></textarea>
             <br>
-            <button type="button">Adicionar</button>
+            <button type="submit">Adicionar</button>
         </form>
     </div>
 
@@ -78,27 +100,22 @@
 
     <div id="addSubCategoryDiv" class="my-4">
         <h3>Adicionar subcategoria</h3>
-        <form action="">
-            <label for="masterCategoriesForSub">Escolha a categoria mestre para qual as subcategorias vão pertencer: </label>
+        <form action="addCategory.php" method="post">
+            <label for="masterCategoryForSub">Escolha a categoria mestre para qual as subcategorias vão pertencer: </label>
             <br>
-            <select name="categoriaMestreDaSub" id="masterCategoriesForSub">
-                <option value="">Selecionar categoria mastre</option>
-                <option value="">Cat 1</option>
-                <option value="">Cat 1</option>
-                <option value="">Cat 1</option>
-                <option value="">Cat 1</option>
-                <option value="">Cat 1</option>
+            <select name="masterCategoryForSub" id="masterCategoryForSub" required>
+                <?php foreach ($categories as $category) {?>
+                    <option value="<?=$category['id_categoria']?>"><?=$category['nome_categoria']?></option>
+                <?php }?>
             </select>
             <br> <br>
 
             <label for="subCategories">Digite as subcategorias mestres que serão Adicionadas</label> <br>
-            <textarea name="subCategorias" id="subCategories" cols="50" rows="4" placeholder="escreva a(s) categoria(s) e caso haja mais de uma separe por vírgula e espaço. Exemplo: Informática, Serviços domésticos, Limpeza, Organização escolar"></textarea> <br>
-            <button type="button">Adicionar</button>
+            <textarea name="subCategories" id="subCategories" cols="50" rows="4" required placeholder="escreva a(s) categoria(s) e caso haja mais de uma separe por vírgula. Exemplo: Informática, Serviços domésticos, Limpeza, Organização escolar"></textarea> <br>
+            <button type="submit">Adicionar</button>
         </form>
 
     </div>
 </div>
-
 </body>
-
 </html>

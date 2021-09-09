@@ -1,3 +1,24 @@
+<?php
+require "../assets/getData.php";
+$serviceReport = new ServiceReport($_GET['id']);
+
+$banMsg = "";
+if (isset($_POST['changeServiceStatus']) && $_POST['changeServiceStatus'] == "ban"){
+    $banMsg = $serviceReport->banThisService();
+} else if (isset($_POST['changeServiceStatus']) && $_POST['changeServiceStatus'] == "unban"){
+    $banMsg = $serviceReport->unbunThisService();
+}
+
+$changeComplainMsg = "";
+if (isset($_POST['changeComplainStatus'])){
+    $changeComplainMsg = $serviceReport->changeComplainStatus(intval($_POST['changeComplainStatus']), intval($_POST['complainId']));
+}
+
+$serviceInfo = $serviceReport->getServiceInfo();
+$serviceMasterCategory = $serviceReport->getServiceMasterCategory();
+$serviceSubCategories = $serviceReport->getServiceSubCategories();
+$serviceComplain = $serviceReport->getComplainsToThisService();
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -79,6 +100,24 @@
 
     <a href="serviceReport.php"> <i class="fas fa-arrow-left"></i> voltar </a>
 
+    <?php if ($banMsg !== "") { ?>
+        <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert" style="max-width: 500px">
+            <span><?=$banMsg?></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    <?php }?>
+
+    <?php if ($changeComplainMsg !== "") { ?>
+        <div class="alert alert-info alert-dismissible fade show mt-3" role="alert" style="max-width: 500px">
+            <span><?=$changeComplainMsg?></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    <?php }?>
+
     <table class="table table-hover mt-3" style="max-width: 900px">
         <thead class="thead-dark">
         <tr>
@@ -92,43 +131,87 @@
         </tr>
         <tr>
             <th>Nome:</th>
-            <td>Pintura de parede</td>
+            <td><?=$serviceInfo['nome_servico']?></td>
         </tr>
         <tr>
             <th>Prestador:</th>
-            <td>Alexandre o Grande (id 9)</td>
+            <td><?=$serviceInfo['nome_usuario']?> <?=$serviceInfo['sobrenome_usuario']?> (id <?=$serviceInfo['id_prestador_servico']?>)</td>
+        </tr>
+        <tr>
+            <th>Categoria mestre:</th>
+            <td><?=$serviceMasterCategory['nome_categoria']?> id (<?=$serviceMasterCategory['id_categoria']?>)</td>
+        </tr>
+        <tr>
+            <th>Subcategorias:</th>
+            <td>
+                <?php foreach ($serviceSubCategories as $subCategory) {
+
+                    echo $subCategory['nome_subcategoria'] . " (" . $subCategory['id_subcategoria'] . ") - ";
+                }?>
+            </td>
         </tr>
         <tr>
             <th>Tipo de serviço:</th>
-            <td>Presencial</td>
+            <td><?=$serviceInfo['tipo_servico'] == 1? "presencial" : "remoto"?></td>
         </tr>
         <tr>
-            <th>Descreção:</th>
-            <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus consequatur et exercitationem ipsam quam quas repellat repellendus repudiandae sed vero! Aliquid deleniti dolore doloribus laudantium nesciunt nobis omnis ut vero.</td>
+            <th>Descrição:</th>
+            <td><?=$serviceInfo['desc_servico']?></td>
         </tr>
         <tr>
             <th>Preço:</th>
-            <td>R$ 100,00 por m^2</td>
+            <td>
+                <?php if($serviceInfo['orcamento_servico'] == ""){
+                    echo "A definir orçamento";
+                } else {
+                    echo "R$ " . $serviceInfo['orcamento_servico'] . " " . $serviceInfo['crit_orcamento_servico'];
+                }?>
+            </td>
         </tr>
         <tr>
             <th>Nota média:</th>
-            <td>3/5</td>
+            <td><?=$serviceInfo['nota_media_servico']?>/5.0</td>
         </tr>
         <tr>
-            <th>Visualizações:</th>
-            <td>10</td>
+            <th>Contratos:</th>
+            <td><?=$serviceReport->getQntContracts()?></td>
         </tr>
         <tr>
             <th>Status:</th>
-            <td>disponível</td>
+            <td>
+                <?php
+                switch ($serviceInfo['status_servico']){
+                    case 0:
+                        echo "<span class='text-secondary'>Serviço Suspenso</span>";
+                        break;
+                    case 1:
+                        echo "<span class='text-success'>Serviço Ativo</span>";
+                        break;
+                    case 2:
+                        echo "<span class='text-danger'>Serviço Banido</span>";
+                        break;
+                }
+                ?>
+            </td>
         </tr>
         <tr>
             <th>Quantidade de denúncias:</th>
-            <td>2</td>
+            <td><?=$serviceReport->getQntComplains()?></td>
         </tr>
         </tbody>
     </table>
-    <button type="button" class="btn btn-danger btn-lg mt-3">Banir serviço</button>
+
+    <?php if ($serviceInfo['status_servico'] == 1) {?>
+        <form action="service.php?id=<?=$_GET['id']?>" method="post">
+            <input type="hidden" name="changeServiceStatus" value="ban">
+            <button type="submit" class="btn btn-danger btn-lg mt-3">Banir serviço</button>
+        </form>
+    <?php } else if ($serviceInfo['status_servico'] == 2){?>
+        <form action="service.php?id=<?=$_GET['id']?>" method="post">
+            <input type="hidden" name="changeServiceStatus" value="unban">
+            <button type="submit" class="btn btn-danger btn-lg mt-3">Desbanir serviço</button>
+        </form>
+    <?php }?>
 
     <hr>
 
@@ -138,83 +221,67 @@
 
     <div class="collapse mt-3" id="complains">
         <div class="row">
-            <div class="col-md-4 mt-md-0 mt-3">
-                <table class="table table-hover table-sm mt-3">
-                    <thead class="table-danger">
-                    <tr>
-                        <th colspan="2" class="text-center">Detalhes da denúncia</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th>Id da denúncia:</th>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <th>Usuário que denunciou</th>
-                        <td>Pelé Alves (id 12)</td>
-                    </tr>
-                    <tr>
-                        <th>Motivo:</th>
-                        <td>Serviço potencialmente prejudicial</td>
-                    </tr>
-                    <tr>
-                        <th>Descrição</th>
-                        <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque dolorem earum ex explicabo minus quam repellendus. Ad animi aspernatur eaque enim eum, facilis, impedit nobis placeat quam qui quisquam rem!</td>
-                    </tr>
-                    <tr>
-                        <th>Data:</th>
-                        <td>01/01/2001</td>
-                    </tr>
-                    <tr>
-                        <th>status:</th>
-                        <td>não resolvido</td>
-                    </tr>
-                    <tr>
-                        <th>Marcar como:</th>
-                        <td> <button class="btn btn-secondary btn-sm">Em análise</button> | <button class="btn btn-success btn-sm">Resolvido</button> </td>
-                    </tr>
-                    </tbody>
-                </table>
-
-                <table class="table table-hover table-sm mt-3">
-                    <thead class="table-danger">
-                    <tr>
-                        <th colspan="2" class="text-center">Detalhes da denúncia</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th>Id da denúncia:</th>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <th>Usuário que denunciou</th>
-                        <td>Pelé Alves (id 12)</td>
-                    </tr>
-                    <tr>
-                        <th>Motivo:</th>
-                        <td>Serviço potencialmente prejudicial</td>
-                    </tr>
-                    <tr>
-                        <th>Descrição</th>
-                        <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque dolorem earum ex explicabo minus quam repellendus. Ad animi aspernatur eaque enim eum, facilis, impedit nobis placeat quam qui quisquam rem!</td>
-                    </tr>
-                    <tr>
-                        <th>Data:</th>
-                        <td>01/01/2001</td>
-                    </tr>
-                    <tr>
-                        <th>status:</th>
-                        <td>não resolvido</td>
-                    </tr>
-                    <tr>
-                        <th>Marcar como:</th>
-                        <td> <button class="btn btn-secondary btn-sm">Em análise</button> | <button class="btn btn-success btn-sm">Resolvido</button> </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+            <?php foreach ($serviceComplain as $complain) {?>
+                <div class="col-md-4 mt-md-0 mt-3">
+                    <table class="table table-hover table-sm mt-3">
+                        <thead class="table-danger">
+                        <tr>
+                            <th colspan="2" class="text-center">Detalhes da denúncia</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th>Id da denúncia:</th>
+                            <td><?=$complain['id_denuncia_servico']?></td>
+                        </tr>
+                        <tr>
+                            <th>Usuário que denunciou</th>
+                            <td><?=$complain['nome_usuario']?> <?=$complain['sobrenome_usuario']?> (id <?=$complain['id_usuario']?>)</td>
+                        </tr>
+                        <tr>
+                            <th>Motivo:</th>
+                            <td><?=$complain['denuncia_motivo']?></td>
+                        </tr>
+                        <tr>
+                            <th>Descrição</th>
+                            <td><?=$complain['desc_denuncia_serv']?></td>
+                        </tr>
+                        <tr>
+                            <th>Data:</th>
+                            <?php
+                            $data_denuncia = new DateTime($complain['data_denuncia_serv']);
+                            ?>
+                            <td><?=$data_denuncia->format('d/m/Y')?></td>
+                        </tr>
+                        <tr>
+                            <th>status:</th>
+                            <td><?=$complain['status_denuncia_serv'] == 0 ? "Não resolvido" : "em análise"?></td>
+                        </tr>
+                        <tr>
+                            <th>Marcar como:</th>
+                            <td>
+                                <?php if ($complain['status_denuncia_serv'] != 1) {?>
+                                    <form action="service.php?id=<?=$_GET['id']?>" method="post" class="d-inline">
+                                        <input type="hidden" name="changeComplainStatus" value="1">
+                                        <input type="hidden" name="complainId" value="<?=$complain['id_denuncia_servico']?>">
+                                        <button type="submit" class="btn btn-secondary btn-sm">Em análise</button> |
+                                    </form>
+                                <?php }?>
+                                <form action="service.php?id=<?=$_GET['id']?>" method="post" class="d-inline">
+                                    <input type="hidden" name="changeComplainStatus" value="2">
+                                    <input type="hidden" name="complainId" value="<?=$complain['id_denuncia_servico']?>">
+                                    <button type="submit" class="btn btn-success btn-sm">Resolvido</button>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            <?php }
+            if (count($serviceComplain) === 0){
+                echo "<span class='text-info'>Não há denúncias para esse Serviço</span>";
+            }
+            ?>
         </div>
     </div>
 </div>
