@@ -22,7 +22,7 @@ if(isset($_GET['id'])) {
 
     //puxando os serviços do prestador
     if($_SESSION['classificacao'] !== 0){
-        $query = "SELECT id_servico, nome_servico, tipo_servico, orcamento_servico, crit_orcamento_servico, data_public_servico FROM servicos WHERE id_prestador_servico = " . $_GET['id'] . " ORDER BY id_servico DESC";
+        $query = "SELECT id_servico, nome_servico, tipo_servico, orcamento_servico, crit_orcamento_servico, data_public_servico FROM servicos WHERE id_prestador_servico = " . $_GET['id'] . " AND status_servico = 1 ORDER BY id_servico DESC";
         $stmt = $con->query($query);
         $userServices = $stmt->fetchAll(PDO::FETCH_OBJ);
     }
@@ -117,7 +117,7 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
         <!--NavBar Fim-->
 
         <!-- Cartão usuário inexistente-->
-        <section id="myProfileSection" class="row">
+        <section id="myProfileSection" class="row" style="width: 100%">
             <div id="profilePictureArea" class="col-md-4">
                 <h1>Usuário inexistente</h1>
                 <br>
@@ -266,7 +266,7 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
     <!--NavBar Fim-->
 
     <!-- Cartão do perfil comeco-->
-    <section id="myProfileSection" class="row">
+    <section id="myProfileSection" class="row" style="width: 100%">
         <div id="profilePictureArea" class="col-md-4">
             <h1>Foto de perfil</h1>
             <br>
@@ -282,7 +282,7 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
                     <h4 style="color: #309A6D"><?=$user->nota_media_usuario?></h4>
                     <div>
                         <?php for ($i = 1; $i <= 5; $i++) {
-                            if ($i <= round($user->nota_media)) {
+                            if ($i <= round($user->nota_media_usuario)) {
                                 echo '<svg class="provider-rate-star" width="25" height="25" viewBox="0 0 17 14" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M8.44497 0.28627L10.3449 5.38246L10.3691 5.44752H10.4386H16.649L11.618 8.56749L11.5484 8.61066L11.577 8.68741L13.4668 13.7566L8.49847 10.6106L8.44497 10.5767L8.39147 10.6106L3.42316 13.7566L5.31298 8.68741L5.34132 8.61139L5.27278 8.56799L0.344844 5.44752H6.45139H6.52083L6.54509 5.38246L8.44497 0.28627Z" fill="#FF9839" stroke="black" stroke-width="0.2"></path>
                                       </svg>';
@@ -352,26 +352,16 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
                 <h1>Redes sociais</h1>
 
                 <form>
-                    <div class="row">
+                    <div class="row d-flex justify-content-center">
                         <?php
-                        //contar quantas redes sociais estão preenchidas
-                        $columns = 12;
-                        $divider = 4;
-                        foreach ($userSocialMedia as $media) {
-                            if($media->nick_rede_social === null){
-                                $divider -= 1;
-                            }
-                        }
-
-                        $column_distribution = $divider !== 0 ? $columns / $divider : 0;
-                        if ($column_distribution !== 0){
+                        if (count($userSocialMedia) !== 0){
                             foreach ($userSocialMedia as $media) {
 
                                 if($media->nick_rede_social === null){
                                     continue;
                                 }
                             ?>
-                                <div class="<?=$column_distribution === 12 ? "col-12" : "col-6"?> col-md-<?=$column_distribution?> mt-3 d-flex flex-column align-items-center">
+                                <div class="col-md-3 col-6 mt-3 d-flex flex-column align-items-center">
                                     <a target="_blank" href="<?=$media->link_rede_social?>"><i class="mb-3 fab fa-<?=$media->rede_social?> ativa"></i></a>
                                     <a target="_blank" href="<?=$media->link_rede_social?>" class="mediaLink ativa"><?=$media->nick_rede_social?></a>
                                 </div>
@@ -400,7 +390,7 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
             <div class="myContent mb-3">
                 <h1>Serviços disponibilizados</h1>
 
-                <div class="row" id="serviceCards">
+                <div class="row d-flex justify-content-center" id="serviceCards">
 
                     <?php if( count($userServices) !== 0 ) {
                         foreach ($userServices as $key => $service) {

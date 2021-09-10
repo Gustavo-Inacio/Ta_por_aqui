@@ -98,6 +98,7 @@ if (isset($_POST['contactReason']) || isset($_POST['contactStatus'])){
                 <option value="2" <?php if (isset($_POST['contactReason']) and $_POST['contactReason'] == 2) {echo 'selected';}?>>sugestões</option>
                 <option value="3" <?php if (isset($_POST['contactReason']) and $_POST['contactReason'] == 3) {echo 'selected';}?>>reclamações</option>
                 <option value="4" <?php if (isset($_POST['contactReason']) and $_POST['contactReason'] == 4) {echo 'selected';}?>>problemas/bugs</option>
+                <option value="6" <?php if (isset($_POST['contactReason']) and $_POST['contactReason'] == 6) {echo 'selected';}?>>contestação de banimento</option>
                 <option value="5" <?php if (isset($_POST['contactReason']) and $_POST['contactReason'] == 5) {echo 'selected';}?>>outros motivos</option>
             </select>
         </div>
@@ -170,6 +171,9 @@ if (isset($_POST['contactReason']) || isset($_POST['contactStatus'])){
                                 break;
                             case 5:
                                 $tmpMotivo = "Outro motivo";
+                                break;
+                            case 6:
+                                $motivo = "Contestação de banimento";
                                 break;
                         }
                         ?>

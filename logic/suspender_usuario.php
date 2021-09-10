@@ -31,11 +31,15 @@ if (isset($_POST['1']) && $_POST['1'] === "on" && isset($_POST['outroMotivo'])){
 
 //colocar conta como suspensa no banco de dados
 $query = "UPDATE usuarios set status_usuario = 0 WHERE id_usuario = $idUsuario";
-$stmt = $con->query($query);
+$con->query($query);
 
 //suspender serviços do usuário
 $query = "UPDATE servicos set status_servico = 0 WHERE id_prestador_servico = $idUsuario AND status_servico = 1";
-$stmt = $con->query($query);
+$con->query($query);
+
+//ocultar comentários feitos
+$query = "UPDATE comentarios set status_comentario = 2 WHERE id_usuario = $idUsuario AND status_comentario = 1";
+$con->query($query);
 
 //Exluir sessão e cookies do usuário
 require "entrar_logoff.php";

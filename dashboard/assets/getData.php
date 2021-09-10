@@ -247,7 +247,8 @@ class AnalisysChartData {
             'sugestoes' => "",
             'reclamacoes' => "",
             'bugs' => "",
-            'outros' => ""
+            'outros' => "",
+            'ban_contests' => ""
         ];
 
         if ($year === ""){
@@ -275,6 +276,10 @@ class AnalisysChartData {
         $stmt = $this->con->query("SELECT count(id_contato) as outros from fale_conosco WHERE motivo_contato = 5 AND $extraParam");
         $tmp = $stmt->fetch(PDO::FETCH_ASSOC);
         $results['outros'] = $tmp['outros'];
+
+        $stmt = $this->con->query("SELECT count(id_contato) as ban_contests from fale_conosco WHERE motivo_contato = 6 AND $extraParam");
+        $tmp = $stmt->fetch(PDO::FETCH_ASSOC);
+        $results['ban_contests'] = $tmp['ban_contests'];
 
         return $results;
     }

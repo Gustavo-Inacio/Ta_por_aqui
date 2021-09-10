@@ -158,6 +158,7 @@ if(isset($_SESSION['idUsuario'])) {
                                 <option value="2">Sugestões</option>
                                 <option value="3">Reclamações</option>
                                 <option value="4">Problemas/bugs</option>
+                                <option value="6">Contestação de banimento</option>
                                 <option value="5">Outros</option>
                             </select>
                         </div>

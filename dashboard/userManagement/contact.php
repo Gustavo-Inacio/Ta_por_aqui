@@ -159,6 +159,9 @@ if (isset($_POST['assunto']) && isset($_POST['msgAnterior']) && isset($_POST['ms
                 case 5:
                     $motivo = "<span class='text-secondary'>Outro motivo</span>";
                     break;
+                case 6:
+                    $motivo = "<span class='text-danger'>Contestação de banimento</span>";
+                    break;
             }
             ?>
             <td><?=$motivo?></td>

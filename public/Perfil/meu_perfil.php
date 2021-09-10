@@ -40,12 +40,12 @@ $stmt = $con->query($query);
 $asClientRequestedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
 //serviços que você contratou e foram aceitos
-$query = "SELECT * FROM contratos as c join servicos as s on c.id_servico = s.id_servico WHERE c.id_cliente = " . $_SESSION['idUsuario']  . " AND s.status_servico = 1 ORDER BY c.id_contrato DESC";
+$query = "SELECT * FROM contratos as c join servicos as s on c.id_servico = s.id_servico WHERE c.id_cliente = " . $_SESSION['idUsuario']  . " AND s.status_servico = 1 AND c.status_contrato = 1 ORDER BY c.id_contrato DESC";
 $stmt = $con->query($query);
 $contractedServicesHistory = $stmt->fetchAll(PDO::FETCH_OBJ);
 
 //puxando os serviços salvos
-$query = "SELECT * FROM servicos_salvos WHERE id_usuario = " . $_SESSION['idUsuario'];
+$query = "SELECT * FROM servicos_salvos as ss join servicos as s on ss.id_servico = s.id_servico WHERE id_usuario = " . $_SESSION['idUsuario'] . " AND s.status_servico = 1";
 $stmt = $con->query($query);
 $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 ?>
@@ -131,7 +131,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
     <!--NavBar Fim-->
 
     <!-- Cartão do perfil comeco-->
-    <section id="myProfileSection" class="row mx-0" style="width: 100%">
+    <section id="myProfileSection" class="row">
         <div id="profilePictureArea" class="col-md-4">
             <h1>Foto de perfil</h1>
             <br>
@@ -357,6 +357,18 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
                     <div class="divConfig row">
                         <div class="col-sm-8">
+                            <h6>Mude sua localização</h6>
+                            <p>Trocou de moradia e/ou quer marcar para prestar serviços em outro lugar? Vamos ajeitar sua nova localização!</p>
+                        </div>
+                        <div class="col-sm-4 d-flex align-items-center">
+                            <button type="button" class="mybtn mybtn-outline-conversion closeConfigModal" id="changeLocation" onclick="location.href = '../../logic/perfil_trocar_localizacao.php'">Trocar localização</button>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="divConfig row">
+                        <div class="col-sm-8">
                             <h6 class="text-danger">Excluir conta</h6>
                             <p class="text-danger"><strong>Você tem certeza?</strong> Sua conta será suspensa de nossa plataforma, tornando seu usuário e serviços inacessíveis</p>
                         </div>
@@ -511,7 +523,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
             <div class="myContent">
                 <h1>Serviços Solicitados</h1>
 
-                <div class="row" id="requestedCards">
+                <div class="row d-flex justify-content-center" id="requestedCards">
 
                     <?php if( count($asProviderRequestedServices) > 0 ) {
                         foreach ($asProviderRequestedServices as $key => $service) {
@@ -586,7 +598,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
             <div class="myContent mb-3">
                 <h1>Serviços disponibilizados</h1>
 
-                <div class="row" id="serviceCards">
+                <div class="row d-flex justify-content-center" id="serviceCards">
 
                     <?php if( count($userServices) > 0 ) {
                         foreach ($userServices as $key => $service) {
@@ -645,7 +657,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
             <div class="myContent">
                 <h1>Serviços que você solicitou</h1>
 
-                <div class="row" id="servicesRequestedByYouCards">
+                <div class="row d-flex justify-content-center" id="servicesRequestedByYouCards">
 
                     <?php if( count($asClientRequestedServices) > 0 ) {
                         foreach ($asClientRequestedServices as $key => $service) {
@@ -718,7 +730,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
             <div class="myContent">
                 <h1>Histórico de serviços contratados</h1>
 
-                <div class="row" id="recentServicesCards">
+                <div class="row d-flex justify-content-center" id="recentServicesCards">
 
                     <?php if( count($contractedServicesHistory) > 0 ) {
                         foreach ($contractedServicesHistory as $key => $service) {
@@ -791,7 +803,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
             <div class="myContent">
                 <h1>Serviços Salvos</h1>
 
-                <div class="row" id="savedCards">
+                <div class="row d-flex justify-content-center" id="savedCards">
 
                     <?php if( count($userSavedServices) > 0 ) {
                         foreach ($userSavedServices as $key => $service) {
