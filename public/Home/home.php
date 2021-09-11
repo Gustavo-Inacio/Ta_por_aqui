@@ -87,8 +87,15 @@ require "../../logic/entrar_cookie.php";
     <!--Landing Section Comeco-->
     <section id="myLandingSection">
         <div id="myLandingContentAreaContainer" class="container-fluid order-sm-2">
-            <div class="my-landing-conetent-area my-mobile-landing">  
-            
+            <div class="my-landing-conetent-area my-mobile-landing">
+                <?php if(isset($_GET['conta']) && $_GET['conta'] == "reativada") {?>
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                        Conta reativada com sucesso
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                <?php }?>
                 <h1 class="my-landing-title">Encontre um prestador de serviços próximo a sua localização</h1>
 
                 <div class="my-landing-text-content ">
@@ -119,6 +126,14 @@ require "../../logic/entrar_cookie.php";
 
             <div class="my-landing-conetent-area my-desk-landing">
                 <div class="my-landing-text-content">
+                    <?php if(isset($_GET['conta']) && $_GET['conta'] == "reativada") {?>
+                        <div class="alert alert-success alert-dismissible" role="alert">
+                            Conta reativada com sucesso
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    <?php }?>
                     <h1 class="my-landing-title ">Encontre um prestador de serviços próximo a sua localização</h1>
                     <p class="my-landing-text">Todos nós precisamos de profissionais. Agora ficou fácil !! Encontre os melhores prestadores mais próximos de você.</p>
                     <div class="my-landing-search-bar-div ">

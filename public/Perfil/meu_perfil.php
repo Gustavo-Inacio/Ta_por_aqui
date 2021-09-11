@@ -40,12 +40,12 @@ $stmt = $con->query($query);
 $asClientRequestedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
 //serviços que você contratou e foram aceitos
-$query = "SELECT * FROM contratos as c join servicos as s on c.id_servico = s.id_servico WHERE c.id_cliente = " . $_SESSION['idUsuario']  . " AND s.status_servico = 1 ORDER BY c.id_contrato DESC";
+$query = "SELECT * FROM contratos as c join servicos as s on c.id_servico = s.id_servico WHERE c.id_cliente = " . $_SESSION['idUsuario']  . " AND s.status_servico = 1 AND c.status_contrato = 1 ORDER BY c.id_contrato DESC";
 $stmt = $con->query($query);
 $contractedServicesHistory = $stmt->fetchAll(PDO::FETCH_OBJ);
 
 //puxando os serviços salvos
-$query = "SELECT * FROM servicos_salvos WHERE id_usuario = " . $_SESSION['idUsuario'];
+$query = "SELECT * FROM servicos_salvos as ss join servicos as s on ss.id_servico = s.id_servico WHERE id_usuario = " . $_SESSION['idUsuario'] . " AND s.status_servico = 1";
 $stmt = $con->query($query);
 $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 ?>
@@ -131,7 +131,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
     <!--NavBar Fim-->
 
     <!-- Cartão do perfil comeco-->
-    <section id="myProfileSection" class="row mx-0" style="width: 100%">
+    <section id="myProfileSection" class="row">
         <div id="profilePictureArea" class="col-md-4">
             <h1>Foto de perfil</h1>
             <br>
@@ -357,6 +357,18 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
                     <div class="divConfig row">
                         <div class="col-sm-8">
+                            <h6>Mude sua localização</h6>
+                            <p>Trocou de moradia e/ou quer marcar para prestar serviços em outro lugar? Vamos ajeitar sua nova localização!</p>
+                        </div>
+                        <div class="col-sm-4 d-flex align-items-center">
+                            <button type="button" class="mybtn mybtn-outline-conversion closeConfigModal" id="changeLocation" onclick="$('#accountConfigModal').modal('hide') ;$('#addressModal').modal('show')">Trocar localização</button>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="divConfig row">
+                        <div class="col-sm-8">
                             <h6 class="text-danger">Excluir conta</h6>
                             <p class="text-danger"><strong>Você tem certeza?</strong> Sua conta será suspensa de nossa plataforma, tornando seu usuário e serviços inacessíveis</p>
                         </div>
@@ -462,6 +474,66 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
     <!-- modal confirmar novo email (código) fim -->
 
+    <!-- modal de trocar de endereço -->
+
+    <div class="modal fade" id="addressModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Informações do novo endereço</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <!-- inputs com informações do endereço -->
+                <form action="../../logic/perfil_trocar_localizacao.php" method="post" id="changeLocationForm">
+                    <div class="modal-body">
+                        <label for="userAdressCEP" class="myLabel">CEP</label> <br>
+                        <input type="text" class="form-control required" name="userAdressCEP" id="userAdressCEP" placeholder="ex.: 01234567" onkeyup="callGetAdress(this)" onchange="callGetAdress(this)" required>
+                        <small id="cepError" class="text-danger"></small>
+
+                        <div class="row mt-3">
+                            <div class="col-3">
+                                <label for="userAdressState" class="myLabel">Estado</label> <br>
+                                <input type="text" class="form-control required mb-3" name="userAdressState" id="userAdressState" readonly data-toggle="popover" data-trigger="hover" data-content="autocompletado com o CEP" data-placement="top" required>
+                            </div>
+                            <div class="col-9">
+                                <label for="userAdressCity" class="myLabel">Cidade</label> <br>
+                                <input type="text" class="form-control required mb-3" name="userAdressCity" id="userAdressCity" placeholder="autocompletado com o CEP" readonly required>
+                            </div>
+                        </div>
+
+                        <label for="userAdressNeighborhood" class="myLabel">Bairro</label> <br>
+                        <input type="text" class="form-control required mb-3" name="userAdressNeighborhood" id="userAdressNeighborhood" placeholder="Digite seu bairro" required>
+
+                        <div class="row">
+                            <div class="col-9">
+                                <label for="userAdressStreet" class="myLabel">Rua</label> <br>
+                                <input type="text" class="form-control required mb-3" name="userAdressStreet" id="userAdressStreet" placeholder="Digite sua rua" required>
+                            </div>
+                            <div class="col-3">
+                                <label for="userAdressNumber" class="myLabel">Número</label> <br>
+                                <input type="number" class="form-control required mb-3" name="userAdressNumber" id="userAdressNumber" maxlength="5" required>
+                            </div>
+                        </div>
+
+                        <label for="userAdressComplement" class="myLabel">Complemento</label> <br>
+                        <input type="text" class="form-control mb-3" name="userAdressComplement" id="userAdressComplement" placeholder="Digite o complemento (caso tenha)" data-toggle="popover" data-trigger="hover" title="Exemplo" data-content="apto. 24 BL A" data-placement="top" maxlength="20">
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="mybtn mybtn-complement">Salvar endereço</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- modal de trocar de endereço fim -->
+
     <!-- Div de redes sociais -->
 
     <section id="socialMedia">
@@ -511,7 +583,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
             <div class="myContent">
                 <h1>Serviços Solicitados</h1>
 
-                <div class="row" id="requestedCards">
+                <div class="row d-flex justify-content-center" id="requestedCards">
 
                     <?php if( count($asProviderRequestedServices) > 0 ) {
                         foreach ($asProviderRequestedServices as $key => $service) {
@@ -586,7 +658,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
             <div class="myContent mb-3">
                 <h1>Serviços disponibilizados</h1>
 
-                <div class="row" id="serviceCards">
+                <div class="row d-flex justify-content-center" id="serviceCards">
 
                     <?php if( count($userServices) > 0 ) {
                         foreach ($userServices as $key => $service) {
@@ -645,7 +717,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
             <div class="myContent">
                 <h1>Serviços que você solicitou</h1>
 
-                <div class="row" id="servicesRequestedByYouCards">
+                <div class="row d-flex justify-content-center" id="servicesRequestedByYouCards">
 
                     <?php if( count($asClientRequestedServices) > 0 ) {
                         foreach ($asClientRequestedServices as $key => $service) {
@@ -718,7 +790,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
             <div class="myContent">
                 <h1>Histórico de serviços contratados</h1>
 
-                <div class="row" id="recentServicesCards">
+                <div class="row d-flex justify-content-center" id="recentServicesCards">
 
                     <?php if( count($contractedServicesHistory) > 0 ) {
                         foreach ($contractedServicesHistory as $key => $service) {
@@ -791,7 +863,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
             <div class="myContent">
                 <h1>Serviços Salvos</h1>
 
-                <div class="row" id="savedCards">
+                <div class="row d-flex justify-content-center" id="savedCards">
 
                     <?php if( count($userSavedServices) > 0 ) {
                         foreach ($userSavedServices as $key => $service) {

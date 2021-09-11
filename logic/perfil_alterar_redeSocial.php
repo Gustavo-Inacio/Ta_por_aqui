@@ -34,7 +34,7 @@ if ($_POST['facebook'][0] !== null && $_POST['facebook'][1] !== null){
 }
 
 if ($_POST['twitter'][0] !== null && $_POST['twitter'][1] !== null){
-    if (!str_contains($_POST['twitter'][1], "https://twitter.com/")){
+    if (!str_contains($_POST['twitter'][1], "https://twitter.com/") && !str_contains($_POST['twitter'][1], "https://www.twitter.com/")){
         header('location: ../public/Perfil/meu_perfil.php');
         exit();
     }
