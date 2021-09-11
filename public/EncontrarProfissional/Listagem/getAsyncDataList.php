@@ -7,12 +7,15 @@
     }
 
     require '../../../logic/listagem_brain.php';
+    
     $brain = new serviceList();
 
     $request = json_decode(file_get_contents("php://input"));
 
     $reponse['categoires'] = $brain->getCatgorieInfo();
+    $reponse['brh'] = "oi";
+      print_r($reponse);
+    $a = json_encode($reponse);
 
-    echo json_encode($reponse);
-
+    print_r($a);
 ?>

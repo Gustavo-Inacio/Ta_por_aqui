@@ -8,10 +8,13 @@ class serviceList
     {
         $connectClass = new DbConnection();
         $this->con = $connectClass->connect();
+        $this->con->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, "SET NAMES 'utf8mb4_general_ci'");
     }
 
     public function getCatgorieInfo() {
-        $reponse = array();
+        $reponse = array(
+            "status" => false
+        );
 
         $query = "
         select categorias.nome_categoria, subcategorias.nome_subcategoria, categorias.id_categoria, subcategorias.id_subcategoria
@@ -33,9 +36,14 @@ class serviceList
                 $reponse[$value['id_categoria']]['sub'][$value['id_subcategoria']] = $value['nome_subcategoria'];  // adiciona a subcategoria dentro da sua correspondente de categoria entro do array. De forma que o sue index no arrayu tenha o mesmo codigo que o ID no bd.    
             }
 
-            return $reponse;
+            
         }
 
+        $cmd = $this->con->query("SELECT * FROM categorias");
+        $bla = $cmd->fetchAll(PDO::FETCH_ASSOC);
+
+        // print_r($bla);
+        return $bla;
 
     }
 }
