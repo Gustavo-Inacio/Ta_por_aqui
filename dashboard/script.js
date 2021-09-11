@@ -361,15 +361,15 @@ function createMostCommonCommentComplainsChart(...values){
     });
 }
 
-function createContactsChart(qnt1, qnt2, qnt3, qnt4, qnt5){
+function createContactsChart(qnt1, qnt2, qnt3, qnt4, qnt5, qnt6){
     let ctx = document.getElementById('contactsChart').getContext('2d');
     let myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Elogios', 'Sugestões', 'Reclamações', 'Problemas/bugs', 'Outros motivos'],
+            labels: ['Elogios', 'Sugestões', 'Reclamações', 'Problemas/bugs', 'contestação de ban', 'Outros motivos'],
             datasets: [{
                 label: 'Motivos de contato',
-                data: [qnt1, qnt2, qnt3, qnt4, qnt5],
+                data: [qnt1, qnt2, qnt3, qnt4, qnt5, qnt6],
                 backgroundColor: [
                     'rgba(128,255,99,0.2)',
                     'rgba(99,255,250,0.2)',

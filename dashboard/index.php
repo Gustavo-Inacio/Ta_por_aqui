@@ -42,7 +42,7 @@
 		    createMostCommonExitsChart(<?php foreach ($mostCommonUserExit as $r) { echo "'".$r['del_motivo']."'" . ', ';}?> <?php foreach ($mostCommonUserExit as $key => $r) { echo $key !== 4 ? $r['qntEscolhas'] . ', ' : $r['qntEscolhas'];}?>);
 		    createMostCommonServiceComplainsChart(<?php foreach ($mostCommonServComplains as $c) { echo "'".$c['denuncia_motivo']."'" . ', ';}?> <?php foreach ($mostCommonServComplains as $key => $c) { echo $key !== 4 ? $c['qntDenuncias'] . ', ' : $c['qntDenuncias'];}?>);
 		    createMostCommonCommentComplainsChart(<?php foreach ($mostCommonComenComplains as $c) { echo "'".$c['denuncia_motivo']."'" . ', ';}?> <?php foreach ($mostCommonComenComplains as $key => $c) { echo $key !== 4 ? $c['qntDenuncias'] . ', ' : $c['qntDenuncias'];}?>);
-		    createContactsChart(<?=$contactReason['elogios']?>, <?=$contactReason['sugestoes']?>, <?=$contactReason['reclamacoes']?>, <?=$contactReason['bugs']?>, <?=$contactReason['outros']?>);">
+		    createContactsChart(<?=$contactReason['elogios']?>, <?=$contactReason['sugestoes']?>, <?=$contactReason['reclamacoes']?>, <?=$contactReason['bugs']?>, <?=$contactReason['ban_contests']?>, <?=$contactReason['outros']?>);">
 
 		<!-- menu -->
 		<div class="nav-side-menu">
@@ -395,7 +395,7 @@
             <div class="row">
                 <div class="col-12 mb-3">
                     <div class="row d-flex justify-content-center">
-                        <div class="col-2">
+                        <div class="col-3">
                             <div class="card">
                                 <h6 class="card-header">Elogios</h6>
                                 <div class="card-body">
@@ -403,7 +403,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-2">
+                        <div class="col-3">
                             <div class="card">
                                 <h6 class="card-header">Sugestões</h6>
                                 <div class="card-body">
@@ -411,7 +411,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-2">
+                        <div class="col-3">
                             <div class="card">
                                 <h6 class="card-header">Reclamações</h6>
                                 <div class="card-body">
@@ -419,7 +419,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-2">
+                        <div class="col-3">
                             <div class="card">
                                 <h6 class="card-header">Problemas/bugs</h6>
                                 <div class="card-body">
@@ -427,7 +427,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-2">
+                        <div class="col-3">
+                            <div class="card">
+                                <h6 class="card-header">Contestação de banimento</h6>
+                                <div class="card-body">
+                                    <div class="analisysNum"><?=$contactReason['ban_contests']?> </div> <div class="text-center">contatos</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
                             <div class="card">
                                 <h6 class="card-header">Outros motivos</h6>
                                 <div class="card-body">

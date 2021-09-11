@@ -13,7 +13,7 @@ $user = $stmt->fetch(PDO::FETCH_OBJ);
 
 if ($_GET['servicetype'] === "requestedServices") {
     //serviços requisitados para esse prestador
-    $query = "SELECT * FROM contratos WHERE id_prestador = " . $_GET['user'] . " ORDER BY status_contrato ASC";
+    $query = "SELECT * FROM contratos as c join servicos as s on c.id_servico = s.id_servico WHERE id_prestador = " . $_GET['user'] . " AND s.status_servico = 1 ORDER BY c.status_contrato";
     $stmt = $con->query($query);
     $asProviderRequestedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
     ?>
@@ -88,7 +88,7 @@ if ($_GET['servicetype'] === "requestedServices") {
 
     <!-- Selecionando os serviços que o prestador em questão adicionou -->
 <?php } else if ($_GET['servicetype'] === "availableServices") {
-    $query = "SELECT id_servico, nome_servico, tipo_servico, orcamento_servico, crit_orcamento_servico, data_public_servico FROM servicos WHERE id_prestador_servico = " . $_GET['user'] . " ORDER BY nome_servico ASC";
+    $query = "SELECT id_servico, nome_servico, tipo_servico, orcamento_servico, crit_orcamento_servico, data_public_servico FROM servicos WHERE id_prestador_servico = " . $_GET['user'] . " AND status_servico = 1 ORDER BY nome_servico ASC";
     $stmt = $con->query($query);
     $userServices = $stmt->fetchAll(PDO::FETCH_OBJ);
     ?>
@@ -134,7 +134,7 @@ if ($_GET['servicetype'] === "requestedServices") {
 
 <?php } else if ($_GET['servicetype'] === "servicesRequestedByYou") {
     //serviços que você requisitou como cliente
-    $query = "SELECT * FROM contratos WHERE id_cliente = " . $_SESSION['idUsuario'] . " ORDER BY status_contrato DESC";
+    $query = "SELECT * FROM contratos as c join servicos as s on c.id_servico = s.id_servico WHERE id_cliente = " . $_SESSION['idUsuario'] . " AND s.status_servico = 1 ORDER BY status_contrato DESC";
     $stmt = $con->query($query);
     $asClientRequestedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
     ?>
@@ -202,7 +202,7 @@ if ($_GET['servicetype'] === "requestedServices") {
 <!-- Selecionando os serviços salvos -->
 <?php } else if ($_GET['servicetype'] === "savedServices") {
     //puxando os serviços salvos
-    $query = "SELECT * FROM servicos_salvos WHERE id_usuario = " . $_GET['user'] . " ORDER BY id_servico_salvo DESC";
+    $query = "SELECT * FROM servicos_salvos as ss join servicos as s on ss.id_servico = s.id_servico WHERE id_usuario = " . $_GET['user'] . " AND s.status_servico = 1 ORDER BY id_servico_salvo DESC";
     $stmt = $con->query($query);
     $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
     ?>
@@ -251,7 +251,7 @@ if ($_GET['servicetype'] === "requestedServices") {
 
 <?php } else if($_GET['servicetype'] === "recentServices") {
     //serviços que você contratou e foram aceitos
-    $query = "SELECT * FROM contratos WHERE id_cliente = " . $_GET['user']  . " AND status_contrato = 1  ORDER BY id_contrato DESC";
+    $query = "SELECT * FROM contratos as c join servicos as s on c.id_servico = s.id_servico WHERE id_cliente = " . $_GET['user']  . " AND c.status_contrato = 1 AND s.status_servico = 1  ORDER BY id_contrato DESC";
     $stmt = $con->query($query);
     $contractedServicesHistory = $stmt->fetchAll(PDO::FETCH_OBJ);
 ?>

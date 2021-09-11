@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 08-Set-2021 às 09:01
+-- Tempo de geração: 09-Set-2021 às 10:42
 -- Versão do servidor: 10.4.20-MariaDB
 -- versão do PHP: 8.0.9
 
@@ -70,7 +70,9 @@ CREATE TABLE `comentarios` (
 
 INSERT INTO `comentarios` (`id_comentario`, `id_servico`, `id_usuario`, `nota_comentario`, `desc_comentario`, `data_comentario`, `status_comentario`) VALUES
 (1, 3, 2, '4.0', 'O site ficou legal, mas deu bug em uma página', '2021-09-07 13:11:36', 1),
-(2, 2, 2, '5.0', 'Montou meu pc direitinho e nem saiu tão caro.', '2021-09-07 13:13:10', 1);
+(2, 2, 2, '5.0', 'Montou meu pc direitinho e nem saiu tão caro.', '2021-09-07 13:13:10', 1),
+(3, 5, 2, '5.0', 'Comentário teste', '2021-09-08 16:17:39', 1),
+(4, 5, 2, '3.0', 'Outro comentário muito grande aaaa Outro comentário muito grande aaaa Outro comentário muito grande aaaa Outro comentário muito grande aaaa Outro comentário muito grande aaaa Outro comentário muito grande aaaa Outro comentário muito grande aaaa Outro comentário muito grande aaaa Outro comentário muito grande aaaa Outro comentário muito grande aaaa Outro comentário muito grande aaaa Outro comentário muito grande aaaa Outro comentário muito grande aaaa Outro comentário muito grande aaaa Outro comentário muito grande aaaa Outro comentário muito grande aaaa Outro comentário muito grande aaaa Outro comentário muito grande aaaa Outro comentário muito grande aaaa Outro comentário muito grande aaaa Outro comentário muito grande aaaa Outro comentário muito grande aaaa Outro comentário muito grande aaaa Outro comentário muito grande aaaa Outro comentário muito grande aaaa Outro comentário muito grande aaaa Outro comentário muito grande aaaa Outro comentário muito grande aaaa Outro comentário muito grande aaaa Outro comentário muito grande aaaa Outro comentário muito grande aaaa Outro comentário muito grande aaaa Outro comentário muito grande aaaa ', '2021-09-08 16:18:03', 1);
 
 -- --------------------------------------------------------
 
@@ -98,7 +100,8 @@ INSERT INTO `contratos` (`id_contrato`, `id_servico`, `id_cliente`, `id_prestado
 (4, 3, 1, 1, '2021-09-07 14:13:10', 1),
 (5, 2, 1, 1, '2021-09-07 15:05:51', 1),
 (6, 5, 1, 2, '2021-09-07 15:12:51', 1),
-(7, 4, 1, 2, '2021-09-07 15:12:54', 1);
+(7, 4, 1, 2, '2021-09-07 15:12:54', 1),
+(8, 5, 2, 2, '2021-09-08 16:17:18', 1);
 
 -- --------------------------------------------------------
 
@@ -149,7 +152,7 @@ CREATE TABLE `denuncia_comentario` (
 --
 
 INSERT INTO `denuncia_comentario` (`id_denuncia_comentario`, `id_comentario`, `id_denuncia_motivo`, `id_usuario`, `desc_denuncia_comen`, `data_denuncia_comen`, `status_denuncia_comen`) VALUES
-(1, 1, 2, 2, 'comentário machista', '2021-09-07 17:39:33', 0);
+(1, 1, 2, 2, 'comentário machista', '2021-09-07 17:39:33', 1);
 
 -- --------------------------------------------------------
 
@@ -192,7 +195,9 @@ CREATE TABLE `denuncia_servico` (
 --
 
 INSERT INTO `denuncia_servico` (`id_denuncia_servico`, `id_servico`, `id_denuncia_motivo`, `id_usuario`, `desc_denuncia_serv`, `data_denuncia_serv`, `status_denuncia_serv`) VALUES
-(1, 1, 1, 2, 'é scam. O cara não faz o serviço que promete', '2021-09-07 17:28:27', 0);
+(1, 1, 1, 2, 'é scam. O cara não faz o serviço que promete', '2021-09-07 17:28:27', 1),
+(2, 2, 1, 2, 'Serviço enganoso', '2021-09-08 15:41:28', 0),
+(3, 5, 1, 3, 'Esse cara me scammou. DEVOLVE MEU DINHEIRO SEU NÓIA', '2021-09-09 00:52:55', 2);
 
 -- --------------------------------------------------------
 
@@ -216,7 +221,10 @@ CREATE TABLE `fale_conosco` (
 --
 
 INSERT INTO `fale_conosco` (`id_contato`, `nome_contato`, `email_contato`, `motivo_contato`, `fone_contato`, `msg_contato`, `data_contato`, `status_contato`) VALUES
-(1, 'Teste contato', 'email@email.com', 3, '(21) 56165-1651', 'dsadsadasasd', '2021-09-04 13:45:46', 0);
+(1, 'Teste contato', 'email@email.com', 3, '(21) 56165-1651', 'dsadsadasasd', '2021-09-04 13:45:46', 2),
+(2, 'Natan Barbosa', 'natanbarbosa525@gmail.com', 4, '(11) 99182-5452', 'Não consegui me cadastrar. Não recebi o email', '2021-09-08 17:13:54', 3),
+(3, 'Lucas Silva', 'email@gmail.com', 1, '(99) 99999-9999', 'Plataforma muito boa. Já me rendeu uma boa grana', '2021-09-08 17:14:30', 2),
+(4, 'Cleiton Maciel', 'cletin@gmail.com', 3, '(14) 64865-4654', 'Plataforma sem segurança nenhuma. Hackearam meu serviço', '2021-09-08 17:15:08', 0);
 
 -- --------------------------------------------------------
 
@@ -274,7 +282,7 @@ INSERT INTO `servicos` (`id_servico`, `id_prestador_servico`, `nome_servico`, `t
 (2, 1, 'Montagem completa de PC', 1, 'Me diga sua necessidade e eu monto um pc com as peças ideais para você', NULL, 'A definir orcamento', '2021-09-07 12:53:32', '5.0', 0, 0),
 (3, 1, 'Desenvolvimento de site', 0, 'faço site', '100.00', 'por página', '2021-09-07 12:54:23', '4.0', 0, 0),
 (4, 2, 'conserto de eletrodoméstico', 1, 'Seus eletrodomésticos ficarão novinhos em folha', NULL, 'A definir orcamento', '2021-09-07 15:10:30', NULL, 1, 0),
-(5, 2, 'Matador de insetos', 1, 'mato os insetos ', '100.00', 'por serviço', '2021-09-07 15:12:33', NULL, 1, 0),
+(5, 2, 'Matador de insetos', 1, 'mato os insetos ', '100.00', 'por serviço', '2021-09-07 15:12:33', '4.0', 2, 0),
 (6, 1, 'Adestrador de cachorro', 1, 'adestro cachorro', '80.00', 'por hora', '2021-09-07 16:54:43', NULL, 0, 0);
 
 -- --------------------------------------------------------
@@ -524,7 +532,8 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`id_usuario`, `nome_usuario`, `sobrenome_usuario`, `fone_usuario`, `email_usuario`, `senha_usuario`, `data_nasc_usuario`, `sexo_usuario`, `classif_usuario`, `cep_usuario`, `uf_usuario`, `cidade_usuario`, `bairro_usuario`, `rua_usuario`, `numero_usuario`, `comple_usuario`, `data_entrada_usuario`, `desc_usuario`, `site_usuario`, `status_usuario`, `imagem_usuario`, `nota_media_usuario`, `posicao_usuario`) VALUES
 (1, 'Lauro', 'Gomes', '(11) 95789-6526', 'lauringamesbr@gmail.com', 'senha2222', '2003-07-28', 'M', 1, '09771220', 'SP', 'São Bernardo do Campo', 'Nova Petrópolis', 'Rua Ernesta Pelosini', '14', NULL, '2021-08-30 17:04:07', 'Caso se interesse por um serviço, chama pv', 'https://www.lauro.com', 0, 'user1/profile_image/163101887361375f790b7ce.png', '4.5', 0x00000000010100000024b4e55c8ab337c018b2bad5734647c0),
-(2, 'Natan', 'Barbosa', '(11) 99182-5452', 'natanbarbosa525@gmail.com', 'temp1234', '2003-07-28', 'M', 1, '09771220', 'SP', 'São Bernardo do Campo', 'Nova Petrópolis', 'Rua Ernesta Pelosini', '23', NULL, '2021-09-01 11:36:21', NULL, NULL, 1, 'user2/profile_image/1631020084613764344cd0e.jpg', NULL, 0x00000000010100000024b4e55c8ab337c018b2bad5734647c0);
+(2, 'Natan', 'Barbosa', '(11) 99182-5452', 'natanbarbosa525@gmail.com', 'temp1234', '2003-07-28', 'M', 1, '09771220', 'SP', 'São Bernardo do Campo', 'Nova Petrópolis', 'Rua Ernesta Pelosini', '23', NULL, '2021-09-01 11:36:21', NULL, NULL, 1, 'user2/profile_image/1631020084613764344cd0e.jpg', '4.0', 0x00000000010100000024b4e55c8ab337c018b2bad5734647c0),
+(3, 'Emerson', 'Azevedo', '(45) 12457-8965', 'dilajos297@ppp998.com', 'temp12345', '2000-07-28', 'M', 1, '09771220', 'SP', 'São Bernardo do Campo', 'Nova Petrópolis', 'Rua Ernesta Pelosini', '56', NULL, '2021-09-08 12:50:51', NULL, NULL, 1, 'no_picture.jpg', NULL, 0x00000000010100000024b4e55c8ab337c018b2bad5734647c0);
 
 -- --------------------------------------------------------
 
@@ -552,7 +561,11 @@ INSERT INTO `usuario_redes_sociais` (`id_rede_social`, `id_usuario`, `rede_socia
 (5, 2, 'instagram', NULL, NULL),
 (6, 2, 'facebook', NULL, NULL),
 (7, 2, 'twitter', NULL, NULL),
-(8, 2, 'linkedin', NULL, NULL);
+(8, 2, 'linkedin', NULL, NULL),
+(9, 3, 'instagram', NULL, NULL),
+(10, 3, 'facebook', NULL, NULL),
+(11, 3, 'twitter', NULL, NULL),
+(12, 3, 'linkedin', NULL, NULL);
 
 --
 -- Índices para tabelas despejadas
@@ -690,13 +703,13 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de tabela `comentarios`
 --
 ALTER TABLE `comentarios`
-  MODIFY `id_comentario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_comentario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `contratos`
 --
 ALTER TABLE `contratos`
-  MODIFY `id_contrato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_contrato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de tabela `deletar_conta_motivos`
@@ -720,13 +733,13 @@ ALTER TABLE `denuncia_motivo`
 -- AUTO_INCREMENT de tabela `denuncia_servico`
 --
 ALTER TABLE `denuncia_servico`
-  MODIFY `id_denuncia_servico` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_denuncia_servico` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `fale_conosco`
 --
 ALTER TABLE `fale_conosco`
-  MODIFY `id_contato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_contato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `motivos_saida_usuario`
@@ -768,13 +781,13 @@ ALTER TABLE `subcategorias`
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `usuario_redes_sociais`
 --
 ALTER TABLE `usuario_redes_sociais`
-  MODIFY `id_rede_social` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_rede_social` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Restrições para despejos de tabelas

@@ -1,3 +1,8 @@
+//permitir popovers
+$(function () {
+    $('[data-toggle="popover"]').popover()
+})
+
 //preenchendo fake input com placeholder
 if(document.getElementById('showUserSite').innerText === ""){
     document.getElementById('showUserSite').innerText = "Caso tenha, insira seu site ou porfólio online"
@@ -107,7 +112,7 @@ function verifySocialMedia() {
     //Verificação dos campos do twitter
     if( document.getElementsByClassName('twitter')[0].value !== "" || document.getElementsByClassName('twitter')[1].value !== "" ){
         //verifica se é uma url válida
-        if( document.getElementsByClassName('twitter')[1].value.indexOf("https://twitter.com/") === -1 ){
+        if( document.getElementsByClassName('twitter')[1].value.indexOf("https://twitter.com/") === -1 && document.getElementsByClassName('twitter')[1].value.indexOf("https://www.twitter.com/") === -1 ){
             valido = false
             msgErro = "Digite um link como: 'https://twitter.com/seu_nome' no campo do twitter"
         }
@@ -322,3 +327,55 @@ function deleteAccount() {
 $('.closeConfigModal').on('click', () => {
     $('#accountConfigModal').modal('hide')
 })
+
+//mascara do cep
+$('#userAdressCEP').mask('00000000');
+
+//Chamando a função getAdress pelo input CEP
+function callGetAdress(input){
+    if(input.value.length === 8){
+        //caso o input tenha 8 digitos ele chama a função passando já o value o cep
+        getAdress(input.value)
+    }
+}
+
+//Selecionando Estado e cidade com a API dos correios
+function getAdress(cep){
+    let url = `https://viacep.com.br/ws/${cep}/json/unicode/`
+
+    let ajax = new XMLHttpRequest()
+    ajax.open('GET', url)
+
+    ajax.onreadystatechange = () => {
+        if(ajax.readyState == 4 && ajax.status == 200){
+            let enderecoJSON = ajax.responseText
+
+            //convertendo a resposta JSON em objeto
+            enderecoJSON = JSON.parse(enderecoJSON)
+
+            if(enderecoJSON.erro == true){
+                //tratativa de CEP invalido
+                let aviso = document.getElementById('cepError')
+                aviso.innerHTML = 'Digite um CEP valido'
+
+            } else{
+                //retirando aviso caso exista
+                if(document.getElementById('cepError')){
+                    document.getElementById('cepError').innerHTML = ''
+                }
+
+                //Colocando a resposta nos formulários
+                document.getElementById('userAdressCity').value = enderecoJSON.localidade
+                document.getElementById('userAdressState').value = enderecoJSON.uf
+                document.getElementById('userAdressStreet').value = enderecoJSON.logradouro
+                document.getElementById('userAdressNeighborhood').value = enderecoJSON.bairro
+            }
+        }
+        if(ajax.readyState == 4 && ajax.status == 400){
+            alert('Erro ao se conectar com os correios')
+        }
+
+    }
+
+    ajax.send()
+}

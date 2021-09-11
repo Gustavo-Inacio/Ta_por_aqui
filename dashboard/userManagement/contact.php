@@ -1,3 +1,18 @@
+<?php
+require "../assets/getData.php";
+$contactReport = new ContactReport($_GET['id']);
+$changeContactMsg = "";
+if (isset($_POST['changeContactStatus'])){
+    $changeContactMsg = $contactReport->changeContactStatus(intval($_POST['changeContactStatus']));
+}
+
+$contactInfo = $contactReport->getContactInfo();
+
+$sendMailMsg = "";
+if (isset($_POST['assunto']) && isset($_POST['msgAnterior']) && isset($_POST['msgResposta'])){
+    $sendMailMsg = $contactReport->sendRespForUser($contactInfo['email_contato'], $_POST['assunto'], $_POST['msgAnterior'], $_POST['msgResposta']);
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -75,6 +90,25 @@
 
     <a href="contactReport.php"> <i class="fas fa-arrow-left"></i> voltar </a>
 
+    <?php if ($changeContactMsg !== "") { ?>
+        <div class="alert alert-info alert-dismissible fade show mt-3" role="alert" style="max-width: 500px">
+            <span><?=$changeContactMsg?></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    <?php }?>
+
+
+    <?php if ($sendMailMsg !== "") { ?>
+        <div class="alert alert-info alert-dismissible fade show mt-3" role="alert" style="max-width: 500px">
+            <span><?=$sendMailMsg?></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    <?php }?>
+
     <table class="table table-hover mt-3" style="max-width: 900px">
         <thead class="thead-dark">
         <tr>
@@ -88,38 +122,123 @@
         </tr>
         <tr>
             <th>Nome do usuário:</th>
-            <td>Guru do Inacio</td>
+            <td><?=$contactInfo['nome_contato']?></td>
         </tr>
         <tr>
             <th>Email:</th>
-            <td>gurudoinacio@gmail.com</td>
+            <td><?=$contactInfo['email_contato']?></td>
         </tr>
         <tr>
             <th>Telefone:</th>
-            <td>(11)99999-9999</td>
+            <td><?=$contactInfo['fone_contato']?></td>
         </tr>
         <tr>
             <th>Data de envio:</th>
-            <td>01/01/2001</td>
+            <?php
+            $data_envio = new DateTime($contactInfo['data_contato']);
+            ?>
+            <td><?=$data_envio->format('d/m/Y')?></td>
         </tr>
         <tr>
             <th>Motivo do contato:</th>
-            <td>Problemas/bugs</td>
+            <?php
+            $motivo = "";
+            switch ($contactInfo['motivo_contato']){
+                case 1:
+                    $motivo = "<span class='text-success'>Elogio</span>";
+                    break;
+                case 2:
+                    $motivo = "<span class='text-info'>Sugestão</span>";
+                    break;
+                case 3:
+                    $motivo = "<span class='text-danger'>Reclamação</span>";
+                    break;
+                case 4:
+                    $motivo = "<span class='text-warning'>Problemas/bugs</span>";
+                    break;
+                case 5:
+                    $motivo = "<span class='text-secondary'>Outro motivo</span>";
+                    break;
+                case 6:
+                    $motivo = "<span class='text-danger'>Contestação de banimento</span>";
+                    break;
+            }
+            ?>
+            <td><?=$motivo?></td>
         </tr>
         <tr>
             <th>Mensagem:</th>
-            <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam assumenda cum deserunt dignissimos dolores exercitationem facilis perferendis, sed similique velit! Autem culpa doloribus, et eum fugit iste laudantium quidem sapiente.</td>
+            <td><?=$contactInfo['msg_contato']?></td>
         </tr>
         <tr>
             <th>status:</th>
-            <td>não visto</td>
+            <?php
+            $status = "";
+            switch ($contactInfo['status_contato']){
+                case 0:
+                    $status = "<span class='text-primary'>Não visto</span>";
+                    break;
+                case 1:
+                    $status = "<span class='text-secondary'>Ignorado</span>";
+                    break;
+                case 2:
+                    $status = "<span class='text-info'>Resolvendo</span>";
+                    break;
+                case 3:
+                    $status = "<span class='text-success'>Resolvido</span>";
+                    break;
+            }
+            ?>
+            <td><?=$status?></td>
         </tr>
         <tr>
             <th>Marcar como:</th>
-            <td><button class="btn btn-secondary btn-sm">ignorado</button> | <button class="btn btn-primary btn-sm">resolvendo</button> | <button class="btn btn-success btn-sm">resolvido</button></td>
+            <td>
+                <?php if ($contactInfo['status_contato'] != 1) {?>
+                    <form action="contact.php?id=<?=$_GET['id']?>" method="post" class="d-inline">
+                        <input type="hidden" name="changeContactStatus" value="1">
+                        <button type="submit" class="btn btn-secondary btn-sm">Ignorado</button> |
+                    </form>
+                <?php } if($contactInfo['status_contato'] != 2) {?>
+                    <form action="contact.php?id=<?=$_GET['id']?>" method="post" class="d-inline">
+                        <input type="hidden" name="changeContactStatus" value="2">
+                        <button type="submit" class="btn btn-info btn-sm">Resolvendo</button>
+                    </form>
+                <?php } if($contactInfo['status_contato'] != 3) {?>
+                    | <form action="contact.php?id=<?=$_GET['id']?>" method="post" class="d-inline">
+                        <input type="hidden" name="changeContactStatus" value="3">
+                        <button type="submit" class="btn btn-success btn-sm">Resolvido</button>
+                    </form>
+                <?php }?>
+            </td>
         </tr>
         </tbody>
     </table>
+
+    <hr>
+
+    <h3>Enviar email de resposta para usuário</h3>
+    <form action="contact.php?id=<?=$_GET['id']?>" method="post">
+        <div class="mb-3"><label for="empEmail">O mensagem será enviada do email da empresa: </label> <a
+                    href="mailto:contato.taporaqui@gmail.com" id="empEmail">contato.taporaqui@gmail.com</a></div>
+        <div class="mb-3">
+            <label for="assunto">Assunto: </label> <br>
+            <input type="text" id="assunto" name="assunto" required>
+        </div>
+
+        <div class="mb-3 float-left">
+            <label for="msgAnterior">Mensagem anterior do usuário:</label> <br>
+            <textarea name="msgAnterior" id="msgAnterior" cols="50" rows="7" readonly required><?=$contactInfo['msg_contato']?></textarea>
+        </div>
+
+        <div class="mb-3 float-left">
+            <label for="msgResposta">Resposta:</label> <br>
+            <textarea name="msgResposta" id="msgResposta" cols="50" rows="7" required></textarea>
+        </div>
+        <div class="clearfix"></div>
+
+        <button type="submit">Enviar mensagem</button>
+    </form>
 </div>
 
 </body>
