@@ -361,7 +361,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                             <p>Trocou de moradia e/ou quer marcar para prestar serviços em outro lugar? Vamos ajeitar sua nova localização!</p>
                         </div>
                         <div class="col-sm-4 d-flex align-items-center">
-                            <button type="button" class="mybtn mybtn-outline-conversion closeConfigModal" id="changeLocation" onclick="location.href = '../../logic/perfil_trocar_localizacao.php'">Trocar localização</button>
+                            <button type="button" class="mybtn mybtn-outline-conversion closeConfigModal" id="changeLocation" onclick="$('#accountConfigModal').modal('hide') ;$('#addressModal').modal('show')">Trocar localização</button>
                         </div>
                     </div>
 
@@ -473,6 +473,66 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
     </div>
 
     <!-- modal confirmar novo email (código) fim -->
+
+    <!-- modal de trocar de endereço -->
+
+    <div class="modal fade" id="addressModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Informações do novo endereço</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <!-- inputs com informações do endereço -->
+                <form action="../../logic/perfil_trocar_localizacao.php" method="post" id="changeLocationForm">
+                    <div class="modal-body">
+                        <label for="userAdressCEP" class="myLabel">CEP</label> <br>
+                        <input type="text" class="form-control required" name="userAdressCEP" id="userAdressCEP" placeholder="ex.: 01234567" onkeyup="callGetAdress(this)" onchange="callGetAdress(this)" required>
+                        <small id="cepError" class="text-danger"></small>
+
+                        <div class="row mt-3">
+                            <div class="col-3">
+                                <label for="userAdressState" class="myLabel">Estado</label> <br>
+                                <input type="text" class="form-control required mb-3" name="userAdressState" id="userAdressState" readonly data-toggle="popover" data-trigger="hover" data-content="autocompletado com o CEP" data-placement="top" required>
+                            </div>
+                            <div class="col-9">
+                                <label for="userAdressCity" class="myLabel">Cidade</label> <br>
+                                <input type="text" class="form-control required mb-3" name="userAdressCity" id="userAdressCity" placeholder="autocompletado com o CEP" readonly required>
+                            </div>
+                        </div>
+
+                        <label for="userAdressNeighborhood" class="myLabel">Bairro</label> <br>
+                        <input type="text" class="form-control required mb-3" name="userAdressNeighborhood" id="userAdressNeighborhood" placeholder="Digite seu bairro" required>
+
+                        <div class="row">
+                            <div class="col-9">
+                                <label for="userAdressStreet" class="myLabel">Rua</label> <br>
+                                <input type="text" class="form-control required mb-3" name="userAdressStreet" id="userAdressStreet" placeholder="Digite sua rua" required>
+                            </div>
+                            <div class="col-3">
+                                <label for="userAdressNumber" class="myLabel">Número</label> <br>
+                                <input type="number" class="form-control required mb-3" name="userAdressNumber" id="userAdressNumber" maxlength="5" required>
+                            </div>
+                        </div>
+
+                        <label for="userAdressComplement" class="myLabel">Complemento</label> <br>
+                        <input type="text" class="form-control mb-3" name="userAdressComplement" id="userAdressComplement" placeholder="Digite o complemento (caso tenha)" data-toggle="popover" data-trigger="hover" title="Exemplo" data-content="apto. 24 BL A" data-placement="top" maxlength="20">
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="mybtn mybtn-complement">Salvar endereço</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- modal de trocar de endereço fim -->
 
     <!-- Div de redes sociais -->
 
