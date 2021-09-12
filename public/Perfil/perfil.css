@@ -362,7 +362,7 @@ i.inativa{
 }
 
 /*Serviços disponibilizados*/
-#availableServices{
+#availableServices, #acceptedRejectedServices{
     margin-top: 50px;
     background-color: #ffffff;
     padding: 40px 0;
@@ -370,6 +370,15 @@ i.inativa{
 }
 
 #availableServices h1::after{
+    content: "";
+    margin: 25px auto;
+    display: block;
+    width: 120px;
+    height: 15px;
+    background-color: #74ECA4;
+}
+
+#acceptedRejectedServices h1::after{
     content: "";
     margin: 25px auto;
     display: block;

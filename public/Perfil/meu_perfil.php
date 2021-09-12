@@ -25,27 +25,32 @@ $userSocialMedia = $stmt->fetchAll(PDO::FETCH_OBJ);
 //puxando os serviços relacionados ao prestador
 if($_SESSION['classificacao'] !== 0){
     //serviços disponibilizados
-    $query = "SELECT id_servico, nome_servico, tipo_servico, crit_orcamento_servico, orcamento_servico, data_public_servico FROM servicos WHERE id_prestador_servico = " . $_SESSION['idUsuario'] . " AND status_servico = 1 ORDER BY id_servico DESC";
+    $query = "SELECT id_servico, nome_servico, tipo_servico, crit_orcamento_servico, orcamento_servico, data_public_servico FROM servicos WHERE id_prestador_servico = " . $_SESSION['idUsuario'] . " AND status_servico = 1 ORDER BY id_servico DESC LIMIT 0,4";
     $stmt = $con->query($query);
     $userServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
     //serviços requisitados para esse prestador
-    $query = "SELECT * FROM contratos as c join servicos as s on c.id_servico = s.id_servico WHERE c.id_prestador = " . $_SESSION['idUsuario']  . " AND s.status_servico = 1 ORDER BY c.status_contrato ASC";
+    $query = "SELECT * FROM contratos as c join servicos as s on c.id_servico = s.id_servico WHERE c.id_prestador = " . $_SESSION['idUsuario']  . " AND s.status_servico = 1 AND c.status_contrato = 0 LIMIT 0,4";
     $stmt = $con->query($query);
     $asProviderRequestedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+    //serviços rejeitados ou aceitos por esse prestador
+    $query = "SELECT c.id_contrato, c.id_servico, c.id_cliente, c.status_contrato, c.data_contrato, s.nome_servico, s.orcamento_servico, s.crit_orcamento_servico, u.nome_usuario FROM contratos as c join servicos as s on c.id_servico = s.id_servico join usuarios u on s.id_prestador_servico = u.id_usuario WHERE c.id_prestador = " . $_SESSION['idUsuario']  . " AND s.status_servico = 1 AND c.status_contrato in(1,2) LIMIT 0,4";
+    $stmt = $con->query($query);
+    $asProviderAcceptReject = $stmt->fetchAll(PDO::FETCH_OBJ);
 }
 //serviços que você requisitou como cliente
-$query = "SELECT * FROM contratos as c join servicos as s on c.id_servico = s.id_servico WHERE c.id_cliente = " . $_SESSION['idUsuario']  . " AND s.status_servico = 1 ORDER BY c.status_contrato DESC";
+$query = "SELECT * FROM contratos as c join servicos as s on c.id_servico = s.id_servico WHERE c.id_cliente = " . $_SESSION['idUsuario']  . " AND s.status_servico = 1 ORDER BY c.status_contrato DESC LIMIT 0,4";
 $stmt = $con->query($query);
 $asClientRequestedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
 //serviços que você contratou e foram aceitos
-$query = "SELECT * FROM contratos as c join servicos as s on c.id_servico = s.id_servico WHERE c.id_cliente = " . $_SESSION['idUsuario']  . " AND s.status_servico = 1 AND c.status_contrato = 1 ORDER BY c.id_contrato DESC";
+$query = "SELECT * FROM contratos as c join servicos as s on c.id_servico = s.id_servico WHERE c.id_cliente = " . $_SESSION['idUsuario']  . " AND s.status_servico = 1 AND c.status_contrato = 1 ORDER BY c.id_contrato DESC LIMIT 0,4";
 $stmt = $con->query($query);
 $contractedServicesHistory = $stmt->fetchAll(PDO::FETCH_OBJ);
 
 //puxando os serviços salvos
-$query = "SELECT * FROM servicos_salvos as ss join servicos as s on ss.id_servico = s.id_servico WHERE id_usuario = " . $_SESSION['idUsuario'] . " AND s.status_servico = 1";
+$query = "SELECT * FROM servicos_salvos as ss join servicos as s on ss.id_servico = s.id_servico WHERE id_usuario = " . $_SESSION['idUsuario'] . " AND s.status_servico = 1 LIMIT 0,4";
 $stmt = $con->query($query);
 $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 ?>
@@ -782,6 +787,71 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
         </div>
     </section>
     <!-- FIM div serviços que você solicitou -->
+
+    <?php if($_SESSION['classificacao'] != 0) {?>
+        <!-- Div serviços aceitos ou rejeitados -->
+        <section id="acceptedRejectedServices">
+            <div class="container">
+
+                <div class="myContent mb-3">
+                    <h1>Serviços aceitos ou rejeitados</h1>
+
+                    <div class="row d-flex justify-content-center text-left">
+
+                        <?php if( count($asProviderAcceptReject) > 0 ) {
+                            foreach ($asProviderAcceptReject as $key => $service) {
+                                if ($key == 3){
+                                    break;
+                                }
+
+                                $date = new DateTime($service->data_contrato);
+                                ?>
+                                <div class="col-lg-4 col-md-6 mt-3">
+                                    <div class="card myCard2 mx-3">
+                                        <div class="card-header myCardHeader2">
+                                            Seu serviço foi solicitado por <a class="text-white font-weight-bold" href="perfil.php?id=<?=$service->id_cliente?>"><?=$service->nome_usuario?></a>
+                                        </div>
+                                        <div class="card-body">
+                                            <h3 class="card-title"><?=$service->nome_servico?></h3>
+                                            <p class="card-text">
+                                                <strong>Informações básicas:</strong> <br>
+                                                <strong>Orçamento:</strong> R$ <?=$service->orcamento_servico?> <?=$service->crit_orcamento_servico?><br>
+                                                <strong>Data da solicitação:</strong> <?=$date->format('d/m/y')?>
+                                            </p>
+
+                                            <a href="../EncontrarProfissional/VisualizarServico/visuaizarServico.php?serviceID=<?=$service->id_servico?>" class="text-primary">Mais detalhes</a>
+
+                                        </div>
+                                        <div class="card-footer">
+                                            <?php if($service->status_contrato == 1) {?>
+                                                <div class="alert alert-success" role="alert">Serviço aceito</div>
+                                            <?php } else if($service->status_contrato == 2) {?>
+                                                <div class="alert alert-danger" role="alert">Serviço rejeitado</div>
+                                            <?php }?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php
+                            }
+                        } else {?>
+                            <div class="col-12 mt-3">
+                                <p class="text-info text-center">
+                                    Você não aceitou ou rejeitou nenhum serviço até agora.
+                                </p>
+                            </div>
+                        <?php }?>
+
+                    </div>
+                </div>
+
+                <?php if(count($asProviderAcceptReject) > 3) {?>
+                    <button type="button" class="showServicesButtons mr-4 mb-4" id="showAllAvailableServices" onclick="showAllServices('acceptRejectServices', <?=$_SESSION['idUsuario']?>)">Todos os serviços</button>
+                <?php }?>
+            </div>
+        </section>
+
+        <!-- Fim serviços disponibilizados -->
+    <?php }?>
 
     <!-- Div de histórico de serviços contrtados -->
     <section id="recentServices">
