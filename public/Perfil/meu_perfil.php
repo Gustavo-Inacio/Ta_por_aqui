@@ -4,7 +4,7 @@ session_start();
 //caso haja cookies salvos no pc do usuário, ele vai logar com os cookies salvos
 require "../../logic/entrar_cookie.php";
 
-if( empty($_SESSION['idUsuario']) ){
+if( $_SESSION['idUsuario'] === "" ){
     header('Location: ../Home/home.php');
 }
 
@@ -113,7 +113,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                     <a href="../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../Chat/chat.html" class="nav-link">Chat</a>
+                    <a href="../Chat/chat.php" class="nav-link">Chat</a>
                 </li>
             </ul>
 

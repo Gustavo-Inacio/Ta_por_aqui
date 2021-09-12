@@ -74,7 +74,7 @@ if(isset($_SESSION['idUsuario'])) {
                     <a href="../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../Chat/chat.html" class="nav-link">Chat</a>
+                    <a href="../Chat/chat.php" class="nav-link">Chat</a>
                 </li>
                 <?php if( empty($_SESSION['idUsuario']) ){ ?>
                     <li class="nav-item">
@@ -153,7 +153,7 @@ if(isset($_SESSION['idUsuario'])) {
                         <div class="form-group col-md-6" id="reason">
                             <label for="contactReason">Motivos de contato</label> <br>
                             <select class="form-control" name="contactReason" id="contactReason" required>
-                                <option value="">Selecione uma motivo</option>
+                                <option value="">Selecione um motivo</option>
                                 <option value="1">Elogios</option>
                                 <option value="2">Sugestões</option>
                                 <option value="3">Reclamações</option>

@@ -64,10 +64,10 @@ session_start();
                 <a href="../Contato/contato.php" class="nav-link">Fale conosco</a>
             </li>
             <li class="nav-item">
-                <a href="sobreNos.php" class="nav-link">Sobre</a>
+                <a href="../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
             </li>
             <li class="nav-item">
-                <a href="../Chat/chat.html" class="nav-link">Chat</a>
+                <a href="../Chat/chat.php" class="nav-link">Chat</a>
             </li>
             <?php if( empty($_SESSION) ){ ?>
                 <li class="nav-item">

@@ -62,7 +62,7 @@ if($_SESSION['classificacao'] == 0){
                     pofissional</a>
             </li>
             <li class="nav-item">
-                <a href="../../../Artigos/artigos.html" class="nav-link">Artigos</a>
+                <a href="../../Artigos/artigos.html" class="nav-link">Artigos</a>
             </li>
             <li class="nav-item">
                 <a href="../../Contato/contato.php" class="nav-link">Fale conosco</a>
@@ -71,7 +71,7 @@ if($_SESSION['classificacao'] == 0){
                 <a href="../../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
             </li>
             <li class="nav-item">
-                <a href="../../../Chat/chat.html" class="nav-link">Chat</a>
+                <a href="../../Chat/chat.php" class="nav-link">Chat</a>
             </li>
         </ul>
 
