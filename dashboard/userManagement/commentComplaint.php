@@ -112,7 +112,7 @@ if (isset($_POST['searchInput'])){
     <div class="clearfix"></div>
 
     <div class="row my-2">
-        <div class="col-md-12">
+        <div class="col-md-12 col-lg-10">
             <?php foreach ($comments as $comment) {?>
                 <div class="listDiv row my-3" onclick="redirecionaPagina('comment.php', <?=$comment['id_comentario']?>)">
                     <div class="col-md-2 mb-3 mb-sm-0">

@@ -258,7 +258,9 @@
 }
 
 .mybtn-sm{
-    padding: 4px 30px;
+    font-size: 13px;
+    width: auto;
+    padding: 4px 1.2em;
 }
 
 .mybtn-conversion{
