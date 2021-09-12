@@ -89,8 +89,9 @@ $userServices = $userReport->getUserServices();
                                 class="fa fa-angle-down"></i></span></div>
             </li>
             <ul class="sub-menu collapse" id="appControl">
-                <li><a href="../appControl/addCategory.php"><i class="fa fa-angle-right"></i> Adicionar categorias</a>
-                </li>
+                <li><a href="../appControl/addCategory.php"><i class="fa fa-angle-right"></i> Adicionar categorias</a></li>
+                <li><a href="../appControl/addComplainReason.php"><i class="fa fa-angle-right"></i> Adicionar denúncias motivos</a></li>
+                <li><a href="../appControl/addExitReason.php"><i class="fa fa-angle-right"></i> Adicionar saída motivos</a></li>
             </ul>
         </ul>
     </div>

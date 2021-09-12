@@ -80,6 +80,8 @@ if (isset($_POST['serviceStatus'])){
             </li>
             <ul class="sub-menu collapse" id="appControl">
                 <li><a href="../appControl/addCategory.php"><i class="fa fa-angle-right"></i> Adicionar categorias</a></li>
+                <li><a href="../appControl/addComplainReason.php"><i class="fa fa-angle-right"></i> Adicionar denúncias motivos</a></li>
+                <li><a href="../appControl/addExitReason.php"><i class="fa fa-angle-right"></i> Adicionar saída motivos</a></li>
             </ul>
         </ul>
     </div>
@@ -97,6 +99,7 @@ if (isset($_POST['serviceStatus'])){
                 <option value="1" <?php if (isset($_POST['serviceStatus']) and $_POST['serviceStatus'] == 1) {echo 'selected';}?>>Serviços ativos</option>
                 <option value="2" <?php if (isset($_POST['serviceStatus']) and $_POST['serviceStatus'] == 2) {echo 'selected';}?>>Serviços banidos</option>
                 <option value="0" <?php if (isset($_POST['serviceStatus']) and $_POST['serviceStatus'] == 0) {echo 'selected';}?>>Serviços suspensos</option>
+                <option value="3" <?php if (isset($_POST['serviceStatus']) and $_POST['serviceStatus'] == 3) {echo 'selected';}?>>Serviços ocultados pelo user</option>
             </select>
         </div>
 
@@ -152,8 +155,10 @@ if (isset($_POST['serviceStatus'])){
                                 echo '<span class="text-secondary">Servico suspenso</span>';
                             } else if ($service['status_servico'] == 1){
                                 echo '<span class="text-success">Servico ativo</span>';
-                            } else {
+                            } else if ($service['status_servico'] == 2) {
                                 echo '<span class="text-danger">Servico banido</span>';
+                            } else {
+                                echo '<span class="text-secondary">Servico ocultado pelo usuário</span>';
                             }
                             ?> <br>
                             <span>Denúncias: <?=$servicesListing->getQntComplains($service['id_servico'])?></span>

@@ -1,15 +1,11 @@
 <?php
 require "../assets/getData.php";
-$createCategories = new AppControl();
+$createComplainReasons = new AppControl();
 $operationMsg = "";
-if (isset($_POST['masterCategories'])){
-    $operationMsg = $createCategories->addMasterCategories($_POST['masterCategories']);
-}
 
-if (isset($_POST['masterCategoryForSub']) && isset($_POST['subCategories'])){
-    $operationMsg = $createCategories->addSubCategories($_POST['subCategories'], $_POST['masterCategoryForSub']);
+if (isset($_POST['reasonCategory']) && isset($_POST['complainReasons'])){
+    $operationMsg = $createComplainReasons->addComplainReasons($_POST['complainReasons'], $_POST['reasonCategory']);
 }
-$categories = $createCategories->getCategories();
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -75,8 +71,8 @@ $categories = $createCategories->getCategories();
                 <div class="moreItems"><i class="fas fa-cog sidebar-icon"></i> Controle do app <span class="arrow"><i class="fa fa-angle-down"></i></span></div>
             </li>
             <ul class="sub-menu collapse" id="appControl">
-                <li class="active"><a href="addCategory.php"><i class="fa fa-angle-right"></i> Adicionar categorias</a></li>
-                <li><a href="addComplainReason.php"><i class="fa fa-angle-right"></i> Adicionar denúncias motivos</a></li>
+                <li><a href="addCategory.php"><i class="fa fa-angle-right"></i> Adicionar categorias</a></li>
+                <li class="active"><a href="addComplainReason.php"><i class="fa fa-angle-right"></i> Adicionar denúncias</a></li>
                 <li><a href="addExitReason.php"><i class="fa fa-angle-right"></i> Adicionar saída motivos</a></li>
             </ul>
         </ul>
@@ -85,7 +81,7 @@ $categories = $createCategories->getCategories();
 
 <!-- paginas -->
 <div class="main" id="pagina">
-    <h1>Adicionar categoria</h1>
+    <h1>Adicionar motivos de denúncia</h1>
 
     <?php if ($operationMsg !== "") { ?>
         <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
@@ -96,32 +92,17 @@ $categories = $createCategories->getCategories();
         </div>
     <?php }?>
 
-    <div id="addMasterCategoryDiv" class="my-4">
-        <h3>Adicionar categoria mestre</h3>
-        <form action="addCategory.php" method="post">
-            <label for="masterCategories">Digite as categorias mestres que serão Adicionadas </label> <br>
-            <textarea name="masterCategories" id="masterCategories" cols="50" rows="4" required placeholder="escreva a(s) categoria(s) e caso haja mais de uma separe por vírgula. Exemplo: Informática, Serviços domésticos, Limpeza, Organização escolar"></textarea>
-            <br>
-            <button type="submit">Adicionar</button>
-        </form>
-    </div>
-
-    <hr>
-
-    <div id="addSubCategoryDiv" class="my-4">
-        <h3>Adicionar subcategoria</h3>
-        <form action="addCategory.php" method="post">
-            <label for="masterCategoryForSub">Escolha a categoria mestre para qual as subcategorias vão pertencer: </label>
-            <br>
-            <select name="masterCategoryForSub" id="masterCategoryForSub" required>
-                <?php foreach ($categories as $category) {?>
-                    <option value="<?=$category['id_categoria']?>"><?=$category['nome_categoria']?></option>
-                <?php }?>
+    <div id="addComplainReason" class="my-4">
+        <form action="addComplainReason.php" method="post">
+            <label for="reasonCategory">Esse motivo de denúncia será referente à </label>
+            <select name="reasonCategory" id="reasonCategory" required>
+                <option value="1">Serviços</option>
+                <option value="2">Comentários</option>
             </select>
             <br> <br>
 
-            <label for="subCategories">Digite as subcategorias mestres que serão Adicionadas</label> <br>
-            <textarea name="subCategories" id="subCategories" cols="50" rows="4" required placeholder="escreva a(s) categoria(s) e caso haja mais de uma separe por vírgula. Exemplo: Informática, Serviços domésticos, Limpeza, Organização escolar"></textarea> <br>
+            <label for="complainReasons">Digite os motivos que serão adicionados</label> <br>
+            <textarea name="complainReasons" id="complainReasons" cols="50" rows="4" required placeholder="escreva o(s) motivo(s) e caso haja mais de uma separe por vírgula. Exemplo: Racismo, Spam, Ameaça de perigo, Xenofobia"></textarea> <br>
             <button type="submit">Adicionar</button>
         </form>
 
