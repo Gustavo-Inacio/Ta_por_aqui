@@ -683,7 +683,7 @@ class ContactReport {
     }
 }
 
-class CreateCategories{
+class AppControl{
     private $con;
 
     public function __construct(){
@@ -710,7 +710,7 @@ class CreateCategories{
         }
         $query = "INSERT INTO categorias(nome_categoria) values $queryParam";
         $this->con->query($query);
-        return "Categorias mestres inseridas com sucesso";
+        return "Categorias mestres inseridas com sucesso <br> query inserida: $query";
     }
 
     public function addSubCategories($subcategories, $masterCategory){
@@ -726,6 +726,36 @@ class CreateCategories{
         }
         $query = "INSERT INTO subcategorias(id_categoria, nome_subcategoria) values $queryParam";
         $this->con->query($query);
-        return "Subcategorias inseridas com sucesso";
+        return "Subcategorias inseridas com sucesso <br> query inserida: $query";
+    }
+
+    public function addComplainReasons($reasons, $category){
+        $arrReasons = explode(',', $reasons);
+        $queryParam = "";
+        foreach ($arrReasons as $key => $reason){
+            if ($key !== count($arrReasons) - 1){
+                $queryParam .= "('" . trim($reason) . "', $category), ";
+            } else {
+                $queryParam .= "('" . trim($reason) . "', $category)";
+            }
+        }
+        $query = "INSERT INTO denuncia_motivo(denuncia_motivo, categoria_motivo) values $queryParam";
+        $this->con->query($query);
+        return "Motivos de denúncia inseridos com sucesso inseridas com sucesso. <br> Query inserida: $query";
+    }
+
+    public function addUserExitReasons($reasons){
+        $arrReasons = explode(',', $reasons);
+        $queryParam = "";
+        foreach ($arrReasons as $key => $reason){
+            if ($key !== count($arrReasons) - 1){
+                $queryParam .= "('" . trim($reason) . "'), ";
+            } else {
+                $queryParam .= "('" . trim($reason) . "')";
+            }
+        }
+        $query = "INSERT INTO deletar_conta_motivos(del_motivo) values $queryParam";
+        $this->con->query($query);
+        return "Categorias mestres inseridas com sucesso <br> query inserida: $query";
     }
 }
