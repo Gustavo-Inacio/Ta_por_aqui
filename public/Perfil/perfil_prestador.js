@@ -319,7 +319,7 @@ function becomeProvider(situation) {
 }
 
 function deleteAccount() {
-    if (confirm("Você tem certeza que deseja deletar a sua conta? Você ser´redirecionado para outra página.")){
+    if (confirm("Você tem certeza que deseja deletar a sua conta? Você será redirecionado para outra página.")){
         location.href = "../SuspenderUsuario/suspenderUsuario.php"
     }
 }

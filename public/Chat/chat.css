@@ -3,6 +3,7 @@ body{
 }
 
 #page{
+    min-height: 700px;
     max-width: 1440px;
     margin: 0 auto;
 }
@@ -156,7 +157,11 @@ body{
 
 .chatMessages{
     margin-top: 20px;
+<<<<<<< HEAD
     max-height: 600px;
+=======
+    max-height: 800px;
+>>>>>>> 4246741... bugs e erros gramaticais consertador
     overflow-y: auto;
 }
 
@@ -536,4 +541,11 @@ input:checked + .slider:before {
 
 .slider.round:before {
     border-radius: 50%;
+<<<<<<< HEAD
+=======
+}
+
+.closed{
+    display: none;
+>>>>>>> 4246741... bugs e erros gramaticais consertador
 }

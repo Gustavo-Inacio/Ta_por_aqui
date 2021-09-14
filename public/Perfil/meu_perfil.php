@@ -106,7 +106,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                 </li>
                 <li class="nav-item">
                     <a href="../EncontrarProfissional/Listagem/listagem.php" class="nav-link">Encontre um
-                        pofissional</a>
+                        profissional</a>
                 </li>
                 <li class="nav-item">
                     <a href="../Artigos/artigos.php" class="nav-link">Artigos</a>
