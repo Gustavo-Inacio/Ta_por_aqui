@@ -1,0 +1,16 @@
+body, html{
+    height: 100%;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+}
+
+#page{
+    border: 1px solid red;
+    width: 100%;
+    flex-grow: 1;
+    background: url("../../assets/images/developing_page.jpg") repeat center;
+    background-size: contain;
+}

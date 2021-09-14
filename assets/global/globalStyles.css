@@ -19,6 +19,10 @@
 }
 
 /* --- Utilidades Comeco --- */
+textarea:focus, input:focus, select:focus, button:focus {
+    outline: 0 !important;
+}
+
 .show{
     display: initial !important;
 } 
