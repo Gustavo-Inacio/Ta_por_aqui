@@ -2,9 +2,6 @@ $(document).ready(()=>{
     $('.showMidiaBtn').on('click', e => {
         $(e.target).toggleClass('off')
     })
-<<<<<<< HEAD
-})
-=======
 
     $('#userInfo').on('click', e => {
         if ($('#chatThirdColumn').hasClass('closed')){
@@ -65,4 +62,3 @@ function returnDesktopScreen(){
     $('#chatSecondColumn').removeClass('closed')
     $('#chatThirdColumn').removeClass('closed')
 }
->>>>>>> 4246741... bugs e erros gramaticais consertador
