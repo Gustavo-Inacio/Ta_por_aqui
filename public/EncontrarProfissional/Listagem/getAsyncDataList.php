@@ -10,12 +10,21 @@
     
     $brain = new serviceList();
 
-    $request = json_decode(file_get_contents("php://input"));
+    $inputData = json_decode(file_get_contents("php://input"));
 
-    $reponse['categoires'] = $brain->getCatgorieInfo();
-    $reponse['brh'] = "oi";
-      print_r($reponse);
+    if(isset($inputData->getCategories) && $inputData->getCategories == "true"){
+        $reponse['categoires'] = $brain->getCatgorieInfo();
+       // echo "get cat";
+    }
+
+    if(isset($inputData->getServices) && $inputData->getServices == "true"){
+        if($inputData->dataServices) {
+            $reponse['services'] = $brain->getServices($inputData->dataServices);
+        }
+        //echo 'get servi';
+    }
+
     $a = json_encode($reponse);
-
-    print_r($a);
+    // print_r($inputData);
+     print_r($a);
 ?>

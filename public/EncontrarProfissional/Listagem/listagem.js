@@ -5,7 +5,7 @@ let searachState = {
         //     name :''
         // }
     ],
-    write : ''
+    write : []
 };
 
 const removeSearchTag = (index) => {
@@ -76,8 +76,81 @@ const refreshTagsArea = () => {
     }
 } 
 
+const requestServices = () => {
+    let req = new XMLHttpRequest();
+
+    let subCatid = [];
+    searachState.tag.forEach(elem => {
+        subCatid.push(elem.id);
+    });
+
+    const config = {
+        getServices: true,
+        dataServices: {
+            quantity : 50,
+            maxDist: 10000,
+            minDist: 0,
+            myLat: 0,
+            myLng: 0,
+            subCat: subCatid,
+            searchWords: searachState.write
+        }
+        
+    };
+
+    req.onload =() => {
+        console.group('response');
+    //   console.log(req.response);
+        console.log(JSON.parse(req.response))
+        prepareCatgories((JSON.parse(req.response)));
+        console.groupEnd();
+
+        let responseData = JSON.parse(req.response);
+        responseData = responseData.services.data;
+        console.log(responseData)
+        let gottenServices = [];
+        
+        for(let prop in responseData){
+            let elem = responseData[prop];
+
+            let nota_media = elem.nota_media_servico;
+            if(!((typeof elem.nota_media_servico === "number") || (typeof elem.nota_media_servico === "string"))) nota_media = 0;
+
+            // console.log(typeof elem.nota_media_servico)
+            // console.log(elem.nota_media_servico)
+            // console.log(!((typeof elem.nota_media_servico === "number") || (typeof elem.nota_media_servico === "string")));
+
+            // console.log(typeof nota_media);
+
+            gottenServices.push({
+                serviceID: elem.id_servico,
+                imgSRC: `../../../assets/images/users/${elem.imagem_usuario}`,
+                location: `${elem.uf_usuario}, ${elem.cidade_usuario}, ${elem.bairro_usuario}`,
+                serviceName: elem.nome_servico,
+                providerName: elem.nome_usuario,
+                avaliation: nota_media,
+                avaliationQuant: 1,
+                price: `${elem.orcamento_servico} ${elem.crit_orcamento_servico}`
+            });
+        }
+        
+        setServicesSate({services: gottenServices});
+
+    }
+
+    req.open("POST", './getAsyncDataList.php');
+
+    req.send(JSON.stringify(config));
+}
+
 const refreshSearch = () => {
     refreshTagsArea();
+    let serviceCadrPath_e = document.querySelector('.service-cards-path');
+    serviceCadrPath_e.innerHTML = "";
+    
+    if(!(searachState.tag.length ==0 && searachState.write == ""))
+    requestServices();
+
 }
 
 function setSearchState(data){
@@ -348,7 +421,7 @@ const serviceCardsRender = (data) => {
         let structureData = {
             serviceID: '',
             imgSRC: '',
-            avaliation: '',
+            avaliation: 0,
         }
 
         const dataHandler = () => {
@@ -364,7 +437,7 @@ const serviceCardsRender = (data) => {
             for(let i = 0; i < Math.round(structureData.avaliation) && i < stars.length; i++){
                 stars[i].setAttribute('fill', '#FF9839');
             }
-            node.querySelector('.service-card--avaliation-quantity').innerHTML = `(${structureData.avaliation.toFixed(2)})`;
+            node.querySelector('.service-card--avaliation-quantity').innerHTML = `(${parseFloat(structureData.avaliation).toFixed(2)})`;
 
             const imgHandler = () => {
                 let profileIMG = new Image();
@@ -499,7 +572,7 @@ let count = 0;
 //     if(count >= serviceCardData.length) count = 0;
 // }, 1000)
 
-serviceCardsRender([serviceCardData[0]]);
+// serviceCardsRender([serviceCardData[0]]);
 
 const categories = [
     {
@@ -958,17 +1031,108 @@ const prepareCatgories = (resp_cat) => {
 const getCategoriesName = () => {
     let req = new XMLHttpRequest();
 
+    const config = {
+        getCategories: true
+    };
+
     req.onload =() => {
-        console.group('response');
-        console.log(req.response);
-        console.log(JSON.parse(req.response))
+        // console.group('response');
+        // console.log(req.response);
+        // console.log(JSON.parse(req.response))
+        
+        // console.groupEnd();
         prepareCatgories((JSON.parse(req.response)));
-        console.groupEnd();
     }
 
     req.open("POST", './getAsyncDataList.php');
 
-    req.send();
+    req.send(JSON.stringify(config));
 }
+
+const getServices0 = () => {
+    let req = new XMLHttpRequest();
+
+    const config = {
+        getServices: true,
+        quantity : 5
+    };
+
+    req.onload =() => {
+        console.group('response');
+        // console.log(req.response);
+        console.log(JSON.parse(req.response))
+        prepareCatgories((JSON.parse(req.response)));
+        console.groupEnd();
+
+        
+
+        let responseData = JSON.parse(req.response);
+        responseData = responseData.services.data;
+        console.log(responseData)
+        let gottenServices = [];
+        
+        for(let prop in responseData){
+            let elem = responseData[prop];
+
+            let nota_media = elem.nota_media_servico;
+            if(!((typeof elem.nota_media_servico === "number") || (typeof elem.nota_media_servico === "string"))) nota_media = 0;
+
+            // console.log(typeof elem.nota_media_servico)
+            // console.log(elem.nota_media_servico)
+            // console.log(!((typeof elem.nota_media_servico === "number") || (typeof elem.nota_media_servico === "string")));
+
+            // console.log(typeof nota_media);
+
+            gottenServices.push({
+                serviceID: elem.id_servico,
+                imgSRC: `../../../assets/images/users/${elem.imagem_usuario}`,
+                location: `${elem.uf_usuario}, ${elem.cidade_usuario}, ${elem.bairro_usuario}`,
+                serviceName: elem.nome_servico,
+                providerName: elem.nome_usuario,
+                avaliation: nota_media,
+                avaliationQuant: 1,
+                price: `${elem.orcamento_servico} ${elem.crit_orcamento_servico}`
+            });
+        }
+        
+        serviceCardsRender(gottenServices);
+
+    }
+
+    req.open("POST", './getAsyncDataList.php');
+
+    req.send(JSON.stringify(config));
+}
+
+document.querySelector("#searchButton").onclick = () => {
+    let text = document.querySelector("#searchBar").value;
+    text = text.trim();
+
+    let spliText = text.split(" ")
+    if(text == "") spliText = [];
+
+    console.log(text)
+
+    setSearchState({write : spliText});
+    console.log(searachState)
+    
+};
+
+let servicesSate = {
+    services :[]
+};
+
+const refreshServicesAll = () => {
+    serviceCardsRender(servicesSate.services);
+}
+
+function setServicesSate (data)  {
+    for(let i in data){
+        servicesSate[i] = data[i]
+    }
+
+    refreshServicesAll();
+}
+
 
 getCategoriesName();
