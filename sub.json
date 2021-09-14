@@ -1,0 +1,577 @@
+[
+	{
+		"id_subcategoria" : 1,
+		"id_categoria" : 1,
+		"nome_subcategoria" : "Configurações e programações de sistemas informáticos"
+	},
+	{
+		"id_subcategoria" : 2,
+		"id_categoria" : 1,
+		"nome_subcategoria" : "Montagem e instalação de computadores"
+	},
+	{
+		"id_subcategoria" : 3,
+		"id_categoria" : 1,
+		"nome_subcategoria" : "Correção de defeitos nas redes/equipamentos"
+	},
+	{
+		"id_subcategoria" : 4,
+		"id_categoria" : 1,
+		"nome_subcategoria" : "Desenvolvimento e instalação de softwares"
+	},
+	{
+		"id_subcategoria" : 5,
+		"id_categoria" : 1,
+		"nome_subcategoria" : "Desenvolvimento de sistemas para computadores"
+	},
+	{
+		"id_subcategoria" : 6,
+		"id_categoria" : 1,
+		"nome_subcategoria" : "Desenvolvimento de websites na internet"
+	},
+	{
+		"id_subcategoria" : 7,
+		"id_categoria" : 1,
+		"nome_subcategoria" : "Cabeamento e redes"
+	},
+	{
+		"id_subcategoria" : 8,
+		"id_categoria" : 2,
+		"nome_subcategoria" : "Adestrador de Cachorro"
+	},
+	{
+		"id_subcategoria" : 9,
+		"id_categoria" : 2,
+		"nome_subcategoria" : "Medicina veterinária"
+	},
+	{
+		"id_subcategoria" : 10,
+		"id_categoria" : 2,
+		"nome_subcategoria" : "Passeador de Cachorro"
+	},
+	{
+		"id_subcategoria" : 11,
+		"id_categoria" : 3,
+		"nome_subcategoria" : "Assessor de Eventos"
+	},
+	{
+		"id_subcategoria" : 12,
+		"id_categoria" : 3,
+		"nome_subcategoria" : "Bandas e Cantores"
+	},
+	{
+		"id_subcategoria" : 13,
+		"id_categoria" : 3,
+		"nome_subcategoria" : "Bartender"
+	},
+	{
+		"id_subcategoria" : 14,
+		"id_categoria" : 3,
+		"nome_subcategoria" : "Brindes e Lembranças "
+	},
+	{
+		"id_subcategoria" : 15,
+		"id_categoria" : 3,
+		"nome_subcategoria" : "Churrasqueiro"
+	},
+	{
+		"id_subcategoria" : 16,
+		"id_categoria" : 3,
+		"nome_subcategoria" : "Confeiteiro"
+	},
+	{
+		"id_subcategoria" : 17,
+		"id_categoria" : 3,
+		"nome_subcategoria" : "Decoração"
+	},
+	{
+		"id_subcategoria" : 18,
+		"id_categoria" : 3,
+		"nome_subcategoria" : "Food Truck"
+	},
+	{
+		"id_subcategoria" : 19,
+		"id_categoria" : 3,
+		"nome_subcategoria" : "Fotógrafo"
+	},
+	{
+		"id_subcategoria" : 20,
+		"id_categoria" : 3,
+		"nome_subcategoria" : "Garçons"
+	},
+	{
+		"id_subcategoria" : 21,
+		"id_categoria" : 3,
+		"nome_subcategoria" : "Recepcionista"
+	},
+	{
+		"id_subcategoria" : 22,
+		"id_categoria" : 3,
+		"nome_subcategoria" : "Manobrista"
+	},
+	{
+		"id_subcategoria" : 23,
+		"id_categoria" : 3,
+		"nome_subcategoria" : "Organização de Eventos"
+	},
+	{
+		"id_subcategoria" : 24,
+		"id_categoria" : 4,
+		"nome_subcategoria" : "Alfaiate"
+	},
+	{
+		"id_subcategoria" : 25,
+		"id_categoria" : 4,
+		"nome_subcategoria" : "Artesanato"
+	},
+	{
+		"id_subcategoria" : 26,
+		"id_categoria" : 4,
+		"nome_subcategoria" : "Barbeiro"
+	},
+	{
+		"id_subcategoria" : 27,
+		"id_categoria" : 4,
+		"nome_subcategoria" : "Bronzeamento"
+	},
+	{
+		"id_subcategoria" : 28,
+		"id_categoria" : 4,
+		"nome_subcategoria" : "Cabeleireiros"
+	},
+	{
+		"id_subcategoria" : 29,
+		"id_categoria" : 4,
+		"nome_subcategoria" : "Corte e Custura"
+	},
+	{
+		"id_subcategoria" : 30,
+		"id_categoria" : 4,
+		"nome_subcategoria" : "Depilação"
+	},
+	{
+		"id_subcategoria" : 31,
+		"id_categoria" : 4,
+		"nome_subcategoria" : "Designer de Cílios"
+	},
+	{
+		"id_subcategoria" : 32,
+		"id_categoria" : 4,
+		"nome_subcategoria" : "Designer de Sobrancelhas"
+	},
+	{
+		"id_subcategoria" : 33,
+		"id_categoria" : 4,
+		"nome_subcategoria" : "Esteticista"
+	},
+	{
+		"id_subcategoria" : 34,
+		"id_categoria" : 4,
+		"nome_subcategoria" : "Estilista"
+	},
+	{
+		"id_subcategoria" : 35,
+		"id_categoria" : 4,
+		"nome_subcategoria" : "Minucure e Pedicure"
+	},
+	{
+		"id_subcategoria" : 36,
+		"id_categoria" : 4,
+		"nome_subcategoria" : "Maquiador"
+	},
+	{
+		"id_subcategoria" : 37,
+		"id_categoria" : 4,
+		"nome_subcategoria" : "Micropigmentador"
+	},
+	{
+		"id_subcategoria" : 38,
+		"id_categoria" : 4,
+		"nome_subcategoria" : "Sapateiro"
+	},
+	{
+		"id_subcategoria" : 39,
+		"id_categoria" : 5,
+		"nome_subcategoria" : "Limpeza de Vidro"
+	},
+	{
+		"id_subcategoria" : 40,
+		"id_categoria" : 5,
+		"nome_subcategoria" : "Limpeza Pós-Obras"
+	},
+	{
+		"id_subcategoria" : 41,
+		"id_categoria" : 5,
+		"nome_subcategoria" : "Limpeza de caixa da água"
+	},
+	{
+		"id_subcategoria" : 42,
+		"id_categoria" : 5,
+		"nome_subcategoria" : "Limpeza de Calha"
+	},
+	{
+		"id_subcategoria" : 43,
+		"id_categoria" : 5,
+		"nome_subcategoria" : "Higienização de colchões"
+	},
+	{
+		"id_subcategoria" : 44,
+		"id_categoria" : 5,
+		"nome_subcategoria" : "Dedetização"
+	},
+	{
+		"id_subcategoria" : 45,
+		"id_categoria" : 5,
+		"nome_subcategoria" : "Auxiliar de serviços gerais"
+	},
+	{
+		"id_subcategoria" : 46,
+		"id_categoria" : 6,
+		"nome_subcategoria" : "Arquiteto"
+	},
+	{
+		"id_subcategoria" : 47,
+		"id_categoria" : 6,
+		"nome_subcategoria" : "Chaveiro"
+	},
+	{
+		"id_subcategoria" : 48,
+		"id_categoria" : 6,
+		"nome_subcategoria" : "Decorador"
+	},
+	{
+		"id_subcategoria" : 49,
+		"id_categoria" : 6,
+		"nome_subcategoria" : "Desentupidor"
+	},
+	{
+		"id_subcategoria" : 50,
+		"id_categoria" : 6,
+		"nome_subcategoria" : "Eletricista Residencial"
+	},
+	{
+		"id_subcategoria" : 51,
+		"id_categoria" : 6,
+		"nome_subcategoria" : "Eletricista Industrial"
+	},
+	{
+		"id_subcategoria" : 52,
+		"id_categoria" : 6,
+		"nome_subcategoria" : "Eletricista Automobilístico"
+	},
+	{
+		"id_subcategoria" : 53,
+		"id_categoria" : 6,
+		"nome_subcategoria" : "Encanador"
+	},
+	{
+		"id_subcategoria" : 54,
+		"id_categoria" : 6,
+		"nome_subcategoria" : "Engenheiro"
+	},
+	{
+		"id_subcategoria" : 55,
+		"id_categoria" : 6,
+		"nome_subcategoria" : "Gesso e DryWall"
+	},
+	{
+		"id_subcategoria" : 56,
+		"id_categoria" : 6,
+		"nome_subcategoria" : "Instalador de eletrônicos"
+	},
+	{
+		"id_subcategoria" : 57,
+		"id_categoria" : 6,
+		"nome_subcategoria" : "Instalação de Papel de Parede"
+	},
+	{
+		"id_subcategoria" : 58,
+		"id_categoria" : 6,
+		"nome_subcategoria" : "Isolamentos Térmicos e Acústicos"
+	},
+	{
+		"id_subcategoria" : 59,
+		"id_categoria" : 6,
+		"nome_subcategoria" : "Jardinagem"
+	},
+	{
+		"id_subcategoria" : 60,
+		"id_categoria" : 6,
+		"nome_subcategoria" : "Lazer e Recreação"
+	},
+	{
+		"id_subcategoria" : 61,
+		"id_categoria" : 6,
+		"nome_subcategoria" : "Limpeza de Vidro"
+	},
+	{
+		"id_subcategoria" : 62,
+		"id_categoria" : 6,
+		"nome_subcategoria" : "Limpeza Pós-Obras"
+	},
+	{
+		"id_subcategoria" : 63,
+		"id_categoria" : 6,
+		"nome_subcategoria" : "Marceneiro"
+	},
+	{
+		"id_subcategoria" : 64,
+		"id_categoria" : 6,
+		"nome_subcategoria" : "Marido de Aluguel"
+	},
+	{
+		"id_subcategoria" : 65,
+		"id_categoria" : 6,
+		"nome_subcategoria" : "Mecânico"
+	},
+	{
+		"id_subcategoria" : 66,
+		"id_categoria" : 6,
+		"nome_subcategoria" : "Montador de móveis"
+	},
+	{
+		"id_subcategoria" : 67,
+		"id_categoria" : 6,
+		"nome_subcategoria" : "Pedreiro"
+	},
+	{
+		"id_subcategoria" : 68,
+		"id_categoria" : 6,
+		"nome_subcategoria" : "Pintor"
+	},
+	{
+		"id_subcategoria" : 69,
+		"id_categoria" : 6,
+		"nome_subcategoria" : "Reciclagem"
+	},
+	{
+		"id_subcategoria" : 70,
+		"id_categoria" : 6,
+		"nome_subcategoria" : "Remoção de Entulho"
+	},
+	{
+		"id_subcategoria" : 71,
+		"id_categoria" : 6,
+		"nome_subcategoria" : "Serralheiro"
+	},
+	{
+		"id_subcategoria" : 72,
+		"id_categoria" : 6,
+		"nome_subcategoria" : "Soldagem"
+	},
+	{
+		"id_subcategoria" : 73,
+		"id_categoria" : 6,
+		"nome_subcategoria" : "Vidraceiro"
+	},
+	{
+		"id_subcategoria" : 74,
+		"id_categoria" : 7,
+		"nome_subcategoria" : "Assitência Técnica de eletro domésticos"
+	},
+	{
+		"id_subcategoria" : 75,
+		"id_categoria" : 7,
+		"nome_subcategoria" : "Assitência técnica de Ar condicionado"
+	},
+	{
+		"id_subcategoria" : 76,
+		"id_categoria" : 7,
+		"nome_subcategoria" : "Assitência técnica de Fogão"
+	},
+	{
+		"id_subcategoria" : 77,
+		"id_categoria" : 7,
+		"nome_subcategoria" : "Assitência técnica de Geladeira"
+	},
+	{
+		"id_subcategoria" : 78,
+		"id_categoria" : 7,
+		"nome_subcategoria" : "Assitência técnica de Microondas"
+	},
+	{
+		"id_subcategoria" : 79,
+		"id_categoria" : 7,
+		"nome_subcategoria" : "Assitência Técnica de Eletronicos"
+	},
+	{
+		"id_subcategoria" : 80,
+		"id_categoria" : 7,
+		"nome_subcategoria" : "Assitência Técnica de TV"
+	},
+	{
+		"id_subcategoria" : 81,
+		"id_categoria" : 7,
+		"nome_subcategoria" : "Assitência Técnica de Notebook"
+	},
+	{
+		"id_subcategoria" : 82,
+		"id_categoria" : 7,
+		"nome_subcategoria" : "Assitência Técnica de Computador"
+	},
+	{
+		"id_subcategoria" : 83,
+		"id_categoria" : 7,
+		"nome_subcategoria" : "Assitência Técnica de Caixa de Som"
+	},
+	{
+		"id_subcategoria" : 84,
+		"id_categoria" : 7,
+		"nome_subcategoria" : "Assitência Técnica de Celular"
+	},
+	{
+		"id_subcategoria" : 85,
+		"id_categoria" : 7,
+		"nome_subcategoria" : "Assitência Técnica de Tablet "
+	},
+	{
+		"id_subcategoria" : 86,
+		"id_categoria" : 7,
+		"nome_subcategoria" : "Assitência Técnica de Impressora"
+	},
+	{
+		"id_subcategoria" : 87,
+		"id_categoria" : 7,
+		"nome_subcategoria" : "Assitência Técnica de Video Game"
+	},
+	{
+		"id_subcategoria" : 88,
+		"id_categoria" : 7,
+		"nome_subcategoria" : "Assistência Técnica de Aquecedor a Gás"
+	},
+	{
+		"id_subcategoria" : 89,
+		"id_categoria" : 8,
+		"nome_subcategoria" : "Mudança Residencial Completa"
+	},
+	{
+		"id_subcategoria" : 90,
+		"id_categoria" : 8,
+		"nome_subcategoria" : "Carreto"
+	},
+	{
+		"id_subcategoria" : 91,
+		"id_categoria" : 8,
+		"nome_subcategoria" : "Frete de Objetos e Caixas leves"
+	},
+	{
+		"id_subcategoria" : 92,
+		"id_categoria" : 8,
+		"nome_subcategoria" : "Transporte de eletrodomésticos"
+	},
+	{
+		"id_subcategoria" : 93,
+		"id_categoria" : 9,
+		"nome_subcategoria" : "Artes"
+	},
+	{
+		"id_subcategoria" : 94,
+		"id_categoria" : 9,
+		"nome_subcategoria" : "Artesanato"
+	},
+	{
+		"id_subcategoria" : 95,
+		"id_categoria" : 9,
+		"nome_subcategoria" : "Beleza"
+	},
+	{
+		"id_subcategoria" : 96,
+		"id_categoria" : 9,
+		"nome_subcategoria" : "Dança"
+	},
+	{
+		"id_subcategoria" : 97,
+		"id_categoria" : 9,
+		"nome_subcategoria" : "Desenvolvimento Web"
+	},
+	{
+		"id_subcategoria" : 98,
+		"id_categoria" : 9,
+		"nome_subcategoria" : "Educação Especial"
+	},
+	{
+		"id_subcategoria" : 99,
+		"id_categoria" : 9,
+		"nome_subcategoria" : "Escolares e Reforço"
+	},
+	{
+		"id_subcategoria" : 100,
+		"id_categoria" : 9,
+		"nome_subcategoria" : "Fotografia"
+	},
+	{
+		"id_subcategoria" : 101,
+		"id_categoria" : 9,
+		"nome_subcategoria" : "Gastronia"
+	},
+	{
+		"id_subcategoria" : 102,
+		"id_categoria" : 9,
+		"nome_subcategoria" : "Idiomas"
+	},
+	{
+		"id_subcategoria" : 103,
+		"id_categoria" : 9,
+		"nome_subcategoria" : "Informática"
+	},
+	{
+		"id_subcategoria" : 104,
+		"id_categoria" : 9,
+		"nome_subcategoria" : "Luta"
+	},
+	{
+		"id_subcategoria" : 105,
+		"id_categoria" : 9,
+		"nome_subcategoria" : "Moda"
+	},
+	{
+		"id_subcategoria" : 106,
+		"id_categoria" : 9,
+		"nome_subcategoria" : "Música"
+	},
+	{
+		"id_subcategoria" : 107,
+		"id_categoria" : 10,
+		"nome_subcategoria" : "Babá"
+	},
+	{
+		"id_subcategoria" : 108,
+		"id_categoria" : 10,
+		"nome_subcategoria" : "Cozinheira"
+	},
+	{
+		"id_subcategoria" : 109,
+		"id_categoria" : 10,
+		"nome_subcategoria" : "Diarista"
+	},
+	{
+		"id_subcategoria" : 110,
+		"id_categoria" : 10,
+		"nome_subcategoria" : "Empregada Doméstica"
+	},
+	{
+		"id_subcategoria" : 111,
+		"id_categoria" : 10,
+		"nome_subcategoria" : "Faxineira"
+	},
+	{
+		"id_subcategoria" : 112,
+		"id_categoria" : 10,
+		"nome_subcategoria" : "Lavadeira"
+	},
+	{
+		"id_subcategoria" : 113,
+		"id_categoria" : 10,
+		"nome_subcategoria" : "Lavagem de Cortinas, Persianas e Tapetes"
+	},
+	{
+		"id_subcategoria" : 114,
+		"id_categoria" : 10,
+		"nome_subcategoria" : "Mensalista"
+	},
+	{
+		"id_subcategoria" : 115,
+		"id_categoria" : 10,
+		"nome_subcategoria" : "Passadeira"
+	}
+]

@@ -15,6 +15,8 @@ class DbConnection {
                 "$this->password"
             );
 
+            // $connect->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, "SET NAMES utf8");
+
             return $connect;
 
         } catch (PDOException $e){

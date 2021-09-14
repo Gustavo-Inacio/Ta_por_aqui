@@ -208,8 +208,8 @@
                         <div class="carousel-inner">
                             <?php foreach ($serviceImg as $i => $img) {?>
                                 <div class="carousel-item <?=$i === 0 ? "active" : ""?>">
-                                    <!-- <img src="../../../assets/images/users/<?php echo $img;?>" class="d-block w-100" alt="SERVICE-IMG"> -->
-                                    <img src="<?php echo $img;?>" class="d-block w-100" alt="SERVICE-IMG">
+                                    <img src="../../../assets/images/users/<?php echo $img;?>" class="d-block w-100" alt="SERVICE-IMG">
+                                    <!-- <img src="<?php echo $img;?>" class="d-block w-100" alt="SERVICE-IMG"> -->
                                 </div>
                             <?php }?>
                         </div>
@@ -227,8 +227,8 @@
                     <div class="my-service-carousel-img-indicators">
                         <?php foreach ($serviceImg as $i => $img) {?>
                             <div class="my-carousel-indicator-item <?=$i == 0 ? "active" : ""?>">
-                                <!-- <img src="../../../assets/images/users/<?php echo $img;?>" class="d-block w-100" alt="SERVICE-IMG"> -->
-                                <img src="<?php echo $img;?>" class="d-block w-100" alt="SERVICE-IMG">
+                                <img src="../../../assets/images/users/<?php echo $img;?>" class="d-block w-100" alt="SERVICE-IMG">
+                                <!-- <img src="<?php echo $img;?>" class="d-block w-100" alt="SERVICE-IMG"> -->
                             </div>
                         <?php }?>
                     </div>
