@@ -180,11 +180,7 @@ $con = $con->connect();
     <!-- fim listagem de contatos -->
 
     <!-- mensagens -->
-<<<<<<< HEAD
-    <div class="col-md-6" id="chatSecondColumn">
-=======
     <div class="col-md-9" id="chatSecondColumn">
->>>>>>> 4246741... bugs e erros gramaticais consertador
         <div class="userInfo row" id="userInfo">
             <div class="col-2 d-flex">
                 <img src="../../assets/images/users/no_picture.jpg" alt="Imagem do usuário" class="userImg">
@@ -220,39 +216,6 @@ $con = $con->connect();
                 <div class="messageText">Lorem ipsum dolor sit amet, consectetur adipisicing elit. At eveniet ipsam laborum nam nobis perferendis rerum ullam, velit. Aut dicta ducimus incidunt itaque nihil, officia placeat praesentium quisquam sint voluptatum.</div>
                 <div class="messageTime">16:00</div>
             </div>
-<<<<<<< HEAD
-
-            <div class="message myMessage">
-                <div class="messageText">Lorem ipsum dolor sit amet, consectetur adipisicing elit. At eveniet ipsam laborum nam nobis perferendis rerum ullam, velit. Aut dicta ducimus incidunt itaque nihil, officia placeat praesentium quisquam sint voluptatum.</div>
-                <div class="messageTime">16:00</div>
-            </div>
-
-            <div class="message itsMessage">
-                <div class="messageText">Lorem ipsum dolor sit amet, consectetur adipisicing elit. At eveniet ipsam laborum nam nobis perferendis rerum ullam, velit. Aut dicta ducimus incidunt itaque nihil, officia placeat praesentium quisquam sint voluptatum.</div>
-                <div class="messageTime">16:00</div>
-            </div>
-
-            <div class="message myMessage">
-                <div class="messageText">Lorem ipsum dolor sit amet, consectetur adipisicing elit. At eveniet ipsam laborum nam nobis perferendis rerum ullam, velit. Aut dicta ducimus incidunt itaque nihil, officia placeat praesentium quisquam sint voluptatum.</div>
-                <div class="messageTime">16:00</div>
-            </div>
-
-            <div class="message itsMessage">
-                <div class="messageText">Lorem ipsum dolor sit amet, consectetur adipisicing elit. At eveniet ipsam laborum nam nobis perferendis rerum ullam, velit. Aut dicta ducimus incidunt itaque nihil, officia placeat praesentium quisquam sint voluptatum.</div>
-                <div class="messageTime">16:00</div>
-            </div>
-
-            <div class="message myMessage">
-                <div class="messageText">Lorem ipsum dolor sit amet, consectetur adipisicing elit. At eveniet ipsam laborum nam nobis perferendis rerum ullam, velit. Aut dicta ducimus incidunt itaque nihil, officia placeat praesentium quisquam sint voluptatum.</div>
-                <div class="messageTime">16:00</div>
-            </div>
-
-            <div class="message itsMessage">
-                <div class="messageText">Lorem ipsum dolor sit amet, consectetur adipisicing elit. At eveniet ipsam laborum nam nobis perferendis rerum ullam, velit. Aut dicta ducimus incidunt itaque nihil, officia placeat praesentium quisquam sint voluptatum.</div>
-                <div class="messageTime">16:00</div>
-            </div>
-=======
->>>>>>> 4246741... bugs e erros gramaticais consertador
         </div>
 
         <div class="communicationBar row">
@@ -281,11 +244,7 @@ $con = $con->connect();
     <!-- fim mensagens -->
 
     <!-- detalhes do contato -->
-<<<<<<< HEAD
-    <div class="col-md-3" id="chatThirdColumn">
-=======
     <div class="col-md-3 closed" id="chatThirdColumn">
->>>>>>> 4246741... bugs e erros gramaticais consertador
         <div class="userDetailedInfo">
             <img src="../../assets/images/users/no_picture.jpg" alt="Imagem do usuário" class="userImg userImg-lg">
             <div class="userName userName-lg">Nome do usuário</div>
@@ -301,15 +260,6 @@ $con = $con->connect();
                 </button>
                 <div class="collapse" id="chatMidiaList">
                     <img src="../../assets/images/users/user1/service_images/service4/1629844731612574fb386b6.jpg" alt="" class="chatMidiaItem">
-<<<<<<< HEAD
-                    <img src="../../assets/images/users/user1/service_images/service4/1629844731612574fb386b6.jpg" alt="" class="chatMidiaItem">
-                    <img src="../../assets/images/users/user1/service_images/service4/1629844731612574fb386b6.jpg" alt="" class="chatMidiaItem">
-                    <img src="../../assets/images/users/user1/service_images/service4/1629844731612574fb386b6.jpg" alt="" class="chatMidiaItem">
-                    <img src="../../assets/images/users/user1/service_images/service4/1629844731612574fb386b6.jpg" alt="" class="chatMidiaItem">
-                    <img src="../../assets/images/users/user1/service_images/service4/1629844731612574fb386b6.jpg" alt="" class="chatMidiaItem">
-
-=======
->>>>>>> 4246741... bugs e erros gramaticais consertador
                 </div>
 
                 <button type="button" class="btnToggle btnDocs d-flex justify-content-around align-items-center" data-toggle="collapse" data-target="#chatDocList" aria-expanded="false" aria-controls="chatDocList">
@@ -319,24 +269,6 @@ $con = $con->connect();
                     <div class="formatBtn chatDocItem">
                         <i class="far fa-file-pdf"></i> <span class="docName">nome do arquivo</span> <i class="fas fa-download"></i>
                     </div>
-<<<<<<< HEAD
-                    <div class="formatBtn chatDocItem">
-                        <i class="far fa-file-pdf"></i> <span class="docName">nome do arquivo</span> <i class="fas fa-download"></i>
-                    </div>
-                    <div class="formatBtn chatDocItem">
-                        <i class="far fa-file-pdf"></i> <span class="docName">nome do arquivo</span> <i class="fas fa-download"></i>
-                    </div>
-                    <div class="formatBtn chatDocItem">
-                        <i class="far fa-file-pdf"></i> <span class="docName">nome do arquivo</span> <i class="fas fa-download"></i>
-                    </div>
-                    <div class="formatBtn chatDocItem">
-                        <i class="far fa-file-pdf"></i> <span class="docName">nome do arquivo</span> <i class="fas fa-download"></i>
-                    </div>
-                    <div class="formatBtn chatDocItem">
-                        <i class="far fa-file-pdf"></i> <span class="docName">nome do arquivo</span> <i class="fas fa-download"></i>
-                    </div>
-=======
->>>>>>> 4246741... bugs e erros gramaticais consertador
                 </div>
             </div>
         </div>
