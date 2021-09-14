@@ -47,7 +47,11 @@ require "../../logic/entrar_cookie.php";
                 <a href="../Home/home.php" class="nav-link">Home</a>
             </li>
             <li class="nav-item">
+<<<<<<< HEAD
                 <a href="../EncontrarProfissional/Listagem/listagem.php" class="nav-link">Encontre um pofissional</a>
+=======
+                <a href="../EncontrarProfissional/Listagem/listagem.php" class="nav-link">Encontre um profissional</a>
+>>>>>>> 4246741... bugs e erros gramaticais consertador
             </li>
             <li class="nav-item">
                 <a href="../Artigos/artigos.php" class="nav-link">Artigos</a>

@@ -61,7 +61,7 @@ require "../../../logic/entrar_cookie.php";
                     <a href="../../Home/home.php" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a href="listagem.php" class="nav-link">Encontre um pofissional</a>
+                    <a href="listagem.php" class="nav-link">Encontre um profissional</a>
                 </li>
                 <li class="nav-item">
                     <a href="../../Artigos/artigos.php" class="nav-link">Artigos</a>

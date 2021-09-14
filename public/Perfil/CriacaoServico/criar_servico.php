@@ -59,7 +59,7 @@ if($_SESSION['classificacao'] == 0){
             </li>
             <li class="nav-item">
                 <a href="../../EncontrarProfissional/Listagem/listagem.php" class="nav-link">Encontre um
-                    pofissional</a>
+                    profissional</a>
             </li>
             <li class="nav-item">
                 <a href="../../Artigos/artigos.php" class="nav-link">Artigos</a>
