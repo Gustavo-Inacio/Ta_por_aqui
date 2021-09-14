@@ -7,12 +7,24 @@
     }
 
     require '../../../logic/listagem_brain.php';
+    
     $brain = new serviceList();
 
-    $request = json_decode(file_get_contents("php://input"));
+    $inputData = json_decode(file_get_contents("php://input"));
 
-    $reponse['categoires'] = $brain->getCatgorieInfo();
+    if(isset($inputData->getCategories) && $inputData->getCategories == "true"){
+        $reponse['categoires'] = $brain->getCatgorieInfo();
+       // echo "get cat";
+    }
 
-    echo json_encode($reponse);
+    if(isset($inputData->getServices) && $inputData->getServices == "true"){
+        if($inputData->dataServices) {
+            $reponse['services'] = $brain->getServices($inputData->dataServices);
+        }
+        //echo 'get servi';
+    }
 
+    $a = json_encode($reponse);
+    // print_r($inputData);
+     print_r($a);
 ?>

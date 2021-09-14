@@ -46,7 +46,7 @@
 	$connectClass = new DbConnection();
 	$con = $connectClass->connect();
 
-	$command = $con->query("select cep_usuario, uf_usuario, cidade_usuario, bairro_usuario, rua_usuario from usuarios");
+	$command = $con->query("select cep_usuario, numero_usuario, uf_usuario, cidade_usuario, bairro_usuario, rua_usuario from usuarios where id_usuario=4");
 	$data = $command->fetch(PDO::FETCH_ASSOC);
 
 	$apiKey = '2BHqTlrrRZyJOYbFEl47yRbagjjwSaY-Eu3iriuEgvY';
@@ -54,36 +54,73 @@
 		$data[$key] = trim($data[$key]);
 		$data[$key] = unaccent(preg_replace('/ /', '+', $data[$key]));
 	}
-	$q = $data['rua'] . '%2C+' . $data['cep'] .'+' . $data['cidade'] . '%2C+'. $data['estado'] . '+Brasil' ;
+	$q = $data['rua_usuario'] . '%2C+' . $data['cep_usuario'] .'+' . $data['cidade_usuario'] . '%2C+'. $data['uf_usuario'] . '+Brasil' ;
 	//echo 'https://geocode.search.hereapi.com/v1/geocode?q='. $q. '&apiKey=' . $apiKey;
-
+	$qq = "city=". $data['cidade_usuario'] . ";street=". $data['rua_usuario']. ";state=" . $data['cidade_usuario'] . ";county=Brasil" . ";district=" . $data["bairro_usuario"]. ";postalCode=" . $data['cep_usuario'] . ";houseNumber=" . $data['numero_usuario'];
+	// print_r($data);
     $curl = curl_init();
     curl_setopt_array($curl, array(
         CURLOPT_RETURNTRANSFER => 1,
-        CURLOPT_URL => 'https://geocode.search.hereapi.com/v1/geocode?q='. $q. '&apiKey=' . $apiKey,
+        CURLOPT_URL => 'https://geocode.search.hereapi.com/v1/geocode?qq='. $qq. '&apiKey=' . $apiKey,
     ));
     $rep = curl_exec($curl);
     curl_close($curl);
 
-	echo '<pre>';
-	print_r( json_decode($rep));
-	echo '<pre>';
+	// echo '<pre>';
+	// print_r( json_decode($rep));
+	// echo '<pre>';
 	//echo $rep;
 
 	$json = json_encode($rep);
 	$obj = json_decode($rep);
 	// echo '<pre>';
-    // echo($obj);
+    // print_r($obj);
 	// echo '<pre>';
+
+	function msqlDistance($con, $initialDistance, $myLat, $myLng, $maxDistance){
+		// $query = "
+		// select *, 
+		// ( 6371 * acos( cos( radians(".$initialDistance.") ) * cos( radians(X(posicao_usuario)  ) ) * cos( radians( Y(posicao_usuario) ) - radians(".$myLng.") ) + sin( radians(".$myLat.") ) * sin(radians(X(posicao_usuario) )) ) ) AS distance 
+		// from usuarios 
+		// INNER JOIN servicos
+		// ON usuarios.id_usuario= servicos.id_prestador_servico 
+		// HAVING distance > 0
+		// ORDER BY distance 
+		// LIMIT 0 , 20;
+		// ";
+
+		$query = "
+		SELECT usuarios.nome_usuario, usuarios.sobrenome_usuario, usuarios.uf_usuario, usuarios.cidade_usuario, usuarios.bairro_usuario, 
+		servicos.id_servico, servicos.nome_servico, servicos.orcamento_servico, servicos.crit_orcamento_servico, servicos.nota_media_servico, servicos.status_servico,
+		( 6371 * acos( cos( radians(".$myLat.") ) * cos( radians( X(usuarios.posicao_usuario) ) ) * cos( radians( Y(usuarios.posicao_usuario) ) - radians(".$myLng.") ) + sin( radians(".$myLat.") ) * sin(radians(X(posicao_usuario))) ) ) AS distance ,
+		X(usuarios.posicao_usuario) as lat,
+		Y(usuarios.posicao_usuario) as lng
+		FROM usuarios
+		INNER JOIN servicos
+		ON usuarios.id_usuario= servicos.id_prestador_servico 
+		HAVING distance < ".$maxDistance." and distance > ".$initialDistance." and  servicos.status_servico=1
+		ORDER BY distance 
+		LIMIT 0 , 20;
+		";
+
+		$command = $con->query($query);
+		$data = $command->fetchAll(PDO::FETCH_ASSOC);
+
+		echo "<pre>";
+		print_r($data);
+		echo "<pre/>";
+	}
+
+	msqlDistance($con, -1,-23.87669 , -46.77125, 10000000);
 
 
 	//echo($rep);
 
-	//print_r($obj->items[0]->position->lat);
-	echo '<pre>';
-	print_r($obj->items[0]->position->lat . ' ,  '. $obj->items[0]->position->lng);
-	echo '<pre>';
+	// //print_r($obj->items[0]->position->lat);
+	// echo '<pre>';
+	// print_r($obj->items[0]->position->lat . ' ,  '. $obj->items[0]->position->lng);
+	// echo '<pre>';
 
-	print_r(twopoints_on_earth(43.636719, -79.415195, $obj->items[0]->position->lat, $obj->items[0]->position->lng).' '.'km');
+	// print_r(twopoints_on_earth(0, 0, $obj->items[0]->position->lat, $obj->items[0]->position->lng).' '.'km');
 ?>
 

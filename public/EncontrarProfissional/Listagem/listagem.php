@@ -5,12 +5,23 @@ $_SESSION['listServices'] = true;
 
 //caso haja cookies salvos no pc do usuário, ele vai logar com os cookies salvos
 require "../../../logic/entrar_cookie.php";
+// require "../../../logic/DbConnection.php";
+//     $connectClass = new DbConnection();
+//    $con = $connectClass->connect();
+//     $con->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, "SET NAMES 'utf8mb4_general_ci'");
+    
+//     $query = "SELECT * from categorias";
+//     $stmt = $con->query($query);
+//     $a = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+//     print_r($a);
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <script src="https://kit.fontawesome.com/2a19bde8ca.js" crossorigin="anonymous" defer></script>
@@ -145,7 +156,7 @@ require "../../../logic/entrar_cookie.php";
                 </div>
                 
 
-                <button type="button" class="serarch-icon-btn">
+                <button type="button" id="searchButton" class="serarch-icon-btn">
                     <div class="serarch-icon-div">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M21.7261 19.2913L17.832 15.3971C17.6562 15.2214 17.4179 15.1237 17.168 15.1237H16.5313C17.6093 13.7449 18.2499 12.0107 18.2499 10.1242C18.2499 5.63636 14.6135 2 10.1257 2C5.63783 2 2.00146 5.63636 2.00146 10.1242C2.00146 14.612 5.63783 18.2484 10.1257 18.2484C12.0122 18.2484 13.7464 17.6079 15.1252 16.5298V17.1665C15.1252 17.4165 15.2228 17.6547 15.3986 17.8305L19.2927 21.7246C19.6599 22.0918 20.2536 22.0918 20.6168 21.7246L21.7222 20.6193C22.0893 20.2521 22.0893 19.6584 21.7261 19.2913ZM10.1257 15.1237C7.36422 15.1237 5.12616 12.8896 5.12616 10.1242C5.12616 7.36276 7.36032 5.12469 10.1257 5.12469C12.8871 5.12469 15.1252 7.35885 15.1252 10.1242C15.1252 12.8857 12.891 15.1237 10.1257 15.1237Z" fill="#CCCCCC"/>
@@ -155,7 +166,7 @@ require "../../../logic/entrar_cookie.php";
                 
 
                 <div class="search-input-area-div">
-                    <input type="text">
+                    <input id="searchBar" type="text">
                 </div>
             </section>
 
@@ -214,19 +225,19 @@ require "../../../logic/entrar_cookie.php";
                 <a href="#" class="service-card-link">
                     <div class="service-card-container ">
                         <div class="service-card ">
-                            <div class="service-card--profile-img-div loading">
+                            <div class="service-card--profile-img-div">
                                 <!--<img src="../../../assets/images/profile_images/no_picture.jpg" alt="Perfil" class="service-card--profile-img">-->
                             </div>
 
                             <div class="service-card-info">
-                                <p class="service-card-provider-name loading">Marcos</p>
+                                <p class="service-card-provider-name">Marcos</p>
                                 <div class="service-card-location-div">
                                     <div class="row">
                                         <svg width="9" height="12" viewBox="0 0 9 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M4.03753 11.7579C0.632109 6.82104 0 6.31437 0 4.5C0 2.01471 2.01471 0 4.5 0C6.98529 0 9 2.01471 9 4.5C9 6.31437 8.36789 6.82104 4.96247 11.7579C4.73899 12.0807 4.26098 12.0807 4.03753 11.7579ZM4.5 6.375C5.53554 6.375 6.375 5.53554 6.375 4.5C6.375 3.46446 5.53554 2.625 4.5 2.625C3.46446 2.625 2.625 3.46446 2.625 4.5C2.625 5.53554 3.46446 6.375 4.5 6.375Z" fill="#0C0C23"/>
                                         </svg>
 
-                                        <label class="service-location loading">Moab, UT</label>
+                                        <label class="service-location">Moab, UT</label>
                                     </div>
                                    
                                     <label class="service-card--price">$ Orçamento</label>
