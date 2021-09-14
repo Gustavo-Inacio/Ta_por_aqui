@@ -3,19 +3,6 @@ session_start();
 
 //caso haja cookies salvos no pc do usuário, ele vai logar com os cookies salvos
 require "../../logic/entrar_cookie.php";
-
-if( empty($_SESSION) ){
-    header('Location: ../Home/home.php');
-}
-
-require "../../logic/DbConnection.php";
-$con = new DbConnection();
-$con = $con->connect();
-
-//buscando motivos para exclusão de conta
-$query = "SELECT * FROM deletar_conta_motivos ORDER BY id_del_motivo DESC";
-$stmt = $con->query($query);
-$motivos = $stmt->fetchAll(PDO::FETCH_OBJ);
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -26,18 +13,17 @@ $motivos = $stmt->fetchAll(PDO::FETCH_OBJ);
 
     <script src="https://kit.fontawesome.com/2a19bde8ca.js" crossorigin="anonymous" defer></script>
 
-    <title>Trocar senha</title>
+    <title>Tá por aqui</title>
 
     <link rel="stylesheet" href="../../assets/bootstrap/bootstrap-4.5.3-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../assets/global/globalStyles.css">
-    <link rel="stylesheet" href="suspenderUsuario.css">
+    <link rel="stylesheet" href="artigos.css">
 
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="../../assets/bootstrap/jquery-3.5.1.slim.min.js" defer></script>
     <script src="../../assets/bootstrap/popper.min.js" defer></script>
     <script src="../../assets/bootstrap/bootstrap-4.5.3-dist/js/bootstrap.min.js" defer></script>
 
     <script src="../../assets/global/globalScripts.js" defer></script>
-    <script src="suspenderUsuario.js" defer></script>
 </head>
 <body>
 <!--NavBar Comeco-->
@@ -94,36 +80,13 @@ $motivos = $stmt->fetchAll(PDO::FETCH_OBJ);
         <?php } ?>
 
     </div>
-
 </nav>
-<!--NavBar Fim-->
 
 <div id="page">
-    <section id="masterDiv">
-        <div>
-            <div id="content">
-                <div id="changePass" class="border p-4">
-                    <div class="text-info mb-4">
-                        <p>É realmente uma pena que você tenha decidido sair de nossa plataforma <i class="fas fa-sad-tear" style="font-size: 19px"></i></p>
-                        <p>Marque os motivos pelo qual você fez essa decisão para que possamos melhora-la.</p>
-                    </div>
 
-                    <form id="changePassForm" action="../../logic/suspender_usuario.php" method="POST">
-                        <?php foreach ($motivos as $motivo) {?>
-                            <div><label for="<?=$motivo->id_del_motivo?>"><input type="checkbox" name="<?=$motivo->id_del_motivo?>" id="<?=$motivo->id_del_motivo?>"> <?=$motivo->del_motivo?></label></div>
-                        <?php } ?>
-                        <div id="outroMotivoDiv">
-                            <!-- 8.checked -->
-                        </div>
-                        <br>
-                        <button type="submit" class="mybtn mybtn-outline-danger">Excluir conta</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
 </div>
 
+<!--NavBar Fim-->
 <footer id="myMainFooter">
     <div id="myMainFooterContainer" class="container-fluid">
         <div class="my-main-footer-logo">
@@ -131,7 +94,7 @@ $motivos = $stmt->fetchAll(PDO::FETCH_OBJ);
         </div>
         <div class="my-main-footer-institutional">
             <p>INSTITUCIONAL</p>
-            <a href="sobreNos.php">Quem Somos</a> <br>
+            <a href="../SobreNos/sobreNos.php">Quem Somos</a> <br>
             <a href="#">Faça uma doação</a> <br>
             <a href="#">Trabalhe conosco</a> <br>
         </div>
@@ -148,4 +111,3 @@ $motivos = $stmt->fetchAll(PDO::FETCH_OBJ);
 </footer>
 </body>
 </html>
-

@@ -58,7 +58,7 @@ if (isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSIO
                 <a href="../EncontrarProfissional/Listagem/listagem.php" class="nav-link">Encontre um pofissional</a>
             </li>
             <li class="nav-item">
-                <a href="../Artigos/artigos.html" class="nav-link">Artigos</a>
+                <a href="../Artigos/artigos.php" class="nav-link">Artigos</a>
             </li>
             <li class="nav-item">
                 <a href="../Contato/contato.php" class="nav-link">Fale conosco</a>
