@@ -496,31 +496,31 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                 <form action="../../logic/perfil_trocar_localizacao.php" method="post" id="changeLocationForm">
                     <div class="modal-body">
                         <label for="userAdressCEP" class="myLabel">CEP</label> <br>
-                        <input type="text" class="form-control required" name="userAdressCEP" id="userAdressCEP" placeholder="ex.: 01234567" onkeyup="callGetAdress(this)" onchange="callGetAdress(this)" required>
+                        <input type="text" class="form-control required" name="userAdressCEP" id="userAdressCEP" placeholder="ex.: 01234567" onkeyup="callGetAdress(this)" onchange="callGetAdress(this)" required value="<?=$user->cep_usuario?>">
                         <small id="cepError" class="text-danger"></small>
 
                         <div class="row mt-3">
                             <div class="col-3">
                                 <label for="userAdressState" class="myLabel">Estado</label> <br>
-                                <input type="text" class="form-control required mb-3" name="userAdressState" id="userAdressState" readonly data-toggle="popover" data-trigger="hover" data-content="autocompletado com o CEP" data-placement="top" required>
+                                <input type="text" class="form-control required mb-3" name="userAdressState" id="userAdressState" readonly data-toggle="popover" data-trigger="hover" data-content="autocompletado com o CEP" data-placement="top" required value="<?=$user->uf_usuario?>">
                             </div>
                             <div class="col-9">
                                 <label for="userAdressCity" class="myLabel">Cidade</label> <br>
-                                <input type="text" class="form-control required mb-3" name="userAdressCity" id="userAdressCity" placeholder="autocompletado com o CEP" readonly required>
+                                <input type="text" class="form-control required mb-3" name="userAdressCity" id="userAdressCity" placeholder="autocompletado com o CEP" readonly required value="<?=$user->cidade_usuario?>">
                             </div>
                         </div>
 
                         <label for="userAdressNeighborhood" class="myLabel">Bairro</label> <br>
-                        <input type="text" class="form-control required mb-3" name="userAdressNeighborhood" id="userAdressNeighborhood" placeholder="Digite seu bairro" required>
+                        <input type="text" class="form-control required mb-3" name="userAdressNeighborhood" id="userAdressNeighborhood" placeholder="Digite seu bairro" required value="<?=$user->bairro_usuario?>">
 
                         <div class="row">
                             <div class="col-9">
                                 <label for="userAdressStreet" class="myLabel">Rua</label> <br>
-                                <input type="text" class="form-control required mb-3" name="userAdressStreet" id="userAdressStreet" placeholder="Digite sua rua" required>
+                                <input type="text" class="form-control required mb-3" name="userAdressStreet" id="userAdressStreet" placeholder="Digite sua rua" required value="<?=$user->rua_usuario?>">
                             </div>
                             <div class="col-3">
                                 <label for="userAdressNumber" class="myLabel">Número</label> <br>
-                                <input type="number" class="form-control required mb-3" name="userAdressNumber" id="userAdressNumber" maxlength="5" required>
+                                <input type="number" class="form-control required mb-3" name="userAdressNumber" id="userAdressNumber" maxlength="5" required value="<?=$user->numero_usuario?>">
                             </div>
                         </div>
 

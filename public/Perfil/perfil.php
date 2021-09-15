@@ -21,7 +21,7 @@ if(isset($_GET['id'])) {
     $userSocialMedia = $stmt->fetchAll(PDO::FETCH_OBJ);
 
     //puxando os serviços do prestador
-    if($_SESSION['classificacao'] !== 0){
+    if($user->classif_usuario !== 0){
         $query = "SELECT id_servico, nome_servico, tipo_servico, orcamento_servico, crit_orcamento_servico, data_public_servico FROM servicos WHERE id_prestador_servico = " . $_GET['id'] . " AND status_servico = 1 ORDER BY id_servico DESC";
         $stmt = $con->query($query);
         $userServices = $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -94,7 +94,7 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
                     <li class="nav-item">
                         <a href="../Chat/chat.php" class="nav-link">Chat</a>
                     </li>
-                    <?php if( empty($_SESSION) ){ ?>
+                    <?php if( empty($_SESSION['idUsuario']) ){ ?>
                         <li class="nav-item">
                             <a href="../Entrar/login.php" class="nav-link">Entrar/cadastrar</a>
                         </li>
@@ -235,15 +235,15 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
                     <a href="../Artigos/artigos.php" class="nav-link">Artigos</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../Contato/contato.html" class="nav-link">Fale conosco</a>
+                    <a href="../Contato/contato.php" class="nav-link">Fale conosco</a>
                 </li>
                 <li class="nav-item">
                     <a href="../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../Chat/chat.html" class="nav-link">Chat</a>
+                    <a href="../Chat/chat.php" class="nav-link">Chat</a>
                 </li>
-                <?php if( empty($_SESSION) ){ ?>
+                <?php if( empty($_SESSION['idUsuario']) ){ ?>
                     <li class="nav-item">
                         <a href="../Entrar/login.php" class="nav-link">Entrar/cadastrar</a>
                     </li>
