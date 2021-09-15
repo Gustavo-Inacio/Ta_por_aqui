@@ -3,6 +3,21 @@ session_start();
 
 //caso haja cookies salvos no pc do usuário, ele vai logar com os cookies salvos
 require "../../logic/entrar_cookie.php";
+
+//pegar algumas informações do site
+require "../../logic/DbConnection.php";
+$con = new DbConnection();
+$con = $con->connect();
+
+$query = "SELECT count(*) as c from servicos";
+$qntServicos = $con->query($query)->fetch(PDO::FETCH_OBJ);
+
+$query = "SELECT count(*) as c from usuarios";
+$qntUsers = $con->query($query)->fetch(PDO::FETCH_OBJ);
+
+$query = "SELECT count(*) as c from contratos";
+$qntContratos = $con->query($query)->fetch(PDO::FETCH_OBJ);
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -259,16 +274,16 @@ require "../../logic/entrar_cookie.php";
         <div id="myDataSectionContainer" class="container" >
             <div class="row">
                 <div class="col-12 col-sm-6 col-lg-4 my-section-data-item">
-                    <p>Pesquisas feitas</p>
-                    <h1 id="mySearchAmount">260</h1>
+                    <p>Serviços disponíveis</p>
+                    <h1 id="mySearchAmount"><?=$qntServicos->c?></h1>
                 </div>
                 <div class="col-12 col-sm-6 col-lg-4 my-section-data-item">
-                    <p>Usuários Cadastrados feitas</p>
-                    <h1 id="myUserAmount">100.000</h1>
+                    <p>Usuários Cadastrados</p>
+                    <h1 id="myUserAmount"><?=$qntUsers->c?></h1>
                 </div>
                 <div class="col-12 col-sm-6 col-lg-4 mx-sm-auto mx-lg-none my-section-data-item ">
-                    <p>Oportunidades aproveitadas</p>
-                    <h1 id="myOpportunityAmount">5.000</h1>
+                    <p>Contratos realizados</p>
+                    <h1 id="myOpportunityAmount"><?=$qntContratos->c?></h1>
                 </div>
             </div>
         </div>

@@ -74,7 +74,7 @@ if(isset($_SESSION['idUsuario'])) {
                 <a href="../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
             </li>
             <li class="nav-item">
-                <a href="../Chat/chat.html" class="nav-link">Chat</a>
+                <a href="chat.php" class="nav-link">Chat</a>
             </li>
             <?php if( empty($_SESSION['idUsuario']) ){ ?>
                 <li class="nav-item">

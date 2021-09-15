@@ -8,7 +8,6 @@ body{
 }
 
 #page{
-    border: 1px solid red;
     width: 100%;
     flex-grow: 1;
     background: url("../../assets/images/developing_page.jpg") repeat center;
