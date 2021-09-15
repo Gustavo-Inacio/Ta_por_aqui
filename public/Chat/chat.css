@@ -540,5 +540,26 @@ input:checked + .slider:before {
 }
 
 .closed{
-    display: none;
+    display: none !important;
+}
+
+.opened{
+    display: block !important;
+}
+
+.returnArrow{
+    display: inline-block;
+    font-weight: bold;
+    color: #3333CC;
+    font-size: 16px;
+    letter-spacing: 2px;
+    padding: 5px;
+}
+
+.returnArrow:hover{
+    cursor: pointer;
+}
+
+.returnArrow:hover::after{
+    content: '!';
 }
