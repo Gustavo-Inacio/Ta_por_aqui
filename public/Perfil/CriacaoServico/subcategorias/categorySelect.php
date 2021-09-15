@@ -4,7 +4,7 @@
     $con = $con->connect();
 
     //query pesquisar categorias no banco de dados
-    $query = "SELECT * FROM categorias";
+    $query = "SELECT * FROM categorias ORDER BY nome_categoria";
     $stmt = $con->query($query);
     $listaCategorias = $stmt->fetchAll(PDO::FETCH_OBJ);
 ?>

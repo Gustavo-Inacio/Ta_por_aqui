@@ -693,7 +693,7 @@ class AppControl{
     }
 
     public function getCategories(){
-        $query = "SELECT * from categorias";
+        $query = "SELECT * from categorias ORDER BY nome_categoria";
         $stmt = $this->con->query($query);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }

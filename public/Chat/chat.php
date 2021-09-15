@@ -57,7 +57,7 @@ $con = $con->connect();
                 <a href="../Home/home.php" class="nav-link">Home</a>
             </li>
             <li class="nav-item">
-                <a href="../EncontrarProfissional/Listagem/listagem.php" class="nav-link">Encontre um pofissional</a>
+                <a href="../EncontrarProfissional/Listagem/listagem.php" class="nav-link">Encontre um profissional</a>
             </li>
             <li class="nav-item">
                 <a href="../Artigos/artigos.php" class="nav-link">Artigos</a>
@@ -69,7 +69,7 @@ $con = $con->connect();
                 <a href="../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
             </li>
             <li class="nav-item">
-                <a href="../Chat/chat.html" class="nav-link">Chat</a>
+                <a href="../Chat/chat.php" class="nav-link">Chat</a>
             </li>
             <?php if( empty($_SESSION['idUsuario']) ){ ?>
                 <li class="nav-item">
@@ -181,6 +181,9 @@ $con = $con->connect();
 
     <!-- mensagens -->
     <div class="col-md-9" id="chatSecondColumn">
+        <div class="returnArrow" onclick="returnToContacts()">
+            <i class="fas fa-chevron-left"></i> Voltar
+        </div>
         <div class="userInfo row" id="userInfo">
             <div class="col-2 d-flex">
                 <img src="../../assets/images/users/no_picture.jpg" alt="Imagem do usuário" class="userImg">
@@ -244,7 +247,10 @@ $con = $con->connect();
     <!-- fim mensagens -->
 
     <!-- detalhes do contato -->
-    <div class="col-md-3 closed" id="chatThirdColumn">
+    <div class="col-md-3" id="chatThirdColumn">
+        <div class="returnArrow mt-4 ml-4" onclick="returnToChat()">
+            <i class="fas fa-chevron-left"></i> Voltar
+        </div>
         <div class="userDetailedInfo">
             <img src="../../assets/images/users/no_picture.jpg" alt="Imagem do usuário" class="userImg userImg-lg">
             <div class="userName userName-lg">Nome do usuário</div>
