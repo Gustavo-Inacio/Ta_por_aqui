@@ -9,7 +9,7 @@
     $categoriaMestre = $stmt->fetch(PDO::FETCH_OBJ);
 
     //query pesquisar categorias no banco de dados
-    $query = "SELECT * FROM subcategorias where id_categoria = " . $_GET['id_categoria'];
+    $query = "SELECT * FROM subcategorias where id_categoria = " . $_GET['id_categoria'] . " ORDER BY nome_subcategoria";
     $stmt = $con->query($query);
     $listaSubcategorias = $stmt->fetchAll(PDO::FETCH_OBJ);
 ?>
