@@ -1,5 +1,12 @@
 <?php
 require "../assets/getData.php";
+
+session_start();
+if (empty($_SESSION['idAdm']) || empty($_SESSION['emailAdm']) || empty($_SESSION['senhaAdm'])){
+    header('location:../index.php');
+    exit();
+}
+
 $contactReport = new ContactReport($_GET['id']);
 $changeContactMsg = "";
 if (isset($_POST['changeContactStatus'])){
@@ -55,7 +62,7 @@ if (isset($_POST['assunto']) && isset($_POST['msgAnterior']) && isset($_POST['ms
 
         <ul id="menu-content" class="menu-content collapse out">
             <li>
-                <a href="../index.php"><i class="fas fa-chart-bar sidebar-icon"></i> Estatísticas do site</a>
+                <a href="../analisys.php"><i class="fas fa-chart-bar sidebar-icon"></i> Estatísticas do site</a>
             </li>
 
             <li data-toggle="collapse" data-target="#gerenciamentoUsuarios" class="collapsed active">

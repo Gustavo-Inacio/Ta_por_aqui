@@ -3,8 +3,7 @@ body{
 }
 
 #page{
-    min-height: 700px;
-    max-width: 1440px;
+    height: calc(100vh - 80px);
     margin: 0 auto;
 }
 
@@ -12,6 +11,9 @@ body{
 #chatFirstColumn{
     padding: 18px;
     background-color: white;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: calc(100vh - 80px);
 }
 
 .chatTitle{
@@ -127,6 +129,7 @@ body{
 #chatSecondColumn{
     background-color: #f2f2f2;
     padding: 32px;
+    height: calc(100vh - 80px);
 }
 
 .userInfo{
@@ -157,8 +160,8 @@ body{
 
 .chatMessages{
     margin-top: 20px;
-    max-height: 800px;
     overflow-y: auto;
+    height: calc(100vh - 280px);
 }
 
 .chatDate{
@@ -203,16 +206,16 @@ body{
     color: white;
 }
 
-.chatMessages::-webkit-scrollbar-track, .chatMessageInput::-webkit-scrollbar-track, .chatMidia::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
     background-color: #F4F4F4;
 }
 
-.chatMessages::-webkit-scrollbar, .chatMessageInput::-webkit-scrollbar, .chatMidia::-webkit-scrollbar {
+::-webkit-scrollbar {
     width: 4px;
     background: #F4F4F4;
 }
 
-.chatMessages::-webkit-scrollbar-thumb, .chatMessageInput::-webkit-scrollbar-thumb, .chatMidia::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
     background: #dad7d7;
 }
 
@@ -255,7 +258,7 @@ body{
 .chatMessageInput{
     padding: 5px 25px;
     background: #C4C4C4;
-    border-radius: 61px;
+    border-radius: 41px 0 0 41px !important;
     color: white !important;
     resize: none;
 }
@@ -286,6 +289,8 @@ body{
     background-color: white;
     box-shadow: -9px 2px 24px rgba(0, 0, 0, 0.08);
     border-radius: 48px 0 0 0;
+    height: calc(100vh - 80px);
+    overflow-y: auto;
 }
 
 .userDetailedInfo{
@@ -311,7 +316,6 @@ body{
     padding: 10px;
     border-radius: 6px;
     overflow-y: auto;
-    max-height: 490px;
 }
 
 .showMidiaBtn{
@@ -562,4 +566,25 @@ input:checked + .slider:before {
 
 .returnArrow:hover::after{
     content: '!';
+}
+
+.noConversationSelected{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: calc(100vh - 112px - 33px);
+    border: 1px solid red;
+    overflow-y: auto;
+}
+
+.noConversationSelected img{
+    width: 40%;
+}
+
+.noConversationSelected h3{
+    color: #3333CC;
+}
+
+.noConversationSelected p{
+    color: #5e5e5e;
 }

@@ -384,14 +384,14 @@ class CommentsListing {
     }
 
     public function selectAllComments(){
-        $query = "SELECT c.id_comentario, c.id_servico, c.id_usuario, c.desc_comentario, s.nome_servico, u.nome_usuario from comentarios as c join servicos as s on c.id_servico = s.id_servico join usuarios as u on c.id_usuario = u.id_usuario";
+        $query = "SELECT c.id_comentario, c.id_servico, c.id_usuario, c.desc_comentario, s.nome_servico, u.nome_usuario from comentarios as c join servicos as s on c.id_servico = s.id_servico join usuarios as u on c.id_usuario = u.id_usuario join denuncia_comentario dc on c.id_comentario = dc.id_comentario where (select count(*) from denuncia_comentario where dc.id_comentario AND dc.status_denuncia_comen != 2) > 0";
         $stmt = $this->con->query($query);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function selectSearchedComments($input, $param){
-        $query = "SELECT c.id_comentario, c.id_servico, c.id_usuario, c.desc_comentario, s.nome_servico, u.nome_usuario from comentarios as c join servicos as s on c.id_servico = s.id_servico join usuarios as u on c.id_usuario = u.id_usuario WHERE $param like '%$input%'";
+        $query = "SELECT c.id_comentario, c.id_servico, c.id_usuario, c.desc_comentario, s.nome_servico, u.nome_usuario from comentarios as c join servicos as s on c.id_servico = s.id_servico join usuarios as u on c.id_usuario = u.id_usuario join denuncia_comentario dc on c.id_comentario = dc.id_comentario WHERE $param like '%$input%' AND (select count(*) from denuncia_comentario where dc.id_comentario AND dc.status_denuncia_comen != 2) > 0";
         $stmt = $this->con->query($query);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

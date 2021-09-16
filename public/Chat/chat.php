@@ -27,10 +27,12 @@ $con = $con->connect();
     <link rel="stylesheet" href="../../assets/global/globalStyles.css">
     <link rel="stylesheet" href="chat.css">
 
-    <script src="../../assets/bootstrap/jquery-3.5.1.slim.min.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script src="../../assets/bootstrap/popper.min.js" defer></script>
     <script src="../../assets/bootstrap/bootstrap-4.5.3-dist/js/bootstrap.min.js" defer></script>
-    <script src="../../assets/jQueyMask/jquery.mask.js" defer></script>
+
+    <!-- emoji picker -->
+    <script src="../../assets/emojiPicker/fgEmojiPicker.js"></script>
 
     <script src="../../assets/global/globalScripts.js" defer></script>
     <script src="chat.js" defer></script>
@@ -112,7 +114,7 @@ $con = $con->connect();
         </div>
 
         <div class="usersGroup">
-            <div class="userDiv row active">
+            <div class="userDiv row" userid="1" onclick="loadConversation(1)">
                 <div class="col-3 col-md-12 col-lg-3 d-flex d-md-none d-xl-flex">
                     <img src="../../assets/images/users/no_picture.jpg" alt="Imagem do usuário" class="userImg">
                 </div>
@@ -126,7 +128,7 @@ $con = $con->connect();
                 </div>
             </div>
 
-            <div class="userDiv row">
+            <div class="userDiv row" userid="2" onclick="loadConversation(2)">
                 <div class="col-3 col-md-12 col-lg-3 d-flex d-md-none d-xl-flex">
                     <img src="../../assets/images/users/no_picture.jpg" alt="Imagem do usuário" class="userImg">
                 </div>
@@ -147,7 +149,7 @@ $con = $con->connect();
         </div>
 
         <div class="usersGroup">
-            <div class="userDiv row">
+            <div class="userDiv row" userid="3" onclick="loadConversation(3)">
                 <div class="col-3 col-md-12 col-lg-3 d-flex d-md-none d-xl-flex">
                     <img src="../../assets/images/users/no_picture.jpg" alt="Imagem do usuário" class="userImg">
                 </div>
@@ -161,7 +163,7 @@ $con = $con->connect();
                 </div>
             </div>
 
-            <div class="userDiv row">
+            <div class="userDiv row" userid="4" onclick="loadConversation(4)">
                 <div class="col-3 col-md-12 col-lg-3 d-flex d-md-none d-xl-flex">
                     <img src="../../assets/images/users/no_picture.jpg" alt="Imagem do usuário" class="userImg">
                 </div>
@@ -181,66 +183,17 @@ $con = $con->connect();
 
     <!-- mensagens -->
     <div class="col-md-9" id="chatSecondColumn">
-        <div class="returnArrow" onclick="returnToContacts()">
-            <i class="fas fa-chevron-left"></i> Voltar
-        </div>
-        <div class="userInfo row" id="userInfo">
-            <div class="col-2 d-flex">
-                <img src="../../assets/images/users/no_picture.jpg" alt="Imagem do usuário" class="userImg">
-            </div>
+        <div id="loadAssyncConversation">
+            <!-- A conversa será selecionada dinamicamente -->
 
-            <div class="col-8">
-                <div class="userName">Nome do usuário</div>
-                <div class="userService">Serviço da conversa</div>
-            </div>
-
-            <div class="col-2 d-flex justify-content-end align-items-center">
-                <div class="dropleft" id="dropdownContent">
-                    <button type="button" class="formatBtn" id="moreActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v"></i></button>
-                    <div class="dropdown-menu" aria-labelledby="moreActions">
-                        <a class="dropdown-item" href="#"><i class="fas fa-star"></i> Adicionar aos favoritos</a>
-                        <a class="dropdown-item text-danger" href="#"><i class="fas fa-user-slash"></i> Bloquear</a>
-                        <a class="dropdown-item text-danger" href="#"><i class="fas fa-ban"></i> Denunciar Serviço</a>
-                        <a class="dropdown-item text-danger" href="#"><i class="fas fa-trash"></i> Apagar conversa</a>
-                    </div>
+            <!-- Quando a página carrega sem nenhuma conversa selecionada, exibir mensagem: -->
+            <div class="noConversationSelected">
+                <div class="d-flex flex-column text-center mt-auto mb-auto">
+                    <img src="../../assets/images/user_not_found.png" alt="selecionar um usuário" class="align-self-center">
+                    <hr>
+                    <h3>Se comunique eficazmente</h3>
+                    <p>Use nosso chat para conversar com seu prestador do serviço contratado. Seja educado &#x1F609;</p>
                 </div>
-            </div>
-        </div>
-
-        <div class="chatMessages">
-            <div class="chatDate">Ontem</div>
-
-            <div class="message myMessage">
-                <div class="messageText">Lorem ipsum dolor sit amet, consectetur adipisicing elit. At eveniet ipsam laborum nam nobis perferendis rerum ullam, velit. Aut dicta ducimus incidunt itaque nihil, officia placeat praesentium quisquam sint voluptatum.</div>
-                <div class="messageTime">16:00</div>
-            </div>
-
-            <div class="message itsMessage">
-                <div class="messageText">Lorem ipsum dolor sit amet, consectetur adipisicing elit. At eveniet ipsam laborum nam nobis perferendis rerum ullam, velit. Aut dicta ducimus incidunt itaque nihil, officia placeat praesentium quisquam sint voluptatum.</div>
-                <div class="messageTime">16:00</div>
-            </div>
-        </div>
-
-        <div class="communicationBar row">
-            <div class="col-1 d-flex justify-content-center">
-                <button type="button" class="formatBtn"> <i class="far fa-laugh chatIcon"></i> </button>
-            </div>
-
-            <div class="col-1 d-flex justify-content-center">
-                <button type="button" class="formatBtn"> <i class="fas fa-paperclip chatIcon"></i> </button>
-            </div>
-
-            <div class="col-9 d-flex">
-                <div class="input-group">
-                    <textarea class="form-control chatMessageInput" placeholder="Digite uma mensagem" rows="2"></textarea>
-                    <div class="input-group-append">
-                        <button class="input-group-text chatMessageSend" type="button" id="searchUser"> <i class="fas fa-paper-plane"></i> </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-1 d-flex justify-content-center">
-                <button type="button" class="formatBtn"> <i class="fas fa-microphone chatIcon"></i> </button>
             </div>
         </div>
     </div>
@@ -248,75 +201,11 @@ $con = $con->connect();
 
     <!-- detalhes do contato -->
     <div class="col-md-3" id="chatThirdColumn">
-        <div class="returnArrow mt-4 ml-4" onclick="returnToChat()">
-            <i class="fas fa-chevron-left"></i> Voltar
-        </div>
-        <div class="userDetailedInfo">
-            <img src="../../assets/images/users/no_picture.jpg" alt="Imagem do usuário" class="userImg userImg-lg">
-            <div class="userName userName-lg">Nome do usuário</div>
-            <div class="userService">Nome do serviço</div>
-        </div>
-
-        <div class="chatMidia">
-            <button type="button" class="showMidiaBtn" data-toggle="collapse" data-target="#chatMidiaItems" aria-expanded="false" aria-controls="collapseExample">Exibir Mídia <i class="far fa-folder-open"></i> </button>
-            <div class="collapse mt-3" id="chatMidiaItems">
-
-                <button type="button" class="btnToggle btnPhotos d-flex justify-content-around align-items-center" data-toggle="collapse" data-target="#chatMidiaList" aria-expanded="false" aria-controls="chatMidiaList">
-                    <i class="far fa-file-image"></i> Formatos de mídia (5) <i class="fas fa-sort-down"></i>
-                </button>
-                <div class="collapse" id="chatMidiaList">
-                    <img src="../../assets/images/users/user1/service_images/service4/1629844731612574fb386b6.jpg" alt="" class="chatMidiaItem">
-                </div>
-
-                <button type="button" class="btnToggle btnDocs d-flex justify-content-around align-items-center" data-toggle="collapse" data-target="#chatDocList" aria-expanded="false" aria-controls="chatDocList">
-                    <i class="far fa-file-pdf"></i> Documentos (17) <i class="fas fa-sort-down"></i>
-                </button>
-                <div class="collapse" id="chatDocList">
-                    <div class="formatBtn chatDocItem">
-                        <i class="far fa-file-pdf"></i> <span class="docName">nome do arquivo</span> <i class="fas fa-download"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="chatOptions">
-            <div class="addFavorite">
-                Adicionar aos favoritos
-                <label class="switch">
-                    <input type="checkbox">
-                    <span class="slider round"></span>
-                </label>
-            </div>
-            <hr>
-            <div class="dangerOption dangerFakeLine">Bloquear <i class="fas fa-user-slash"></i></div>
-            <div class="dangerOption dangerFakeLine">Denunciar serviço <i class="fas fa-ban"></i></div>
-            <div class="dangerOption">Apagar conversa <i class="fas fa-trash"></i></div>
+        <div id="loadAssyncUserInfo">
+            <!-- As informaçõesdo usuário serão carregadas dinamicamente -->
         </div>
     </div>
     <!-- fim detalhes do contato -->
 </div>
-
-<footer id="myMainFooter">
-    <div id="myMainFooterContainer" class="container-fluid">
-        <div class="my-main-footer-logo">
-            <img src="../../assets/images/dumb-footer.png" alt="Tá por Aqui" class="my-footer-img">
-        </div>
-        <div class="my-main-footer-institutional">
-            <p>INSTITUCIONAL</p>
-            <a href="../SobreNos/sobreNos.html">Quem Somos</a> <br>
-            <a href="#">Faça uma doação</a> <br>
-            <a href="#">Trabalhe conosco</a> <br>
-        </div>
-        <div class="my-main-footer-socialMedia">
-            <p>Redes Sociais</p>
-            <div class="my-footer-social-medias-div">
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="#"><i class="fab fa-youtube"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-            </div>
-        </div>
-    </div>
-    </div>
-</footer>
 </body>
 </html>

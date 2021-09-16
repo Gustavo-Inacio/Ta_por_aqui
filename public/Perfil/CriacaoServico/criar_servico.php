@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if( empty($_SESSION) ){
+if( empty($_SESSION['idUsuario']) ){
     header('Location: ../../Home/home.php');
 }
 if($_SESSION['classificacao'] == 0){
