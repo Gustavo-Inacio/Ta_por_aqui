@@ -37,7 +37,6 @@ $con = $con->connect();
     </div>
 
     <div class="chatMessages">
-
         <div class="chatDate">Ontem</div>
 
         <div class="message myMessage">
@@ -135,17 +134,23 @@ $con = $con->connect();
         </div>
 
         <div class="col-1 d-flex justify-content-center">
-            <button type="button" class="formatBtn"><i class="fas fa-paperclip chatIcon"></i></button>
+            <label for="midiaInput" class="formatBtn d-flex align-items-center" id="showMidiainput" data-container="body" data-trigger="hover" data-toggle="popover" data-placement="top" data-content="Clique aqui para enviar documentos ou fotos"><i class="fas fa-paperclip chatIcon"></i></label>
         </div>
 
         <div class="col-9 d-flex">
-            <div class="input-group">
+            <div class="input-group" id="chatMessageInputGroup">
                             <textarea class="form-control chatMessageInput" placeholder="Digite uma mensagem"
                                       rows="2" id="chatMessageInput"></textarea>
                 <div class="input-group-append">
-                    <button class="input-group-text chatMessageSend" type="button" id="searchUser"><i
+                    <button class="input-group-text chatMessageSend" type="button" id="sendMessage"><i
                                 class="fas fa-paper-plane"></i></button>
                 </div>
+            </div>
+            <div id="midiaInputGroup" class="d-none">
+                <input type="file" id="midiaInput" onchange="changeInput()">
+                <button class="input-group-text chatMessageSend" type="button" id="sendFile"><i
+                            class="fas fa-paper-plane"></i></button>
+                <button class="input-group-text ml-2" id="deleteFile" onclick="deleteFile()"><i class="fas fa-trash text-danger"></i></button>
             </div>
         </div>
 

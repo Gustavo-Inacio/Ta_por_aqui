@@ -9,10 +9,10 @@ if (empty($_SESSION['idAdm']) || empty($_SESSION['emailAdm']) || empty($_SESSION
 
 $servicesListing = new ServicesListing();
 $services = [];
-if (isset($_POST['serviceStatus'])){
-    $services = $servicesListing->selectFilteredServices($_POST['serviceStatus'], $_POST['serviceComplainFilter']);
-} else if (isset($_POST['searchInput'])){
-    $services = $servicesListing->selectSearchedServices($_POST['searchInput'], $_POST['searchParam']);
+if (isset($_GET['serviceStatus'])){
+    $services = $servicesListing->selectFilteredServices($_GET['serviceStatus'], $_GET['serviceComplainFilter']);
+} else if (isset($_GET['searchInput'])){
+    $services = $servicesListing->selectSearchedServices($_GET['searchInput'], $_GET['searchParam']);
 } else {
     $services = $servicesListing->selectAllServices();
 }
@@ -98,15 +98,15 @@ if (isset($_POST['serviceStatus'])){
 <div class="main" id="pagina">
     <h1>Relatório de serviços</h1>
 
-    <form action="serviceReport.php" method="post">
+    <form action="serviceReport.php" method="get">
         <div class="float-left">
             <label for="serviceStatus">Filtrar por atividade: </label> <br>
             <select name="serviceStatus" id="serviceStatus">
                 <option value="">Todos os serviços</option>
-                <option value="1" <?php if (isset($_POST['serviceStatus']) and $_POST['serviceStatus'] == 1) {echo 'selected';}?>>Serviços ativos</option>
-                <option value="2" <?php if (isset($_POST['serviceStatus']) and $_POST['serviceStatus'] == 2) {echo 'selected';}?>>Serviços banidos</option>
-                <option value="0" <?php if (isset($_POST['serviceStatus']) and $_POST['serviceStatus'] == 0) {echo 'selected';}?>>Serviços suspensos</option>
-                <option value="3" <?php if (isset($_POST['serviceStatus']) and $_POST['serviceStatus'] == 3) {echo 'selected';}?>>Serviços ocultados pelo user</option>
+                <option value="1" <?php if (isset($_GET['serviceStatus']) and $_GET['serviceStatus'] == 1) {echo 'selected';}?>>Serviços ativos</option>
+                <option value="2" <?php if (isset($_GET['serviceStatus']) and $_GET['serviceStatus'] == 2) {echo 'selected';}?>>Serviços banidos</option>
+                <option value="0" <?php if (isset($_GET['serviceStatus']) and $_GET['serviceStatus'] == 0) {echo 'selected';}?>>Serviços suspensos</option>
+                <option value="3" <?php if (isset($_GET['serviceStatus']) and $_GET['serviceStatus'] == 3) {echo 'selected';}?>>Serviços ocultados pelo user</option>
             </select>
         </div>
 
@@ -114,7 +114,7 @@ if (isset($_POST['serviceStatus'])){
             <label for="serviceComplainFilter">Filtrar denúncias: </label> <br>
             <select name="serviceComplainFilter" id="serviceComplainFilter">
                 <option value="">Todos os serviços</option>
-                <option value="true" <?php if (isset($_POST['serviceComplainFilter']) and $_POST['serviceComplainFilter'] == true) {echo 'selected';}?>>Serviços denunciados</option>
+                <option value="true" <?php if (isset($_GET['serviceComplainFilter']) and $_GET['serviceComplainFilter'] == true) {echo 'selected';}?>>Serviços denunciados</option>
             </select>
         </div>
         <br>
@@ -123,16 +123,16 @@ if (isset($_POST['serviceStatus'])){
 
     <div class="clearfix my-3"></div>
 
-    <form action="serviceReport.php" method="post">
+    <form action="serviceReport.php" method="get">
         <div class="float-left">
             <label for="searchInput">Pesquisar serviço:</label> <br>
-            <input type="text" name="searchInput" <?php if (isset($_POST['searchInput'])) {echo "value = '" . $_POST['searchInput'] . "'";}?>>
+            <input type="text" name="searchInput" <?php if (isset($_GET['searchInput'])) {echo "value = '" . $_GET['searchInput'] . "'";}?>>
             <select name="searchParam" id="searchParam">
-                <option value="id_servico" <?php if (isset($_POST['searchParam']) and $_POST['searchParam'] == 'id_servico') {echo 'selected';}?>>id do serviço</option>
-                <option value="id_prestador_servico" <?php if (isset($_POST['searchParam']) and $_POST['searchParam'] == 'id_prestador_servico') {echo 'selected';}?>>id do prestador</option>
-                <option value="nome_usuario" <?php if (isset($_POST['searchParam']) and $_POST['searchParam'] == 'nome_prestador') {echo 'selected';}?>>nome do prestador</option>
-                <option value="nome_servico" <?php if (isset($_POST['searchParam']) and $_POST['searchParam'] == 'nome_servico') {echo 'selected';}?>>nome do serviço</option>
-                <option value="crit_orcamento_servico" <?php if (isset($_POST['searchParam']) and $_POST['searchParam'] == 'crit_orcamento_servico') {echo 'selected';}?>>critério de preço</option>
+                <option value="s.id_servico" <?php if (isset($_GET['searchParam']) and $_GET['searchParam'] == 's.id_servico') {echo 'selected';}?>>id do serviço</option>
+                <option value="s.id_prestador_servico" <?php if (isset($_GET['searchParam']) and $_GET['searchParam'] == 's.id_prestador_servico') {echo 'selected';}?>>id do prestador</option>
+                <option value="u.nome_usuario" <?php if (isset($_GET['searchParam']) and $_GET['searchParam'] == 'u.nome_prestador') {echo 'selected';}?>>nome do prestador</option>
+                <option value="s.nome_servico" <?php if (isset($_GET['searchParam']) and $_GET['searchParam'] == 's.nome_servico') {echo 'selected';}?>>nome do serviço</option>
+                <option value="s.crit_orcamento_servico" <?php if (isset($_GET['searchParam']) and $_GET['searchParam'] == 's.crit_orcamento_servico') {echo 'selected';}?>>critério de preço</option>
             </select>
         </div>
         <br>

@@ -9,8 +9,8 @@ if (empty($_SESSION['idAdm']) || empty($_SESSION['emailAdm']) || empty($_SESSION
 
 $commentsListing = new CommentsListing();
 $comments = [];
-if (isset($_POST['searchInput'])){
-    $comments = $commentsListing->selectSearchedComments($_POST['searchInput'], $_POST['searchParam']);
+if (isset($_GET['searchInput'])){
+    $comments = $commentsListing->selectSearchedComments($_GET['searchInput'], $_GET['searchParam']);
 } else {
     $comments = $commentsListing->selectAllComments();
 }
@@ -99,17 +99,17 @@ if (isset($_POST['searchInput'])){
 <div class="main" id="pagina">
     <h1>Denúncias de comentários</h1>
 
-    <form action="commentComplaint.php" method="post">
+    <form action="commentComplaint.php" method="get">
         <div class="float-left">
             <label for="searchInput">Pesquisar comentário:</label> <br>
-            <input type="text" name="searchInput" <?php if (isset($_POST['searchInput'])) {echo "value = '" . $_POST['searchInput'] . "'";}?>>
+            <input type="text" name="searchInput" <?php if (isset($_GET['searchInput'])) {echo "value = '" . $_GET['searchInput'] . "'";}?>>
             <select name="searchParam" id="searchParam">
-                <option value="c.id_comentario" <?php if (isset($_POST['searchParam']) and $_POST['searchParam'] == 'c.id_comentario') {echo 'selected';}?>>id do comentário</option>
-                <option value="c.id_usuario" <?php if (isset($_POST['searchParam']) and $_POST['searchParam'] == 'c.id_usuario') {echo 'selected';}?>>id do usuário</option>
-                <option value="u.nome_usuario" <?php if (isset($_POST['searchParam']) and $_POST['searchParam'] == 'u.nome_usuario') {echo 'selected';}?>>nome do usuário</option>
-                <option value="c.id_servico" <?php if (isset($_POST['searchParam']) and $_POST['searchParam'] == 'c.id_servico') {echo 'selected';}?>>id do serviço</option>
-                <option value="s.nome_servico" <?php if (isset($_POST['searchParam']) and $_POST['searchParam'] == 's.nome_servico') {echo 'selected';}?>>nome do serviço</option>
-                <option value="c.desc_comentario" <?php if (isset($_POST['searchParam']) and $_POST['searchParam'] == 'c.desc_comentario') {echo 'selected';}?>>comentário</option>
+                <option value="c.id_comentario" <?php if (isset($_GET['searchParam']) and $_GET['searchParam'] == 'c.id_comentario') {echo 'selected';}?>>id do comentário</option>
+                <option value="c.id_usuario" <?php if (isset($_GET['searchParam']) and $_GET['searchParam'] == 'c.id_usuario') {echo 'selected';}?>>id do usuário</option>
+                <option value="u.nome_usuario" <?php if (isset($_GET['searchParam']) and $_GET['searchParam'] == 'u.nome_usuario') {echo 'selected';}?>>nome do usuário</option>
+                <option value="c.id_servico" <?php if (isset($_GET['searchParam']) and $_GET['searchParam'] == 'c.id_servico') {echo 'selected';}?>>id do serviço</option>
+                <option value="s.nome_servico" <?php if (isset($_GET['searchParam']) and $_GET['searchParam'] == 's.nome_servico') {echo 'selected';}?>>nome do serviço</option>
+                <option value="c.desc_comentario" <?php if (isset($_GET['searchParam']) and $_GET['searchParam'] == 'c.desc_comentario') {echo 'selected';}?>>comentário</option>
             </select>
         </div>
         <br>

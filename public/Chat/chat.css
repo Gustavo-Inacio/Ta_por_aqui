@@ -1,10 +1,12 @@
 body{
-    background-color: #f2f2f2;
+    background: rgb(242,242,242);
+    background: linear-gradient(90deg, rgba(242,242,242,1) 0%, rgba(255,255,255,1) 100%);
 }
 
 #page{
     height: calc(100vh - 80px);
     margin: 0 auto;
+    max-width: 1500px;
 }
 
 /*Listagem de usuários do chat (primeira coluna)*/
@@ -247,8 +249,26 @@ body{
     color: #aba518;
 }
 
-.fa-paperclip:hover{
+#showMidiainput:hover .fa-paperclip{
     color: #3333CC;
+}
+
+#showMidiainput:hover{
+    cursor: pointer;
+    color: #3333CC;
+}
+
+#midiaInputGroup{
+    display: flex;
+    height: 60px;
+    align-items: center;
+    width: 100%;
+}
+
+#midiaInput{
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    width: 100%;
 }
 
 .fa-microphone:hover{
@@ -573,7 +593,6 @@ input:checked + .slider:before {
     flex-direction: column;
     align-items: center;
     height: calc(100vh - 112px - 33px);
-    border: 1px solid red;
     overflow-y: auto;
 }
 

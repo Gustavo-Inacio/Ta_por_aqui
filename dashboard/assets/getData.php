@@ -297,7 +297,6 @@ class UsersListing {
     public function selectAllUsers(){
         $query = "SELECT id_usuario, nome_usuario, classif_usuario, email_usuario, nota_media_usuario, status_usuario, imagem_usuario from usuarios";
         $stmt = $this->con->query($query);
-
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 

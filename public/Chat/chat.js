@@ -1,4 +1,9 @@
 $(document).ready(()=>{
+    //habilitar popover
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
+
     //abrindo ou fechando divs dependendo da tela.
     window.onload = () => {
         if (window.innerWidth > 768){
@@ -76,22 +81,25 @@ function returnToContacts() {
 
 //carregar conversa
 function loadConversation(userId){
-    $('#loadAssyncData').innerHTML = "";
-    //abrindo um chat específico no mobile
-    if (window.innerWidth < 767){
-        $('#chatFirstColumn').removeClass('opened').addClass('closed')
-        $('#chatSecondColumn').removeClass('closed').addClass('opened')
+    //verificando se o ID existe
+    if ($(`[userId='${userId}']`).length > 0){
+        $('#loadAssyncData').innerHTML = "";
+        //abrindo um chat específico no mobile
+        if (window.innerWidth < 767){
+            $('#chatFirstColumn').removeClass('opened').addClass('closed')
+            $('#chatSecondColumn').removeClass('closed').addClass('opened')
+        }
+
+        //requisitando assincronamente a segunda coluna
+        $('#loadAssyncConversation').load(`getConversation.php?idc=${userId}`)
+
+        //requisitando assincronamente a terceira coluna
+        $('#loadAssyncUserInfo').load(`getUserInfo.php?idu=${userId}`)
+
+        //Colocando o contato como ativo
+        $('.userDiv').removeClass('active')
+        $(`[userId='${userId}']`).addClass('active')
     }
-
-    //requisitando assincronamente a segunda coluna
-    $('#loadAssyncConversation').load(`getConversation.php?idc=${userId}`)
-
-    //requisitando assincronamente a terceira coluna
-    $('#loadAssyncUserInfo').load(`getUserInfo.php?idu=${userId}`)
-
-    //Colocando o contato como ativo
-    $('.userDiv').removeClass('active')
-    $(`[userId='${userId}']`).addClass('active')
 }
 
 //abrindo os detalhes do usuário
@@ -120,4 +128,15 @@ function loadUserInfo(){
         //expandindo userInfo
         $('#chatThirdColumn').removeClass('opened').addClass('closed')
     }
+}
+
+function changeInput(){
+    $('#chatMessageInputGroup').addClass('d-none')
+    $('#midiaInputGroup').removeClass('d-none')
+}
+
+function deleteFile(){
+    $('#chatMessageInputGroup').removeClass('d-none')
+    $('#midiaInputGroup').addClass('d-none')
+    $('midiaInput').value = "";
 }
