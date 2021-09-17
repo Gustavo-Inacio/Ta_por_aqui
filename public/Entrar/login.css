@@ -5,7 +5,7 @@ svg{
 }
 
 body{
-    display: relative;
+    position: relative;
     font-family: 'Roboto';
 }
 

@@ -69,7 +69,7 @@ session_start();
             <li class="nav-item">
                 <a href="../Chat/chat.php" class="nav-link">Chat</a>
             </li>
-            <?php if( empty($_SESSION) ){ ?>
+            <?php if( empty($_SESSION['idUsuario']) ){ ?>
                 <li class="nav-item">
                     <a href="../Entrar/login.php" class="nav-link">Entrar/cadastrar</a>
                 </li>

@@ -1,5 +1,12 @@
 <?php
 require "../assets/getData.php";
+
+session_start();
+if (empty($_SESSION['idAdm']) || empty($_SESSION['emailAdm']) || empty($_SESSION['senhaAdm'])){
+    header('location:../index.php');
+    exit();
+}
+
 $serviceReport = new ServiceReport($_GET['id']);
 
 $banMsg = "";
@@ -65,7 +72,7 @@ $serviceComplain = $serviceReport->getComplainsToThisService();
 
         <ul id="menu-content" class="menu-content collapse out">
             <li>
-                <a href="../index.php"><i class="fas fa-chart-bar sidebar-icon"></i> Estatísticas do site</a>
+                <a href="../analisys.php"><i class="fas fa-chart-bar sidebar-icon"></i> Estatísticas do site</a>
             </li>
 
             <li data-toggle="collapse" data-target="#gerenciamentoUsuarios" class="collapsed">

@@ -1,11 +1,18 @@
 <?php
 require "../assets/getData.php";
+
+session_start();
+if (empty($_SESSION['idAdm']) || empty($_SESSION['emailAdm']) || empty($_SESSION['senhaAdm'])){
+    header('location:../index.php');
+    exit();
+}
+
 $contactListing = new ContactListing();
 $contacts = [];
-if (isset($_POST['contactReason']) || isset($_POST['contactStatus'])){
-    $contacts = $contactListing->selectFilteredContacts($_POST['contactReason'], $_POST['contactStatus']);
-} else if (isset($_POST['searchInput'])){
-    $contacts = $contactListing->selectSearchedContacts($_POST['searchInput'], $_POST['searchParam']);
+if (isset($_GET['contactReason']) || isset($_GET['contactStatus'])){
+    $contacts = $contactListing->selectFilteredContacts($_GET['contactReason'], $_GET['contactStatus']);
+} else if (isset($_GET['searchInput'])){
+    $contacts = $contactListing->selectSearchedContacts($_GET['searchInput'], $_GET['searchParam']);
 } else {
     $contacts = $contactListing->selectAllContacts();
 }
@@ -56,7 +63,7 @@ if (isset($_POST['contactReason']) || isset($_POST['contactStatus'])){
 
         <ul id="menu-content" class="menu-content collapse out">
             <li>
-                <a href="../index.php"><i class="fas fa-chart-bar sidebar-icon"></i> Estatísticas do site</a>
+                <a href="../analisys.php"><i class="fas fa-chart-bar sidebar-icon"></i> Estatísticas do site</a>
             </li>
 
             <li data-toggle="collapse" data-target="#gerenciamentoUsuarios" class="collapsed active">
@@ -91,17 +98,17 @@ if (isset($_POST['contactReason']) || isset($_POST['contactStatus'])){
 <div class="main" id="pagina">
     <h1>Fale conosco</h1>
 
-    <form action="contactReport.php" method="post">
+    <form action="contactReport.php" method="get">
         <div class="float-left">
             <label for="contactReason">Filtrar por motivo: </label> <br>
             <select name="contactReason" id="contactReason">
                 <option value="">Todos os serviços</option>
-                <option value="1" <?php if (isset($_POST['contactReason']) and $_POST['contactReason'] == 1) {echo 'selected';}?>>elogios</option>
-                <option value="2" <?php if (isset($_POST['contactReason']) and $_POST['contactReason'] == 2) {echo 'selected';}?>>sugestões</option>
-                <option value="3" <?php if (isset($_POST['contactReason']) and $_POST['contactReason'] == 3) {echo 'selected';}?>>reclamações</option>
-                <option value="4" <?php if (isset($_POST['contactReason']) and $_POST['contactReason'] == 4) {echo 'selected';}?>>problemas/bugs</option>
-                <option value="6" <?php if (isset($_POST['contactReason']) and $_POST['contactReason'] == 6) {echo 'selected';}?>>contestação de banimento</option>
-                <option value="5" <?php if (isset($_POST['contactReason']) and $_POST['contactReason'] == 5) {echo 'selected';}?>>outros motivos</option>
+                <option value="1" <?php if (isset($_GET['contactReason']) and $_GET['contactReason'] == 1) {echo 'selected';}?>>elogios</option>
+                <option value="2" <?php if (isset($_GET['contactReason']) and $_GET['contactReason'] == 2) {echo 'selected';}?>>sugestões</option>
+                <option value="3" <?php if (isset($_GET['contactReason']) and $_GET['contactReason'] == 3) {echo 'selected';}?>>reclamações</option>
+                <option value="4" <?php if (isset($_GET['contactReason']) and $_GET['contactReason'] == 4) {echo 'selected';}?>>problemas/bugs</option>
+                <option value="6" <?php if (isset($_GET['contactReason']) and $_GET['contactReason'] == 6) {echo 'selected';}?>>contestação de banimento</option>
+                <option value="5" <?php if (isset($_GET['contactReason']) and $_GET['contactReason'] == 5) {echo 'selected';}?>>outros motivos</option>
             </select>
         </div>
 
@@ -109,10 +116,10 @@ if (isset($_POST['contactReason']) || isset($_POST['contactStatus'])){
             <label for="contactStatus">Filtrar por status: </label> <br>
             <select name="contactStatus" id="contactStatus">
                 <option value="">Todos os serviços</option>
-                <option value="0" <?php if (isset($_POST['contactStatus']) and $_POST['contactStatus'] == 0) {echo 'selected';}?>>Não visto</option>
-                <option value="1" <?php if (isset($_POST['contactStatus']) and $_POST['contactStatus'] == 1) {echo 'selected';}?>>ignorado</option>
-                <option value="2" <?php if (isset($_POST['contactStatus']) and $_POST['contactStatus'] == 2) {echo 'selected';}?>>resolvendo</option>
-                <option value="3" <?php if (isset($_POST['contactStatus']) and $_POST['contactStatus'] == 3) {echo 'selected';}?>>resolvido</option>
+                <option value="0" <?php if (isset($_GET['contactStatus']) and $_GET['contactStatus'] == 0) {echo 'selected';}?>>Não visto</option>
+                <option value="1" <?php if (isset($_GET['contactStatus']) and $_GET['contactStatus'] == 1) {echo 'selected';}?>>ignorado</option>
+                <option value="2" <?php if (isset($_GET['contactStatus']) and $_GET['contactStatus'] == 2) {echo 'selected';}?>>resolvendo</option>
+                <option value="3" <?php if (isset($_GET['contactStatus']) and $_GET['contactStatus'] == 3) {echo 'selected';}?>>resolvido</option>
             </select>
         </div>
         <br>
@@ -121,16 +128,16 @@ if (isset($_POST['contactReason']) || isset($_POST['contactStatus'])){
 
     <div class="clearfix my-3"></div>
 
-    <form action="contactReport.php" method="post">
+    <form action="contactReport.php" method="get">
         <div class="float-left">
             <label for="searchInput">Pesquisar contato:</label> <br>
-            <input type="text" name="searchInput" <?php if (isset($_POST['searchInput'])) {echo "value = '" . $_POST['searchInput'] . "'";}?>>
+            <input type="text" name="searchInput" <?php if (isset($_GET['searchInput'])) {echo "value = '" . $_GET['searchInput'] . "'";}?>>
             <select name="searchParam" id="searchParam">
-                <option value="id_contato" <?php if (isset($_POST['searchParam']) and $_POST['searchParam'] == 'id_contato') {echo 'selected';}?>>id do contato</option>
-                <option value="nome_contato" <?php if (isset($_POST['searchParam']) and $_POST['searchParam'] == 'nome_contato') {echo 'selected';}?>>nome</option>
-                <option value="email_contato" <?php if (isset($_POST['searchParam']) and $_POST['searchParam'] == 'email_contato') {echo 'selected';}?>>email</option>
-                <option value="fone_contato" <?php if (isset($_POST['searchParam']) and $_POST['searchParam'] == 'fone_contato') {echo 'selected';}?>>telefone</option>
-                <option value="msg_contato" <?php if (isset($_POST['searchParam']) and $_POST['searchParam'] == 'msg_contato') {echo 'selected';}?>>mensagem</option>
+                <option value="id_contato" <?php if (isset($_GET['searchParam']) and $_GET['searchParam'] == 'id_contato') {echo 'selected';}?>>id do contato</option>
+                <option value="nome_contato" <?php if (isset($_GET['searchParam']) and $_GET['searchParam'] == 'nome_contato') {echo 'selected';}?>>nome</option>
+                <option value="email_contato" <?php if (isset($_GET['searchParam']) and $_GET['searchParam'] == 'email_contato') {echo 'selected';}?>>email</option>
+                <option value="fone_contato" <?php if (isset($_GET['searchParam']) and $_GET['searchParam'] == 'fone_contato') {echo 'selected';}?>>telefone</option>
+                <option value="msg_contato" <?php if (isset($_GET['searchParam']) and $_GET['searchParam'] == 'msg_contato') {echo 'selected';}?>>mensagem</option>
             </select>
         </div>
         <br>
@@ -175,7 +182,7 @@ if (isset($_POST['contactReason']) || isset($_POST['contactStatus'])){
                                 $tmpMotivo = "Outro motivo";
                                 break;
                             case 6:
-                                $motivo = "Contestação de banimento";
+                                $tmpMotivo = "Contestação de banimento";
                                 break;
                         }
                         ?>
