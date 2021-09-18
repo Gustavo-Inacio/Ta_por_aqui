@@ -20,9 +20,7 @@ if ($_GET['servicetype'] === "requestedServices") {
     <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Serviços solicitados para você</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             <div class="row" id="requestedServicesCardsModal">
@@ -78,7 +76,7 @@ if ($_GET['servicetype'] === "requestedServices") {
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="mybtn mybtn-secondary" data-dismiss="modal">Fechar</button>
+            <button type="button" class="mybtn mybtn-secondary" data-bs-dismiss="modal">Fechar</button>
         </div>
     </div>
 
@@ -91,9 +89,7 @@ if ($_GET['servicetype'] === "requestedServices") {
     <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Serviços disponibilizados</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             <div class="row" id="serviceCardsModal">
@@ -124,7 +120,7 @@ if ($_GET['servicetype'] === "requestedServices") {
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="mybtn mybtn-secondary" data-dismiss="modal">Fechar</button>
+            <button type="button" class="mybtn mybtn-secondary" data-bs-dismiss="modal">Fechar</button>
         </div>
     </div>
 
@@ -138,9 +134,7 @@ if ($_GET['servicetype'] === "requestedServices") {
     <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Serviços que você solicitou</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             <div class="row" id="savedCardsModal">
@@ -195,7 +189,7 @@ if ($_GET['servicetype'] === "requestedServices") {
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="mybtn mybtn-secondary" data-dismiss="modal">Fechar</button>
+            <button type="button" class="mybtn mybtn-secondary" data-bs-dismiss="modal">Fechar</button>
         </div>
     </div>
 
@@ -209,9 +203,7 @@ if ($_GET['servicetype'] === "requestedServices") {
     <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Serviços salvos</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             <div class="row" id="savedCardsModal">
@@ -249,7 +241,7 @@ if ($_GET['servicetype'] === "requestedServices") {
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="mybtn mybtn-secondary" data-dismiss="modal">Fechar</button>
+            <button type="button" class="mybtn mybtn-secondary" data-bs-dismiss="modal">Fechar</button>
         </div>
     </div>
 
@@ -262,9 +254,7 @@ if ($_GET['servicetype'] === "requestedServices") {
     <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Serviços contratados recentemente</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             <div class="row" id="savedCardsModal">
@@ -317,7 +307,7 @@ if ($_GET['servicetype'] === "requestedServices") {
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="mybtn mybtn-secondary" data-dismiss="modal">Fechar</button>
+            <button type="button" class="mybtn mybtn-secondary" data-bs-dismiss="modal">Fechar</button>
         </div>
     </div>
 <?php } else if ($_GET['servicetype'] === "acceptRejectServices") {
@@ -329,9 +319,7 @@ if ($_GET['servicetype'] === "requestedServices") {
     <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Serviços solicitados para você</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             <div class="row" id="requestedServicesCardsModal">
@@ -393,7 +381,7 @@ if ($_GET['servicetype'] === "requestedServices") {
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="mybtn mybtn-secondary" data-dismiss="modal">Fechar</button>
+            <button type="button" class="mybtn mybtn-secondary" data-bs-dismiss="modal">Fechar</button>
         </div>
     </div>
 <?php } ?>

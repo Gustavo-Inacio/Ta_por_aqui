@@ -25,20 +25,20 @@ if (isset($_GET['searchInput'])){
 
     <title>Tá por aqui - Dashboard</title>
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-    <link rel="stylesheet" href="../../assets/bootstrap/bootstrap-4.5.3-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="../style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="../style.css">
 
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-    <script src="../../assets/bootstrap/popper.min.js" defer></script>
-    <script src="../../assets/bootstrap/bootstrap-4.5.3-dist/js/bootstrap.min.js" defer></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/2a19bde8ca.js" crossorigin="anonymous" defer></script>
+    <script src="../assets/chart.js/chart.js"></script>
     <script src="../script.js" defer></script>
 
     <script>
         //remover transição do collapse quando a página carrega e devolve-la quando clicado
         $(document).ready(() => {
-            $('#gerenciamentoUsuarios').collapse('show')
+            let bsgGerenciamentoUsuarios = new bootstrap.Collapse(document.getElementById('gerenciamentoUsuarios'))
+            bsgGerenciamentoUsuarios.show()
             $('#gerenciamentoUsuarios').removeClass('collapsing')
             $('#gerenciamentoUsuarios').on("click", () => {
                 $('#gerenciamentoUsuarios').addClass('collapsing')
@@ -56,7 +56,7 @@ if (isset($_GET['searchInput'])){
 <!-- menu -->
 <div class="nav-side-menu">
     <div class="brand py-2"><img src="../../assets/images/dumb-brand.png" alt="logo"></div>
-    <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+    <i class="fa fa-bars fa-2x toggle-btn" data-bs-toggle="collapse" data-bs-target="#menu-content"></i>
 
     <div class="menu-list">
 
@@ -67,7 +67,7 @@ if (isset($_GET['searchInput'])){
 
             </li>
 
-            <li data-toggle="collapse" data-target="#gerenciamentoUsuarios" class="collapsed active">
+            <li data-bs-toggle="collapse" data-bs-target="#gerenciamentoUsuarios" class="collapsed active">
                 <div class="moreItems"><i class="fas fa-users sidebar-icon"></i> Gerenciamento usuários <span class="arrow"><i class="fa fa-angle-down"></i></span></div>
             </li>
             <ul class="sub-menu collapse" id="gerenciamentoUsuarios">
@@ -76,14 +76,14 @@ if (isset($_GET['searchInput'])){
                 <li><a href="contactReport.php"><i class="fa fa-angle-right"></i> Fale conosco</a></li>
             </ul>
 
-            <li data-toggle="collapse" data-target="#gerenciamentoServicos" class="collapsed">
+            <li data-bs-toggle="collapse" data-bs-target="#gerenciamentoServicos" class="collapsed">
                 <div class="moreItems"><i class="fas fa-people-carry sidebar-icon"></i> Gerenciamento serviços <span class="arrow"><i class="fa fa-angle-down"></i></span></div>
             </li>
             <ul class="sub-menu collapse" id="gerenciamentoServicos">
                 <li><a href="../serviceManagement/serviceReport.php"><i class="fa fa-angle-right"></i> Relatório de serviços</a></li>
             </ul>
 
-            <li data-toggle="collapse" data-target="#appControl" class="collapsed">
+            <li data-bs-toggle="collapse" data-bs-target="#appControl" class="collapsed">
                 <div class="moreItems"><i class="fas fa-cog sidebar-icon"></i> Controle do app <span class="arrow"><i class="fa fa-angle-down"></i></span></div>
             </li>
             <ul class="sub-menu collapse" id="appControl">
@@ -100,10 +100,10 @@ if (isset($_GET['searchInput'])){
     <h1>Denúncias de comentários</h1>
 
     <form action="commentComplaint.php" method="get">
-        <div class="float-left">
+        <div class="float-start">
             <label for="searchInput">Pesquisar comentário:</label> <br>
-            <input type="text" name="searchInput" <?php if (isset($_GET['searchInput'])) {echo "value = '" . $_GET['searchInput'] . "'";}?>>
-            <select name="searchParam" id="searchParam">
+            <input type="text" class="me-2" name="searchInput" <?php if (isset($_GET['searchInput'])) {echo "value = '" . $_GET['searchInput'] . "'";}?>>
+            <select class="me-2" name="searchParam" id="searchParam">
                 <option value="c.id_comentario" <?php if (isset($_GET['searchParam']) and $_GET['searchParam'] == 'c.id_comentario') {echo 'selected';}?>>id do comentário</option>
                 <option value="c.id_usuario" <?php if (isset($_GET['searchParam']) and $_GET['searchParam'] == 'c.id_usuario') {echo 'selected';}?>>id do usuário</option>
                 <option value="u.nome_usuario" <?php if (isset($_GET['searchParam']) and $_GET['searchParam'] == 'u.nome_usuario') {echo 'selected';}?>>nome do usuário</option>
@@ -113,7 +113,7 @@ if (isset($_GET['searchInput'])){
             </select>
         </div>
         <br>
-        <button type="submit" class="float-left">Pesquisar</button>
+        <button type="submit" class="float-start">Pesquisar</button>
     </form>
 
     <div class="clearfix"></div>

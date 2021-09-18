@@ -1,7 +1,8 @@
 $(document).ready(()=>{
     //habilitar popover
-    $(function () {
-        $('[data-toggle="popover"]').popover()
+    let popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+    let popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+        return new bootstrap.Popover(popoverTriggerEl)
     })
 
     //abrindo ou fechando divs dependendo da tela.

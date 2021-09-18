@@ -34,11 +34,13 @@ function showRecPass(){
     aux2++
 }
 
-$(document).ready(()=>{
+document.addEventListener("DOMContentLoaded", function(event) {
     let url = new URL(location.href)
     if(url.searchParams.get('status_usuario') === "suspenso"){
-        $('#cancelSuspensionModal').modal('show')
+        let cancelSuspensionModal = new bootstrap.Modal(document.getElementById('cancelSuspensionModal'))
+        cancelSuspensionModal.show()
     }if(url.searchParams.get('status_usuario') === "banido"){
-        $('#bannedUserModal').modal('show')
+        let bannedUserModal = new bootstrap.Modal(document.getElementById('bannedUserModal'))
+        bannedUserModal.show()
     }
-})
+});

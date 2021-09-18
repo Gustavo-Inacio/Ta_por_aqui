@@ -22,9 +22,8 @@ body {
         0 9.8px 12.9px rgba(0, 0, 0, 0.034),
         0 19.7px 31.1px rgba(0, 0, 0, 0.045),
         0 58px 103px rgba(0, 0, 0, 0.08);
-
     border-radius: 20px;
-
+    max-width: 1200px;
 }
 
 #ourInfo {
@@ -85,7 +84,7 @@ body {
 #contactArea{
     background: white;
     border-radius: 20px;
-
+    padding: 30px;
 }
 
 #message textarea{

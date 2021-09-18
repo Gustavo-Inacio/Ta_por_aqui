@@ -13,7 +13,7 @@ body {
   overflow: auto;
   background-color: #2e353d;
   position: fixed;
-  top: 0px;
+  top: 0;
   width: 270px;
   height: 100%;
   color: #e1ffff;
@@ -255,7 +255,6 @@ body {
 
 #loginForm .form-control{
   border: 1.5px solid #888F98;
-  padding: 10px;
   background-color: transparent !important;
 }
 

@@ -17,17 +17,17 @@ $con = $con->connect();
     </div>
 
     <div class="chatMidia">
-        <button type="button" class="showMidiaBtn" data-toggle="collapse" data-target="#chatMidiaItems" aria-expanded="false" aria-controls="collapseExample">Exibir Mídia <i class="far fa-folder-open"></i> </button>
+        <button type="button" class="showMidiaBtn" data-bs-toggle="collapse" data-bs-target="#chatMidiaItems" aria-expanded="false" aria-controls="collapseExample">Exibir Mídia <i class="far fa-folder-open"></i> </button>
         <div class="collapse mt-3" id="chatMidiaItems">
 
-            <button type="button" class="btnToggle btnPhotos d-flex justify-content-around align-items-center" data-toggle="collapse" data-target="#chatMidiaList" aria-expanded="false" aria-controls="chatMidiaList">
+            <button type="button" class="btnToggle btnPhotos d-flex justify-content-around align-items-center" data-bs-toggle="collapse" data-bs-target="#chatMidiaList" aria-expanded="false" aria-controls="chatMidiaList">
                 <i class="far fa-file-image"></i> Formatos de mídia (5) <i class="fas fa-sort-down"></i>
             </button>
             <div class="collapse" id="chatMidiaList">
                 <img src="../../assets/images/users/user1/service_images/service4/1629844731612574fb386b6.jpg" alt="" class="chatMidiaItem">
             </div>
 
-            <button type="button" class="btnToggle btnDocs d-flex justify-content-around align-items-center" data-toggle="collapse" data-target="#chatDocList" aria-expanded="false" aria-controls="chatDocList">
+            <button type="button" class="btnToggle btnDocs d-flex justify-content-around align-items-center" data-bs-toggle="collapse" data-bs-target="#chatDocList" aria-expanded="false" aria-controls="chatDocList">
                 <i class="far fa-file-pdf"></i> Documentos (17) <i class="fas fa-sort-down"></i>
             </button>
             <div class="collapse" id="chatDocList">

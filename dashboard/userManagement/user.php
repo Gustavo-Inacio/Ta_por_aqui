@@ -29,22 +29,20 @@ $userServices = $userReport->getUserServices();
 
     <title>Tá por aqui - Dashboard</title>
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
-          integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-    <link rel="stylesheet" href="../../assets/bootstrap/bootstrap-4.5.3-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="../style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="../style.css">
 
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
-            integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-    <script src="../../assets/bootstrap/popper.min.js" defer></script>
-    <script src="../../assets/bootstrap/bootstrap-4.5.3-dist/js/bootstrap.min.js" defer></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/2a19bde8ca.js" crossorigin="anonymous" defer></script>
+    <script src="../assets/chart.js/chart.js"></script>
     <script src="../script.js" defer></script>
 
     <script>
         //remover transição do collapse quando a página carrega e devolve-la quando clicado
         $(document).ready(() => {
-            $('#gerenciamentoUsuarios').collapse('show')
+            let bsgGerenciamentoUsuarios = new bootstrap.Collapse(document.getElementById('gerenciamentoUsuarios'))
+            bsgGerenciamentoUsuarios.show()
             $('#gerenciamentoUsuarios').removeClass('collapsing')
             $('#gerenciamentoUsuarios').on("click", () => {
                 $('#gerenciamentoUsuarios').addClass('collapsing')
@@ -62,7 +60,7 @@ $userServices = $userReport->getUserServices();
 <!-- menu -->
 <div class="nav-side-menu">
     <div class="brand py-2"><img src="../../assets/images/dumb-brand.png" alt="logo"></div>
-    <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+    <i class="fa fa-bars fa-2x toggle-btn" data-bs-toggle="collapse" data-bs-target="#menu-content"></i>
 
     <div class="menu-list">
 
@@ -71,7 +69,7 @@ $userServices = $userReport->getUserServices();
                 <a href="../analisys.php"><i class="fas fa-chart-bar sidebar-icon"></i> Estatísticas do site</a>
             </li>
 
-            <li data-toggle="collapse" data-target="#gerenciamentoUsuarios" class="collapsed active">
+            <li data-bs-toggle="collapse" data-bs-target="#gerenciamentoUsuarios" class="collapsed active">
                 <div class="moreItems"><i class="fas fa-users sidebar-icon"></i> Gerenciamento usuários <span
                             class="arrow"><i class="fa fa-angle-down"></i></span></div>
             </li>
@@ -82,7 +80,7 @@ $userServices = $userReport->getUserServices();
                 <li><a href="contactReport.php"><i class="fa fa-angle-right"></i> Fale conosco</a></li>
             </ul>
 
-            <li data-toggle="collapse" data-target="#gerenciamentoServicos" class="collapsed">
+            <li data-bs-toggle="collapse" data-bs-target="#gerenciamentoServicos" class="collapsed">
                 <div class="moreItems"><i class="fas fa-people-carry sidebar-icon"></i> Gerenciamento serviços <span
                             class="arrow"><i class="fa fa-angle-down"></i></span></div>
             </li>
@@ -91,7 +89,7 @@ $userServices = $userReport->getUserServices();
                         serviços</a></li>
             </ul>
 
-            <li data-toggle="collapse" data-target="#appControl" class="collapsed">
+            <li data-bs-toggle="collapse" data-bs-target="#appControl" class="collapsed">
                 <div class="moreItems"><i class="fas fa-cog sidebar-icon"></i> Controle do app <span class="arrow"><i
                                 class="fa fa-angle-down"></i></span></div>
             </li>
@@ -259,7 +257,7 @@ $userServices = $userReport->getUserServices();
     <hr>
 
     <h4>Ações</h4>
-    <button type="button" class="btn btn-primary d-block" data-toggle="collapse" data-target="#userComments"
+    <button type="button" class="btn btn-primary d-block" data-bs-toggle="collapse" data-bs-target="#userComments"
             aria-expanded="false" aria-controls="userComments">Listar comentários do usuário
     </button>
     <div class="collapse mt-3" id="userComments">
@@ -291,7 +289,7 @@ $userServices = $userReport->getUserServices();
         ?>
     </div>
 
-    <button type="button" class="btn btn-secondary d-block mt-4" data-toggle="collapse" data-target="#userServices"
+    <button type="button" class="btn btn-secondary d-block mt-4" data-bs-toggle="collapse" data-bs-target="#userServices"
             aria-expanded="false" aria-controls="userServices">Listar serviços do usuário
     </button>
     <div class="collapse mt-3" id="userServices">
