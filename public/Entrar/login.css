@@ -11,10 +11,11 @@ body{
 
 
 #page{
+    position: relative;
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100%;
+    height: calc(100vh - 80px);
 }
 
 #loginDiv{
@@ -43,7 +44,6 @@ body{
 
 #loginForm .form-control{
     border: 1.5px solid #888F98;
-    padding: 10px;
     background-color: transparent !important;
 }
 

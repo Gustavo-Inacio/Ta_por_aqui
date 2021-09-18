@@ -1,20 +1,21 @@
 svg{
     position: absolute;
     z-index: -1;
-    bottom: 0px;
+    bottom: 0;
 }
 
 body{
-    display: relative;
+    position: relative;
     font-family: 'Roboto';
 }
 
 
 #page{
+    position: relative;
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100%;
+    height: calc(100vh - 80px);
 }
 
 #registerDiv{
@@ -49,11 +50,12 @@ body{
     font-weight: 690;
     font-size: 13px;
     color: #0C0C23;
+    display: block;
+    margin-bottom: 2px;
 }
 
 #registerForm .form-control{
     border: 1.5px solid #888F98;
-    padding: 10px;
     background-color: transparent !important;
     border-radius: 10px;
 }
@@ -188,7 +190,6 @@ input[type=number]::-webkit-inner-spin-button {
 input[type=number] { 
    -moz-appearance: textfield;
    appearance: textfield;
-
 }
 
 @media (max-width: 575.98px){

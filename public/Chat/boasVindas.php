@@ -24,8 +24,6 @@ if(isset($_SESSION['idUsuario'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="https://kit.fontawesome.com/2a19bde8ca.js" crossorigin="anonymous" defer></script>
-
     <title>Tá por aqui</title>
 
     <link rel="stylesheet" href="../../assets/bootstrap/bootstrap-4.5.3-dist/css/bootstrap.min.css">
@@ -36,7 +34,7 @@ if(isset($_SESSION['idUsuario'])) {
     <script src="../../assets/bootstrap/popper.min.js" defer></script>
     <script src="../../assets/bootstrap/bootstrap-4.5.3-dist/js/bootstrap.min.js" defer></script>
     <script src="../../assets/jQueyMask/jquery.mask.js" defer></script>
-
+    <script src="https://kit.fontawesome.com/2a19bde8ca.js" crossorigin="anonymous" defer></script>
     <script src="../../assets/global/globalScripts.js" defer></script>
     <script src="contato.js" defer></script>
 </head>

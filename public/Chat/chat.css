@@ -130,7 +130,6 @@ body{
 /*Conversa com um usuário (segunda coluna)*/
 #chatSecondColumn{
     background-color: #f2f2f2;
-    padding: 32px;
     height: calc(100vh - 80px);
 }
 
@@ -161,9 +160,17 @@ body{
 }
 
 .chatMessages{
-    margin-top: 20px;
+    position: relative;
     overflow-y: auto;
-    height: calc(100vh - 280px);
+    height: 100%;
+}
+
+@media (max-width: 767px) {
+    .chatMessages{
+        position: relative;
+        overflow-y: auto;
+        height: 87.5%;
+    }
 }
 
 .chatDate{
@@ -234,10 +241,8 @@ body{
 .communicationBar{
     background-color: white;
     padding: 8px 15px;
-    margin: 0 -32px;
-    position: absolute;
-    width: 100%;
-    bottom: 0;
+    position: relative;
+    height: 77px;
 }
 
 .chatIcon{
@@ -256,19 +261,6 @@ body{
 #showMidiainput:hover{
     cursor: pointer;
     color: #3333CC;
-}
-
-#midiaInputGroup{
-    display: flex;
-    height: 60px;
-    align-items: center;
-    width: 100%;
-}
-
-#midiaInput{
-    border-top-left-radius: 3px;
-    border-bottom-left-radius: 3px;
-    width: 100%;
 }
 
 .fa-microphone:hover{

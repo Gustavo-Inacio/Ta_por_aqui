@@ -15,20 +15,21 @@ if(isset($_GET['id'])) {
     $stmt = $con->query($query);
     $user = $stmt->fetch(PDO::FETCH_OBJ);
 
-    //puxando as redes sociais do usuário
-    $query2 = "SELECT rede_social, nick_rede_social, link_rede_social FROM usuario_redes_sociais WHERE id_usuario = " . $_GET['id'];
-    $stmt = $con->query($query2);
-    $userSocialMedia = $stmt->fetchAll(PDO::FETCH_OBJ);
+    if (!empty($user)){
+        //puxando as redes sociais do usuário
+        $query2 = "SELECT rede_social, nick_rede_social, link_rede_social FROM usuario_redes_sociais WHERE id_usuario = " . $_GET['id'];
+        $stmt = $con->query($query2);
+        $userSocialMedia = $stmt->fetchAll(PDO::FETCH_OBJ);
 
-    //puxando os serviços do prestador
-    if($user->classif_usuario !== 0){
-        $query = "SELECT id_servico, nome_servico, tipo_servico, orcamento_servico, crit_orcamento_servico, data_public_servico FROM servicos WHERE id_prestador_servico = " . $_GET['id'] . " AND status_servico = 1 ORDER BY id_servico DESC";
-        $stmt = $con->query($query);
-        $userServices = $stmt->fetchAll(PDO::FETCH_OBJ);
+        //puxando os serviços do prestador
+        if($user->classif_usuario !== 0){
+            $query = "SELECT id_servico, nome_servico, tipo_servico, orcamento_servico, crit_orcamento_servico, data_public_servico FROM servicos WHERE id_prestador_servico = " . $_GET['id'] . " AND status_servico = 1 ORDER BY id_servico DESC";
+            $stmt = $con->query($query);
+            $userServices = $stmt->fetchAll(PDO::FETCH_OBJ);
+        }
     }
 }
-
-if( !isset($_GET['id']) || !isset($user->id_usuario) ){
+if( !isset($_GET['id']) || empty($user) ){
 ?>
 
 <!-- HTML da mensagem de erro de usuário não encontrado-->
@@ -41,37 +42,34 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <script src="https://kit.fontawesome.com/2a19bde8ca.js" crossorigin="anonymous" defer></script>
+        <title>Tá por aqui - usuário inexistente</title>
 
-        <title>Tá por aqui - Usuário não encontrado </title>
-
-        <link rel="stylesheet" href="../../assets/bootstrap/bootstrap-4.5.3-dist/css/bootstrap.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
         <link rel="stylesheet" href="../../assets/global/globalStyles.css">
         <link rel="stylesheet" href="perfil.css">
 
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-        <script src="../../assets/bootstrap/popper.min.js" defer></script>
-        <script src="../../assets/bootstrap/bootstrap-4.5.3-dist/js/bootstrap.min.js" defer></script>
-
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script src="https://kit.fontawesome.com/2a19bde8ca.js" crossorigin="anonymous" defer></script>
         <script src="../../assets/global/globalScripts.js" defer></script>
-
         <script src="show_services.js" defer></script>
     </head>
 
     <body>
-        <!--NavBar Comeco-->
-        <div id="myMainTopNavbarNavBackdrop" class=""></div>
-        <nav id="myMainTopNavbar" class="navbar navbar-expand-md">
-            <a href="../Home/home.php" class="navbar-brand">
+    <!--NavBar Comeco-->
+    <div id="myMainTopNavbarNavBackdrop" class=""></div>
+    <nav id="myMainTopNavbar" class="navbar navbar-expand-md">
+        <div class="container-fluid">
+            <a href="../Home/home.php" id="myMainTopNavbarBrand" class="navbar-brand">
                 <img src="../../assets/images/dumb-brand.png" alt="Tá por aqui" class="my-brand-img">
             </a>
 
-            <button id="myMainTopNavbarToggler" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myMainTopNavbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="my-navbar-toggler-icon">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </span>
+            <button type="button" id="myMainTopNavbarToggler" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#myMainTopNavbarNav" aria-controls="myMainTopNavbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="my-navbar-toggler-icon">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </span>
             </button>
 
             <div id="myMainTopNavbarNav" class="collapse navbar-collapse">
@@ -94,16 +92,16 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
                     <li class="nav-item">
                         <a href="../Chat/chat.php" class="nav-link">Chat</a>
                     </li>
-                    <?php if( empty($_SESSION['idUsuario']) ){ ?>
+                    <?php if (empty($_SESSION['idUsuario'])) { ?>
                         <li class="nav-item">
                             <a href="../Entrar/login.php" class="nav-link">Entrar/cadastrar</a>
                         </li>
-                    <?php }?>
+                    <?php } ?>
                 </ul>
 
-                <?php if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSION['senha']) && isset($_SESSION['classificacao']) ) {?>
+                <?php if (isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSION['senha']) && isset($_SESSION['classificacao'])) { ?>
                     <div class="dropdown">
-                        <img src="../../assets/images/users/<?=$_SESSION['imagemPerfil']?>" alt="imagem de perfil" id="profileMenu" class="img-fluid" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="../../assets/images/users/<?= $_SESSION['imagemPerfil'] ?>" alt="imagem de perfil" id="profileMenu" class="img-fluid" data-bs-toggle="dropdown" aria-expanded="false">
 
                         <div class="dropdown-menu" aria-labelledby="profileMenu">
                             <a class="dropdown-item" href="meu_perfil.php">Perfil</a>
@@ -113,8 +111,9 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
                 <?php } ?>
 
             </div>
-        </nav>
-        <!--NavBar Fim-->
+        </div>
+    </nav>
+    <!--NavBar Fim-->
 
         <!-- Cartão usuário inexistente-->
         <section id="myProfileSection" class="row" style="width: 100%">
@@ -168,7 +167,6 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
                     </div>
                 </div>
             </div>
-            </div>
         </footer>
         <!-- /footer -->
     </body>
@@ -185,82 +183,80 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="https://kit.fontawesome.com/2a19bde8ca.js" crossorigin="anonymous" defer></script>
+    <title>Tá por aqui - <?=$user->nome_usuario?> <?=$user->sobrenome_usuario?></title>
 
-    <title>Tá por aqui - <?=$user->nome_usuario?> <?=$user->sobrenome_usuario?> </title>
-
-    <link rel="stylesheet" href="../../assets/bootstrap/bootstrap-4.5.3-dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link rel="stylesheet" href="../../assets/global/globalStyles.css">
     <link rel="stylesheet" href="perfil.css">
-
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-    <script src="../../assets/bootstrap/popper.min.js" defer></script>
-    <script src="../../assets/bootstrap/bootstrap-4.5.3-dist/js/bootstrap.min.js" defer></script>
-
-    <script src="../../assets/global/globalScripts.js" defer></script>
-    <script src="show_services.js" defer></script>
-
     <style>
         #profilePictureArea{
             padding: 70px 0 150px 0;
         }
     </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/2a19bde8ca.js" crossorigin="anonymous" defer></script>
+    <script src="../../assets/global/globalScripts.js" defer></script>
+    <script src="show_services.js" defer></script>
 </head>
 
 <body>
     <!--NavBar Comeco-->
     <div id="myMainTopNavbarNavBackdrop" class=""></div>
     <nav id="myMainTopNavbar" class="navbar navbar-expand-md">
-        <a href="../Home/home.php" class="navbar-brand">
-            <img src="../../assets/images/dumb-brand.png" alt="Tá por aqui" class="my-brand-img">
-        </a>
+        <div class="container-fluid">
+            <a href="../Home/home.php" id="myMainTopNavbarBrand" class="navbar-brand">
+                <img src="../../assets/images/dumb-brand.png" alt="Tá por aqui" class="my-brand-img">
+            </a>
 
-        <button id="myMainTopNavbarToggler" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myMainTopNavbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="my-navbar-toggler-icon">
-                <div></div>
-                <div></div>
-                <div></div>
-            </span>
-        </button>
-        
-        <div id="myMainTopNavbarNav" class="collapse navbar-collapse">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a href="../Home/home.php" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="../EncontrarProfissional/Listagem/listagem.php" class="nav-link">Encontre um pofissional</a>
-                </li>
-                <li class="nav-item">
-                    <a href="../Artigos/artigos.php" class="nav-link">Artigos</a>
-                </li>
-                <li class="nav-item">
-                    <a href="../Contato/contato.php" class="nav-link">Fale conosco</a>
-                </li>
-                <li class="nav-item">
-                    <a href="../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
-                </li>
-                <li class="nav-item">
-                    <a href="../Chat/chat.php" class="nav-link">Chat</a>
-                </li>
-                <?php if( empty($_SESSION['idUsuario']) ){ ?>
+            <button type="button" id="myMainTopNavbarToggler" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#myMainTopNavbarNav" aria-controls="myMainTopNavbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="my-navbar-toggler-icon">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </span>
+            </button>
+
+            <div id="myMainTopNavbarNav" class="collapse navbar-collapse">
+                <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a href="../Entrar/login.php" class="nav-link">Entrar/cadastrar</a>
+                        <a href="../Home/home.php" class="nav-link">Home</a>
                     </li>
-                <?php }?>
-            </ul>
+                    <li class="nav-item">
+                        <a href="../EncontrarProfissional/Listagem/listagem.php" class="nav-link">Encontre um profissional</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../Artigos/artigos.php" class="nav-link">Artigos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../Contato/contato.php" class="nav-link">Fale conosco</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../Chat/chat.php" class="nav-link">Chat</a>
+                    </li>
+                    <?php if (empty($_SESSION['idUsuario'])) { ?>
+                        <li class="nav-item">
+                            <a href="../Entrar/login.php" class="nav-link">Entrar/cadastrar</a>
+                        </li>
+                    <?php } ?>
+                </ul>
 
-            <?php if( isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSION['senha']) && isset($_SESSION['classificacao']) ) {?>
-                <div class="dropdown">
-                    <img src="../../assets/images/users/<?=$_SESSION['imagemPerfil']?>" alt="imagem de perfil" id="profileMenu" class="img-fluid" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <?php if (isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSION['senha']) && isset($_SESSION['classificacao'])) { ?>
+                    <div class="dropdown">
+                        <img src="../../assets/images/users/<?= $_SESSION['imagemPerfil'] ?>" alt="imagem de perfil" id="profileMenu" class="img-fluid" data-bs-toggle="dropdown" aria-expanded="false">
 
-                    <div class="dropdown-menu" aria-labelledby="profileMenu">
-                        <a class="dropdown-item" href="meu_perfil.php">Perfil</a>
-                        <a class="dropdown-item text-danger" href="../../logic/entrar_logoff.php">Sair</a>
+                        <div class="dropdown-menu" aria-labelledby="profileMenu">
+                            <a class="dropdown-item" href="meu_perfil.php">Perfil</a>
+                            <a class="dropdown-item text-danger" href="../../logic/entrar_logoff.php">Sair</a>
+                        </div>
                     </div>
-                </div>
-            <?php } ?>
+                <?php } ?>
 
+            </div>
         </div>
     </nav>
     <!--NavBar Fim-->
@@ -354,7 +350,7 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
                 <form>
                     <div class="row d-flex justify-content-center">
                         <?php
-                        if (count($userSocialMedia) !== 0){
+                        if ($userSocialMedia[0]->link_rede_social != "" || $userSocialMedia[1]->link_rede_social != "" || $userSocialMedia[2]->link_rede_social != "" || $userSocialMedia[3]->link_rede_social != ""){
                             foreach ($userSocialMedia as $media) {
 
                                 if($media->nick_rede_social === null){
@@ -467,7 +463,6 @@ if( !isset($_GET['id']) || !isset($user->id_usuario) ){
                     <a href="#"><i class="fab fa-youtube"></i></a>
                     <a href="#"><i class="fab fa-instagram"></i></a>
                 </div>
-            </div>
             </div>
         </div>
     </footer>

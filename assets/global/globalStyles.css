@@ -98,9 +98,8 @@ textarea:focus, input:focus, select:focus, button:focus {
 
 #myMainTopNavbarNav{
     justify-content: center;
-    background-color: inherit;
-    margin: 0 -16px;
     z-index: 1000;
+    background-color: white;
 }
 
 #myMainTopNavbarNav > .navbar-nav{
@@ -404,6 +403,10 @@ textarea:focus, input:focus, select:focus, button:focus {
     #profileMenu{
         margin-left: 20px;
         margin-bottom: 20px;
+    }
+
+    #myMainTopNavbarNav{
+        margin: 0 -28px;
     }
 }
 
