@@ -37,7 +37,7 @@ if ($valid){
     $email = $_SESSION['emailRecSenha'];
     $query = "UPDATE usuarios SET senha_usuario = :senha where email_usuario = '$email'";
     $stmt = $con->prepare($query);
-    $stmt->bindValue(':senha', $_POST['newPass']);
+    $stmt->bindValue(':senha', sha1($_POST['newPass']));
     $stmt->execute();
 
     header('location:../public/Entrar/login.php?status=senha%20alterada%20com%20sucesso&class=success');

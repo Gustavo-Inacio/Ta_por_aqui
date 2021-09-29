@@ -59,7 +59,7 @@ $stmt->bindValue(':nome', $_POST['userName']);
 $stmt->bindValue(':sobrenome', $_POST['userLastName']);
 $stmt->bindValue(':telefone', $_POST['userPhone']);
 $stmt->bindValue(':email', $_POST['userEmail']);
-$stmt->bindValue(':senha', $_POST['userPass']);
+$stmt->bindValue(':senha', sha1($_POST['userPass']));
 $stmt->bindValue(':data_nascimento', $_POST['userBirthDate']);
 $stmt->bindValue(':sexo', $_POST['userSex']);
 $stmt->bindValue(':classificacao', $classification);

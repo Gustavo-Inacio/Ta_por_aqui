@@ -361,6 +361,18 @@ textarea:focus, input:focus, select:focus, button:focus {
 
 /* --- Main Footer Fim -- */
 
+/* --- General links --- */
+
+a{
+    text-decoration: none;
+}
+
+a:hover{
+    text-decoration: underline;
+}
+
+/* --- General links fim --- */
+
 /* --- Media queries --- */
 @media (min-width: 285px){
 

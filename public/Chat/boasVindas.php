@@ -98,7 +98,10 @@ if(isset($_SESSION['idUsuario'])) {
 <!--NavBar Fim-->
 
 <div class="container">
-    boas vindas
+    <h1>Título 1</h1>
+    <h2>Título 2</h2>
+    <h3>Título 3</h3>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab adipisci aliquid aut esse est et expedita, facilis illum iste iusto natus non officia, perspiciatis porro possimus tempora temporibus totam unde!</p>
 </div>
 
 <footer id="myMainFooter">

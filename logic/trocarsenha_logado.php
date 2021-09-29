@@ -48,15 +48,15 @@ if ($valid){
 //atualizar novo email no banco de dados
     $query = "UPDATE usuarios SET senha_usuario = :senha where id_usuario = " . $_SESSION['idUsuario'];
     $stmt = $con->prepare($query);
-    $stmt->bindValue(':senha', $_POST['newPass']);
+    $stmt->bindValue(':senha', sha1($_POST['newPass']));
     $stmt->execute();
 
 //atualizar nova senha na session
-    $_SESSION['senha'] = $_POST['newPass'];
+    $_SESSION['senha'] = sha1($_POST['newPass']);
 
 //atualizar nova senha nos cookies
     if (isset($_COOKIE['senha'])){
-        setcookie('senha', $_POST['newPass'], time() + (60*60*24*30), '/');
+        setcookie('senha', sha1($_POST['newPass']), time() + (60*60*24*30), '/');
     }
 
     header('location:../public/Perfil/meu_perfil.php?status=senha%20alterada%20com%20sucesso');

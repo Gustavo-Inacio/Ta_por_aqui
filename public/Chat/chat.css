@@ -76,7 +76,8 @@ body{
 
 .userImg{
     align-self: center;
-    width: 100%;
+    width: 50px;
+    height: 50px;
     object-fit: cover;
     border-radius: 50%;
     max-width: 42px;
@@ -99,6 +100,7 @@ body{
     letter-spacing: 0.1em;
     color: #888F98;
     margin-bottom: 5px;
+    text-align: end;
 }
 
 .chatQntMsg{
@@ -112,19 +114,43 @@ body{
 }
 
 .userDiv.active{
-    background: linear-gradient(92.64deg, #E6E6E6 29.94%, rgba(230, 230, 230, 0) 98.28%);
-    border: 1px solid #3333CC;
-    border-radius: 12px;
+    background: linear-gradient(92.64deg, #E6E6E6 29.94%, rgba(230, 230, 230, 0) 98.28%) !important;
+    border: 1px solid #3333CC !important;
+    border-radius: 12px !important;
 }
 
 .userDiv.active .chatTime{
-    color: #FF6F6F;
+    color: #FF6F6F !important;
 }
 
 .userDiv:hover{
     background: linear-gradient(92.64deg, #E6E6E6 29.94%, rgba(230, 230, 230, 0) 98.28%);
     border-radius: 12px;
     cursor:pointer;
+}
+
+.userDiv.blocked:hover{
+    cursor: not-allowed;
+}
+
+.userDiv.blocked .userName{
+    text-decoration: line-through;
+}
+
+.userDiv.blocked .userService{
+    text-decoration: line-through;
+}
+
+.userDiv.blocked .blockMsg{
+    font-size: 14px;
+    font-style: italic;
+    color: #ff1717;
+}
+
+.userDiv.blocked .blockedMsg{
+    font-size: 14px;
+    font-style: italic;
+    color: #ff1717;
 }
 
 /*Conversa com um usuário (segunda coluna)*/
@@ -487,7 +513,7 @@ body{
 }
 
 .dangerOption:hover::before{
-    content: '→';
+    content: '👉';
 }
 
 .addFavorite{

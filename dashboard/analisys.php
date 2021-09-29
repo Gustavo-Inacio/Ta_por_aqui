@@ -432,7 +432,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col-3 mt-3">
                             <div class="card">
                                 <h6 class="card-header">Contestação de banimento</h6>
                                 <div class="card-body">
@@ -440,7 +440,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col-3 mt-3">
                             <div class="card">
                                 <h6 class="card-header">Outros motivos</h6>
                                 <div class="card-body">

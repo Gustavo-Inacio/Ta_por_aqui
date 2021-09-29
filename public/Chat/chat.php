@@ -7,10 +7,6 @@ require "../../logic/entrar_cookie.php";
 if(!isset($_SESSION['idUsuario'])){
     header('Location: boasVindas.php');
 }
-
-require "../../logic/DbConnection.php";
-$con = new DbConnection();
-$con = $con->connect();
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -31,6 +27,52 @@ $con = $con->connect();
     <script src="https://kit.fontawesome.com/2a19bde8ca.js" crossorigin="anonymous" defer></script>
     <script src="../../assets/global/globalScripts.js" defer></script>
     <script src="chat.js" defer></script>
+    <script>
+        //abrindo ou fechando divs dependendo da tela.
+        $(document).ready(() => {
+            if (window.innerWidth > 768){
+                $('#chatFirstColumn').addClass('opened')
+                $('#chatSecondColumn').addClass('opened')
+                $('#chatThirdColumn').addClass('closed')
+                $('.returnArrow').addClass('closed')
+            } else{
+                $('#chatFirstColumn').addClass('opened')
+                $('#chatSecondColumn').addClass('closed')
+                $('#chatThirdColumn').addClass('closed')
+                $('.returnArrow').addClass('opened')
+            }
+
+            //Carregando a listagem de contatos
+            $('#loadAssyncContacts').load('getContacts.php');
+        })
+
+        //abrindo ou fechando divs ao redimentsionar tela
+        var width = $(window).width();
+        $(window).on('resize', function() {
+            if ($(this).width() !== width) {
+                width = $(this).width();
+
+                if ($(this).width() > 768){
+                    $('#chatFirstColumn').removeClass('closed').addClass('opened')
+                    $('#chatSecondColumn').removeClass('closed').addClass('opened')
+                    $('#chatThirdColumn').removeClass('opened').addClass('closed')
+
+                    //aumentando chat
+                    $('#chatSecondColumn').removeClass('col-md-6').addClass('col-md-9')
+
+                    //seta de retorno
+                    $('.returnArrow').removeClass('opened').addClass('closed')
+                } else{
+                    $('#chatFirstColumn').removeClass('closed').addClass('opened')
+                    $('#chatSecondColumn').removeClass('opened').addClass('closed')
+                    $('#chatThirdColumn').removeClass('opened').addClass('closed')
+
+                    //seta de retorno
+                    $('.returnArrow').removeClass('closed').addClass('opened')
+                }
+            }
+        });
+    </script>
 </head>
 
 <body>
@@ -99,85 +141,20 @@ $con = $con->connect();
         <h1 class="chatTitle">CHAT</h1>
 
         <div class="input-group mb-3">
-            <input type="text" class="form-control chatSearchbar" placeholder="Insira o nome do usuário" aria-label="Recipient's username" aria-describedby="basic-addon2">
-            <button class="input-group-text chatSearchButton" type="button" id="searchUser"> <i class="fas fa-search"></i> </button>
+            <input type="text" class="form-control chatSearchbar" id="searchedUser" name="searchedUser" placeholder="Insira o nome do serviço" aria-label="Recipient's username" aria-describedby="basic-addon2">
+            <button class="input-group-text chatSearchButton" type="button" id="searchUser" onclick="searchUser()"> <i class="fas fa-search"></i> </button>
         </div>
 
-        <div class="titleGroup">
-            <h3 class="userSeparatorTitle">Favoritos</h3>
-            <div class="separatorLine"></div>
+        <div id="loadAssyncContacts">
+            <!-- Os contatos serão carregados dinamicamente -->
         </div>
-
-        <div class="usersGroup">
-            <div class="userDiv row" userid="1" onclick="loadConversation(1)">
-                <div class="col-3 col-md-12 col-lg-3 d-flex d-md-none d-xl-flex">
-                    <img src="../../assets/images/users/no_picture.jpg" alt="Imagem do usuário" class="userImg">
-                </div>
-                <div class="col-7 col-md-8 col-lg-7">
-                    <div class="userName">Nome do usuário</div>
-                    <div class="userService">Serviço da conversa</div>
-                </div>
-                <div class="col-2 col-md-4 col-lg-2 mt-3 mt-lg-0 text-right">
-                    <div class="chatTime">16:00</div>
-                    <div class="chatQntMsg">3</div>
-                </div>
-            </div>
-
-            <div class="userDiv row" userid="2" onclick="loadConversation(2)">
-                <div class="col-3 col-md-12 col-lg-3 d-flex d-md-none d-xl-flex">
-                    <img src="../../assets/images/users/no_picture.jpg" alt="Imagem do usuário" class="userImg">
-                </div>
-                <div class="col-7 col-md-8 col-lg-7">
-                    <div class="userName">Nome do usuário</div>
-                    <div class="userService">Serviço da conversa</div>
-                </div>
-                <div class="col-2 col-md-4 col-lg-2 mt-3 mt-lg-0 text-right">
-                    <div class="chatTime">16:00</div>
-                    <div class="chatQntMsg">3</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="titleGroup">
-            <h3 class="userSeparatorTitle">Recentes</h3>
-            <div class="separatorLine"></div>
-        </div>
-
-        <div class="usersGroup">
-            <div class="userDiv row" userid="3" onclick="loadConversation(3)">
-                <div class="col-3 col-md-12 col-lg-3 d-flex d-md-none d-xl-flex">
-                    <img src="../../assets/images/users/no_picture.jpg" alt="Imagem do usuário" class="userImg">
-                </div>
-                <div class="col-7 col-md-8 col-lg-7">
-                    <div class="userName">Nome do usuário</div>
-                    <div class="userService">Serviço da conversa</div>
-                </div>
-                <div class="col-2 col-md-4 col-lg-2 mt-3 mt-lg-0 text-right">
-                    <div class="chatTime">16:00</div>
-                    <div class="chatQntMsg">3</div>
-                </div>
-            </div>
-
-            <div class="userDiv row" userid="4" onclick="loadConversation(4)">
-                <div class="col-3 col-md-12 col-lg-3 d-flex d-md-none d-xl-flex">
-                    <img src="../../assets/images/users/no_picture.jpg" alt="Imagem do usuário" class="userImg">
-                </div>
-                <div class="col-7 col-md-8 col-lg-7">
-                    <div class="userName">Nome do usuário</div>
-                    <div class="userService">Serviço da conversa</div>
-                </div>
-                <div class="col-2 col-md-4 col-lg-2 mt-3 mt-lg-0 text-right">
-                    <div class="chatTime">16:00</div>
-                    <div class="chatQntMsg">3</div>
-                </div>
-            </div>
-        </div>
-
     </div>
-    <!-- fim listagem de contatos -->
 
     <!-- mensagens -->
     <div class="col-md-9" id="chatSecondColumn">
+        <div class="returnArrow" onclick="returnToContacts()">
+            <i class="fas fa-chevron-left"></i> Voltar
+        </div>
         <div id="loadAssyncConversation">
             <!-- A conversa será selecionada dinamicamente -->
 
@@ -187,15 +164,49 @@ $con = $con->connect();
                     <img src="../../assets/images/user_not_found.png" alt="selecionar um usuário" class="align-self-center">
                     <hr>
                     <h3>Se comunique eficazmente</h3>
-                    <p>Use nosso chat para conversar com seu prestador do serviço contratado. Seja educado &#x1F609;</p>
+                    <p>Use nosso chat para conversar com seu prestador ou cliente do serviço contratado. Seja educado &#x1F609;</p>
                 </div>
             </div>
+        </div>
+
+        <div class="communicationBar row d-none" id="communicationBar">
+            <div class="col-1 d-flex justify-content-center">
+                <button type="button" class="formatBtn" id="useEmojiMsg"><i class="far fa-laugh chatIcon"></i></button>
+            </div>
+
+            <div class="col-1 d-flex justify-content-center align-items-center">
+                <label for="midiaInput" class="formatBtn d-flex" id="showMidiainput" data-bs-container="body" data-bs-trigger="hover" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Clique aqui para enviar documentos ou fotos"><i class="fas fa-paperclip chatIcon"></i></label>
+            </div>
+
+            <div class="col-9 d-flex">
+                <div class="input-group" id="chatMessageInputGroup">
+                    <textarea class="form-control chatMessageInput" placeholder="Digite uma mensagem" rows="2" id="chatMessageInput"></textarea>
+                    <button type="button" class="input-group-text chatMessageSend" id="sendMessage" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+                </div>
+
+                <div class="input-group d-none align-self-center" id="midiaInputGroup">
+                    <input type="file" id="midiaInput" class="form-control" onchange="changeInput()" aria-describedby="sendFile">
+                    <button class="input-group-text chatMessageSend" type="button" id="sendFile"><i class="fas fa-paper-plane"></i></button>
+                    <button class="input-group-text ml-2" id="deleteFile" onclick="deleteFile()"><i class="fas fa-trash text-danger"></i></button>
+                </div>
+            </div>
+
+            <div class="col-1 d-flex justify-content-center">
+                <button type="button" class="formatBtn"><i class="fas fa-microphone chatIcon"></i></button>
+            </div>
+
+            <input type="hidden" id="id_chat_contato">
+            <input type="hidden" id="id_remetente" value="<?=$_SESSION['idUsuario']?>">
+            <input type="hidden" id="id_destinatario">
         </div>
     </div>
     <!-- fim mensagens -->
 
     <!-- detalhes do contato -->
     <div class="col-md-3" id="chatThirdColumn">
+        <div class="returnArrow mt-4 ml-4" onclick="returnToChat()">
+            <i class="fas fa-chevron-left"></i> Voltar
+        </div>
         <div id="loadAssyncUserInfo">
             <!-- As informaçõesdo usuário serão carregadas dinamicamente -->
         </div>
