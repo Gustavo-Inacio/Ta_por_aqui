@@ -76,6 +76,7 @@ if(!isset($_SESSION['idUsuario'])){
 </head>
 
 <body>
+
 <!--NavBar Comeco-->
 <div id="myMainTopNavbarNavBackdrop" class=""></div>
 <nav id="myMainTopNavbar" class="navbar navbar-expand-md">

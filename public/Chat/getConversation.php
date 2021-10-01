@@ -5,9 +5,25 @@ require "../../logic/DbConnection.php";
 $con = new DbConnection();
 $con = $con->connect();
 
+//pegando informações do contato dessa conversa
+$query = "SELECT * FROM chat_contatos where id_chat_contato = :chatId";
+$stmt = $con->prepare($query);
+$stmt->bindValue(':chatId', $_GET['chatId']);
+$stmt->execute();
+$chatInfo = $stmt->fetch(PDO::FETCH_OBJ);
+
+$show = "";
+if($chatInfo->id_prestador != $_SESSION['idUsuario']){
+    //eu sou o cliente e serão exibidas as informações do prestador
+    $show = 0; //prestador
+} else {
+    //eu sou o prestador e serão exibidas as informações do cliente
+    $show = 1; //cliente
+}
+
 //pegando informações do usuário
 $userQuery = "";
-if ($_GET['show'] == 0){
+if ($show == 0){
     //usuário vendo prestador
     $userQuery = "SELECT u.id_usuario, u.nome_usuario, u.sobrenome_usuario, u.imagem_usuario, s.id_servico, s.nome_servico FROM usuarios u join servicos s on u.id_usuario = s.id_prestador_servico WHERE u.id_usuario = :id";
 } else {
@@ -18,13 +34,6 @@ $stmt = $con->prepare($userQuery);
 $stmt->bindValue(':id', $_GET['userId']);
 $stmt->execute();
 $userInfo = $stmt->fetch(PDO::FETCH_OBJ);
-
-//pegando informações do contato dessa conversa
-$query = "SELECT * FROM chat_contatos where id_chat_contato = :chatId";
-$stmt = $con->prepare($query);
-$stmt->bindValue(':chatId', $_GET['chatId']);
-$stmt->execute();
-$chatInfo = $stmt->fetch(PDO::FETCH_OBJ);
 
 //pegando nome do serviço caso a visualização seja do perfil do cliente
 $query = "SELECT nome_servico from servicos where id_servico = " . $chatInfo->id_servico;
@@ -45,7 +54,7 @@ if (empty($chatInfo) || $chatInfo->status_chat_contato == 0){
 
         <div class="col-8">
             <div class="userName"><?=$userInfo->nome_usuario?> <?=$userInfo->sobrenome_usuario?></div>
-            <div class="userService"><?=$_GET['show'] == 0 ? $userInfo->nome_servico : $serviceName . '(meu serviço)'?></div>
+            <div class="userService"><?=$show == 0 ? $userInfo->nome_servico : $serviceName . '(meu serviço)'?></div>
         </div>
 
         <div class="col-2 d-flex align-items-center">
@@ -65,7 +74,7 @@ if (empty($chatInfo) || $chatInfo->status_chat_contato == 0){
         <!-- <div class="chatDate">Ontem</div> -->
 
         <?php foreach ($chatMessages as $message) {?>
-            <div class="message <?=$_SESSION['idUsuario'] == $message->id_remetente_usuario ? 'myMessage' : 'itsMessage'?>">
+            <div class="message <?=$_SESSION['idUsuario'] == $message->id_remetente_usuario ? 'myMessage' : 'itsMessage'?>" id="<?=$message->id_chat_mensagem?>">
                 <div class="messageText">
                     <?=$message->mensagem_chat?>
                 </div>

@@ -39,8 +39,9 @@ function returnToContacts() {
 }
 
 //carregar conversa
-let updateChat
-function loadConversation(chatId, userId, classif){
+var updateChat
+var lastMessageId
+function loadConversation(chatId, userId){
     //verificando se o ID existe
     if ($(`[chatId='${chatId}']`).length > 0){
         $('#loadAssyncData').innerHTML = "";
@@ -52,10 +53,25 @@ function loadConversation(chatId, userId, classif){
         }
 
         //requisitando assincronamente a segunda coluna
-        $('#loadAssyncConversation').load(`getConversation.php?chatId=${chatId}&userId=${userId}&show=${classif}`)
+        $('#loadAssyncConversation').load(`getConversation.php?chatId=${chatId}&userId=${userId}`, () => {
+            //depois de pegar corretamente a conversa, ela ira fazer as seguintes ações:
+
+            //scrollando para o fim da conversa
+            let objDiv = document.getElementsByClassName("chatMessages")[0];
+            objDiv.scrollTop = objDiv.scrollHeight;
+
+            //atualizando as mensagens dinamicamente
+            let selector = document.getElementsByClassName('message')
+            lastMessageId = selector[selector.length - 1].id
+            clearInterval(updateChat)
+            updateChat = setInterval(() => {
+                //pegando o id da ultima mensagem
+                updateConversation(chatId, userId, lastMessageId)
+            },500)
+        })
 
         //requisitando assincronamente a terceira coluna
-        $('#loadAssyncUserInfo').load(`getUserInfo.php?chatId=${chatId}&userId=${userId}&show=${classif}`)
+        $('#loadAssyncUserInfo').load(`getUserInfo.php?chatId=${chatId}&userId=${userId}`)
 
         //Colocando o contato como ativo
         $('.userDiv').removeClass('active')
@@ -64,16 +80,36 @@ function loadConversation(chatId, userId, classif){
         //exibindo a barra de comunicação
         $('#communicationBar').removeClass('d-none')
 
-        //atualizando conversa dinamicamente
-        clearInterval(updateChat)
-        updateChat = setInterval(() => {
-            $('#loadAssyncConversation').load(`getConversation.php?chatId=${chatId}&userId=${userId}&show=${classif}`)
-        },1000)
-
         //preenchendo os inputs escondidos com as informações da conversa/chat atual
         $('#id_chat_contato').val(chatId)
         $('#id_destinatario').val(userId)
     }
+}
+
+//Atualizando conversa dinamicamente puxando a ultima mensagem do banco de dados e inserindo na conversa a cada 0.5s
+function updateConversation(getChatId, getUserId, getLastMsgId) {
+    let selector = document.getElementsByClassName('message')
+    lastMessageId = selector[selector.length - 1].id
+
+    let mydata = {
+        chatId: getChatId,
+        lastMsgId: getLastMsgId,
+        idRemetente: getUserId
+    }
+
+    $.ajax({
+        url: 'getNewMessage.php',
+        method: 'POST',
+        data: mydata,
+        success: result => {
+            if (result != "sameMsg"){
+                loadConversation(getChatId, getUserId)
+                //scrollando para o fim da conversa
+                let objDiv = document.getElementsByClassName("chatMessages")[0];
+                objDiv.scrollTop = objDiv.scrollHeight;
+            }
+        }
+    })
 }
 
 //abrindo os detalhes do usuário
@@ -200,5 +236,9 @@ function sendMessage() {
         }
     }).done(()=>{
         $('#chatMessageInput').val('')
+        //loadConversation($('#id_chat_contato').val(), $('#id_remetente').val())
+        /*//scrollando para o fim da conversa
+        let objDiv = document.getElementsByClassName("chatMessages")[0];
+        objDiv.scrollTop = objDiv.scrollHeight;*/
     })
 }

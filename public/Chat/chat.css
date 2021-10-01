@@ -188,14 +188,25 @@ body{
 .chatMessages{
     position: relative;
     overflow-y: auto;
-    height: 100%;
+    height: calc(100% - 77px);
 }
 
 @media (max-width: 767px) {
+    #chatSecondColumn{
+        height: calc(100vh - 114px);
+    }
+
     .chatMessages{
         position: relative;
         overflow-y: auto;
-        height: 87.5%;
+        height: calc(100% - 111px);
+    }
+
+    .communicationBar{
+        background-color: white;
+        padding: 8px 15px;
+        position: relative;
+        margin-top: -34px;
     }
 }
 
@@ -218,8 +229,9 @@ body{
     width: 70%;
 }
 
-.message.myMessage{
+.message.itsMessage{
     background-color: white;
+    border-bottom-left-radius: 0;
 }
 
 .messageTime{
@@ -228,16 +240,17 @@ body{
     font-size: 11px;
 }
 
-.myMessage .messageTime{
+.itsMessage .messageTime{
     color: #888F98;
 }
 
-.message.itsMessage{
+.message.myMessage{
     margin-left: 30%;
     background-color: #3333CC;
+    border-bottom-right-radius: 0;
 }
 
-.itsMessage .messageTime, .itsMessage .messageText{
+.myMessage .messageTime, .myMessage .messageText{
     color: white;
 }
 
@@ -259,7 +272,7 @@ body{
         width: 90%;
     }
 
-    .message.itsMessage{
+    .message.myMessage{
         margin-left: 10%;
     }
 }

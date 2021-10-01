@@ -58,7 +58,7 @@
 </head>
 <body>
 
-    <iframe  id="myReportIframe" src="../../Denuncia/denuncia.html" style="display: none;"></iframe>
+    <iframe  id="myReportIframe" src="../../Denuncia/denuncia.php" style="display: none;"></iframe>
 
     <!--NavBar Comeco-->
     <div id="myMainTopNavbarNavBackdrop" class=""></div>

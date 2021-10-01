@@ -25,8 +25,10 @@ $stmt->execute();
 $chatInfo = $stmt->fetch(PDO::FETCH_OBJ);
 
 //pegando nome do serviço caso a visualização seja do perfil do cliente
-$query = "SELECT nome_servico from servicos where id_servico = " . $chatInfo->id_servico;
-$serviceName = $con->query($query)->fetch(PDO::FETCH_OBJ)->nome_servico;
+$query = "SELECT id_servico, nome_servico from servicos where id_servico = " . $chatInfo->id_servico;
+$result = $con->query($query)->fetch(PDO::FETCH_OBJ);
+$serviceName = $result->nome_servico;
+$serviceId = $result->id_servico;
 
 //verificando se essa conversa está favoritada
 $query = "SELECT * FROM chat_contatos_favoritos where id_usuario = " . $_SESSION['idUsuario'] . " AND id_chat_contato = " . $_GET['chatId'];
@@ -58,7 +60,7 @@ if (empty($chatInfo)){
                 <i class="far fa-file-image"></i> Formatos de mídia (5) <i class="fas fa-sort-down"></i>
             </button>
             <div class="collapse" id="chatMidiaList">
-                <img src="../../assets/images/users/user1/service_images/service4/1629844731612574fb386b6.jpg" alt="" class="chatMidiaItem">
+                <img src="../../assets/images/landing-img.png" alt="foto" class="chatMidiaItem">
             </div>
 
             <button type="button" class="btnToggle btnDocs d-flex justify-content-around align-items-center" data-bs-toggle="collapse" data-bs-target="#chatDocList" aria-expanded="false" aria-controls="chatDocList">
@@ -81,8 +83,8 @@ if (empty($chatInfo)){
             </label>
         </div>
         <hr>
+        <div class="dangerOption text-success dangerFakeLine" onclick="location.href = '../EncontrarProfissional/VisualizarServico/visuaizarServico.php?serviceID=<?=$_GET['show'] == 0 ? $userInfo->id_servico : $serviceId?>'">Ir para o serviço <i class="fas fa-briefcase"></i></div>
         <div class="dangerOption dangerFakeLine" onclick="toggleBlockUser(0, <?=$_GET['chatId']?>, <?=$_SESSION['idUsuario']?>)">Bloquear <i class="fas fa-user-slash"></i></div>
-        <div class="dangerOption dangerFakeLine">Denunciar serviço <i class="fas fa-ban"></i></div>
-        <div class="dangerOption">Apagar conversa <i class="fas fa-trash"></i></div>
+        <div class="dangerOption">Denunciar serviço <i class="fas fa-ban"></i></div>
     </div>
 </body>

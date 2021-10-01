@@ -14,15 +14,11 @@ $query = "SELECT cc.id_chat_contato, cc.id_servico, cc.id_prestador, cc.id_clien
 $chatFavoritos = $con->query($query)->fetchAll(PDO::FETCH_ASSOC);
 
 //retornando apenas contatos pesquisados (caso haja pesquisa)
-if (isset($_POST['param']) && $_POST['param'] != ''){
+if ((isset($_POST['param']) && $_POST['param'] != '')){
     $param = $_POST['param'];
     //selecionando todos os contatos
-    $query = "SELECT cc.id_chat_contato, cc.id_servico, cc.id_prestador, cc.id_cliente, cc.status_chat_contato, cc.quem_bloqueou_contato, s.nome_servico FROM chat_contatos cc join servicos s on cc.id_servico = s.id_servico where s.nome_servico like concat('%','$param','%') AND id_prestador = " . $_SESSION['idUsuario'] . " OR id_cliente = " . $_SESSION['idUsuario'];
+    $query = "SELECT cc.id_chat_contato, cc.id_servico, cc.id_prestador, cc.id_cliente, cc.status_chat_contato, cc.quem_bloqueou_contato, s.nome_servico FROM chat_contatos cc join servicos s on cc.id_servico = s.id_servico where (cc.id_prestador = " . $_SESSION['idUsuario'] . " OR cc.id_cliente = " . $_SESSION['idUsuario'] . ") AND s.nome_servico like '%$param%'";
     $chatContatos = $con->query($query)->fetchAll(PDO::FETCH_ASSOC);
-
-    //selecionando os contatos favoritos
-    $query = "SELECT cc.id_chat_contato, cc.id_servico, cc.id_prestador, cc.id_cliente, cc.status_chat_contato, s.nome_servico from chat_contatos_favoritos ccf join chat_contatos cc on ccf.id_chat_contato = cc.id_chat_contato join servicos s on cc.id_servico = s.id_servico where id_usuario = " . $_SESSION['idUsuario'] . " AND s.nome_servico like concat('%','$param','%')";
-    $chatFavoritos = $con->query($query)->fetchAll(PDO::FETCH_ASSOC);
 }
 ?>
 <head>
@@ -52,7 +48,7 @@ if (isset($_POST['param']) && $_POST['param'] != ''){
     </script>
 </head>
 <body>
-    <?php if (count($chatFavoritos) > 0) {?>
+    <?php if ((count($chatFavoritos) > 0) && (!isset($_POST['param'])) || (isset($_POST['param']) && $_POST['param'] == '')) {?>
         <div class="titleGroup">
             <h3 class="userSeparatorTitle">Favoritos</h3>
             <div class="separatorLine"></div>
@@ -80,7 +76,7 @@ if (isset($_POST['param']) && $_POST['param'] != ''){
                     </div>
                     <div class="col-7 col-md-8 col-lg-7">
                         <div class="userName"><?=$destinatario['nome_usuario'] . " " . $destinatario['sobrenome_usuario']?></div>
-                        <div class="userService"><?=$chatFavorito['nome_servico']?></div>
+                        <div class="userService"><?=$show === 0 ? $chatFavorito['nome_servico'] : $chatFavorito['nome_servico'] . " (Meu serviço)"?></div>
                     </div>
                     <div class="col-2 col-md-4 col-lg-2 mt-3 mt-lg-0 text-right">
                         <div class="chatTime">16:00</div>
@@ -92,17 +88,23 @@ if (isset($_POST['param']) && $_POST['param'] != ''){
     <?php }?>
 
     <div class="titleGroup">
-        <h3 class="userSeparatorTitle">Recentes</h3>
+        <?php if(isset($_POST['param']) && $_POST['param'] != '') {
+            echo '<h3 class="userSeparatorTitle">Resultados da pesquisa</h3>';
+        } else {
+            echo '<h3 class="userSeparatorTitle">Recentes</h3>';
+        }?>
         <div class="separatorLine"></div>
     </div>
 
     <?php if (count($chatContatos) > 0) {
         foreach ($chatContatos as $chatContato){
-            //Pular essa listagem caso o contato seja favorito
-            $query = "SELECT * FROM chat_contatos_favoritos where id_usuario = " . $_SESSION['idUsuario'] . " AND id_chat_contato = " . $chatContato['id_chat_contato'];
-            $favoriteChat = $con->query($query)->fetch(PDO::FETCH_ASSOC);
-            if (isset($favoriteChat['id_chat_favorito'])){
-                continue;
+            if (!isset($_POST['param']) || (isset($_POST['param']) && $_POST['param'] == '')){
+                //Pular essa listagem caso o contato seja favorito
+                $query = "SELECT * FROM chat_contatos_favoritos where id_usuario = " . $_SESSION['idUsuario'] . " AND id_chat_contato = " . $chatContato['id_chat_contato'];
+                $favoriteChat = $con->query($query)->fetch(PDO::FETCH_ASSOC);
+                if ((isset($favoriteChat['id_chat_favorito']))){
+                    continue;
+                }
             }
 
             //informações do usuário com quem se está falando
@@ -127,7 +129,7 @@ if (isset($_POST['param']) && $_POST['param'] != ''){
                         </div>
                         <div class="col-7 col-md-8 col-lg-7">
                             <div class="userName"><?=$destinatario['nome_usuario'] . " " . $destinatario['sobrenome_usuario']?></div>
-                            <div class="userService"><?=$chatContato['nome_servico']?></div>
+                            <div class="userService"><?=$show === 0 ? $chatContato['nome_servico'] : $chatContato['nome_servico'] . " (Meu serviço)"?></div>
                         </div>
                         <div class="col-2 col-md-4 col-lg-2 mt-3 mt-lg-0 text-right">
                             <div class="chatTime">16:00</div>
@@ -163,6 +165,5 @@ if (isset($_POST['param']) && $_POST['param'] != ''){
             }
         }
     }?>
-    </div>
     <!-- fim listagem de contatos -->
 </body>

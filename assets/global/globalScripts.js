@@ -16,3 +16,7 @@ const setNavbarConfiguration = () => {
 /* --- NavBar Fim -- */
 
 setNavbarConfiguration();
+
+function offlineUser(id_usuario) {
+    console.log(id_usuario)
+}
