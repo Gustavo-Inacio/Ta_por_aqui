@@ -6,23 +6,23 @@ $con = new DbConnection();
 $con = $con->connect();
 
 //selecionando todos os contatos
-$query = "SELECT cc.id_chat_contato, cc.id_servico, cc.id_prestador, cc.id_cliente, cc.status_chat_contato, cc.quem_bloqueou_contato, s.nome_servico FROM chat_contatos cc join servicos s on cc.id_servico = s.id_servico where id_prestador = " . $_SESSION['idUsuario'] . " OR id_cliente = " . $_SESSION['idUsuario'];
+$query = "SELECT cc.id_chat_contato, cc.id_servico, cc.id_prestador, cc.id_cliente, cc.status_chat_contato, cc.quem_bloqueou_contato, cc.ultima_att_contato, s.nome_servico FROM chat_contatos cc join servicos s on cc.id_servico = s.id_servico where id_prestador = " . $_SESSION['idUsuario'] . " OR id_cliente = " . $_SESSION['idUsuario'] . " ORDER BY cc.ultima_att_contato DESC";
 $chatContatos = $con->query($query)->fetchAll(PDO::FETCH_ASSOC);
 
 //selecionando os contatos favoritos
-$query = "SELECT cc.id_chat_contato, cc.id_servico, cc.id_prestador, cc.id_cliente, cc.status_chat_contato, s.nome_servico from chat_contatos_favoritos ccf join chat_contatos cc on ccf.id_chat_contato = cc.id_chat_contato join servicos s on cc.id_servico = s.id_servico where id_usuario = " . $_SESSION['idUsuario'];
+$query = "SELECT cc.id_chat_contato, cc.id_servico, cc.id_prestador, cc.id_cliente, cc.status_chat_contato, cc.ultima_att_contato, s.nome_servico from chat_contatos_favoritos ccf join chat_contatos cc on ccf.id_chat_contato = cc.id_chat_contato join servicos s on cc.id_servico = s.id_servico where id_usuario = " . $_SESSION['idUsuario'] . " ORDER BY cc.ultima_att_contato DESC";
 $chatFavoritos = $con->query($query)->fetchAll(PDO::FETCH_ASSOC);
 
 //retornando apenas contatos pesquisados (caso haja pesquisa)
 if ((isset($_POST['param']) && $_POST['param'] != '')){
     $param = $_POST['param'];
     //selecionando todos os contatos
-    $query = "SELECT cc.id_chat_contato, cc.id_servico, cc.id_prestador, cc.id_cliente, cc.status_chat_contato, cc.quem_bloqueou_contato, s.nome_servico FROM chat_contatos cc join servicos s on cc.id_servico = s.id_servico where (cc.id_prestador = " . $_SESSION['idUsuario'] . " OR cc.id_cliente = " . $_SESSION['idUsuario'] . ") AND s.nome_servico like '%$param%'";
+    $query = "SELECT cc.id_chat_contato, cc.id_servico, cc.id_prestador, cc.id_cliente, cc.status_chat_contato, cc.quem_bloqueou_contato, cc.ultima_att_contato, s.nome_servico FROM chat_contatos cc join servicos s on cc.id_servico = s.id_servico where (cc.id_prestador = " . $_SESSION['idUsuario'] . " OR cc.id_cliente = " . $_SESSION['idUsuario'] . ") AND s.nome_servico like '%$param%' ORDER BY cc.ultima_att_contato DESC";
     $chatContatos = $con->query($query)->fetchAll(PDO::FETCH_ASSOC);
 }
 ?>
 <head>
-    <script src="chat.js"></script>
+    <script src="generalScripts.js"></script>
     <script>
         //estilizando mensagem para desbloquear usuário
         $('.blockMsg').hover(e => {
@@ -48,8 +48,8 @@ if ((isset($_POST['param']) && $_POST['param'] != '')){
     </script>
 </head>
 <body>
-    <?php if ((count($chatFavoritos) > 0) && (!isset($_POST['param'])) || (isset($_POST['param']) && $_POST['param'] == '')) {?>
-        <div class="titleGroup">
+    <?php if (count($chatFavoritos) > 0 && (!isset($_POST['param'])) || isset($_POST['param']) && $_POST['param'] == '') {?>
+        <div class="titleGroup <?=count($chatFavoritos) > 0 ? 'd-block' : 'd-none'?>">
             <h3 class="userSeparatorTitle">Favoritos</h3>
             <div class="separatorLine"></div>
         </div>
@@ -72,7 +72,14 @@ if ((isset($_POST['param']) && $_POST['param'] != '')){
 
                 //pegar o horário ou dia da última mensagem enviada
                 $timeQuery = "SELECT hora_mensagem_chat from chat_mensagens where id_chat_contato = {$chatFavorito['id_chat_contato']} ORDER BY id_chat_mensagem DESC LIMIT 1";
-                $ultimaMsg = $con->query($timeQuery)->fetch(PDO::FETCH_OBJ)->hora_mensagem_chat;
+                $ultimaMsg = $con->query($timeQuery)->fetch(PDO::FETCH_OBJ);
+
+                if(!$ultimaMsg){
+                    $ultimaMsg = $chatFavorito['ultima_att_contato'];
+                } else {
+                    $ultimaMsg = $ultimaMsg->hora_mensagem_chat;
+                }
+
                 $ultimaMsg = new DateTime($ultimaMsg);
 
                 $currentDate = date('Y-m-d', time());
@@ -138,7 +145,14 @@ if ((isset($_POST['param']) && $_POST['param'] != '')){
 
             //pegar o horário ou dia da última mensagem enviada
             $timeQuery = "SELECT hora_mensagem_chat from chat_mensagens where id_chat_contato = {$chatContato['id_chat_contato']} ORDER BY id_chat_mensagem DESC LIMIT 1";
-            $ultimaMsg = $con->query($timeQuery)->fetch(PDO::FETCH_OBJ)->hora_mensagem_chat;
+            $ultimaMsg = $con->query($timeQuery)->fetch(PDO::FETCH_OBJ);
+
+            if(!$ultimaMsg){
+                $ultimaMsg = $chatContato['ultima_att_contato'];
+            } else {
+                $ultimaMsg = $ultimaMsg->hora_mensagem_chat;
+            }
+
             $ultimaMsg = new DateTime($ultimaMsg);
 
             $currentDate = date('Y-m-d', time());

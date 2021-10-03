@@ -40,4 +40,11 @@ if ( @move_uploaded_file($_FILES['midiaInput']['tmp_name'], $dir.$newName) ){
     $stmt->bindValue(':arquivo_chat', "contato{$_POST['id_chat_contato']}/$newName");
     $stmt->bindValue(':apelido_arquivo_chat', $_FILES['midiaInput']['name']);
     $stmt->execute();
+
+    #atualizando contatato da conversa para mover pra cima
+    $query = "UPDATE chat_contatos SET ultima_att_contato = :ultima_att_contato WHERE id_chat_contato = :id_chat_contato";
+    $stmt = $con->prepare($query);
+    $stmt->bindValue(':ultima_att_contato', date('Y-m-d H:i:s'));
+    $stmt->bindValue(':id_chat_contato', $_POST['id_chat_contato']);
+    $stmt->execute();
 }

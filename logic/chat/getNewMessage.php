@@ -3,6 +3,11 @@ $id_chat = $_POST['chatId'];
 $id_ultima_msg = $_POST['lastMsgId'];
 $id_remetente = $_POST['idRemetente'];
 
+if ($id_ultima_msg == 0){
+    echo "noMsg";
+    exit();
+}
+
 session_start();
 
 require "../../logic/DbConnection.php";
@@ -18,6 +23,6 @@ $lastMessage = $stmt->fetch(PDO::FETCH_OBJ);
 
 if ($id_ultima_msg == $lastMessage->id_chat_mensagem){
     echo "sameMsg";
-} else {
+} else if ($id_ultima_msg != $lastMessage->id_chat_mensagem) {
     echo "differentMsg";
 }

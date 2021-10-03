@@ -26,137 +26,8 @@ if(!isset($_SESSION['idUsuario'])){
     <script src="../../assets/emojiPicker/fgEmojiPicker.js"></script>
     <script src="https://kit.fontawesome.com/2a19bde8ca.js" crossorigin="anonymous" defer></script>
     <script src="../../assets/global/globalScripts.js" defer></script>
-    <script src="chat.js"></script>
-    <script>
-        //abrindo ou fechando divs dependendo da tela.
-        $(document).ready(() => {
-            if (window.innerWidth > 768){
-                $('#chatFirstColumn').addClass('opened')
-                $('#chatSecondColumn').addClass('opened')
-                $('#chatThirdColumn').addClass('closed')
-                $('.returnArrow').addClass('closed')
-            } else{
-                $('#chatFirstColumn').addClass('opened')
-                $('#chatSecondColumn').addClass('closed')
-                $('#chatThirdColumn').addClass('closed')
-                $('.returnArrow').addClass('opened')
-            }
-
-            //Carregando a listagem de contatos
-            $('#loadAssyncContacts').load('getContacts.php');
-
-            //configurando emoji picker
-            let emojiPicker = new FgEmojiPicker({
-                trigger: ['#useEmojiMsg'],
-                removeOnSelection: false,
-                closeButton: false,
-                position: ['top', 'right'],
-                preFetch: true,
-                insertInto: document.getElementById('chatMessageInput')
-            });
-
-            //triggers para enviar mensagem
-            $('#sendMessage').on('click', () => {
-                sendMessage()
-            })
-            $('#chatMessageInput').on('keydown', e => {
-                enterPressed(e)
-            })
-
-            //upload de arquivos
-            $(document).on('submit', '#midiaForm', e => {
-                e.preventDefault()
-                let formData = new FormData(document.getElementById('midiaForm'));
-
-                //verificando se o input não está vazio
-                let midiaInput = document.getElementById('midiaInput')
-                let fileExtension = midiaInput.value.split('.').pop()
-
-                if (midiaInput.value == ""){
-                    let popover = new bootstrap.Popover(midiaInput, {
-                        content: "Selecione algum arquivo antes de enviar"
-                    })
-                    popover.enable()
-                    popover.show()
-                    setTimeout(() => {
-                        popover.hide()
-                        popover.disable()
-                    }, 2000)
-                } else if(midiaInput.files[0].size > 40000000){
-                    let popover = new bootstrap.Popover(midiaInput, {
-                        content: "Arquivo muito grande (máx: 35MB)"
-                    })
-                    popover.enable()
-                    popover.show()
-                    setTimeout(() => {
-                        popover.hide()
-                        popover.disable()
-                    }, 2000)
-                } else {
-                    $.ajax({
-                        method: 'POST',
-                        url: '../../logic/chat/chat_enviarArquivo.php',
-                        data: formData,
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-                        beforeSend: () => {
-                            //criar gif de carregamento
-                            let loadingGif = document.createElement('img')
-                            loadingGif.src = "../../assets/images/loading.gif"
-                            loadingGif.width = 16
-                            loadingGif.id = "loadingGif"
-                            $('#sendFile').html(loadingGif)
-
-                            //desabilitar botão
-                            $('#sendFile').attr('disabled', true)
-                        },
-                        complete: () => {
-                            //Devolvendo o ícone de enviar
-                            $('#sendFile').html('<i class="fas fa-paper-plane"></i>')
-
-                            //habilitar botão
-                            $('#sendFile').attr('disabled', false)
-                        },
-                        success: function(data) {
-                            console.log(data)
-                        }
-                    }).done(()=>{
-                        $('#midiaInput').val('')
-                        $('#midiaInputGroup').addClass('d-none')
-                        $('#chatMessageInputGroup').removeClass('d-none')
-                    })
-                }
-            })
-        })
-
-        //abrindo ou fechando divs ao redimentsionar tela
-        var width = $(window).width();
-        $(window).on('resize', function() {
-            if ($(this).width() !== width) {
-                width = $(this).width();
-
-                if ($(this).width() > 768){
-                    $('#chatFirstColumn').removeClass('closed').addClass('opened')
-                    $('#chatSecondColumn').removeClass('closed').addClass('opened')
-                    $('#chatThirdColumn').removeClass('opened').addClass('closed')
-
-                    //aumentando chat
-                    $('#chatSecondColumn').removeClass('col-md-6').addClass('col-md-9')
-
-                    //seta de retorno
-                    $('.returnArrow').removeClass('opened').addClass('closed')
-                } else{
-                    $('#chatFirstColumn').removeClass('closed').addClass('opened')
-                    $('#chatSecondColumn').removeClass('opened').addClass('closed')
-                    $('#chatThirdColumn').removeClass('opened').addClass('closed')
-
-                    //seta de retorno
-                    $('.returnArrow').removeClass('closed').addClass('opened')
-                }
-            }
-        });
-    </script>
+    <script src="generalScripts.js"></script>
+    <script src="basePageScript.js"></script>
 </head>
 
 <body>
@@ -264,9 +135,9 @@ if(!isset($_SESSION['idUsuario'])){
                     <label for="midiaInput" class="formatBtn d-flex" id="showMidiainput"><i class="fas fa-paperclip chatIcon"></i></label>
                 </div>
 
-                <div class="col-9 d-flex">
+                <div class="col-10 d-flex">
                     <div class="input-group" id="chatMessageInputGroup">
-                        <textarea class="form-control chatMessageInput" placeholder="Digite uma mensagem" rows="2" id="chatMessageInput" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Digite algo antes de enviar" maxlength="65535"></textarea>
+                        <textarea class="form-control chatMessageInput" placeholder="Digite uma mensagem" rows="2" id="chatMessageInput" maxlength="65535"></textarea>
                         <button type="button" class="input-group-text chatMessageSend" id="sendMessage"><i class="fas fa-paper-plane"></i></button>
                     </div>
 
@@ -275,10 +146,6 @@ if(!isset($_SESSION['idUsuario'])){
                         <button type="submit" class="input-group-text chatMessageSend" id="sendFile"><i class="fas fa-paper-plane"></i></button>
                         <button type="button" class="input-group-text ml-2" id="deleteFile" onclick="delFile()"><i class="fas fa-trash text-danger"></i></button>
                     </div>
-                </div>
-
-                <div class="col-1 d-flex justify-content-center">
-                    <button type="button" class="formatBtn"><i class="fas fa-microphone chatIcon"></i></button>
                 </div>
 
                 <input type="hidden" name="id_chat_contato" id="id_chat_contato">

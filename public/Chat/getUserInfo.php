@@ -54,7 +54,7 @@ if (empty($chatInfo)){
 }
 ?>
 <head>
-    <script src="chat.js"></script>
+    <script src="generalScripts.js"></script>
     <script>
         function downloadFileOnUserInfo(fileDirectory, filename){
             let download = document.createElement('a')

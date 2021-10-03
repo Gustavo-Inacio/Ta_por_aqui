@@ -43,7 +43,7 @@ if (empty($chatInfo) || $chatInfo->status_chat_contato == 0){
 }
 ?>
 <head>
-    <script src="chat.js"></script>
+    <script src="generalScripts.js"></script>
     <script>
         function downloadFile(fileDirectory, filename){
             let download = document.createElement('a')
@@ -72,6 +72,16 @@ if (empty($chatInfo) || $chatInfo->status_chat_contato == 0){
     </div>
 
     <div class="chatMessages">
+        <div class="chatAlert">
+            <?php
+            $dataCriacaoContato = new DateTime($chatInfo->criacao_chat_contato);
+            if ($_SESSION['idUsuario'] == $chatInfo->id_prestador) {
+                echo "Esse cliente criou um contato com você no dia {$dataCriacaoContato->format('d/m/Y')} pra saber mais de seus serviços";
+            } else {
+                echo "Você criou um contato com este prestador no dia {$dataCriacaoContato->format('d/m/Y')} pra saber mais de seus serviços";
+            }?>
+        </div>
+
         <?php
         //lendo mensagens do banco de dados
         $query = "SELECT cm.id_chat_mensagem, cm.id_chat_contato, cm.id_remetente_usuario, cm.id_destinatario_usuario, cm.mensagem_chat, cm.diretorio_arquivo_chat, cm.apelido_arquivo_chat, cm.hora_mensagem_chat from chat_mensagens cm WHERE cm.id_chat_contato = :contato GROUP BY cm.id_chat_mensagem ORDER BY cm.id_chat_mensagem";
@@ -110,7 +120,27 @@ if (empty($chatInfo) || $chatInfo->status_chat_contato == 0){
                             <div class="d-flex justify-content-center">
                                 <img src="../../assets/chatSharedFiles/<?=$message->diretorio_arquivo_chat?>" alt="imagem compartilhada" class="chatImg">
                             </div>
-                        <?php } else {?>
+                        <?php } else if ($extension === 'mp4'){ ?>
+                            <video class="chatVideo" controls>
+                                <source src="../../assets/chatSharedFiles/<?=$message->diretorio_arquivo_chat?>" type="video/mp4">
+
+                                <!-- mensagem caso o browser não suprote o player -->
+                                <span class="text-danger">Seu browser não suporta o player de vídeo. Em vez disso baixe o vídeo:</span> <br>
+                                <div class="messageArq" onclick="downloadFile('<?=$message->diretorio_arquivo_chat?>', '<?=$message->apelido_arquivo_chat?>')">
+                                    <?=$message->apelido_arquivo_chat?> <i class="fas fa-download" style="margin-left: auto"></i>
+                                </div>
+                            </video>
+                        <?php } else if ($extension === 'mp3') { ?>
+                            <audio class="chatAudio" controls>
+                                <source src="../../assets/chatSharedFiles/<?=$message->diretorio_arquivo_chat?>" type="audio/mpeg">
+
+                                <!-- mensagem caso o browser não suprote o player -->
+                                <span class="text-danger">Seu browser não suporta o player de vídeo. Em vez disso baixe o vídeo:</span> <br>
+                                <div class="messageArq" onclick="downloadFile('<?=$message->diretorio_arquivo_chat?>', '<?=$message->apelido_arquivo_chat?>')">
+                                    <?=$message->apelido_arquivo_chat?> <i class="fas fa-download" style="margin-left: auto"></i>
+                                </div>
+                            </audio>
+                        <?php }  else {?>
                             <div class="messageArq" onclick="downloadFile('<?=$message->diretorio_arquivo_chat?>', '<?=$message->apelido_arquivo_chat?>')">
                                 <?=$message->apelido_arquivo_chat?> <i class="fas fa-download" style="margin-left: auto"></i>
                             </div>

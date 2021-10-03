@@ -30,11 +30,12 @@ if (isset($contact->id_chat_contato)){
     echo "Criando novo contato... redirecionando...";
 
     //Criar novo contato entre prestador e cliente referenciando esse serviço
-    $query = "INSERT INTO chat_contatos(id_servico, id_prestador, id_cliente) VALUE (:id_servico, :prestador, :cliente)";
+    $query = "INSERT INTO chat_contatos(id_servico, id_prestador, id_cliente, ultima_att_contato) VALUE (:id_servico, :prestador, :cliente, :ultima_att_contato)";
     $stmt = $con->prepare($query);
     $stmt->bindValue(':id_servico', $_GET['idServico']);
     $stmt->bindValue(':prestador', $prestador);
     $stmt->bindValue(':cliente', $cliente);
+    $stmt->bindValue(':ultima_att_contato', date('Y-m-d H:i:s'));
     $stmt->execute();
 }
 

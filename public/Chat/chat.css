@@ -189,6 +189,19 @@ body{
     position: relative;
     overflow-y: auto;
     height: calc(100% - 77px);
+    display: flex;
+    flex-direction: column;
+}
+
+.chatAlert{
+    margin-top: 10px;
+    text-align: center;
+    background-color: #fef4c5;
+    border-radius: 25px;
+    box-shadow: 0 0 2px rgba(0,0,0,0.2);
+    font-size: 12px;
+    width: 70%;
+    align-self: center;
 }
 
 @media (max-width: 767px) {
@@ -207,6 +220,12 @@ body{
         padding: 8px 15px;
         position: relative;
         margin-top: -34px;
+    }
+}
+
+@media (max-width: 576px) {
+    .chatAlert{
+        width: 100%;
     }
 }
 
@@ -289,6 +308,10 @@ body{
 
 .chatImg{
     width: 60%;
+}
+
+.chatVideo, .chatAudio{
+    width: 100%;
 }
 
 ::-webkit-scrollbar-track {
@@ -511,7 +534,7 @@ body{
     color: #6060D7;
     font-size: 14px;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
 }
 
