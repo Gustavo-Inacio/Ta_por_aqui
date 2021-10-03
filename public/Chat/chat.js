@@ -10,16 +10,6 @@ $(document).ready(()=>{
         $(e.target).toggleClass('off')
     })
 
-    //configurando emoji picker
-    let emojiPicker = new FgEmojiPicker({
-        trigger: ['#useEmojiMsg'],
-        removeOnSelection: false,
-        closeButton: false,
-        position: ['top', 'right'],
-        preFetch: true,
-        insertInto: document.getElementById('chatMessageInput')
-    });
-
     //abrindo um chat específico se o usuário foi redirecionado para essa página pela de um serviço específico
     let url = new URL(window.location.href)
     if (url.searchParams.get('directChat') !== null){
@@ -98,7 +88,7 @@ function updateConversation(getChatId, getUserId, getLastMsgId) {
     }
 
     $.ajax({
-        url: 'getNewMessage.php',
+        url: '../../logic/chat/getNewMessage.php',
         method: 'POST',
         data: mydata,
         success: result => {
@@ -143,12 +133,6 @@ function loadUserInfo(){
 function changeInput(){
     $('#chatMessageInputGroup').addClass('d-none')
     $('#midiaInputGroup').removeClass('d-none')
-}
-
-function deleteFile(){
-    $('#chatMessageInputGroup').removeClass('d-none')
-    $('#midiaInputGroup').addClass('d-none')
-    $('midiaInput').value = "";
 }
 
 function favoriteUser(favToggle, user, chatContact) {
@@ -224,21 +208,46 @@ function toggleBlockUser(status, chatContact, user) {
     $('#communicationBar').addClass('d-none')
 }
 
-function sendMessage() {
-    $.ajax({
-        method: 'POST',
-        url: '../../logic/chat/chat_enviarMensagem.php',
-        data: {
-            id_chat_contato: $('#id_chat_contato').val(),
-            id_remetente_usuario: $('#id_remetente').val(),
-            id_destinatario_usuario: $('#id_destinatario').val(),
-            mensagem_chat: $('#chatMessageInput').val()
+function enterPressed(e){
+    if(!e.shiftKey){
+        if (e.code === "Enter"){
+            sendMessage()
         }
-    }).done(()=>{
-        $('#chatMessageInput').val('')
-        //loadConversation($('#id_chat_contato').val(), $('#id_remetente').val())
-        /*//scrollando para o fim da conversa
-        let objDiv = document.getElementsByClassName("chatMessages")[0];
-        objDiv.scrollTop = objDiv.scrollHeight;*/
-    })
+    }
+}
+
+function sendMessage() {
+    //verificando se o input não está vazio
+    let messageInput = document.getElementById('chatMessageInput')
+    let popover = new bootstrap.Popover(messageInput)
+
+    if (messageInput.value === ""){
+        popover.enable()
+        popover.show()
+        setTimeout(() => {
+            popover.hide()
+            popover.disable()
+        }, 2000)
+    } else {
+        $.ajax({
+            method: 'POST',
+            url: '../../logic/chat/chat_enviarMensagem.php',
+            data: {
+                id_chat_contato: $('#id_chat_contato').val(),
+                id_remetente_usuario: $('#id_remetente').val(),
+                id_destinatario_usuario: $('#id_destinatario').val(),
+                mensagem_chat: messageInput.value
+            }
+        }).done(()=>{
+            $('#chatMessageInput').val('')
+        })
+    }
+}
+
+//A função de enviar arquivos está no script de chat.php
+
+function delFile(){
+    $('#chatMessageInputGroup').removeClass('d-none')
+    $('#midiaInputGroup').addClass('d-none')
+    $('#midiaInput').value = "";
 }

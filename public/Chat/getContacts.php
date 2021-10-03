@@ -69,6 +69,21 @@ if ((isset($_POST['param']) && $_POST['param'] != '')){
                     $show = 1; //cliente
                 }
                 $destinatario = $con->query($DestQuery)->fetch(PDO::FETCH_ASSOC);
+
+                //pegar o horário ou dia da última mensagem enviada
+                $timeQuery = "SELECT hora_mensagem_chat from chat_mensagens where id_chat_contato = {$chatFavorito['id_chat_contato']} ORDER BY id_chat_mensagem DESC LIMIT 1";
+                $ultimaMsg = $con->query($timeQuery)->fetch(PDO::FETCH_OBJ)->hora_mensagem_chat;
+                $ultimaMsg = new DateTime($ultimaMsg);
+
+                $currentDate = date('Y-m-d', time());
+                $isToday = strtotime($ultimaMsg->format('Y-m-d')) === strtotime($currentDate);
+
+                $ultimaMsgTime = null;
+                if ($isToday){
+                    $ultimaMsgTime = $ultimaMsg->format('H:i');
+                } else {
+                    $ultimaMsgTime = $ultimaMsg->format('d/m');
+                }
             ?>
                 <div class="userDiv row" chatId="<?=$chatFavorito['id_chat_contato']?>" onclick="loadConversation(<?=$chatFavorito['id_chat_contato']?>, <?=$destinatario['id_usuario']?>, <?=$show?>)">
                     <div class="col-3 col-md-12 col-lg-3 d-flex d-md-none d-xl-flex">
@@ -79,7 +94,7 @@ if ((isset($_POST['param']) && $_POST['param'] != '')){
                         <div class="userService"><?=$show === 0 ? $chatFavorito['nome_servico'] : $chatFavorito['nome_servico'] . " (Meu serviço)"?></div>
                     </div>
                     <div class="col-2 col-md-4 col-lg-2 mt-3 mt-lg-0 text-right">
-                        <div class="chatTime">16:00</div>
+                        <div class="chatTime"><?=$ultimaMsgTime?></div>
                         <div class="chatQntMsg">3</div>
                     </div>
                 </div>
@@ -89,7 +104,7 @@ if ((isset($_POST['param']) && $_POST['param'] != '')){
 
     <div class="titleGroup">
         <?php if(isset($_POST['param']) && $_POST['param'] != '') {
-            echo '<h3 class="userSeparatorTitle">Resultados da pesquisa</h3>';
+            echo '<h3 class="userSeparatorTitle">Serviços encontrados</h3>';
         } else {
             echo '<h3 class="userSeparatorTitle">Recentes</h3>';
         }?>
@@ -99,7 +114,7 @@ if ((isset($_POST['param']) && $_POST['param'] != '')){
     <?php if (count($chatContatos) > 0) {
         foreach ($chatContatos as $chatContato){
             if (!isset($_POST['param']) || (isset($_POST['param']) && $_POST['param'] == '')){
-                //Pular essa listagem caso o contato seja favorito
+                //Pular essa listagem caso o contato seja favorito (e não seja uma pesquisa)
                 $query = "SELECT * FROM chat_contatos_favoritos where id_usuario = " . $_SESSION['idUsuario'] . " AND id_chat_contato = " . $chatContato['id_chat_contato'];
                 $favoriteChat = $con->query($query)->fetch(PDO::FETCH_ASSOC);
                 if ((isset($favoriteChat['id_chat_favorito']))){
@@ -120,6 +135,21 @@ if ((isset($_POST['param']) && $_POST['param'] != '')){
                 $show = 1; //cliente
             }
             $destinatario = $con->query($DestQuery)->fetch(PDO::FETCH_ASSOC);
+
+            //pegar o horário ou dia da última mensagem enviada
+            $timeQuery = "SELECT hora_mensagem_chat from chat_mensagens where id_chat_contato = {$chatContato['id_chat_contato']} ORDER BY id_chat_mensagem DESC LIMIT 1";
+            $ultimaMsg = $con->query($timeQuery)->fetch(PDO::FETCH_OBJ)->hora_mensagem_chat;
+            $ultimaMsg = new DateTime($ultimaMsg);
+
+            $currentDate = date('Y-m-d', time());
+            $isToday = strtotime($ultimaMsg->format('Y-m-d')) === strtotime($currentDate);
+
+            $ultimaMsgTime = null;
+            if ($isToday){
+                $ultimaMsgTime = $ultimaMsg->format('H:i');
+            } else {
+                $ultimaMsgTime = $ultimaMsg->format('d/m');
+            }
             ?>
             <div class="usersGroup">
                 <?php if ($chatContato['status_chat_contato'] == 1) {?>
@@ -132,7 +162,7 @@ if ((isset($_POST['param']) && $_POST['param'] != '')){
                             <div class="userService"><?=$show === 0 ? $chatContato['nome_servico'] : $chatContato['nome_servico'] . " (Meu serviço)"?></div>
                         </div>
                         <div class="col-2 col-md-4 col-lg-2 mt-3 mt-lg-0 text-right">
-                            <div class="chatTime">16:00</div>
+                            <div class="chatTime"><?=$ultimaMsgTime?></div>
                             <div class="chatQntMsg">3</div>
                         </div>
                     </div>

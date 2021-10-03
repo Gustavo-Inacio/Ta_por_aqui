@@ -44,6 +44,15 @@ if (empty($chatInfo) || $chatInfo->status_chat_contato == 0){
 ?>
 <head>
     <script src="chat.js"></script>
+    <script>
+        function downloadFile(fileDirectory, filename){
+            let download = document.createElement('a')
+            download.href = `../../assets/chatSharedFiles/${fileDirectory}`
+            download.setAttribute('download', filename)
+            download.click()
+            download.remove()
+        }
+    </script>
 </head>
 <body style="position: relative">
 <div class="px-3 pb-0 pt-0 pt-md-3" style="height: calc(100vh - 157px)">
@@ -65,34 +74,55 @@ if (empty($chatInfo) || $chatInfo->status_chat_contato == 0){
     <div class="chatMessages">
         <?php
         //lendo mensagens do banco de dados
-        $query = "SELECT cm.id_chat_mensagem, cm.id_chat_contato, cm.id_remetente_usuario, cm.id_destinatario_usuario, cm.mensagem_chat, cm.arquivo_chat, cm.hora_mensagem_chat from chat_mensagens cm WHERE cm.id_chat_contato = :contato GROUP BY cm.id_chat_mensagem ORDER BY cm.id_chat_mensagem";
+        $query = "SELECT cm.id_chat_mensagem, cm.id_chat_contato, cm.id_remetente_usuario, cm.id_destinatario_usuario, cm.mensagem_chat, cm.diretorio_arquivo_chat, cm.apelido_arquivo_chat, cm.hora_mensagem_chat from chat_mensagens cm WHERE cm.id_chat_contato = :contato GROUP BY cm.id_chat_mensagem ORDER BY cm.id_chat_mensagem";
         $stmt = $con->prepare($query);
         $stmt->bindValue(':contato', $_GET['chatId']);
         $stmt->execute();
         $chatMessages = $stmt->fetchAll(PDO::FETCH_OBJ);
-        ?>
-        <!-- <div class="chatDate">Ontem</div> -->
 
-        <?php foreach ($chatMessages as $message) {?>
+        $dataMsg = [];
+        foreach ($chatMessages as $key => $message) {
+            //verificando as datas das mensagens
+            $horaMsg = new DateTime($message->hora_mensagem_chat);
+            $formatter = new IntlDateFormatter(
+                'pt_BR',
+                IntlDateFormatter::RELATIVE_MEDIUM,
+                IntlDateFormatter::NONE,
+                'America/Sao_Paulo',
+                IntlDateFormatter::GREGORIAN
+            );
+            $dataMsg[$key] = $formatter->format($horaMsg);
+
+            if($key > 0){
+                if ($dataMsg[$key] !== $dataMsg[intval($key)-1]){
+                    echo "<div class='chatDate'>$dataMsg[$key]</div>";
+                }
+            } else {
+                echo "<div class='chatDate'>$dataMsg[$key]</div>";
+            }
+        ?>
             <div class="message <?=$_SESSION['idUsuario'] == $message->id_remetente_usuario ? 'myMessage' : 'itsMessage'?>" id="<?=$message->id_chat_mensagem?>">
-                <div class="messageText">
-                    <?=$message->mensagem_chat?>
-                </div>
-                <?php
-                $horaMsg = new DateTime($message->hora_mensagem_chat)
-                ?>
+                <?php if ($message->mensagem_chat === "arquivo" && $message->diretorio_arquivo_chat != null){
+                        $tmparr = explode('.', $message->diretorio_arquivo_chat);
+                        $extension = $tmparr[count($tmparr) - 1];
+
+                        if ($extension === 'png' || $extension === 'jpg' || $extension === 'jpeg') {?>
+                            <div class="d-flex justify-content-center">
+                                <img src="../../assets/chatSharedFiles/<?=$message->diretorio_arquivo_chat?>" alt="imagem compartilhada" class="chatImg">
+                            </div>
+                        <?php } else {?>
+                            <div class="messageArq" onclick="downloadFile('<?=$message->diretorio_arquivo_chat?>', '<?=$message->apelido_arquivo_chat?>')">
+                                <?=$message->apelido_arquivo_chat?> <i class="fas fa-download" style="margin-left: auto"></i>
+                            </div>
+                        <?php }?>
+                <?php } else {?>
+                    <div class="messageText">
+                        <?=nl2br($message->mensagem_chat)?>
+                    </div>
+                <?php }?>
                 <div class="messageTime"><?=$horaMsg->format('H:i')?></div>
             </div>
         <?php }?>
-
-        <!--<div class="message itsMessage">
-            <div class="messageText">Lorem ipsum dolor sit amet, consectetur adipisicing elit. At eveniet ipsam
-                laborum nam nobis perferendis rerum ullam, velit. Aut dicta ducimus incidunt itaque nihil,
-                officia placeat praesentium quisquam sint voluptatum.
-            </div>
-            <div class="messageTime">16:00</div>
-        </div>-->
-
     </div>
 </div>
 </body>

@@ -178,6 +178,9 @@ function registerConfirm(){
             data: `email=${email}`,
             dataType: 'json',
             beforeSend: () => {
+                //desabilitar botão
+                $('#btnCreateAccount').attr('disabled', true)
+
                 //criar gif de carregamento
                 let loadingGif = document.createElement('img')
                 loadingGif.src = "../../assets/images/loading.gif"
@@ -188,6 +191,9 @@ function registerConfirm(){
             complete: () => {
                 //tirar gif
                 document.getElementById('loadingGif').remove()
+
+                //habilitar botão
+                $('#btnCreateAccount').attr('disabled', false)
             },
             success: sendEmailStatus => {
                 if(sendEmailStatus.status === "enviado"){

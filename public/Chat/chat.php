@@ -26,7 +26,7 @@ if(!isset($_SESSION['idUsuario'])){
     <script src="../../assets/emojiPicker/fgEmojiPicker.js"></script>
     <script src="https://kit.fontawesome.com/2a19bde8ca.js" crossorigin="anonymous" defer></script>
     <script src="../../assets/global/globalScripts.js" defer></script>
-    <script src="chat.js" defer></script>
+    <script src="chat.js"></script>
     <script>
         //abrindo ou fechando divs dependendo da tela.
         $(document).ready(() => {
@@ -44,6 +44,90 @@ if(!isset($_SESSION['idUsuario'])){
 
             //Carregando a listagem de contatos
             $('#loadAssyncContacts').load('getContacts.php');
+
+            //configurando emoji picker
+            let emojiPicker = new FgEmojiPicker({
+                trigger: ['#useEmojiMsg'],
+                removeOnSelection: false,
+                closeButton: false,
+                position: ['top', 'right'],
+                preFetch: true,
+                insertInto: document.getElementById('chatMessageInput')
+            });
+
+            //triggers para enviar mensagem
+            $('#sendMessage').on('click', () => {
+                sendMessage()
+            })
+            $('#chatMessageInput').on('keydown', e => {
+                enterPressed(e)
+            })
+
+            //upload de arquivos
+            $(document).on('submit', '#midiaForm', e => {
+                e.preventDefault()
+                let formData = new FormData(document.getElementById('midiaForm'));
+
+                //verificando se o input não está vazio
+                let midiaInput = document.getElementById('midiaInput')
+                let fileExtension = midiaInput.value.split('.').pop()
+
+                if (midiaInput.value == ""){
+                    let popover = new bootstrap.Popover(midiaInput, {
+                        content: "Selecione algum arquivo antes de enviar"
+                    })
+                    popover.enable()
+                    popover.show()
+                    setTimeout(() => {
+                        popover.hide()
+                        popover.disable()
+                    }, 2000)
+                } else if(midiaInput.files[0].size > 40000000){
+                    let popover = new bootstrap.Popover(midiaInput, {
+                        content: "Arquivo muito grande (máx: 35MB)"
+                    })
+                    popover.enable()
+                    popover.show()
+                    setTimeout(() => {
+                        popover.hide()
+                        popover.disable()
+                    }, 2000)
+                } else {
+                    $.ajax({
+                        method: 'POST',
+                        url: '../../logic/chat/chat_enviarArquivo.php',
+                        data: formData,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        beforeSend: () => {
+                            //criar gif de carregamento
+                            let loadingGif = document.createElement('img')
+                            loadingGif.src = "../../assets/images/loading.gif"
+                            loadingGif.width = 16
+                            loadingGif.id = "loadingGif"
+                            $('#sendFile').html(loadingGif)
+
+                            //desabilitar botão
+                            $('#sendFile').attr('disabled', true)
+                        },
+                        complete: () => {
+                            //Devolvendo o ícone de enviar
+                            $('#sendFile').html('<i class="fas fa-paper-plane"></i>')
+
+                            //habilitar botão
+                            $('#sendFile').attr('disabled', false)
+                        },
+                        success: function(data) {
+                            console.log(data)
+                        }
+                    }).done(()=>{
+                        $('#midiaInput').val('')
+                        $('#midiaInputGroup').addClass('d-none')
+                        $('#chatMessageInputGroup').removeClass('d-none')
+                    })
+                }
+            })
         })
 
         //abrindo ou fechando divs ao redimentsionar tela
@@ -170,36 +254,38 @@ if(!isset($_SESSION['idUsuario'])){
             </div>
         </div>
 
-        <div class="communicationBar row d-none" id="communicationBar">
-            <div class="col-1 d-flex justify-content-center">
-                <button type="button" class="formatBtn" id="useEmojiMsg"><i class="far fa-laugh chatIcon"></i></button>
-            </div>
-
-            <div class="col-1 d-flex justify-content-center align-items-center">
-                <label for="midiaInput" class="formatBtn d-flex" id="showMidiainput" data-bs-container="body" data-bs-trigger="hover" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Clique aqui para enviar documentos ou fotos"><i class="fas fa-paperclip chatIcon"></i></label>
-            </div>
-
-            <div class="col-9 d-flex">
-                <div class="input-group" id="chatMessageInputGroup">
-                    <textarea class="form-control chatMessageInput" placeholder="Digite uma mensagem" rows="2" id="chatMessageInput"></textarea>
-                    <button type="button" class="input-group-text chatMessageSend" id="sendMessage" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+        <form action="chat.php" method="POST" enctype="multipart/form-data" id="midiaForm">
+            <div class="communicationBar row d-none" id="communicationBar">
+                <div class="col-1 d-flex justify-content-center">
+                    <button type="button" class="formatBtn" id="useEmojiMsg"><i class="far fa-laugh chatIcon"></i></button>
                 </div>
 
-                <div class="input-group d-none align-self-center" id="midiaInputGroup">
-                    <input type="file" id="midiaInput" class="form-control" onchange="changeInput()" aria-describedby="sendFile">
-                    <button class="input-group-text chatMessageSend" type="button" id="sendFile"><i class="fas fa-paper-plane"></i></button>
-                    <button class="input-group-text ml-2" id="deleteFile" onclick="deleteFile()"><i class="fas fa-trash text-danger"></i></button>
+                <div class="col-1 d-flex justify-content-center align-items-center">
+                    <label for="midiaInput" class="formatBtn d-flex" id="showMidiainput"><i class="fas fa-paperclip chatIcon"></i></label>
                 </div>
-            </div>
 
-            <div class="col-1 d-flex justify-content-center">
-                <button type="button" class="formatBtn"><i class="fas fa-microphone chatIcon"></i></button>
-            </div>
+                <div class="col-9 d-flex">
+                    <div class="input-group" id="chatMessageInputGroup">
+                        <textarea class="form-control chatMessageInput" placeholder="Digite uma mensagem" rows="2" id="chatMessageInput" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Digite algo antes de enviar" maxlength="65535"></textarea>
+                        <button type="button" class="input-group-text chatMessageSend" id="sendMessage"><i class="fas fa-paper-plane"></i></button>
+                    </div>
 
-            <input type="hidden" id="id_chat_contato">
-            <input type="hidden" id="id_remetente" value="<?=$_SESSION['idUsuario']?>">
-            <input type="hidden" id="id_destinatario">
-        </div>
+                    <div class="input-group d-none align-self-center" id="midiaInputGroup">
+                        <input type="file" name="midiaInput" id="midiaInput" class="form-control" onchange="changeInput()" aria-describedby="sendFile" data-bs-toggle="popover" data-bs-placement="top">
+                        <button type="submit" class="input-group-text chatMessageSend" id="sendFile"><i class="fas fa-paper-plane"></i></button>
+                        <button type="button" class="input-group-text ml-2" id="deleteFile" onclick="delFile()"><i class="fas fa-trash text-danger"></i></button>
+                    </div>
+                </div>
+
+                <div class="col-1 d-flex justify-content-center">
+                    <button type="button" class="formatBtn"><i class="fas fa-microphone chatIcon"></i></button>
+                </div>
+
+                <input type="hidden" name="id_chat_contato" id="id_chat_contato">
+                <input type="hidden" name="id_remetente" id="id_remetente" value="<?=$_SESSION['idUsuario']?>">
+                <input type="hidden" name="id_destinatario" id="id_destinatario">
+            </div>
+        </form>
     </div>
     <!-- fim mensagens -->
 
