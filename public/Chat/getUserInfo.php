@@ -54,8 +54,9 @@ if (empty($chatInfo)){
 }
 ?>
 <head>
+    <!-- <script src="importComplain.js" type="module"></script> -->
     <script src="generalScripts.js"></script>
-    <script>
+    <script type="module">
         function downloadFileOnUserInfo(fileDirectory, filename){
             let download = document.createElement('a')
             download.href = `../../assets/chatSharedFiles/${fileDirectory}`
@@ -63,8 +64,51 @@ if (empty($chatInfo)){
             download.click()
             download.remove()
         }
+
+        import ReportInterface from "../Denuncia/denuncia.js";
+
+        function serviceComplain(element) {
+            let user = element.getAttribute('providerName');
+            let service = element.getAttribute('serviceName');
+            let modal = document.querySelector('#serviceComplainModal');
+            let modalBody = document.querySelector('#serviceComplainModalBody')
+            let modalTrigger = element
+
+            modalBody.innerHTML = ""
+
+            const reportHandler = async () => { // envia os valores para a fcnao que gera e retorna o elemtno de denuncia para adicionar no modal
+                let iframeNode;
+                const getNode = async () => { // busca o node por ajax
+                    let xhr = new XMLHttpRequest();
+                    xhr.open('POST', '../Denuncia/denuncia.php');
+                    xhr.onload = async () => {
+                        let tempDiv_e = document.createElement('div');
+                        tempDiv_e.innerHTML = await xhr.response;
+                        iframeNode =  document.importNode(tempDiv_e, true);
+
+                        setDOM();
+                    }
+
+                    xhr.send();
+                }
+                getNode();
+
+                const setDOM = async () => { // monta o layout na DOM
+                    let processedNode = await ReportInterface({node:iframeNode, type: 'service', data: {service: service, provider: user}})
+                    await modalTrigger.setAttribute('data-bs-toggle',`modal`)
+                    await modalTrigger.setAttribute('data-bs-target',`#serviceComplainModal`)
+                    await modalBody.appendChild(processedNode) // pega o node retornado e o coloca na DOM
+                }
+            }
+            reportHandler()
+        }
+
+        $(document).ready(() => {
+            if (document.getElementById('serviceComplain')) {
+                serviceComplain(document.getElementById('serviceComplain'))
+            }
+        })
     </script>
-    <script type="module" src="complainScript.js"></script>
 </head>
 <body>
     <div class="userDetailedInfo">
@@ -109,40 +153,7 @@ if (empty($chatInfo)){
         <div class="dangerOption text-success dangerFakeLine" onclick="location.href = '../EncontrarProfissional/VisualizarServico/visuaizarServico.php?serviceID=<?=$show == 0 ? $userInfo->id_servico : $serviceId?>'">Ir para o serviço <i class="fas fa-briefcase"></i></div>
         <div class="dangerOption dangerFakeLine" onclick="toggleBlockUser(0, <?=$_GET['chatId']?>, <?=$_SESSION['idUsuario']?>)">Bloquear <i class="fas fa-user-slash"></i></div>
         <?php if($show == 0) { ?>
-            <div class="dangerOption" id="serviceComplain" serviceName="<?=$userInfo->nome_servico?>" providerName="<?=$userInfo->nome_usuario?>" data-bs-toggle="modal" data-bs-target="#serviceComplainModal">Denunciar serviço <i class="fas fa-ban"></i></div>
+            <div class="dangerOption" id="serviceComplain" serviceName="<?=$userInfo->nome_servico?>" providerName="<?=$userInfo->nome_usuario?> <?=$userInfo->sobrenome_usuario?>">Denunciar serviço <i class="fas fa-ban"></i></div>
         <?php }?>
     </div>
-
-    <div class="modal fade" id="serviceComplainModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body" id="serviceComplainModalBody"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal
-    <div class="modal fade" id="serviceComplainModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title complainTitle">Denúncia</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="serviceComplainModalBody">
-                    <form action="">
-                        <div>
-                            <span>Denunciar serviço: </span> <span class="complainObj">teste <?=$userInfo->id_servico?></span>
-                            <input type="hidden" name="servico" value="<?=$userInfo->id_servico?>">
-                        </div>
-                        <div>
-                            <span>Prestador: </span> <span class="complainObj">teste <?=$userInfo->id_usuario?></span>
-                            <input type="hidden" name="servico" value="<?=$userInfo->id_usuario?>">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    -->
 </body>

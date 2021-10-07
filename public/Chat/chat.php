@@ -19,6 +19,7 @@ if(!isset($_SESSION['idUsuario'])){
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link rel="stylesheet" href="../../assets/global/globalStyles.css">
+    <link rel="stylesheet" href="../Denuncia/denuncia.css">
     <link rel="stylesheet" href="chat.css">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -27,7 +28,7 @@ if(!isset($_SESSION['idUsuario'])){
     <script src="https://kit.fontawesome.com/2a19bde8ca.js" crossorigin="anonymous" defer></script>
     <script src="../../assets/global/globalScripts.js" defer></script>
     <script src="generalScripts.js"></script>
-    <script src="basePageScript.js" type="module"></script>
+    <script src="basePageScript.js"></script>
 </head>
 
 <body>
@@ -170,6 +171,13 @@ if(!isset($_SESSION['idUsuario'])){
     <!-- fim detalhes do contato -->
 
     <!-- modal de denúncia de serviço -->
+    <div class="modal fade" id="serviceComplainModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-body" id="serviceComplainModalBody"></div>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
