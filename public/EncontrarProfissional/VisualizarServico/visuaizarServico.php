@@ -58,7 +58,7 @@
 </head>
 <body>
 
-    <iframe  id="myReportIframe" src="../../Denuncia/denuncia.html" style="display: none;"></iframe>
+    <iframe  id="myReportIframe" src="../../Denuncia/denuncia.php" style="display: none;"></iframe>
 
     <!--NavBar Comeco-->
     <div id="myMainTopNavbarNavBackdrop" class=""></div>
@@ -94,7 +94,7 @@
                         <a href="../../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
                     </li>
                     <li class="nav-item">
-                        <a href="../../Chat/chat.php" class="nav-link">Chat</a>
+                        <a href="../../Chat/chat.php" class="nav-link" id="navChatLink">Chat</a>
                     </li>
                     <?php if (empty($_SESSION['idUsuario'])) { ?>
                         <li class="nav-item">
@@ -272,8 +272,7 @@
                         <!--<p class="service-rate--quantity">(47 - avaliações)</p>-->
                         <p class="service-rate--quantity"></p>
                     </div>
-
-                    <a href="#" class="contact-chat-btn-a">
+                    <a href="../../../logic/chat/chat_criarContato.php?idServico=<?=$serviceData['id_servico']?>" class="contact-chat-btn-a">
                         <button>
                             <label>Entrar em contato </label>
                             <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">

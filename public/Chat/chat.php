@@ -7,10 +7,6 @@ require "../../logic/entrar_cookie.php";
 if(!isset($_SESSION['idUsuario'])){
     header('Location: boasVindas.php');
 }
-
-require "../../logic/DbConnection.php";
-$con = new DbConnection();
-$con = $con->connect();
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -23,6 +19,7 @@ $con = $con->connect();
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link rel="stylesheet" href="../../assets/global/globalStyles.css">
+    <link rel="stylesheet" href="../Denuncia/denuncia.css">
     <link rel="stylesheet" href="chat.css">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -30,10 +27,12 @@ $con = $con->connect();
     <script src="../../assets/emojiPicker/fgEmojiPicker.js"></script>
     <script src="https://kit.fontawesome.com/2a19bde8ca.js" crossorigin="anonymous" defer></script>
     <script src="../../assets/global/globalScripts.js" defer></script>
-    <script src="chat.js" defer></script>
+    <script src="generalScripts.js"></script>
+    <script src="basePageScript.js"></script>
 </head>
 
 <body>
+
 <!--NavBar Comeco-->
 <div id="myMainTopNavbarNavBackdrop" class=""></div>
 <nav id="myMainTopNavbar" class="navbar navbar-expand-md">
@@ -68,7 +67,7 @@ $con = $con->connect();
                     <a href="../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
                 </li>
                 <li class="nav-item">
-                    <a href="chat.php" class="nav-link">Chat</a>
+                    <a href="chat.php" class="nav-link" id="navChatLink">Chat</a>
                 </li>
                 <?php if (empty($_SESSION['idUsuario'])) { ?>
                     <li class="nav-item">
@@ -99,85 +98,20 @@ $con = $con->connect();
         <h1 class="chatTitle">CHAT</h1>
 
         <div class="input-group mb-3">
-            <input type="text" class="form-control chatSearchbar" placeholder="Insira o nome do usuário" aria-label="Recipient's username" aria-describedby="basic-addon2">
-            <button class="input-group-text chatSearchButton" type="button" id="searchUser"> <i class="fas fa-search"></i> </button>
+            <input type="text" class="form-control chatSearchbar" id="searchedUser" name="searchedUser" placeholder="Insira o nome do serviço" aria-label="Recipient's username" aria-describedby="basic-addon2">
+            <button class="input-group-text chatSearchButton" type="button" id="searchUser" onclick="searchUser()"> <i class="fas fa-search"></i> </button>
         </div>
 
-        <div class="titleGroup">
-            <h3 class="userSeparatorTitle">Favoritos</h3>
-            <div class="separatorLine"></div>
+        <div id="loadAssyncContacts">
+            <!-- Os contatos serão carregados dinamicamente -->
         </div>
-
-        <div class="usersGroup">
-            <div class="userDiv row" userid="1" onclick="loadConversation(1)">
-                <div class="col-3 col-md-12 col-lg-3 d-flex d-md-none d-xl-flex">
-                    <img src="../../assets/images/users/no_picture.jpg" alt="Imagem do usuário" class="userImg">
-                </div>
-                <div class="col-7 col-md-8 col-lg-7">
-                    <div class="userName">Nome do usuário</div>
-                    <div class="userService">Serviço da conversa</div>
-                </div>
-                <div class="col-2 col-md-4 col-lg-2 mt-3 mt-lg-0 text-right">
-                    <div class="chatTime">16:00</div>
-                    <div class="chatQntMsg">3</div>
-                </div>
-            </div>
-
-            <div class="userDiv row" userid="2" onclick="loadConversation(2)">
-                <div class="col-3 col-md-12 col-lg-3 d-flex d-md-none d-xl-flex">
-                    <img src="../../assets/images/users/no_picture.jpg" alt="Imagem do usuário" class="userImg">
-                </div>
-                <div class="col-7 col-md-8 col-lg-7">
-                    <div class="userName">Nome do usuário</div>
-                    <div class="userService">Serviço da conversa</div>
-                </div>
-                <div class="col-2 col-md-4 col-lg-2 mt-3 mt-lg-0 text-right">
-                    <div class="chatTime">16:00</div>
-                    <div class="chatQntMsg">3</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="titleGroup">
-            <h3 class="userSeparatorTitle">Recentes</h3>
-            <div class="separatorLine"></div>
-        </div>
-
-        <div class="usersGroup">
-            <div class="userDiv row" userid="3" onclick="loadConversation(3)">
-                <div class="col-3 col-md-12 col-lg-3 d-flex d-md-none d-xl-flex">
-                    <img src="../../assets/images/users/no_picture.jpg" alt="Imagem do usuário" class="userImg">
-                </div>
-                <div class="col-7 col-md-8 col-lg-7">
-                    <div class="userName">Nome do usuário</div>
-                    <div class="userService">Serviço da conversa</div>
-                </div>
-                <div class="col-2 col-md-4 col-lg-2 mt-3 mt-lg-0 text-right">
-                    <div class="chatTime">16:00</div>
-                    <div class="chatQntMsg">3</div>
-                </div>
-            </div>
-
-            <div class="userDiv row" userid="4" onclick="loadConversation(4)">
-                <div class="col-3 col-md-12 col-lg-3 d-flex d-md-none d-xl-flex">
-                    <img src="../../assets/images/users/no_picture.jpg" alt="Imagem do usuário" class="userImg">
-                </div>
-                <div class="col-7 col-md-8 col-lg-7">
-                    <div class="userName">Nome do usuário</div>
-                    <div class="userService">Serviço da conversa</div>
-                </div>
-                <div class="col-2 col-md-4 col-lg-2 mt-3 mt-lg-0 text-right">
-                    <div class="chatTime">16:00</div>
-                    <div class="chatQntMsg">3</div>
-                </div>
-            </div>
-        </div>
-
     </div>
-    <!-- fim listagem de contatos -->
 
     <!-- mensagens -->
     <div class="col-md-9" id="chatSecondColumn">
+        <div class="returnArrow" onclick="returnToContacts()">
+            <i class="fas fa-chevron-left"></i> Voltar
+        </div>
         <div id="loadAssyncConversation">
             <!-- A conversa será selecionada dinamicamente -->
 
@@ -187,20 +121,63 @@ $con = $con->connect();
                     <img src="../../assets/images/user_not_found.png" alt="selecionar um usuário" class="align-self-center">
                     <hr>
                     <h3>Se comunique eficazmente</h3>
-                    <p>Use nosso chat para conversar com seu prestador do serviço contratado. Seja educado &#x1F609;</p>
+                    <p>Use nosso chat para conversar com seu prestador ou cliente do serviço contratado. Seja educado &#x1F609;</p>
                 </div>
             </div>
         </div>
+
+        <form action="chat.php" method="POST" enctype="multipart/form-data" id="midiaForm">
+            <div class="communicationBar row d-none" id="communicationBar">
+                <div class="col-1 d-flex justify-content-center">
+                    <button type="button" class="formatBtn" id="useEmojiMsg"><i class="far fa-laugh chatIcon"></i></button>
+                </div>
+
+                <div class="col-1 d-flex justify-content-center align-items-center">
+                    <label for="midiaInput" class="formatBtn d-flex" id="showMidiainput"><i class="fas fa-paperclip chatIcon"></i></label>
+                </div>
+
+                <div class="col-10 d-flex">
+                    <div class="input-group" id="chatMessageInputGroup">
+                        <textarea class="form-control chatMessageInput" placeholder="Digite uma mensagem" rows="2" id="chatMessageInput" maxlength="65535"></textarea>
+                        <button type="button" class="input-group-text chatMessageSend" id="sendMessage"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+
+                    <div class="input-group d-none align-self-center" id="midiaInputGroup">
+                        <input type="file" name="midiaInput" id="midiaInput" class="form-control" onchange="changeInput()" aria-describedby="sendFile" data-bs-toggle="popover" data-bs-placement="top">
+                        <button type="submit" class="input-group-text chatMessageSend" id="sendFile"><i class="fas fa-paper-plane"></i></button>
+                        <button type="button" class="input-group-text ml-2" id="deleteFile" onclick="delFile()"><i class="fas fa-trash text-danger"></i></button>
+                    </div>
+                </div>
+
+                <input type="hidden" name="id_chat_contato" id="id_chat_contato">
+                <input type="hidden" name="id_remetente" id="id_remetente" value="<?=$_SESSION['idUsuario']?>">
+                <input type="hidden" name="id_destinatario" id="id_destinatario">
+                <input type="hidden" id="nome_servico">
+                <input type="hidden" id="nome_prestador">
+            </div>
+        </form>
     </div>
     <!-- fim mensagens -->
 
     <!-- detalhes do contato -->
     <div class="col-md-3" id="chatThirdColumn">
+        <div class="returnArrow mt-4 ml-4" onclick="returnToChat()">
+            <i class="fas fa-chevron-left"></i> Voltar
+        </div>
         <div id="loadAssyncUserInfo">
             <!-- As informaçõesdo usuário serão carregadas dinamicamente -->
         </div>
     </div>
     <!-- fim detalhes do contato -->
+
+    <!-- modal de denúncia de serviço -->
+    <div class="modal fade" id="serviceComplainModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-body" id="serviceComplainModalBody"></div>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

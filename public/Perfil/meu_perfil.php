@@ -35,7 +35,7 @@ if($_SESSION['classificacao'] !== 0){
     $asProviderRequestedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
     //serviços rejeitados ou aceitos por esse prestador
-    $query = "SELECT c.id_contrato, c.id_servico, c.id_cliente, c.status_contrato, c.data_contrato, s.nome_servico, s.orcamento_servico, s.crit_orcamento_servico, u.nome_usuario FROM contratos as c join servicos as s on c.id_servico = s.id_servico join usuarios u on s.id_prestador_servico = u.id_usuario WHERE c.id_prestador = " . $_SESSION['idUsuario']  . " AND s.status_servico = 1 AND c.status_contrato in(1,2) LIMIT 0,4";
+    $query = "SELECT c.id_contrato, c.id_servico, c.id_cliente, c.status_contrato, c.data_contrato, s.nome_servico, s.orcamento_servico, s.crit_orcamento_servico, cli.nome_usuario FROM contratos as c join servicos as s on c.id_servico = s.id_servico join usuarios cli on c.id_cliente = cli.id_usuario WHERE c.id_prestador = " . $_SESSION['idUsuario']  . " AND s.status_servico = 1 AND c.status_contrato in(1,2) LIMIT 0,4";
     $stmt = $con->query($query);
     $asProviderAcceptReject = $stmt->fetchAll(PDO::FETCH_OBJ);
 }
@@ -112,7 +112,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                         <a href="../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
                     </li>
                     <li class="nav-item">
-                        <a href="../Chat/chat.php" class="nav-link">Chat</a>
+                        <a href="../Chat/chat.php" class="nav-link" id="navChatLink">Chat</a>
                     </li>
                     <?php if (empty($_SESSION['idUsuario'])) { ?>
                         <li class="nav-item">
@@ -150,9 +150,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
             <?php if(isset($_GET['erro'])) {?>
                 <div class="alert alert-danger alert-dismissible" role="alert">
                     <strong>Erro!</strong> <?= $_GET['erro'] ?>
-                    <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php }?>
 
@@ -227,9 +225,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                 <!-- alerta de troca bem sucedida -->
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <span><?=$_GET['status']?></span>
-                    <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php }?>
 
@@ -992,9 +988,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Você tem certeza que deseja <span id="confirmModalChoice"></span> o serviço solicitado por <strong id="confirmModalUserName" class="text-primary"></strong>?</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-justify">
                     <p id="confirmModalMessage"></p>

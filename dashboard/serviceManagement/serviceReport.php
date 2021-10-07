@@ -99,7 +99,7 @@ if (isset($_GET['serviceStatus'])){
     <h1>Relatório de serviços</h1>
 
     <form action="serviceReport.php" method="get">
-        <div class="float-left">
+        <div class="float-start me-2">
             <label for="serviceStatus">Filtrar por atividade: </label> <br>
             <select name="serviceStatus" id="serviceStatus">
                 <option value="">Todos os serviços</option>
@@ -110,7 +110,7 @@ if (isset($_GET['serviceStatus'])){
             </select>
         </div>
 
-        <div class="float-left">
+        <div class="float-start me-2">
             <label for="serviceComplainFilter">Filtrar denúncias: </label> <br>
             <select name="serviceComplainFilter" id="serviceComplainFilter">
                 <option value="">Todos os serviços</option>
@@ -118,13 +118,13 @@ if (isset($_GET['serviceStatus'])){
             </select>
         </div>
         <br>
-        <button type="submit" class="float-left">Aplicar filtros</button>
+        <button type="submit" class="float-start">Aplicar filtros</button>
     </form>
 
     <div class="clearfix my-3"></div>
 
     <form action="serviceReport.php" method="get">
-        <div class="float-left">
+        <div class="float-start me-2">
             <label for="searchInput">Pesquisar serviço:</label> <br>
             <input type="text" name="searchInput" <?php if (isset($_GET['searchInput'])) {echo "value = '" . $_GET['searchInput'] . "'";}?>>
             <select name="searchParam" id="searchParam">
@@ -136,7 +136,7 @@ if (isset($_GET['serviceStatus'])){
             </select>
         </div>
         <br>
-        <button type="submit" class="float-left">Pesquisar</button>
+        <button type="submit" class="float-start">Pesquisar</button>
     </form>
 
     <div class="clearfix my-3"></div>

@@ -187,9 +187,24 @@ input[type=number]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     
 }
+
 input[type=number] { 
    -moz-appearance: textfield;
    appearance: textfield;
+}
+
+.link-primary:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.label-sm{
+    font-size: 14px;
+}
+
+.thermsOfUseTitle{
+    font-size: 17px;
+    font-weight: 600;
 }
 
 @media (max-width: 575.98px){

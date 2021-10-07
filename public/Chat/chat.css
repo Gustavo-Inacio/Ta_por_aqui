@@ -76,7 +76,8 @@ body{
 
 .userImg{
     align-self: center;
-    width: 100%;
+    width: 50px;
+    height: 50px;
     object-fit: cover;
     border-radius: 50%;
     max-width: 42px;
@@ -99,6 +100,7 @@ body{
     letter-spacing: 0.1em;
     color: #888F98;
     margin-bottom: 5px;
+    text-align: end;
 }
 
 .chatQntMsg{
@@ -112,19 +114,43 @@ body{
 }
 
 .userDiv.active{
-    background: linear-gradient(92.64deg, #E6E6E6 29.94%, rgba(230, 230, 230, 0) 98.28%);
-    border: 1px solid #3333CC;
-    border-radius: 12px;
+    background: linear-gradient(92.64deg, #E6E6E6 29.94%, rgba(230, 230, 230, 0) 98.28%) !important;
+    border: 1px solid #3333CC !important;
+    border-radius: 12px !important;
 }
 
 .userDiv.active .chatTime{
-    color: #FF6F6F;
+    color: #FF6F6F !important;
 }
 
 .userDiv:hover{
     background: linear-gradient(92.64deg, #E6E6E6 29.94%, rgba(230, 230, 230, 0) 98.28%);
     border-radius: 12px;
     cursor:pointer;
+}
+
+.userDiv.blocked:hover{
+    cursor: not-allowed;
+}
+
+.userDiv.blocked .userName{
+    text-decoration: line-through;
+}
+
+.userDiv.blocked .userService{
+    text-decoration: line-through;
+}
+
+.userDiv.blocked .blockMsg{
+    font-size: 14px;
+    font-style: italic;
+    color: #ff1717;
+}
+
+.userDiv.blocked .blockedMsg{
+    font-size: 14px;
+    font-style: italic;
+    color: #ff1717;
 }
 
 /*Conversa com um usuário (segunda coluna)*/
@@ -162,14 +188,44 @@ body{
 .chatMessages{
     position: relative;
     overflow-y: auto;
-    height: 100%;
+    height: calc(100% - 77px);
+    display: flex;
+    flex-direction: column;
+}
+
+.chatAlert{
+    margin-top: 10px;
+    text-align: center;
+    background-color: #fef4c5;
+    border-radius: 25px;
+    box-shadow: 0 0 2px rgba(0,0,0,0.2);
+    font-size: 12px;
+    width: 70%;
+    align-self: center;
 }
 
 @media (max-width: 767px) {
+    #chatSecondColumn{
+        height: calc(100vh - 114px);
+    }
+
     .chatMessages{
         position: relative;
         overflow-y: auto;
-        height: 87.5%;
+        height: calc(100% - 111px);
+    }
+
+    .communicationBar{
+        background-color: white;
+        padding: 8px 15px;
+        position: relative;
+        margin-top: -34px;
+    }
+}
+
+@media (max-width: 576px) {
+    .chatAlert{
+        width: 100%;
     }
 }
 
@@ -192,27 +248,70 @@ body{
     width: 70%;
 }
 
-.message.myMessage{
+.message.itsMessage{
     background-color: white;
+    border-bottom-left-radius: 0;
 }
 
-.messageTime{
+.messageTime, .msgRead{
+    display: inline;
     margin-top: 3px;
     text-align: right;
-    font-size: 11px;
+    font-size: 12px;
 }
 
-.myMessage .messageTime{
+.itsMessage .messageTime{
     color: #888F98;
 }
 
-.message.itsMessage{
+.message.myMessage{
     margin-left: 30%;
     background-color: #3333CC;
+    border-bottom-right-radius: 0;
 }
 
-.itsMessage .messageTime, .itsMessage .messageText{
+.myMessage .messageTime, .myMessage .messageText{
     color: white;
+}
+
+.messageArq{
+    padding: 15px;
+    width: 100%;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 82px;
+}
+
+.messageArq:hover{
+    cursor: pointer;
+    transition: .2s;
+}
+
+.myMessage .messageArq{
+    background-color: white;
+    color: #3333CC;
+}
+
+.myMessage .messageArq:hover{
+    background-color: #d7d7d7;
+}
+
+.itsMessage .messageArq{
+    background-color: #3333CC;
+    color: white;
+}
+
+.itsMessage .messageArq:hover{
+    background-color: #5656d0;
+}
+
+.chatImg{
+    width: 60%;
+}
+
+.chatVideo, .chatAudio{
+    width: 100%;
 }
 
 ::-webkit-scrollbar-track {
@@ -233,7 +332,7 @@ body{
         width: 90%;
     }
 
-    .message.itsMessage{
+    .message.myMessage{
         margin-left: 10%;
     }
 }
@@ -435,7 +534,7 @@ body{
     color: #6060D7;
     font-size: 14px;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -487,7 +586,7 @@ body{
 }
 
 .dangerOption:hover::before{
-    content: '→';
+    content: '👉';
 }
 
 .addFavorite{
@@ -598,4 +697,15 @@ input:checked + .slider:before {
 
 .noConversationSelected p{
     color: #5e5e5e;
+}
+
+/*Modal de denúncia*/
+.complainTitle{
+    color: #FF6F6F;
+    font-weight: 700;
+    font-size: 36px;
+}
+
+.complainObj{
+    color: #FF6F6F;
 }

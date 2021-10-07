@@ -1,5 +1,13 @@
 <?php
+require "DbConnection.php";
+$con = new DbConnection();
+$con = $con->connect();
+
 session_start();
+
+//Colocar o status do usuário como offline
+$query = "UPDATE usuarios SET online_usuario = false WHERE id_usuario = {$_SESSION['idUsuario']}";
+$con->query($query);
 
 //destruindo session
 session_destroy();

@@ -53,7 +53,7 @@ if($dbEmail === false){
         $mail->Body = "Para redefinir a sua senha clique no link abaixo para ser redirecionado para a página de redefinição de senha. <br> Não recarregue a página que você será redirecionado, pois ela expira rápido <br> <strong>Link:</strong> <a href='localhost/_programacao/tcc_ta_por_aqui/logic/entrar_allowChangePass.php'>localhost/_programacao/tcc_ta_por_aqui/logic/entrar_allowChangePass.php</a> <br> Esse link expirará em 1 hora <br> Mensagem temporária: esse link depende de como você salvou o projeto. Se deseja testar a troca de senha ajeite esse link para a pasta correta do projeto. Tbm precisa arrumar depois os 30 segundos de expiração para 1 hora";
         $mail->send();
 
-        $msg = "<p class='text-success'>O email com o link para trocar senha foi enviado com sucesso. Verifique o seu email!";
+        $msg = "<p class='text-success'>O email com o link para trocar senha foi enviado com sucesso. Verifique o seu email!</p>";
 
         #criando uma sessão temporária para troca de senha. Isso fará com que o link tenha uma válidade
         $_SESSION['emailRecSenha'] = $email;
