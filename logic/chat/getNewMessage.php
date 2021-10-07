@@ -1,7 +1,6 @@
 <?php
 $id_chat = $_POST['chatId'];
 $id_ultima_msg = $_POST['lastMsgId'];
-$id_remetente = $_POST['idRemetente'];
 
 if ($id_ultima_msg == 0){
     echo "noMsg";

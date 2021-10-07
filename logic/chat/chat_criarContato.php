@@ -26,6 +26,8 @@ $contact = $stmt->fetch(PDO::FETCH_OBJ);
 if (isset($contact->id_chat_contato)){
     //Já existe um contato entre esse prestador e cliente referenciando esse mesmo serviço. Redirecionando para a página chat para eles conversarem.
     echo "Contato anterior encontrado... redirecionando";
+    //redirecionando para a página de chat
+    header('location: ../../public/Chat/chat.php?directChat=' . $contact->id_chat_contato);
 } else {
     echo "Criando novo contato... redirecionando...";
 
@@ -37,7 +39,6 @@ if (isset($contact->id_chat_contato)){
     $stmt->bindValue(':cliente', $cliente);
     $stmt->bindValue(':ultima_att_contato', date('Y-m-d H:i:s'));
     $stmt->execute();
-}
 
-//redirecionando para a página de chat
-header('location: ../../public/Chat/chat.php?directChat=' . $_GET['idServico']);
+    header('location: ../../public/Chat/chat.php?directChat=' . $con->lastInsertId());
+}

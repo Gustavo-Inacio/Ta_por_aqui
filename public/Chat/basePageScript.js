@@ -12,8 +12,38 @@ $(document).ready(() => {
         $('.returnArrow').addClass('opened')
     }
 
-    //Carregando a listagem de contatos
-    $('#loadAssyncContacts').load('getContacts.php');
+    //Carregando a listagem de contatos e atualizando ela dinamicamente
+    let url = new URL(window.location.href)
+    let idChatAtivoUrl = url.searchParams.get('directChat')
+    if (url.searchParams.get('directChat') !== null){
+        $('#loadAssyncContacts').load(`getContacts.php?active=${idChatAtivoUrl}`, () => {
+            $(`[chatId='${idChatAtivoUrl}']`).click()
+
+            //atualizando a listagem de contatos
+            let updateContacts = setInterval(() => {
+                let previousSearch = $('#searchParam').val()
+                let idChatAtivo = $('.active').attr('chatid')
+                if (previousSearch != ''){
+                    $('#loadAssyncContacts').load(`getContacts.php?active=${idChatAtivo}&param=${previousSearch}`);
+                } else {
+                    $('#loadAssyncContacts').load(`getContacts.php?active=${idChatAtivo}`);
+                }
+            }, 3000)
+        });
+    } else {
+        $('#loadAssyncContacts').load('getContacts.php', () => {
+            //atualizando a listagem de contatos
+            let updateContacts = setInterval(() => {
+                let previousSearch = $('#searchParam').val()
+                let idChatAtivo = $('.active').attr('chatid')
+                if (previousSearch != ''){
+                    $('#loadAssyncContacts').load(`getContacts.php?active=${idChatAtivo}&param=${previousSearch}`);
+                } else {
+                    $('#loadAssyncContacts').load(`getContacts.php?active=${idChatAtivo}`);
+                }
+            }, 3000)
+        });
+    }
 
     //configurando emoji picker
     let emojiPicker = new FgEmojiPicker({
@@ -127,6 +157,8 @@ function sendMessage() {
         placement: "top",
         template: '<div class="popover border border-danger" role="tooltip"><div class="popover-arrow"></div><h3 class="popover-header"></h3><div class="popover-body text-danger "></div></div>'
     })
+
+    popover.disable()
 
     if (messageInput.value.replace(/\s+/g, '') === ""){
         popover.enable()

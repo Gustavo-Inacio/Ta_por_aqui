@@ -14,12 +14,15 @@ $query = "SELECT cc.id_chat_contato, cc.id_servico, cc.id_prestador, cc.id_clien
 $chatFavoritos = $con->query($query)->fetchAll(PDO::FETCH_ASSOC);
 
 //retornando apenas contatos pesquisados (caso haja pesquisa)
-if ((isset($_POST['param']) && $_POST['param'] != '')){
-    $param = $_POST['param'];
+if ((isset($_GET['param']) && $_GET['param'] != '')){
+    $param = $_GET['param'];
     //selecionando todos os contatos
     $query = "SELECT cc.id_chat_contato, cc.id_servico, cc.id_prestador, cc.id_cliente, cc.status_chat_contato, cc.quem_bloqueou_contato, cc.ultima_att_contato, s.nome_servico FROM chat_contatos cc join servicos s on cc.id_servico = s.id_servico where (cc.id_prestador = " . $_SESSION['idUsuario'] . " OR cc.id_cliente = " . $_SESSION['idUsuario'] . ") AND s.nome_servico like '%$param%' ORDER BY cc.ultima_att_contato DESC";
     $chatContatos = $con->query($query)->fetchAll(PDO::FETCH_ASSOC);
 }
+
+//pegando contato ativo para requisição
+$ativo = $_GET['active'] ?? 'nenhumkk';
 ?>
 <head>
     <script src="generalScripts.js"></script>
@@ -49,7 +52,7 @@ if ((isset($_POST['param']) && $_POST['param'] != '')){
 </head>
 <body>
     <?php if (count($chatFavoritos) > 0 && (!isset($_POST['param'])) || isset($_POST['param']) && $_POST['param'] == '') {?>
-        <div class="titleGroup <?=count($chatFavoritos) > 0 ? 'd-block' : 'd-none'?>">
+        <div class="titleGroup <?=count($chatFavoritos) > 0 ? 'd-flex' : 'd-none'?>">
             <h3 class="userSeparatorTitle">Favoritos</h3>
             <div class="separatorLine"></div>
         </div>
@@ -91,8 +94,13 @@ if ((isset($_POST['param']) && $_POST['param'] != '')){
                 } else {
                     $ultimaMsgTime = $ultimaMsg->format('d/m');
                 }
+
+                //Pegar quantas mensagens não foram lidas para um chat em específico
+                $query = "SELECT count(*) as qnt FROM chat_mensagens WHERE id_chat_contato = {$chatFavorito['id_chat_contato']} AND id_destinatario_usuario = {$_SESSION['idUsuario']} AND mensagem_lida = false";
+                $stmt = $con->query($query);
+                $qntMsgNaoLida = $stmt->fetch(PDO::FETCH_OBJ)->qnt;
             ?>
-                <div class="userDiv row" chatId="<?=$chatFavorito['id_chat_contato']?>" onclick="loadConversation(<?=$chatFavorito['id_chat_contato']?>, <?=$destinatario['id_usuario']?>, <?=$show?>)">
+                <div class="userDiv row <?=$ativo == $chatFavorito['id_chat_contato'] ? 'active' : ''?>" chatId="<?=$chatFavorito['id_chat_contato']?>" onclick="loadConversation(<?=$chatFavorito['id_chat_contato']?>, <?=$destinatario['id_usuario']?>)">
                     <div class="col-3 col-md-12 col-lg-3 d-flex d-md-none d-xl-flex">
                         <img src="../../assets/images/users/<?=$destinatario['imagem_usuario']?>" alt="Imagem do usuário" class="userImg">
                     </div>
@@ -102,7 +110,7 @@ if ((isset($_POST['param']) && $_POST['param'] != '')){
                     </div>
                     <div class="col-2 col-md-4 col-lg-2 mt-3 mt-lg-0 text-right">
                         <div class="chatTime"><?=$ultimaMsgTime?></div>
-                        <div class="chatQntMsg">3</div>
+                        <div class="chatQntMsg"><?=intval($qntMsgNaoLida) > 0 ? $qntMsgNaoLida : ''?></div>
                     </div>
                 </div>
             <?php }?>
@@ -164,10 +172,15 @@ if ((isset($_POST['param']) && $_POST['param'] != '')){
             } else {
                 $ultimaMsgTime = $ultimaMsg->format('d/m');
             }
+
+            //Pegar quantas mensagens não foram lidas para um chat em específico
+            $query = "SELECT count(*) as qnt FROM chat_mensagens WHERE id_chat_contato = {$chatContato['id_chat_contato']} AND id_destinatario_usuario = {$_SESSION['idUsuario']} AND mensagem_lida = false";
+            $stmt = $con->query($query);
+            $qntMsgNaoLida = $stmt->fetch(PDO::FETCH_OBJ)->qnt;
             ?>
             <div class="usersGroup">
                 <?php if ($chatContato['status_chat_contato'] == 1) {?>
-                    <div class="userDiv row" chatId="<?=$chatContato['id_chat_contato']?>" onclick="loadConversation(<?=$chatContato['id_chat_contato']?>, <?=$destinatario['id_usuario']?>, <?=$show?>)">
+                    <div class="userDiv row <?=$ativo == $chatContato['id_chat_contato'] ? 'active' : ''?>" chatId="<?=$chatContato['id_chat_contato']?>" onclick="loadConversation(<?=$chatContato['id_chat_contato']?>, <?=$destinatario['id_usuario']?>, '<?=$destinatario['nome_usuario']?>', '<?=$chatContato['nome_servico']?>')">
                         <div class="col-3 col-md-12 col-lg-3 d-flex d-md-none d-xl-flex">
                             <img src="../../assets/images/users/<?=$destinatario['imagem_usuario']?>" alt="Imagem do usuário" class="userImg">
                         </div>
@@ -177,7 +190,7 @@ if ((isset($_POST['param']) && $_POST['param'] != '')){
                         </div>
                         <div class="col-2 col-md-4 col-lg-2 mt-3 mt-lg-0 text-right">
                             <div class="chatTime"><?=$ultimaMsgTime?></div>
-                            <div class="chatQntMsg">3</div>
+                            <div class="chatQntMsg"><?=intval($qntMsgNaoLida) > 0 ? $qntMsgNaoLida : ''?></div>
                         </div>
                     </div>
                 <?php } else {?>
@@ -210,4 +223,5 @@ if ((isset($_POST['param']) && $_POST['param'] != '')){
         }
     }?>
     <!-- fim listagem de contatos -->
+    <input type="hidden" value="<?= $_GET['param'] ?? '' ?>" id="searchParam">
 </body>

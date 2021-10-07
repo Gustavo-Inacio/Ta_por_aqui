@@ -112,7 +112,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                         <a href="../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
                     </li>
                     <li class="nav-item">
-                        <a href="../Chat/chat.php" class="nav-link">Chat</a>
+                        <a href="../Chat/chat.php" class="nav-link" id="navChatLink">Chat</a>
                     </li>
                     <?php if (empty($_SESSION['idUsuario'])) { ?>
                         <li class="nav-item">
@@ -150,9 +150,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
             <?php if(isset($_GET['erro'])) {?>
                 <div class="alert alert-danger alert-dismissible" role="alert">
                     <strong>Erro!</strong> <?= $_GET['erro'] ?>
-                    <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php }?>
 
@@ -227,9 +225,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                 <!-- alerta de troca bem sucedida -->
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <span><?=$_GET['status']?></span>
-                    <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php }?>
 

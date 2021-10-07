@@ -25,10 +25,10 @@ if($chatInfo->id_prestador != $_SESSION['idUsuario']){
 $userQuery = "";
 if ($show == 0){
     //usuário vendo prestador
-    $userQuery = "SELECT u.id_usuario, u.nome_usuario, u.sobrenome_usuario, u.imagem_usuario, s.id_servico, s.nome_servico FROM usuarios u join servicos s on u.id_usuario = s.id_prestador_servico WHERE u.id_usuario = :id";
+    $userQuery = "SELECT u.id_usuario, u.nome_usuario, u.sobrenome_usuario, u.imagem_usuario, u.online_usuario, s.id_servico, s.nome_servico FROM usuarios u join servicos s on u.id_usuario = s.id_prestador_servico WHERE u.id_usuario = :id";
 } else {
     //prestador vendo usuário
-    $userQuery = "SELECT u.id_usuario, u.nome_usuario, u.sobrenome_usuario, u.imagem_usuario FROM usuarios u WHERE u.id_usuario = :id";
+    $userQuery = "SELECT u.id_usuario, u.nome_usuario, u.sobrenome_usuario, u.imagem_usuario, u.online_usuario FROM usuarios u WHERE u.id_usuario = :id";
 }
 $stmt = $con->prepare($userQuery);
 $stmt->bindValue(':id', $_GET['userId']);
@@ -66,8 +66,14 @@ if (empty($chatInfo) || $chatInfo->status_chat_contato == 0){
             <div class="userService"><?=$show == 0 ? $userInfo->nome_servico : $serviceName . '(meu serviço)'?></div>
         </div>
 
-        <div class="col-2 d-flex align-items-center">
-            <span class="text-secondary"><i class="fas fa-circle" style="font-size: 13px"></i> Offline</span>
+        <div class="col-2 d-flex align-items-center" id="statusOnlineUser">
+            <?php
+            if($userInfo->online_usuario == 0){
+                echo '<span class="text-secondary"><i class="fas fa-circle" style="font-size: 13px"></i> Offline</span>';
+            } else {
+                echo '<span class="text-success"><i class="fas fa-circle" style="font-size: 13px"></i> Online</span>';
+            }
+            ?>
         </div>
     </div>
 
@@ -84,7 +90,7 @@ if (empty($chatInfo) || $chatInfo->status_chat_contato == 0){
 
         <?php
         //lendo mensagens do banco de dados
-        $query = "SELECT cm.id_chat_mensagem, cm.id_chat_contato, cm.id_remetente_usuario, cm.id_destinatario_usuario, cm.mensagem_chat, cm.diretorio_arquivo_chat, cm.apelido_arquivo_chat, cm.hora_mensagem_chat from chat_mensagens cm WHERE cm.id_chat_contato = :contato GROUP BY cm.id_chat_mensagem ORDER BY cm.id_chat_mensagem";
+        $query = "SELECT cm.id_chat_mensagem, cm.id_chat_contato, cm.id_remetente_usuario, cm.id_destinatario_usuario, cm.mensagem_chat, cm.diretorio_arquivo_chat, cm.apelido_arquivo_chat, cm.hora_mensagem_chat, cm.mensagem_lida from chat_mensagens cm WHERE cm.id_chat_contato = :contato GROUP BY cm.id_chat_mensagem ORDER BY cm.id_chat_mensagem";
         $stmt = $con->prepare($query);
         $stmt->bindValue(':contato', $_GET['chatId']);
         $stmt->execute();
@@ -149,8 +155,17 @@ if (empty($chatInfo) || $chatInfo->status_chat_contato == 0){
                     <div class="messageText">
                         <?=nl2br($message->mensagem_chat)?>
                     </div>
+                <?php }
+                if ($message->id_remetente_usuario == $_SESSION['idUsuario']) {?>
+                <div style="text-align: end">
+                    <div class="messageTime me-2"><?=$horaMsg->format('H:i')?></div>
+                    <div class="msgRead"><?=$message->mensagem_lida ? '<i class="fas fa-check-double text-primary"></i>' : '<i class="fas fa-check text-secondary"></i>'?></div>
+                </div>
+                <?php } else {?>
+                    <div style="text-align: end">
+                        <div class="messageTime me-3"><?=$horaMsg->format('H:i')?></div>
+                    </div>
                 <?php }?>
-                <div class="messageTime"><?=$horaMsg->format('H:i')?></div>
             </div>
         <?php }?>
     </div>

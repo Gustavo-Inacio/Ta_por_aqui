@@ -64,6 +64,7 @@ if (empty($chatInfo)){
             download.remove()
         }
     </script>
+    <script type="module" src="complainScript.js"></script>
 </head>
 <body>
     <div class="userDetailedInfo">
@@ -107,6 +108,41 @@ if (empty($chatInfo)){
         <hr>
         <div class="dangerOption text-success dangerFakeLine" onclick="location.href = '../EncontrarProfissional/VisualizarServico/visuaizarServico.php?serviceID=<?=$show == 0 ? $userInfo->id_servico : $serviceId?>'">Ir para o serviço <i class="fas fa-briefcase"></i></div>
         <div class="dangerOption dangerFakeLine" onclick="toggleBlockUser(0, <?=$_GET['chatId']?>, <?=$_SESSION['idUsuario']?>)">Bloquear <i class="fas fa-user-slash"></i></div>
-        <div class="dangerOption">Denunciar serviço <i class="fas fa-ban"></i></div>
+        <?php if($show == 0) { ?>
+            <div class="dangerOption" id="serviceComplain" serviceName="<?=$userInfo->nome_servico?>" providerName="<?=$userInfo->nome_usuario?>" data-bs-toggle="modal" data-bs-target="#serviceComplainModal">Denunciar serviço <i class="fas fa-ban"></i></div>
+        <?php }?>
     </div>
+
+    <div class="modal fade" id="serviceComplainModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body" id="serviceComplainModalBody"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal
+    <div class="modal fade" id="serviceComplainModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title complainTitle">Denúncia</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="serviceComplainModalBody">
+                    <form action="">
+                        <div>
+                            <span>Denunciar serviço: </span> <span class="complainObj">teste <?=$userInfo->id_servico?></span>
+                            <input type="hidden" name="servico" value="<?=$userInfo->id_servico?>">
+                        </div>
+                        <div>
+                            <span>Prestador: </span> <span class="complainObj">teste <?=$userInfo->id_usuario?></span>
+                            <input type="hidden" name="servico" value="<?=$userInfo->id_usuario?>">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    -->
 </body>

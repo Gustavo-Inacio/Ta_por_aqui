@@ -27,7 +27,7 @@ if(!isset($_SESSION['idUsuario'])){
     <script src="https://kit.fontawesome.com/2a19bde8ca.js" crossorigin="anonymous" defer></script>
     <script src="../../assets/global/globalScripts.js" defer></script>
     <script src="generalScripts.js"></script>
-    <script src="basePageScript.js"></script>
+    <script src="basePageScript.js" type="module"></script>
 </head>
 
 <body>
@@ -66,7 +66,7 @@ if(!isset($_SESSION['idUsuario'])){
                     <a href="../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
                 </li>
                 <li class="nav-item">
-                    <a href="chat.php" class="nav-link">Chat</a>
+                    <a href="chat.php" class="nav-link" id="navChatLink">Chat</a>
                 </li>
                 <?php if (empty($_SESSION['idUsuario'])) { ?>
                     <li class="nav-item">
@@ -151,6 +151,8 @@ if(!isset($_SESSION['idUsuario'])){
                 <input type="hidden" name="id_chat_contato" id="id_chat_contato">
                 <input type="hidden" name="id_remetente" id="id_remetente" value="<?=$_SESSION['idUsuario']?>">
                 <input type="hidden" name="id_destinatario" id="id_destinatario">
+                <input type="hidden" id="nome_servico">
+                <input type="hidden" id="nome_prestador">
             </div>
         </form>
     </div>
@@ -166,6 +168,8 @@ if(!isset($_SESSION['idUsuario'])){
         </div>
     </div>
     <!-- fim detalhes do contato -->
+
+    <!-- modal de denúncia de serviço -->
 </div>
 </body>
 </html>

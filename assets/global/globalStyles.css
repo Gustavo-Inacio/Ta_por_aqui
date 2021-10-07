@@ -371,6 +371,17 @@ a:hover{
     text-decoration: underline;
 }
 
+.qntNonReadMsg{
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    font-size: 14px;
+    text-align: center;
+    background-color: #FF6F6F;
+    color: #F2F2F2;
+    border-radius: 50%;
+}
+
 /* --- General links fim --- */
 
 /* --- Media queries --- */
