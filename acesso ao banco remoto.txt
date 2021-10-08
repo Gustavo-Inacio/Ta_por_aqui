@@ -1,14 +1,9 @@
-LOGIN NO SITE
-login: lauringamesbr@gmail.com
-senha: taporaquibd
+Your account number is: 554360
 
-https://www.freemysqlhosting.net/login/
-
-LOGIN NO BD
+To connect to your database use these details
 
 Server: sql10.freemysqlhosting.net
-Name: sql10435599
-Username: sql10435599
-Password: buc8h6VbjS
+Name: sql10443065
+Username: sql10443065
+Password: v1G7Ciq2ne
 Port number: 3306
-bdname: sql10435599
