@@ -1,10 +1,11 @@
 <?php
 
+session_start();
+
 require "DbConnection.php";
 $con = new DbConnection();
 $con = $con->connect();
 
-session_start();
 if (isset($_SESSION['idUsuario'])) {
     //Online ou offline
     if ($_POST['setUser'] === 'online'){
