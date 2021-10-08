@@ -104,6 +104,8 @@ if(!isset($_SESSION['idUsuario'])){
 
         <div id="loadAssyncContacts">
             <!-- Os contatos serão carregados dinamicamente -->
+            <strong class="me-3">Carregando contatos...</strong>
+            <div class="spinner-border" role="status"></div>
         </div>
     </div>
 
