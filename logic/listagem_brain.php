@@ -43,39 +43,89 @@ class serviceList
         $stmt = $this->con->query($query);
         $a = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // print_r($a);
         return $reponse;
-
     }
 
 
     public function getServices($dataServices){
-        $quantity = $dataServices->quantity;
-        $cat = $dataServices->subCat;
+        // const config = { // configuracoes de requisicao
+        //     getServices: true,
+        //     dataServices: {
+        //         quantity : 1,
+        //         maxDist: 10000,
+        //         minDist: servicesSate.lastDistance,
+        //         myLat: -23.87669,
+        //         myLng: -46.77125,
+        //         subCat: subCatid,
+        //         searchWords: searachState.write,
+        //         service_idToExlucde : servicesSate.service_idToExlucde || []
+        //     }
+            
+        // };
 
-        $minDistance = $dataServices->minDist;
-        $maxDistance = $dataServices->maxDist;
-        $myLat = $dataServices->myLat;
-        $myLng = $dataServices->myLng;
+        $quantity = $dataServices->quantity; // quantidade de servicos a serem retornados nessa pacote
+        $cat = $dataServices->subCat; // os codigos das subcategorias que foram selecionados la no front
 
-        $searchWords = $dataServices->searchWords;
+        $minDistance = $dataServices->minDist; // a minima distancia a ser pesquisada
+        $maxDistance = $dataServices->maxDist; //  a maxima distancia a ser pesquisada
 
+        $myLat = $dataServices->myLat; // a latitude do user a ser verificada
+        $myLng = $dataServices->myLng; // a lng do user a ser verificada
 
+        $searchWords = $dataServices->searchWords; // as palavras que foram inseridas na busca escrita
+
+        $dataToReturn = array();// array de daods de resposta
+
+        function verifyPosition($con, $myLat, $myLng){ // verifica se a posicao informada é valida
+
+            if(!$myLat || !$myLng) { // caso nao existir
+                if(isset($_SESSION['idUsuario'])){ // se estiver loggado, pega a localizacao do bd 
+                    $userID = $_SESSION['idUsuario'];
+                    $posCMD = $con->query("SELECT X(posicao_usuario) as lat, Y(posicao_usuario) as lng FROM usuarios where id_usuario=".$userID);
+                    $posData = $posCMD->fetch(PDO::FETCH_ASSOC); // localizacao do db
+                    if(count($posData) == 0){ // caso nao existir uma localizacao no bd, retone falso
+                        return false;
+                    }
+                    else{
+                        return $posData; // caso existir uma localizacao no bd e tiver resultados, retone-os
+                    }
+                }
+                else{
+                    return false; // se nap estiver loggado, nem com uma coordenada enviada, retorne falso
+                }
+            }
+            else{ // caso tiver eviado uma coordenada, use-a.
+                return array(
+                    "lat" => $myLat, 
+                    "lng" => $myLng
+                );
+            }
+        }
+
+        $posResult = verifyPosition($this->con, $myLat, $myLng); // resulatdo da verificacao de posicao
+
+        if(!$posResult) { // se for falso, retone aqui mesmo a palicacao
+            $dataToReturn['error'] = true; // erro de nao estar loggado
+            return $dataToReturn;
+        }
+        else{ // caso estiver tudo ok, reestabeleca o valor nas variavies e contenue a vida
+            $myLat = $posResult["lat"];
+            $myLng = $posResult['lng'];
+        }
+ 
         function queryData($con, $initialDistance, $myLat, $myLng, $maxDistance, $subcategories, $searchTitleWords, $limit, $idToExclude){
+            // nessa funcao a pesquisa e relaizada com base em todos os fatores
             $subcategorieConditions = "";
             $wordsConditions = "";
-            $variableCondition = "";
+            $variableCondition = ""; // condicoes de subcategorias e de words
             $conjunction = "";
-            
-            // print_r($subcategories);
-
-            $excludeIdServiceQuery = "";
-            foreach ($idToExclude as $key => $value) {  
-    
+         
+            $excludeIdServiceQuery = ""; // a pesquisa seguinte eh feita com base na distancia maior distancia da pesquisa anterior, e o service que antes estava incluido, agr nao pode ser repetido
+            foreach ($idToExclude as $key => $value) {  // arruma um pedaco da query para os ids que serao escluidos
                 $excludeIdServiceQuery .= " and servicos.id_servico != ".$value;
             }
 
-            if(count($subcategories) > 0){
+            if(count($subcategories) > 0){ // se existirem subcategorias na pesquisa do user
                 foreach ($subcategories as $key => $value) { // arruma uma string que sera inserida na query, referemte a bsuca por categorias, cada categoria deve ser informada por um campo no array
                     if(!$key == 0){
                         $subcategorieConditions .= " or ";
@@ -88,7 +138,7 @@ class serviceList
             }
             
 
-            if(count($searchTitleWords) > 0){
+            if(count($searchTitleWords) > 0){ // se existir pesquisa por palavras
                 foreach ($searchTitleWords as $key => $value) { // arruma uma string para ser colocada na query, refente a busca por palavras soltas, cada palavra dese ser enviada num campo de array
                     if(!$key == 0){
                         $wordsConditions .= " or ";
@@ -97,27 +147,22 @@ class serviceList
                     $wordsConditions .= "servicos.nome_servico LIKE '%". $value . "%'";
                 }
 
-                if(! $variableCondition == ""){
+                if(! $variableCondition == ""){ // se nao exitir nada nessa variavel (podem existir as categorias ja)
                     $variableCondition .= " or ";
                 }
 
                 $variableCondition .= $wordsConditions;
             }
 
-            if(count($searchTitleWords) > 0 || count($subcategories) > 0){
-                $conjunction = " and "; 
+            if(count($searchTitleWords) > 0 || count($subcategories) > 0){ // se exstir alguma condicao
+                $conjunction = " and "; // adicione a conjuncao and na query
             }
 
             $subcatQuery = "
                 INNER JOIN servico_categorias
                 ON (".$variableCondition.") ".$conjunction." servico_categorias.id_servico=servicos.id_servico
-            ";
-            // $subcatQuery = "
-            //     INNER JOIN servico_categorias
-            //     ON ((".$subcategorieConditions.") 
-            //     or ".$wordsConditions.") and servico_categorias.id_servico=servicos.id_servico
-            // ";
-            
+            "; // finaliza a query de condicoes
+           
             // query qye fara toda a pesquisa baseada na distancia, subcategorias, e query de busca por palavras soltas nos titulos dos servicos
             $query = "
             SELECT usuarios.nome_usuario, usuarios.sobrenome_usuario, usuarios.uf_usuario, usuarios.cidade_usuario, usuarios.bairro_usuario, usuarios.imagem_usuario, usuarios.id_usuario,
@@ -137,7 +182,7 @@ class serviceList
             ORDER BY distance
             LIMIT 0 , ".$limit.";
             ";
-            //  print_r($query);
+        //  print_r($query);
 
     
             $command = $con->query($query);
@@ -145,59 +190,52 @@ class serviceList
 
             $infoToReturn = array();
 
-            foreach($data as $value){
-                if(!isset($infoToReturn['id_servico'])){
-                    $infoToReturn['id_servico'] = $value;
-                    $subCateg = $infoToReturn['id_servico']['id_subcategoria'];
-                    $infoToReturn['id_servico']['id_subcategoria'] = array($subCateg);
+            foreach($data as $value){ // caso um serico possuir 2 ou mais subcategorias que foram pesquisadas, ele fica repetido. Esse foreach cria somente um servico, e no local das subcategorias, coloca um array e junta todas elas no mesmo servico
+                if(!isset($infoToReturn[$value['id_servico']])){ // caso ainda nao exitir esse servico no array
+                    $infoToReturn[$value['id_servico']] = $value; // cria o servico e colca os dados
+                    $subCateg = $infoToReturn[$value['id_servico']]['id_subcategoria']; // pega a subcategoria
+                    $infoToReturn[$value['id_servico']]['id_subcategoria'] = array($subCateg); // cria um array no local de subcategoria e coloca a subcategoria no local
                 }
-                else{
-                    $subCat = $value['id_subcategoria'];
-                    array_push($infoToReturn['id_servico']['id_subcategoria'], $subCat);
+                else{ // caso existir um campo no array com o mesmo id, significa que eh o mesmo servico, porem relacionado a uma outra subcategoria selecionada
+                    $subCat = $value['id_subcategoria']; // pega essa subcategoria
+                    array_push($infoToReturn[$value['id_servico']]['id_subcategoria'], $subCat); // add ela no array de subcategoria do servico
                 }
 
             }
-    
-            return $infoToReturn;
-            // echo "<pre>";
-            // print_r($data);
-            // echo "<pre/>";
+
+            return array(
+                "data" => $infoToReturn,
+                "info" => array(
+                    "dataCount" => count($data),
+                )
+            );
+          
         }
-
-        // $cat  = array(
-        //     130
-        // );
-
-        // $searchWords = array(
-            
-        // );
-
-        // $minDistance = -1;
-        // $maxDistance = 10000000;
-        // $myLat = -23.87669;
-        // $myLng = -46.77125;
 
         $dataToReturn = array(
             "data" => array(),
             "statusInfo" => array(
-                "ended" => false
+                "ended" => false,
+                "data->recived" => $dataServices
             )
         );
 
         $distanceDelimiter = $minDistance;
-        $registerMaxDistance = array(-1);
+        $registerMaxDistance = $dataServices->service_idToExlucde;
+        // print_r($dataServices);
         while(count($dataToReturn['data']) < $quantity){ // tanta retornar a quantidade minima de valor requisitado
             $resp = queryData($this->con, $distanceDelimiter, $myLat, $myLng, $maxDistance, $cat, $searchWords, ($quantity - count($dataToReturn['data']) + 5), $registerMaxDistance);
-            if(count($resp) == 0){ // se pesquisaou e nao existe mais nada
+            if((count($resp['data']) == 0) || $resp['info']['dataCount'] < ($quantity - count($dataToReturn['data']) + 5)){ // se pesquisaou e nao existe mais nada
                 $quantity = -1; // diminui a qauntity para vaoltar no while
                 $dataToReturn['statusInfo']['ended'] = true; // coloca que chegou ao final 
             }
 
-            foreach ($resp as $key => $value) { // para cada valor retornado (ja organizado a quantidade de resultados pela quary)
+            foreach ($resp['data'] as $key => $value) { // para cada valor retornado (ja organizado a quantidade de resultados pela quary)
                 array_push($dataToReturn['data'], $value); // inclui na array de resposta de dada
 
                 if($value['distance'] > $distanceDelimiter){ // pega o maior valor de distancia para serutilizado no proximo loop do while
                     $distanceDelimiter = $value['distance'];
+                    // $registerMaxDistance = array($distanceDelimiter);
                     array_push($registerMaxDistance, $value['id_servico']);
                 }
                 else if($value['distance'] == $distanceDelimiter){
@@ -209,8 +247,7 @@ class serviceList
 
         }
        
-
-        // return queryData($this->con, $minDistance, $myLat, $myLng, $maxDistance, $cat, $searchWords, 50);
+        $dataToReturn['statusInfo']['maxDistance'] = $distanceDelimiter;
         return $dataToReturn;
     }
 }

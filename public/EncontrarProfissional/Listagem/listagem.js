@@ -1,3 +1,36 @@
+let serviceState = {
+    allservices : [],
+    servicesToAdd: [],
+    maxDistance : 0,
+    endedSearch: false
+}
+
+function rearrangeServices(){
+    let servicesList_e = document.querySelectorAll(".service-card-link");
+    let servicesToAdd = [];
+    let serviceID_DOM = [];
+    serviceID_DOM = servicesList_e.map(elem => elem.getAttribute("serviceID"));
+}
+
+function refreshServices ()  {
+    serviceState.allservices = serviceState.allservices.concat(serviceState.servicesToAdd);
+    serviceCardsRender(serviceState.servicesToAdd);
+}
+
+function setServiceState(data) {
+    if(!typeof data === 'object') {
+        console.log("[setServiceState] -> wrong type of data");
+        return;
+    }
+
+    for(let i in data){
+        serviceState[i] = data[i];
+    }
+
+    refreshServices();
+}
+
+
 let searachState = {
     tag : [
         // {
@@ -8,31 +41,31 @@ let searachState = {
     write : []
 };
 
-const removeSearchTag = (index) => {
-    tagTemp = searachState.tag;
+const removeSearchTag = (index) => { // cuida da remocao da tag ao clicar no close dela. Recebe o id da subCategoria
+    tagTemp = searachState.tag; 
     let arrayIndex;
-    tagTemp.forEach((tag, i) => {
+    tagTemp.forEach((tag, i) => { // acha o index da tag dentro do array
         if(tag.id == index) arrayIndex = i;
     });
 
-    tagTemp.splice(arrayIndex, 1);
-    setSearchState({tag: tagTemp});
+    tagTemp.splice(arrayIndex, 1); // elimina aquela posicao do array
+    setSearchState({tag: tagTemp}); // atualiza as categorias na pesquisa
 }
 
-const addSearchTag = (tagName, index) => {
-    tagTemp = searachState.tag;
-    tagTemp.push({
+const addSearchTag = (tagName, index) => { // cuida de add uma atg na pesquisa 
+    tagTemp = searachState.tag; // copia o estado atual
+    tagTemp.push({ // adiciona o nome da tag e o seu id (id_subcategoria)
         id: index,
         name: tagName
     });
-    setSearchState({tag: tagTemp});
+
+    setSearchState({tag: tagTemp}); // atualizao estado atual
 }
 
-const refreshTagsArea = () => {
-    let section = document.querySelector("#searchTagSection");
+const refreshTagsArea = () => { // cuida de recaregar toda a area das tags
+    let section = document.querySelector("#searchTagSection"); // sectiin das tags
     
-
-    if(searachState.tag.length <= 0 || !searachState.tag.length){
+    if(searachState.tag.length <= 0 || !searachState.tag.length){ // se nao tiver nehuma tag, esconde a section
         section.style.display = "none";
     }
     else{
@@ -40,6 +73,7 @@ const refreshTagsArea = () => {
         
         let searchTagPath = document.querySelector(".tags-div");
 
+        //btn close e todas as tags
         searchTagPath.innerHTML = `
         <div class="clear-tags-div">
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -57,17 +91,17 @@ const refreshTagsArea = () => {
         `;
 
         let clearAllTags = document.querySelector(".clear-tags-div");
-        clearAllTags.onclick = () => {
+        clearAllTags.onclick = () => { // acao de eliminar todas as tags juntas
             setSearchState({tag: []});
         };  
 
-        const addFunctions = (node, index) => {
+        const addFunctions = (node, index) => { // add a funcao de fechar as tags
             node.querySelector(".search-tag-clear-tag").onclick = () => {
                 removeSearchTag(index);
             };
         }
 
-        searachState.tag.forEach((tag, index) => {
+        searachState.tag.forEach((tag, index) => { // coloca as atgs na DOM
             let searchTagTemplate = document.importNode((document.querySelector(".search-tags-template")).content, true);
             searchTagTemplate.querySelector(".search-tag-title").innerHTML = tag.name;
             addFunctions(searchTagTemplate, index);
@@ -76,53 +110,71 @@ const refreshTagsArea = () => {
     }
 } 
 
-const requestServices = () => {
-    let req = new XMLHttpRequest();
+const requestServices = async () => { // cuida da requisaicao de servicos
+    let idToExlucde = [];
+    let maxDist = 0;
+    console.log(serviceState.allservices)
 
-    let subCatid = [];
+    serviceState.allservices.forEach((elem) => {
+        if(elem.distance > maxDist){
+            maxDist = elem.distance;
+            idToExlucde = [elem.serviceID];
+        }
+        else if(elem.distance === maxDist){
+            idToExlucde.push(elem.serviceID);
+        }
+    });
+
+    console.log(idToExlucde)
+ 
+
+    let req = new XMLHttpRequest(); 
+
+    let subCatid = []; // array responsavel por copiar os ids das subcategorias selecionadas, para enviar na requisicao
     searachState.tag.forEach(elem => {
         subCatid.push(elem.id);
     });
 
-    const config = {
+    const config = { // configuracoes de requisicao
         getServices: true,
         dataServices: {
-            quantity : 50,
-            maxDist: 10000,
-            minDist: 0,
-            myLat: 0,
-            myLng: 0,
+            quantity : 5,
+            maxDist: 100000000000000000000,
+            minDist: maxDist,
+            myLat: -23.87669,
+            myLng: -46.77125,
             subCat: subCatid,
-            searchWords: searachState.write
+            searchWords: searachState.write,
+            service_idToExlucde : idToExlucde || []
         }
         
     };
 
-    req.onload =() => {
-        console.group('response');
-    //   console.log(req.response);
-        console.log(JSON.parse(req.response))
-        prepareCatgories((JSON.parse(req.response)));
-        console.groupEnd();
+    
+
+    req.onload = () => {
+        // console.groupCollapsed('response');
+        // console.log(req.response);
+        // console.log(JSON.parse(req.response))
+        // console.groupEnd();
+
+
+
+        
 
         let responseData = JSON.parse(req.response);
+        let responseInfo =  responseData.services.statusInfo;
         responseData = responseData.services.data;
-        console.log(responseData)
+
         let gottenServices = [];
-        
-        for(let prop in responseData){
+
+        for(let prop in responseData){ // percorre todos os elemtnos da requisicao
             let elem = responseData[prop];
 
             let nota_media = elem.nota_media_servico;
             if(!((typeof elem.nota_media_servico === "number") || (typeof elem.nota_media_servico === "string"))) nota_media = 0;
 
-            // console.log(typeof elem.nota_media_servico)
-            // console.log(elem.nota_media_servico)
-            // console.log(!((typeof elem.nota_media_servico === "number") || (typeof elem.nota_media_servico === "string")));
-
-            // console.log(typeof nota_media);
-
-            gottenServices.push({
+            gottenServices.push({ // adiciona os dados dos servicos recebidos ao array que sera enviado para impressao na DOM
                 serviceID: elem.id_servico,
                 imgSRC: `../../../assets/images/users/${elem.imagem_usuario}`,
                 location: `${elem.uf_usuario}, ${elem.cidade_usuario}, ${elem.bairro_usuario}`,
@@ -130,11 +182,74 @@ const requestServices = () => {
                 providerName: elem.nome_usuario,
                 avaliation: nota_media,
                 avaliationQuant: 1,
-                price: `${elem.orcamento_servico} ${elem.crit_orcamento_servico}`
+                price: `${elem.orcamento_servico} ${elem.crit_orcamento_servico}`,
+                distance: Number(elem.distance)
             });
         }
         
-        setServicesSate({services: gottenServices});
+        //atualiza o estado dos servicos
+        // let allServicesTemp = servicesSate.allServices;
+        // allServicesTemp = allServicesTemp.concat(gottenServices);
+        // servicesSate.allServices = allServicesTemp;
+
+        // console.groupCollapsed("before-aferter-all-services")
+        // console.log(gottenServices)
+        // console.log(servicesSate.allServices)
+        // console.log(allServicesTemp)
+        // console.log(`were excluded ->> ${servicesSate.service_idToExlucde}` )
+        // console.log(`State service ->> `)
+        // console.log(servicesSate);
+        // console.groupCollapsed('response');
+        // console.log(req.response);
+        // console.log(JSON.parse(req.response))
+        // console.groupEnd();
+        // console.groupEnd();
+
+        // setServiceState({services: gottenServices, lastDistance: responseInfo.maxDistance, endedResult: responseInfo.ended});
+        console.log(gottenServices);
+        setServiceState(
+            {
+                servicesToAdd: gottenServices,
+                lastDistance: responseInfo.maxDistance,
+                endedSearch: responseInfo.ended
+            }
+        );
+
+                  
+       // console.log("response bruta", req.response)
+        console.log("response", JSON.parse(req.response))
+        console.log("state", serviceState)
+
+      
+
+       
+        const requestUntilScroll = () => { // faz requisicoes ate preencher a tela e gerar um scroll. 
+            let contentSection = document.querySelector("#contentSection");
+            let serviceCardsPath = document.querySelector(".service-cards-path");
+            let viewHeight = contentSection.clientHeight - document.querySelector("#mySearchBarSection").clientHeight -  document.querySelector("#searchTagSection").clientHeight - document.querySelector("#filterSection").clientHeight;
+            // viweHieght eh o tamanho que a div ocupa na tela na visualizacao
+
+            if(!servicesSate.endedResult && (viewHeight >= serviceCardsPath.clientHeight)){ // se nao acabaram os servicos, e se a altura a ser ocupada ainda eh maior que a real altura
+                setTimeout(requestServices, 500);
+                // requestServices();
+            //     console.groupCollapsed("Resquest More")
+            //     console.log(`[!servicesSate.endedResult ->> ] ${!servicesSate.endedResult}`);
+            //     console.log(`[viewHeight ->> ] ${viewHeight}`);
+            //     console.log(`[serviceCardsPath.clientHeight ->> ] ${serviceCardsPath.clientHeight}`);
+            //    console.groupEnd();
+            }
+            else{
+            //    console.groupCollapsed("RNOT REQUEST MORE!!!!")
+            //     console.log(`[!servicesSate.endedResult ->> ] ${!servicesSate.endedResult}`);
+            //     console.log(`[viewHeight ->> ] ${viewHeight}`);
+            //     console.log(`[serviceCardsPath.clientHeight ->> ] ${serviceCardsPath.clientHeight}`);
+            //    console.groupEnd();
+            }
+        }
+       
+
+        // requestUntilScroll();
+        //console.log(servicesSate)
 
     }
 
@@ -143,10 +258,51 @@ const requestServices = () => {
     req.send(JSON.stringify(config));
 }
 
+let maxSearchScrool = 0;
+const handleScroolSearch = () => { // cuida de fazer novas requisicoes ao scrollar a pg
+    
+    let section = document.querySelector("#serviceCadsSection");
+    section.onscroll = () => {
+        if((section.scrollTop + section.clientHeight > section.scrollHeight - 300) && !serviceState.endedSearch){
+            // o tanto que a pessoa scrollou + a altura do conteiner recisa cjhegar ao fim para fazer uma nova requisicao.
+            requestServices();
+        }
+        else{
+            // console.groupCollapsed("TERMINOU OS SERVICOS");
+            // console.log(`[Section Scroll top] ->> ${section.scrollTop}`);
+            // console.log(`[Section cleint height] ->> ${section.clientHeight}`);
+            // console.log(`[Section Scroll height] ->> ${section.scrollHeight}`);
+            // console.groupEnd();
+            console.log("TERMINOU!!!!!!!!!!!!!!!!!!!!")
+            console.log(serviceState)
+        }
+       
+    }
+}
+handleScroolSearch();
+
 const refreshSearch = () => {
     refreshTagsArea();
     let serviceCadrPath_e = document.querySelector('.service-cards-path');
-    serviceCadrPath_e.innerHTML = "";
+
+    // servicesSate.service_idToExlucde = [];
+    // servicesSate.lastDistance =0;
+
+    // setServicesSate({
+    //     services :[],
+    //     lastDistance : 0,
+    //     endedResult: false , 
+    //     service_idToExlucde: [],
+    //     allServices: []
+    // });
+    setServiceState({
+        allservices :[],
+        lastDistance : 0,
+        endedSearch: false , 
+        service_idToExlucde: [],
+        allservices: []
+    });
+
     
     if(!(searachState.tag.length ==0 && searachState.write == ""))
     requestServices();
@@ -163,20 +319,10 @@ function setSearchState(data){
         searachState[i] = data[i];
     }
 
+    // setServicesSate({allServices : [], services :[]});
+
     refreshSearch();
 }
-
-// const tagTest = {
-//     tag: [
-//         "pizarria",
-//         "bla bla bla bla 02",
-//         "bla bla bla bla 03",
-//         "bla bla bla bla 04",
-//         "bla bla bla bla 05",
-//     ]
-// };
-
-// setSearchState(tagTest);
 
 const toggleCategoriesSidebar = () => {
     let state = {
@@ -361,11 +507,6 @@ const fillCategories = (data) => {
         subCategorieItems.forEach((elem) => {
             DOM.subCategorie.body.appendChild(elem);
         });
-        
-
-        // console.log({categorieNode})
-        // console.log(categorieNode)
-        // console.log(subCategorieNode)
 
         let wrapper = document.createElement('div');
         wrapper.classList.add('wrapper-categorie-subcategorie');
@@ -376,18 +517,18 @@ const fillCategories = (data) => {
         return wrapper;
     }
 
-    // const bla = [
-    //     {
-    //         categorie : {
-    //             title: "categorieName",
-    //             subItems : [
-    //                 {title: 'subCategorie1'},
-    //                 {title: 'subCategorie1'},
-    //                 {title: 'subCategorie1'},
-    //             ]
-    //         }
-    //     }
-    // ]
+    /*const bla = [
+        {
+            categorie : {
+                title: "categorieName",
+                subItems : [
+                    {title: 'subCategorie1'},
+                    {title: 'subCategorie1'},
+                    {title: 'subCategorie1'},
+                ]
+            }
+        }
+    ]*/
 
     data.forEach((item) => {
         listPath.appendChild(categorieItem(item));
@@ -428,6 +569,7 @@ const serviceCardsRender = (data) => {
             let nodeLink = node.querySelector('.service-card-link');
             let link = `../VisualizarServico/visuaizarServico.php?serviceID=${structureData.serviceID}`;
             nodeLink.href = link;
+            nodeLink.setAttribute("serviceID", structureData.serviceID);
 
             let stars = node.querySelectorAll('.service-card--rate-stars path');
 
@@ -481,7 +623,7 @@ const serviceCardsRender = (data) => {
     });
 
 }
-
+/*
 const serviceCardData = [
     {
         serviceID: '10',
@@ -492,66 +634,6 @@ const serviceCardData = [
         avaliation: 2.49,
         avaliationQuant: 90,
         price: '30 por cabeça'
-    },
-    {
-        serviceID: '10',
-        imgSRC: 'https://picsum.photos/2000?random=2',
-        location: 'rua pequetita vila olimpia',
-        serviceName: 'nome do servico kk 2',
-        providerName: 'nome do cara lá',
-        avaliation: 5.49,
-        avaliationQuant: 90,
-        price: '30 por hora'
-    },
-    {
-        serviceID: '10',
-        imgSRC: 'https://picsum.photos/2000?random=2',
-        location: 'rua pequetita vila olimpia',
-        serviceName: 'nome do servico kk 2',
-        providerName: 'nome do cara lá',
-        avaliation: 5.49,
-        avaliationQuant: 90,
-        price: '30 por hora'
-    },
-    {
-        serviceID: '10',
-        imgSRC: 'https://picsum.photos/2000?random=2',
-        location: 'rua pequetita vila olimpia',
-        serviceName: 'nome do servico kk 2',
-        providerName: 'nome do cara lá',
-        avaliation: 5.49,
-        avaliationQuant: 90,
-        price: '30 por hora'
-    },
-    {
-        serviceID: '10',
-        imgSRC: 'https://picsum.photos/2000?random=2',
-        location: 'rua pequetita vila olimpia',
-        serviceName: 'nome do servico kk 2',
-        providerName: 'nome do cara lá',
-        avaliation: 5.49,
-        avaliationQuant: 90,
-        price: '30 por hora'
-    },
-    {
-        serviceID: '10',
-        imgSRC: 'https://picsum.photos/2000?random=2',
-        location: 'rua pequetita vila olimpia',
-        serviceName: 'nome do servico kk 2',
-        providerName: 'nome do cara lá',
-        avaliation: 5.49,
-        avaliationQuant: 90,
-        price: '30 por hora'
-    },
-    {
-        serviceID: '10',
-        imgSRC: 'https://picsum.photos/2000?random=2',
-        location: 'rua pequetita vila olimpia',
-        serviceName: 'nome do servico kk 2',
-        providerName: 'Ultimo',
-        avaliation: 5.49,
-        avaliationQuant: 90,
-        price: '30 por hora'
     },
 ];
 
@@ -565,15 +647,8 @@ const emptyServiceData = {
     avaliationQuant: 0,
     price: ' '
 }
-let count = 0;
-// setInterval(() => {
-//     serviceCardsRender([serviceCardData[count]]);
-//     count++;
-//     if(count >= serviceCardData.length) count = 0;
-// }, 1000)
-
-// serviceCardsRender([serviceCardData[0]]);
-
+*/
+/*
 const categories = [
     {
         categorie : {
@@ -606,406 +681,13 @@ const categories = [
                 {title: 'subpato 23'},
             ]
         }
-    },
-    {
-        categorie : {
-            title: "pato",
-            subItems : [
-                {title: 'sub pato w'},
-                {title: 'sub pato 2'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-            ]
-        }
-    },
-    {
-        categorie : {
-            title: "pato",
-            subItems : [
-                {title: 'sub pato w'},
-                {title: 'sub pato 2'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-            ]
-        }
-    },
-    {
-        categorie : {
-            title: "pato",
-            subItems : [
-                {title: 'sub pato w'},
-                {title: 'sub pato 2'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-            ]
-        }
-    },
-    {
-        categorie : {
-            title: "pato",
-            subItems : [
-                {title: 'sub pato w'},
-                {title: 'sub pato 2'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-            ]
-        }
-    },
-    {
-        categorie : {
-            title: "pato",
-            subItems : [
-                {title: 'sub pato w'},
-                {title: 'sub pato 2'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-            ]
-        }
-    },
-    {
-        categorie : {
-            title: "pato",
-            subItems : [
-                {title: 'sub pato w'},
-                {title: 'sub pato 2'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-            ]
-        }
-    },
-    {
-        categorie : {
-            title: "pato",
-            subItems : [
-                {title: 'sub pato w'},
-                {title: 'sub pato 2'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-            ]
-        }
-    },
-    {
-        categorie : {
-            title: "pato",
-            subItems : [
-                {title: 'sub pato w'},
-                {title: 'sub pato 2'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-            ]
-        }
-    },
-    {
-        categorie : {
-            title: "pato",
-            subItems : [
-                {title: 'sub pato w'},
-                {title: 'sub pato 2'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-            ]
-        }
-    },
-    {
-        categorie : {
-            title: "pato",
-            subItems : [
-                {title: 'sub pato w'},
-                {title: 'sub pato 2'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-            ]
-        }
-    },
-    {
-        categorie : {
-            title: "pato",
-            subItems : [
-                {title: 'sub pato w'},
-                {title: 'sub pato 2'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-            ]
-        }
-    },
-    {
-        categorie : {
-            title: "pato",
-            subItems : [
-                {title: 'sub pato w'},
-                {title: 'sub pato 2'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-            ]
-        }
-    },
-    {
-        categorie : {
-            title: "pato",
-            subItems : [
-                {title: 'sub pato w'},
-                {title: 'sub pato 2'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-            ]
-        }
-    },
-    {
-        categorie : {
-            title: "pato",
-            subItems : [
-                {title: 'sub pato w'},
-                {title: 'sub pato 2'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-            ]
-        }
-    },
-    {
-        categorie : {
-            title: "pato",
-            subItems : [
-                {title: 'sub pato w'},
-                {title: 'sub pato 2'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-            ]
-        }
-    },
-    {
-        categorie : {
-            title: "pato",
-            subItems : [
-                {title: 'sub pato w'},
-                {title: 'sub pato 2'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-            ]
-        }
-    },
-    {
-        categorie : {
-            title: "pato",
-            subItems : [
-                {title: 'sub pato w'},
-                {title: 'sub pato 2'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-            ]
-        }
-    },
-    {
-        categorie : {
-            title: "pato",
-            subItems : [
-                {title: 'sub pato w'},
-                {title: 'sub pato 2'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-            ]
-        }
-    },
-    {
-        categorie : {
-            title: "pato",
-            subItems : [
-                {title: 'sub pato w'},
-                {title: 'sub pato 2'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-            ]
-        }
-    },
-    {
-        categorie : {
-            title: "pato",
-            subItems : [
-                {title: 'sub pato w'},
-                {title: 'sub pato 2'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-            ]
-        }
-    },
-    {
-        categorie : {
-            title: "pato",
-            subItems : [
-                {title: 'sub pato w'},
-                {title: 'sub pato 2'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-            ]
-        }
-    },
-    {
-        categorie : {
-            title: "pato",
-            subItems : [
-                {title: 'sub pato w'},
-                {title: 'sub pato 2'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-            ]
-        }
-    },
-    {
-        categorie : {
-            title: "pato ultimo",
-            subItems : [
-                {title: 'sub pato w'},
-                {title: 'sub pato 2'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-            ]
-        }
-    },
-    
-];
-
-// fillCategories(categories);
+    }
+];*/
 
 const prepareCatgories = (resp_cat) => {
     resp_cat = resp_cat.categoires
-    // {
-    //     categorie : {
-    //         title: "pato",
-    //         subItems : [
-    //             {title: 'sub pato wsub pato wsub pato wsub pato wsub pato wsub pato wsub pato wsub pato w'},
-    //             {title: 'sub pato 2'},
-    //             {title: 'subpato 23'},
-    //             {title: 'subpato 23'},
-    //             {title: 'subpato 23'},
-    //             {title: 'subpato 23'},
-    //             {title: 'subpato 23'},
-    //             {title: 'subpato 23'},
-    //             {title: 'subpato 23'},
-    //         ]
-    //     }
-    // }
 
     let cat = [];
-
-    // console.log(resp_cat)
-
-    // for(let i in resp_cat){
-    //     console.log(resp_cat[i])
-    // }
 
     for(let i in resp_cat){
         cat.push({
@@ -1036,67 +718,7 @@ const getCategoriesName = () => {
     };
 
     req.onload =() => {
-        // console.group('response');
-        // console.log(req.response);
-        // console.log(JSON.parse(req.response))
-        
-        // console.groupEnd();
         prepareCatgories((JSON.parse(req.response)));
-    }
-
-    req.open("POST", './getAsyncDataList.php');
-
-    req.send(JSON.stringify(config));
-}
-
-const getServices0 = () => {
-    let req = new XMLHttpRequest();
-
-    const config = {
-        getServices: true,
-        quantity : 5
-    };
-
-    req.onload =() => {
-        console.group('response');
-        // console.log(req.response);
-        console.log(JSON.parse(req.response))
-        prepareCatgories((JSON.parse(req.response)));
-        console.groupEnd();
-
-        
-
-        let responseData = JSON.parse(req.response);
-        responseData = responseData.services.data;
-        console.log(responseData)
-        let gottenServices = [];
-        
-        for(let prop in responseData){
-            let elem = responseData[prop];
-
-            let nota_media = elem.nota_media_servico;
-            if(!((typeof elem.nota_media_servico === "number") || (typeof elem.nota_media_servico === "string"))) nota_media = 0;
-
-            // console.log(typeof elem.nota_media_servico)
-            // console.log(elem.nota_media_servico)
-            // console.log(!((typeof elem.nota_media_servico === "number") || (typeof elem.nota_media_servico === "string")));
-
-            // console.log(typeof nota_media);
-
-            gottenServices.push({
-                serviceID: elem.id_servico,
-                imgSRC: `../../../assets/images/users/${elem.imagem_usuario}`,
-                location: `${elem.uf_usuario}, ${elem.cidade_usuario}, ${elem.bairro_usuario}`,
-                serviceName: elem.nome_servico,
-                providerName: elem.nome_usuario,
-                avaliation: nota_media,
-                avaliationQuant: 1,
-                price: `${elem.orcamento_servico} ${elem.crit_orcamento_servico}`
-            });
-        }
-        
-        serviceCardsRender(gottenServices);
-
     }
 
     req.open("POST", './getAsyncDataList.php');
@@ -1109,30 +731,85 @@ document.querySelector("#searchButton").onclick = () => {
     text = text.trim();
 
     let spliText = text.split(" ")
-    if(text == "") spliText = [];
+    if(text == "") spliText = [];   
 
-    console.log(text)
+    let serviceCardsPath = document.querySelector(".service-cards-path");
+    serviceCardsPath.innerHTML = "";
 
     setSearchState({write : spliText});
-    console.log(searachState)
     
 };
 
-let servicesSate = {
-    services :[]
+var servicesSate = {
+    services :[],
+    lastDistance : 0,
+    endedResult: false , 
+    service_idToExlucde: [],
+    allServices: []
 };
 
-const refreshServicesAll = () => {
-    serviceCardsRender(servicesSate.services);
+const getService_idToExclude = () => { // gurda os ids dos ervicos que possuem a distancia == maxDistance. Isso serve para excluir sua busca na proxima requisicao 
+    let services = servicesSate.allServices;
+
+    let maxDistance = 0;
+    let service_idToExlucdeTemp = [];
+    services.forEach((elem) => {
+        // console.log(elem)
+        if(elem.distance > maxDistance){
+            maxDistance = elem.distance;
+            service_idToExlucdeTemp = [elem.serviceID];
+
+            // console.groupCollapsed("else")
+            // console.log(elem.distance)
+            // console.log(maxDistance)
+            // console.log(maxDistance - elem.distance)
+            // console.groupEnd();
+        }
+        else if(elem.distance == maxDistance){
+            service_idToExlucdeTemp.push(elem.serviceID);
+        }
+        else{
+            
+        }
+
+        // console.groupCollapsed("a")
+        // console.log(elem.distance)
+        // console.log(maxDistance)
+        // console.log(elem.serviceID)
+        // console.groupEnd();
+    });
+
+    console.groupCollapsed("id-to-exclude-function")
+    console.log(service_idToExlucdeTemp)
+    console.groupEnd();
+
+    servicesSate.service_idToExlucde = service_idToExlucdeTemp;
+}
+
+
+/*
+const refreshServicesAll = (refresh) => {
+    refresh.forEach((elem) => {
+        if(elem == "services")
+            serviceCardsRender(servicesSate.services);
+    });
+
+    
+    getService_idToExclude();
+    
 }
 
 function setServicesSate (data)  {
+    let stateToRefresh = [];
+
     for(let i in data){
+        stateToRefresh.push(i);
+
         servicesSate[i] = data[i]
     }
 
-    refreshServicesAll();
-}
-
+    refreshServicesAll(stateToRefresh);
+}*/
 
 getCategoriesName();
+

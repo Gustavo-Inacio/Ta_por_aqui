@@ -289,26 +289,6 @@ require "../../../logic/entrar_cookie.php";
         
     </section>
 
-    
-
-    
-    
-
-    <!--<section>
-        <form action="../VisualizarServico/visuaizarServico.php" method="GET">
-            <input hidden type="hidden" name="serviceID" value="1">
-            <button type="submit">Servico 01</button>
-        </form>
-        <form action="../VisualizarServico/visuaizarServico.php" method="GET">
-            <input hidden type="hidden" name="serviceID" value="2">
-            <button type="submit">Servico 02</button>
-        </form>
-    </section> -->
-
-    
-
-
- 
     <footer id="myMainFooter">
         <div id="myMainFooterContainer" class="container-fluid">
             <div class="my-main-footer-logo">
