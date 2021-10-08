@@ -4,7 +4,7 @@ function showPass(){
     let loginPass = document.getElementById('userPass')
     let eye = document.getElementById('eye')
 
-    if(aux%2 == 0){
+    if(aux%2 === 0){
         //mostrar senha
         loginPass.type = "text"
         eye.className = "fas fa-eye-slash"
@@ -22,7 +22,7 @@ function showConfirmPass(){
     let loginPass = document.getElementById('userConfirmPass')
     let eye = document.getElementById('eye2')
 
-    if(aux%2 == 0){
+    if(aux%2 === 0){
         //mostrar senha
         loginPass.type = "text"
         eye.className = "fas fa-eye-slash"
@@ -178,6 +178,9 @@ function registerConfirm(){
             data: `email=${email}`,
             dataType: 'json',
             beforeSend: () => {
+                //desabilitar botão
+                $('#btnCreateAccount').attr('disabled', true)
+
                 //criar gif de carregamento
                 let loadingGif = document.createElement('img')
                 loadingGif.src = "../../assets/images/loading.gif"
@@ -188,19 +191,23 @@ function registerConfirm(){
             complete: () => {
                 //tirar gif
                 document.getElementById('loadingGif').remove()
+
+                //habilitar botão
+                $('#btnCreateAccount').attr('disabled', false)
             },
             success: sendEmailStatus => {
                 if(sendEmailStatus.status === "enviado"){
                     //mostrar modal de confirmação de email
-                    $('#confirmEmailModal').modal('show')
+                    let confirmEmailModal = new bootstrap.Modal(document.getElementById('confirmEmailModal'))
+                    confirmEmailModal.show()
 
                     //desfoque de fundo
                     document.getElementById('page').style.filter = "blur(3px)"
 
-                    //tirar desfoque ao sair do modal
-                    $('#confirmEmailModal').on('hidden.bs.modal', () => {
+                    /*//tirar desfoque ao sair do modal
+                    confirmEmailModal.addEventListener('hidden.bs.modal', function (event) {
                         document.getElementById('page').style.filter = "none"
-                    })
+                    })*/
 
                     //preenchendo email
                     document.getElementById('InputEmailAdress').innerHTML = document.getElementById('userEmail').value
@@ -235,8 +242,9 @@ function confirmEmail(){
 }
 
 //permitir popovers
-$(function () {
-    $('[data-toggle="popover"]').popover()
+let popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+let popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+    return new bootstrap.Popover(popoverTriggerEl)
 })
 
 //Chamando a função getAdress pelo input CEP

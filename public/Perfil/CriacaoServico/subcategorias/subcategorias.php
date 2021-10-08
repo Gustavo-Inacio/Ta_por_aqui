@@ -14,13 +14,11 @@
     $listaSubcategorias = $stmt->fetchAll(PDO::FETCH_OBJ);
 ?>
 <div class="modal-header">
-    <span class="returnArrow mr-3" onclick="loadCategory('categorySelect.php')"> <i class="fas fa-arrow-left"></i> </span>
+    <span class="returnArrow me-3" onclick="loadCategory('categorySelect.php')"> <i class="fas fa-arrow-left"></i> </span>
 
     <h5 class="modal-title"> <?=$categoriaMestre->nome_categoria?> </h5>
 
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
 <div class="modal-body">
@@ -30,5 +28,5 @@
 </div>
 
 <div class="modal-footer">
-    <button type="button" class="mybtn mybtn-complement" data-dismiss="modal">Salvar categorias</button>
+    <button type="button" class="mybtn mybtn-complement" data-bs-dismiss="modal">Salvar categorias</button>
 </div>

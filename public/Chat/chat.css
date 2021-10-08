@@ -1,17 +1,21 @@
 body{
-    background-color: #f2f2f2;
+    background: rgb(242,242,242);
+    background: linear-gradient(90deg, rgba(242,242,242,1) 0%, rgba(255,255,255,1) 100%);
 }
 
 #page{
-    min-height: 700px;
-    max-width: 1440px;
+    height: calc(100vh - 80px);
     margin: 0 auto;
+    max-width: 1500px;
 }
 
 /*Listagem de usuários do chat (primeira coluna)*/
 #chatFirstColumn{
     padding: 18px;
     background-color: white;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: calc(100vh - 80px);
 }
 
 .chatTitle{
@@ -72,7 +76,8 @@ body{
 
 .userImg{
     align-self: center;
-    width: 100%;
+    width: 50px;
+    height: 50px;
     object-fit: cover;
     border-radius: 50%;
     max-width: 42px;
@@ -95,6 +100,7 @@ body{
     letter-spacing: 0.1em;
     color: #888F98;
     margin-bottom: 5px;
+    text-align: end;
 }
 
 .chatQntMsg{
@@ -108,13 +114,13 @@ body{
 }
 
 .userDiv.active{
-    background: linear-gradient(92.64deg, #E6E6E6 29.94%, rgba(230, 230, 230, 0) 98.28%);
-    border: 1px solid #3333CC;
-    border-radius: 12px;
+    background: linear-gradient(92.64deg, #E6E6E6 29.94%, rgba(230, 230, 230, 0) 98.28%) !important;
+    border: 1px solid #3333CC !important;
+    border-radius: 12px !important;
 }
 
 .userDiv.active .chatTime{
-    color: #FF6F6F;
+    color: #FF6F6F !important;
 }
 
 .userDiv:hover{
@@ -123,10 +129,34 @@ body{
     cursor:pointer;
 }
 
+.userDiv.blocked:hover{
+    cursor: not-allowed;
+}
+
+.userDiv.blocked .userName{
+    text-decoration: line-through;
+}
+
+.userDiv.blocked .userService{
+    text-decoration: line-through;
+}
+
+.userDiv.blocked .blockMsg{
+    font-size: 14px;
+    font-style: italic;
+    color: #ff1717;
+}
+
+.userDiv.blocked .blockedMsg{
+    font-size: 14px;
+    font-style: italic;
+    color: #ff1717;
+}
+
 /*Conversa com um usuário (segunda coluna)*/
 #chatSecondColumn{
     background-color: #f2f2f2;
-    padding: 32px;
+    height: calc(100vh - 80px);
 }
 
 .userInfo{
@@ -156,9 +186,47 @@ body{
 }
 
 .chatMessages{
-    margin-top: 20px;
-    max-height: 800px;
+    position: relative;
     overflow-y: auto;
+    height: calc(100% - 77px);
+    display: flex;
+    flex-direction: column;
+}
+
+.chatAlert{
+    margin-top: 10px;
+    text-align: center;
+    background-color: #fef4c5;
+    border-radius: 25px;
+    box-shadow: 0 0 2px rgba(0,0,0,0.2);
+    font-size: 12px;
+    width: 70%;
+    align-self: center;
+}
+
+@media (max-width: 767px) {
+    #chatSecondColumn{
+        height: calc(100vh - 114px);
+    }
+
+    .chatMessages{
+        position: relative;
+        overflow-y: auto;
+        height: calc(100% - 111px);
+    }
+
+    .communicationBar{
+        background-color: white;
+        padding: 8px 15px;
+        position: relative;
+        margin-top: -34px;
+    }
+}
+
+@media (max-width: 576px) {
+    .chatAlert{
+        width: 100%;
+    }
 }
 
 .chatDate{
@@ -180,39 +248,82 @@ body{
     width: 70%;
 }
 
-.message.myMessage{
+.message.itsMessage{
     background-color: white;
+    border-bottom-left-radius: 0;
 }
 
-.messageTime{
+.messageTime, .msgRead{
+    display: inline;
     margin-top: 3px;
     text-align: right;
-    font-size: 11px;
+    font-size: 12px;
 }
 
-.myMessage .messageTime{
+.itsMessage .messageTime{
     color: #888F98;
 }
 
-.message.itsMessage{
+.message.myMessage{
     margin-left: 30%;
     background-color: #3333CC;
+    border-bottom-right-radius: 0;
 }
 
-.itsMessage .messageTime, .itsMessage .messageText{
+.myMessage .messageTime, .myMessage .messageText{
     color: white;
 }
 
-.chatMessages::-webkit-scrollbar-track, .chatMessageInput::-webkit-scrollbar-track, .chatMidia::-webkit-scrollbar-track {
+.messageArq{
+    padding: 15px;
+    width: 100%;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 82px;
+}
+
+.messageArq:hover{
+    cursor: pointer;
+    transition: .2s;
+}
+
+.myMessage .messageArq{
+    background-color: white;
+    color: #3333CC;
+}
+
+.myMessage .messageArq:hover{
+    background-color: #d7d7d7;
+}
+
+.itsMessage .messageArq{
+    background-color: #3333CC;
+    color: white;
+}
+
+.itsMessage .messageArq:hover{
+    background-color: #5656d0;
+}
+
+.chatImg{
+    width: 60%;
+}
+
+.chatVideo, .chatAudio{
+    width: 100%;
+}
+
+::-webkit-scrollbar-track {
     background-color: #F4F4F4;
 }
 
-.chatMessages::-webkit-scrollbar, .chatMessageInput::-webkit-scrollbar, .chatMidia::-webkit-scrollbar {
+::-webkit-scrollbar {
     width: 4px;
     background: #F4F4F4;
 }
 
-.chatMessages::-webkit-scrollbar-thumb, .chatMessageInput::-webkit-scrollbar-thumb, .chatMidia::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
     background: #dad7d7;
 }
 
@@ -221,7 +332,7 @@ body{
         width: 90%;
     }
 
-    .message.itsMessage{
+    .message.myMessage{
         margin-left: 10%;
     }
 }
@@ -229,10 +340,8 @@ body{
 .communicationBar{
     background-color: white;
     padding: 8px 15px;
-    margin: 0 -32px;
-    position: absolute;
-    width: 100%;
-    bottom: 0;
+    position: relative;
+    height: 77px;
 }
 
 .chatIcon{
@@ -244,7 +353,12 @@ body{
     color: #aba518;
 }
 
-.fa-paperclip:hover{
+#showMidiainput:hover .fa-paperclip{
+    color: #3333CC;
+}
+
+#showMidiainput:hover{
+    cursor: pointer;
     color: #3333CC;
 }
 
@@ -255,7 +369,7 @@ body{
 .chatMessageInput{
     padding: 5px 25px;
     background: #C4C4C4;
-    border-radius: 61px;
+    border-radius: 41px 0 0 41px !important;
     color: white !important;
     resize: none;
 }
@@ -286,6 +400,8 @@ body{
     background-color: white;
     box-shadow: -9px 2px 24px rgba(0, 0, 0, 0.08);
     border-radius: 48px 0 0 0;
+    height: calc(100vh - 80px);
+    overflow-y: auto;
 }
 
 .userDetailedInfo{
@@ -311,7 +427,6 @@ body{
     padding: 10px;
     border-radius: 6px;
     overflow-y: auto;
-    max-height: 490px;
 }
 
 .showMidiaBtn{
@@ -419,7 +534,7 @@ body{
     color: #6060D7;
     font-size: 14px;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -471,7 +586,7 @@ body{
 }
 
 .dangerOption:hover::before{
-    content: '→';
+    content: '👉';
 }
 
 .addFavorite{
@@ -562,4 +677,35 @@ input:checked + .slider:before {
 
 .returnArrow:hover::after{
     content: '!';
+}
+
+.noConversationSelected{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: calc(100vh - 112px - 33px);
+    overflow-y: auto;
+}
+
+.noConversationSelected img{
+    width: 40%;
+}
+
+.noConversationSelected h3{
+    color: #3333CC;
+}
+
+.noConversationSelected p{
+    color: #5e5e5e;
+}
+
+/*Modal de denúncia*/
+.complainTitle{
+    color: #FF6F6F;
+    font-weight: 700;
+    font-size: 36px;
+}
+
+.complainObj{
+    color: #FF6F6F;
 }

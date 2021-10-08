@@ -21,7 +21,7 @@ class VisualizeService
         if($cmd_provider->rowCount() > 0){
             $providerID = $cmd_provider->fetch(PDO::FETCH_ASSOC)['id_prestador_servico'];
 
-            $command = $this->con->query("SELECT nome_usuario, sobrenome_usuario, classif_usuario, fone_usuario, uf_usuario, cidade_usuario, rua_usuario, numero_usuario FROM usuarios WHERE id_usuario='$providerID'");
+            $command = $this->con->query("SELECT id_usuario, nome_usuario, sobrenome_usuario, classif_usuario, fone_usuario, uf_usuario, cidade_usuario, rua_usuario, numero_usuario FROM usuarios WHERE id_usuario='$providerID'");
             $data = $command->fetch(PDO::FETCH_ASSOC);    
         }
 
@@ -32,7 +32,7 @@ class VisualizeService
     public function getServiceInfo(){
         $data = [];
 
-        $command = $this->con->query("SELECT nome_servico, desc_servico, crit_orcamento_servico, tipo_servico, data_public_servico, nota_media_servico, orcamento_servico FROM servicos WHERE id_servico='$this->serviceID'");
+        $command = $this->con->query("SELECT id_servico, nome_servico, desc_servico, crit_orcamento_servico, tipo_servico, data_public_servico, nota_media_servico, orcamento_servico FROM servicos WHERE id_servico='$this->serviceID'");
         $data = $command->fetch(PDO::FETCH_ASSOC);
 
         return $data;

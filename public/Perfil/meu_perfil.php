@@ -35,7 +35,7 @@ if($_SESSION['classificacao'] !== 0){
     $asProviderRequestedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
     //serviços rejeitados ou aceitos por esse prestador
-    $query = "SELECT c.id_contrato, c.id_servico, c.id_cliente, c.status_contrato, c.data_contrato, s.nome_servico, s.orcamento_servico, s.crit_orcamento_servico, u.nome_usuario FROM contratos as c join servicos as s on c.id_servico = s.id_servico join usuarios u on s.id_prestador_servico = u.id_usuario WHERE c.id_prestador = " . $_SESSION['idUsuario']  . " AND s.status_servico = 1 AND c.status_contrato in(1,2) LIMIT 0,4";
+    $query = "SELECT c.id_contrato, c.id_servico, c.id_cliente, c.status_contrato, c.data_contrato, s.nome_servico, s.orcamento_servico, s.crit_orcamento_servico, cli.nome_usuario FROM contratos as c join servicos as s on c.id_servico = s.id_servico join usuarios cli on c.id_cliente = cli.id_usuario WHERE c.id_prestador = " . $_SESSION['idUsuario']  . " AND s.status_servico = 1 AND c.status_contrato in(1,2) LIMIT 0,4";
     $stmt = $con->query($query);
     $asProviderAcceptReject = $stmt->fetchAll(PDO::FETCH_OBJ);
 }
@@ -62,22 +62,18 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="https://kit.fontawesome.com/2a19bde8ca.js" crossorigin="anonymous" defer></script>
-
     <title>Tá por aqui - Meu perfil</title>
 
-    <link rel="stylesheet" href="../../assets/bootstrap/bootstrap-4.5.3-dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link rel="stylesheet" href="../../assets/global/globalStyles.css">
     <link rel="stylesheet" href="perfil.css">
 
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-    <script src="../../assets/bootstrap/popper.min.js" defer></script>
-    <script src="../../assets/bootstrap/bootstrap-4.5.3-dist/js/bootstrap.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="../../assets/jQueyMask/jquery.mask.js" defer></script>
-
+    <script src="https://kit.fontawesome.com/2a19bde8ca.js" crossorigin="anonymous" defer></script>
     <script src="../../assets/global/globalScripts.js" defer></script>
-
-    <script src="perfil_prestador.js" defer></script>
+    <script src="meu_perfil.js" defer></script>
     <script src="show_services.js" defer></script>
 </head>
 
@@ -85,51 +81,57 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
     <!--NavBar Comeco-->
     <div id="myMainTopNavbarNavBackdrop" class=""></div>
     <nav id="myMainTopNavbar" class="navbar navbar-expand-md">
-        <a href="../Home/home.php" class="navbar-brand">
-            <img src="../../assets/images/dumb-brand.png" alt="Tá por aqui" class="my-brand-img">
-        </a>
+        <div class="container-fluid">
+            <a href="../Home/home.php" id="myMainTopNavbarBrand" class="navbar-brand">
+                <img src="../../assets/images/dumb-brand.png" alt="Tá por aqui" class="my-brand-img">
+            </a>
 
-        <button id="myMainTopNavbarToggler" class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#myMainTopNavbarNav" aria-controls="navbarNav" aria-expanded="false"
-            aria-label="Toggle navigation">
-            <span class="my-navbar-toggler-icon">
-                <div></div>
-                <div></div>
-                <div></div>
-            </span>
-        </button>
+            <button type="button" id="myMainTopNavbarToggler" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#myMainTopNavbarNav" aria-controls="myMainTopNavbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="my-navbar-toggler-icon">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </span>
+            </button>
 
-        <div id="myMainTopNavbarNav" class="collapse navbar-collapse">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a href="../Home/home.php" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="../EncontrarProfissional/Listagem/listagem.php" class="nav-link">Encontre um
-                        profissional</a>
-                </li>
-                <li class="nav-item">
-                    <a href="../Artigos/artigos.php" class="nav-link">Artigos</a>
-                </li>
-                <li class="nav-item">
-                    <a href="../Contato/contato.php" class="nav-link">Fale conosco</a>
-                </li>
-                <li class="nav-item">
-                    <a href="../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
-                </li>
-                <li class="nav-item">
-                    <a href="../Chat/chat.php" class="nav-link">Chat</a>
-                </li>
-            </ul>
+            <div id="myMainTopNavbarNav" class="collapse navbar-collapse">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a href="../Home/home.php" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../EncontrarProfissional/Listagem/listagem.php" class="nav-link">Encontre um profissional</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../Artigos/artigos.php" class="nav-link">Artigos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../Contato/contato.php" class="nav-link">Fale conosco</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../Chat/chat.php" class="nav-link" id="navChatLink">Chat</a>
+                    </li>
+                    <?php if (empty($_SESSION['idUsuario'])) { ?>
+                        <li class="nav-item">
+                            <a href="../Entrar/login.php" class="nav-link">Entrar/cadastrar</a>
+                        </li>
+                    <?php } ?>
+                </ul>
 
-            <div class="dropdown">
-                <img src="../../assets/images/users/<?=$_SESSION['imagemPerfil']?>" alt="imagem de perfil" id="profileMenu"
-                    class="img-fluid" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <?php if (isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSION['senha']) && isset($_SESSION['classificacao'])) { ?>
+                    <div class="dropdown">
+                        <img src="../../assets/images/users/<?= $_SESSION['imagemPerfil'] ?>" alt="imagem de perfil" id="profileMenu" class="img-fluid" data-bs-toggle="dropdown" aria-expanded="false">
 
-                <div class="dropdown-menu" aria-labelledby="profileMenu">
-                    <a class="dropdown-item" href="meu_perfil.php">Perfil</a>
-                    <a class="dropdown-item text-danger" href="../../logic/entrar_logoff.php">Sair</a>
-                </div>
+                        <div class="dropdown-menu" aria-labelledby="profileMenu">
+                            <a class="dropdown-item" href="meu_perfil.php">Perfil</a>
+                            <a class="dropdown-item text-danger" href="../../logic/entrar_logoff.php">Sair</a>
+                        </div>
+                    </div>
+                <?php } ?>
+
             </div>
         </div>
     </nav>
@@ -148,14 +150,12 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
             <?php if(isset($_GET['erro'])) {?>
                 <div class="alert alert-danger alert-dismissible" role="alert">
                     <strong>Erro!</strong> <?= $_GET['erro'] ?>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php }?>
 
             <!-- Botão menu de alterar foto -->
-            <button type="button" id="profilePicMenu" data-toggle="modal" data-target="#profilePicMenuModal"> <i class="fas fa-pen"></i> Editar foto </button>
+            <button type="button" id="profilePicMenu" data-bs-toggle="modal" data-bs-target="#profilePicMenuModal"> <i class="fas fa-pen"></i> Editar foto </button>
 
             <!-- Menu de alterar foto -->
             <div class="modal fade" id="profilePicMenuModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -163,9 +163,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Edite sua foto de perfil</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
 
                         <div class="modal-body">
@@ -191,7 +189,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
                             <hr class="removeImageItem">
 
-                            <button id="removeProfilePic" class="removeImageItem btn-block" onclick="confirmRemoveImage('../../logic/perfil_remover_imagem.php')"> <i class="fas fa-trash"></i> Remover foto atual</button>
+                            <button id="removeProfilePic" class="removeImageItem w-100" onclick="confirmRemoveImage('../../logic/perfil_remover_imagem.php')"> <i class="fas fa-trash"></i> Remover foto atual</button>
                         </div>
                     </div>
                 </div>
@@ -227,9 +225,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                 <!-- alerta de troca bem sucedida -->
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <span><?=$_GET['status']?></span>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php }?>
 
@@ -256,7 +252,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                         <br>
 
                         <label for="userConfig">Configurações da conta</label> <br>
-                        <button type="button" class="btn" id="accountConfigBtn" data-toggle="modal" data-target="#accountConfigModal">Outras configurações</button>
+                        <button type="button" class="btn" id="accountConfigBtn" data-bs-toggle="modal" data-bs-target="#accountConfigModal">Outras configurações</button>
 
                     </div>
 
@@ -304,9 +300,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Configurações da conta</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="divConfig row">
@@ -315,7 +309,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                             <p>Mude sua senha caso você ache que alguém a sabe, ou se ela está muito fraca. mantenha sua conta protegida</p>
                         </div>
                         <div class="col-sm-4 d-flex align-items-center">
-                            <button type="button" class="mybtn mybtn-conversion closeConfigModal" id="changePass" data-toggle="modal" data-target="#changePassModal">Alterar senha</button>
+                            <button type="button" class="mybtn mybtn-conversion closeConfigModal" id="changePass" data-bs-toggle="modal" data-bs-target="#changePassModal">Alterar senha</button>
                         </div>
                     </div>
 
@@ -327,7 +321,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                             <p>Mude seu email caso você tenha trocado para um novo.</p>
                         </div>
                         <div class="col-sm-4 d-flex align-items-center">
-                            <button type="button" class="mybtn mybtn-complement closeConfigModal" id="changeEmail" data-toggle="modal" data-target="#changeEmailModal">Alterar email</button>
+                            <button type="button" class="mybtn mybtn-complement closeConfigModal" id="changeEmail" data-bs-toggle="modal" data-bs-target="#changeEmailModal">Alterar email</button>
                         </div>
                     </div>
 
@@ -383,7 +377,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="mybtn mybtn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="mybtn mybtn-secondary" data-bs-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>
@@ -398,16 +392,14 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Mudar senha</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>Você tem certeza que deseja trocar a sua senha?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" onclick="location.href='../../logic/perfil_allowChangePass.php'" class="mybtn mybtn-conversion">Tenho!</button>
-                    <button type="button" class="mybtn mybtn-secondary" data-dismiss="modal">Deixa pra lá</button>
+                    <button type="button" class="mybtn mybtn-secondary" data-bs-dismiss="modal">Deixa pra lá</button>
                 </div>
             </div>
         </div>
@@ -422,9 +414,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Trocar de email</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="" method="" id="emailChangeForm">
                     <div class="modal-body">
@@ -436,7 +426,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
                     <div class="modal-footer">
                         <button type="button" id="btnConfirmaTroca" class="mybtn mybtn-conversion" onclick="recebeEmail()">Confirmar troca</button>
-                        <button type="reset" class="mybtn mybtn-secondary" data-dismiss="modal">Deixa pra lá</button>
+                        <button type="reset" class="mybtn mybtn-secondary" data-bs-dismiss="modal">Deixa pra lá</button>
                     </div>
                 </form>
             </div>
@@ -447,14 +437,12 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
     <!-- modal confirmar novo email (código) -->
 
-    <div class="modal fade" id="confirmEmailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal fade" id="confirmEmailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Trocar de email</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p class="mb-3">Precisamos ter certeza que você tem acesso ao email que será trocado. Por isso enviamos um código de confirmação para o novo email.</p>
@@ -487,45 +475,43 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Informações do novo endereço</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <!-- inputs com informações do endereço -->
                 <form action="../../logic/perfil_trocar_localizacao.php" method="post" id="changeLocationForm">
                     <div class="modal-body">
                         <label for="userAdressCEP" class="myLabel">CEP</label> <br>
-                        <input type="text" class="form-control required" name="userAdressCEP" id="userAdressCEP" placeholder="ex.: 01234567" onkeyup="callGetAdress(this)" onchange="callGetAdress(this)" required>
+                        <input type="text" class="form-control required" name="userAdressCEP" id="userAdressCEP" placeholder="ex.: 01234567" onkeyup="callGetAdress(this)" onchange="callGetAdress(this)" required value="<?=$user->cep_usuario?>">
                         <small id="cepError" class="text-danger"></small>
 
                         <div class="row mt-3">
                             <div class="col-3">
                                 <label for="userAdressState" class="myLabel">Estado</label> <br>
-                                <input type="text" class="form-control required mb-3" name="userAdressState" id="userAdressState" readonly data-toggle="popover" data-trigger="hover" data-content="autocompletado com o CEP" data-placement="top" required>
+                                <input type="text" class="form-control required mb-3" name="userAdressState" id="userAdressState" readonly data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="autocompletado com o CEP" data-bs-placement="top" required value="<?=$user->uf_usuario?>">
                             </div>
                             <div class="col-9">
                                 <label for="userAdressCity" class="myLabel">Cidade</label> <br>
-                                <input type="text" class="form-control required mb-3" name="userAdressCity" id="userAdressCity" placeholder="autocompletado com o CEP" readonly required>
+                                <input type="text" class="form-control required mb-3" name="userAdressCity" id="userAdressCity" placeholder="autocompletado com o CEP" readonly required value="<?=$user->cidade_usuario?>">
                             </div>
                         </div>
 
                         <label for="userAdressNeighborhood" class="myLabel">Bairro</label> <br>
-                        <input type="text" class="form-control required mb-3" name="userAdressNeighborhood" id="userAdressNeighborhood" placeholder="Digite seu bairro" required>
+                        <input type="text" class="form-control required mb-3" name="userAdressNeighborhood" id="userAdressNeighborhood" placeholder="Digite seu bairro" required value="<?=$user->bairro_usuario?>">
 
                         <div class="row">
                             <div class="col-9">
                                 <label for="userAdressStreet" class="myLabel">Rua</label> <br>
-                                <input type="text" class="form-control required mb-3" name="userAdressStreet" id="userAdressStreet" placeholder="Digite sua rua" required>
+                                <input type="text" class="form-control required mb-3" name="userAdressStreet" id="userAdressStreet" placeholder="Digite sua rua" required value="<?=$user->rua_usuario?>">
                             </div>
                             <div class="col-3">
                                 <label for="userAdressNumber" class="myLabel">Número</label> <br>
-                                <input type="number" class="form-control required mb-3" name="userAdressNumber" id="userAdressNumber" maxlength="5" required>
+                                <input type="number" class="form-control required mb-3" name="userAdressNumber" id="userAdressNumber" maxlength="5" required value="<?=$user->numero_usuario?>">
                             </div>
                         </div>
 
                         <label for="userAdressComplement" class="myLabel">Complemento</label> <br>
-                        <input type="text" class="form-control mb-3" name="userAdressComplement" id="userAdressComplement" placeholder="Digite o complemento (caso tenha)" data-toggle="popover" data-trigger="hover" title="Exemplo" data-content="apto. 24 BL A" data-placement="top" maxlength="20">
+                        <input type="text" class="form-control mb-3" name="userAdressComplement" id="userAdressComplement" placeholder="Digite o complemento (caso tenha)" data-bs-toggle="popover" data-bs-trigger="hover" title="Exemplo" data-bs-content="apto. 24 BL A" data-bs-placement="top" maxlength="20">
 
                     </div>
 
@@ -1002,15 +988,13 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Você tem certeza que deseja <span id="confirmModalChoice"></span> o serviço solicitado por <strong id="confirmModalUserName" class="text-primary"></strong>?</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-justify">
                     <p id="confirmModalMessage"></p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="mybtn mybtn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="mybtn mybtn-secondary" data-bs-dismiss="modal">Fechar</button>
                     <button id="confirmModalConfirmChoice"></button>
                 </div>
             </div>
@@ -1037,7 +1021,6 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                     <a href="#"><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
-        </div>
         </div>
     </footer>
     <!-- /footer -->

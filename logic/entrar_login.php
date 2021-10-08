@@ -9,7 +9,7 @@ $con = $con->connect();
 $query = "SELECT id_usuario, email_usuario, senha_usuario, classif_usuario, imagem_usuario, status_usuario FROM usuarios WHERE email_usuario = :email AND senha_usuario = :senha";
 $stmt = $con->prepare($query);
 $stmt->bindValue(":email", $_POST['loginEmail']);
-$stmt->bindValue(":senha", $_POST['loginPass']);
+$stmt->bindValue(":senha", sha1($_POST['loginPass']));
 $stmt->execute();
 $user = $stmt->fetch(PDO::FETCH_OBJ);
 

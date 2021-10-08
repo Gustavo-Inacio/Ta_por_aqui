@@ -11,16 +11,22 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 class DbConnection {
+<<<<<<< HEAD
     // private $host = 'sql10.freemysqlhosting.net';
     // private $dbname = 'sql10435599';
     // private $user = 'sql10435599';
     // private $password = 'buc8h6VbjS';
 
+=======
+>>>>>>> 0b1bbb38738b871d799ddcc9f1c376e9d0656e31
     private $host = 'localhost';
     private $dbname = 'ta_por_aqui';
     private $user = 'root';
     private $password = '';
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0b1bbb38738b871d799ddcc9f1c376e9d0656e31
 
     public function connect(){
         //Iniciando conexão com o bd com PDO
@@ -303,7 +309,6 @@ class UsersListing {
     public function selectAllUsers(){
         $query = "SELECT id_usuario, nome_usuario, classif_usuario, email_usuario, nota_media_usuario, status_usuario, imagem_usuario from usuarios";
         $stmt = $this->con->query($query);
-
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -390,14 +395,14 @@ class CommentsListing {
     }
 
     public function selectAllComments(){
-        $query = "SELECT c.id_comentario, c.id_servico, c.id_usuario, c.desc_comentario, s.nome_servico, u.nome_usuario from comentarios as c join servicos as s on c.id_servico = s.id_servico join usuarios as u on c.id_usuario = u.id_usuario";
+        $query = "SELECT c.id_comentario, c.id_servico, c.id_usuario, c.desc_comentario, s.nome_servico, u.nome_usuario from comentarios as c join servicos as s on c.id_servico = s.id_servico join usuarios as u on c.id_usuario = u.id_usuario join denuncia_comentario dc on c.id_comentario = dc.id_comentario where (select count(*) from denuncia_comentario where dc.id_comentario AND dc.status_denuncia_comen != 2) > 0";
         $stmt = $this->con->query($query);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function selectSearchedComments($input, $param){
-        $query = "SELECT c.id_comentario, c.id_servico, c.id_usuario, c.desc_comentario, s.nome_servico, u.nome_usuario from comentarios as c join servicos as s on c.id_servico = s.id_servico join usuarios as u on c.id_usuario = u.id_usuario WHERE $param like '%$input%'";
+        $query = "SELECT c.id_comentario, c.id_servico, c.id_usuario, c.desc_comentario, s.nome_servico, u.nome_usuario from comentarios as c join servicos as s on c.id_servico = s.id_servico join usuarios as u on c.id_usuario = u.id_usuario join denuncia_comentario dc on c.id_comentario = dc.id_comentario WHERE $param like '%$input%' AND (select count(*) from denuncia_comentario where dc.id_comentario AND dc.status_denuncia_comen != 2) > 0";
         $stmt = $this->con->query($query);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

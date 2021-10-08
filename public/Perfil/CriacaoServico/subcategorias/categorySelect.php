@@ -10,18 +10,16 @@
 ?>
 <div class="modal-header">
     <h5 class="modal-title">Categorias disponíveis</h5>
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
 <div class="modal-body">
     <?php foreach ($listaCategorias as $i => $categoria) {
         if($i === count($listaCategorias) - 1) {
     ?>
-            <div class="masterCategory d-flex last" onclick="loadCategory('subcategorias.php?id_categoria=<?=$categoria->id_categoria?>')"> <span><?=$categoria->nome_categoria?></span> <span class="ml-auto"> <i class="fas fa-arrow-right"></i> </span> </div>
+            <div class="masterCategory d-flex last" onclick="loadCategory('subcategorias.php?id_categoria=<?=$categoria->id_categoria?>')"> <span><?=$categoria->nome_categoria?></span> <span class="ms-auto"> <i class="fas fa-arrow-right"></i> </span> </div>
         <?php } else {?>
-            <div class="masterCategory d-flex" onclick="loadCategory('subcategorias.php?id_categoria=<?=$categoria->id_categoria?>')"> <span><?=$categoria->nome_categoria?></span> <span class="ml-auto"> <i class="fas fa-arrow-right"></i> </span> </div>
+            <div class="masterCategory d-flex" onclick="loadCategory('subcategorias.php?id_categoria=<?=$categoria->id_categoria?>')"> <span><?=$categoria->nome_categoria?></span> <span class="ms-auto"> <i class="fas fa-arrow-right"></i> </span> </div>
         <?php
         }
     }?>

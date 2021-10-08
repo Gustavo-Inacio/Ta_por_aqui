@@ -98,9 +98,8 @@ textarea:focus, input:focus, select:focus, button:focus {
 
 #myMainTopNavbarNav{
     justify-content: center;
-    background-color: inherit;
-    margin: 0 -16px;
     z-index: 1000;
+    background-color: white;
 }
 
 #myMainTopNavbarNav > .navbar-nav{
@@ -362,6 +361,29 @@ textarea:focus, input:focus, select:focus, button:focus {
 
 /* --- Main Footer Fim -- */
 
+/* --- General links --- */
+
+a{
+    text-decoration: none;
+}
+
+a:hover{
+    text-decoration: underline;
+}
+
+.qntNonReadMsg{
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    font-size: 14px;
+    text-align: center;
+    background-color: #FF6F6F;
+    color: #F2F2F2;
+    border-radius: 50%;
+}
+
+/* --- General links fim --- */
+
 /* --- Media queries --- */
 @media (min-width: 285px){
 
@@ -404,6 +426,10 @@ textarea:focus, input:focus, select:focus, button:focus {
     #profileMenu{
         margin-left: 20px;
         margin-bottom: 20px;
+    }
+
+    #myMainTopNavbarNav{
+        margin: 0 -28px;
     }
 }
 

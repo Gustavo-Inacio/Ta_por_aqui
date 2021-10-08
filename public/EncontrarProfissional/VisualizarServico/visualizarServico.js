@@ -260,7 +260,7 @@ const commentSectionHandler = (info = []) => { // cuida da section inteira de co
                 const setDOM = async () => { // monta o layout na DOM
                     let processedNode = await ReportInterface({node:iframeNode, type: 'comment', data: {comment: comment, user, publishDate, service, sequencialNumber}})
                    
-                    await modalTrigger.setAttribute('data-target',`#reportComent${sequencialNumber}`) // muda o id para nao dar conflito entre os modais de comentario
+                    await modalTrigger.setAttribute('data-bs-target',`#reportComent${sequencialNumber}`) // muda o id para nao dar conflito entre os modais de comentario
                     await modal.setAttribute('id',`reportComent${sequencialNumber}`)// muda o id para nao dar conflito entre os modais de comentario
     
                     await modalBody.appendChild(processedNode) // pega o node retornado e o coloca na DOM
@@ -555,7 +555,8 @@ const hireServiceHandler = () => {
 
 
                 if(!info.logged){
-                    $('#notLoggedModal').modal('toggle');
+                    let myModal = new bootstrap.Modal(document.getElementById('notLoggedModal'))
+                    myModal.toggle()
                     return false;
                 }
 
@@ -579,7 +580,7 @@ const hireServiceHandler = () => {
             }
             
         }
- //data-toggle="modal" data-target="#notLoggedModal"
+ //data-bs-toggle="modal" data-bs-target="#notLoggedModal"
         request.open('POST', '../../../logic/contratar_servico.php');
         request.send();
     }

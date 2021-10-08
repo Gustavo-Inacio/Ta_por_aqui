@@ -1,5 +1,5 @@
 <?php
-if( empty($_SESSION) ){
+if( empty($_SESSION['idUsuario']) ){
     if( isset($_COOKIE['idUsuario']) && isset($_COOKIE['email']) && isset($_COOKIE['senha']) && isset($_COOKIE['classificacao']) ){
         //criando a session do usuário
         $_SESSION['idUsuario'] = $_COOKIE['idUsuario'];
