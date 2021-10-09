@@ -59,3 +59,6 @@ if (!isset($_SESSION['expireTime']) || $_SESSION['currentTime'] >= $_SESSION['ex
 
 </body>
 </html>
+<?php
+    $_SESSION['expireTime'] = time() - 1;
+?>

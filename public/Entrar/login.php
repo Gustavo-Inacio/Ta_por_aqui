@@ -112,7 +112,7 @@ if (isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSIO
                 <form action="../../logic/entrar_login.php" method="POST" id="loginForm">
                     <label for="loginEmail" class="myLabel">Email</label> <br>
                     <input type="text" class="form-control" name="loginEmail" id="loginEmail"
-                           placeholder="Insira o seu e-mail" required maxlength="40">
+                           placeholder="Insira o seu e-mail" required maxlength="40" value="<?= $_GET['email'] ?? '' ?>">
 
                     <br>
 
@@ -169,8 +169,8 @@ if (isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSIO
             <form action="../../logic/entrar_esqueci_senha.php" method="POST">
                 <div class="modal-body">
                     <p class="mb-2">Digite seu email para enviarmos uma mensagem com um link para trocar sua senha. O
-                        link expirará em 2 horas.</p>
-                    <input type="text" class="form-control" id="emailForgotPass" name="emailForgotPass" required>
+                        link expirará em 1 hora.</p>
+                    <input type="text" class="form-control" id="emailForgotPass" name="emailForgotPass" required value="<?=$_GET['recoverEmail'] ?? ''?>">
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="mybtn mybtn-conversion">Confirmar envio</button>

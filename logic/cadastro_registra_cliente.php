@@ -84,5 +84,11 @@ $stmt->execute();
 session_start();
 unset($_SESSION['confirmCode']);
 
+//Criando cookie para referenciar que o usuário nunca usou o chat
+setcookie('chatTutorial', 'show', time() + (60*60*24*300), '/'); //expira em 300 dias
+
+//Criando cookie para referenciar que o usuário tem que aceitar os cookies (irônico)
+setcookie('acceptCookies', 'notAccepted', time() + (60*60*24*300), '/'); //expira em 300 dias
+
 //redirecionando / mensagem de sucesso
 header('Location:../public/cadastrar/cadastro.php?status=1');

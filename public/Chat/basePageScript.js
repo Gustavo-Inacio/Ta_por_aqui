@@ -157,6 +157,8 @@ function sendMessage() {
                 $('#sendMessage').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>')
                 $('#sendMessage').attr('disabled', true)
                 $('#chatMessageInput').attr('disabled', true)
+
+                //tratando emojis
             }
         }).done(()=>{
             $('#sendMessage').html('<i class="fas fa-paper-plane"></i>')

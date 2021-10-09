@@ -6,6 +6,11 @@ require "../../logic/entrar_cookie.php";
 
 if(!isset($_SESSION['idUsuario'])){
     header('Location: boasVindas.php');
+    exit();
+}
+if (isset($_COOKIE['chatTutorial']) && $_COOKIE['chatTutorial'] === 'show'){
+    header('Location: boasVindas.php');
+    exit();
 }
 ?>
 <!DOCTYPE html>
