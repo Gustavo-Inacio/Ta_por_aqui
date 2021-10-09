@@ -76,7 +76,7 @@ function loadConversation(chatId, userId, changeConversationLoad = true, service
                 updateChat = setInterval(() => {
                     //pegando o id da ultima mensagem
                     updateConversation(chatId, userId, lastMessageId)
-                },2000)
+                },1000)
 
                 //Toda vez que a conversa é carregada, será solicitado um script para marcar as conversas do destinatário como lidas
                 $.ajax({
