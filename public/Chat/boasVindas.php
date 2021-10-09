@@ -16,6 +16,9 @@ if(isset($_SESSION['idUsuario'])) {
     $user_info['email_usuario'] = null;
     $user_info['fone_usuario'] = null;
 }
+
+//Se o usuário carregou essa página, não precisa mais mostrar o tutorial de chat pra ele -> destrói o cookie que verifica isso
+setcookie('chatTutorial', '', time() - 3600, '/');
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">

@@ -1,8 +1,4 @@
 <?php
-echo "<pre>";
-print_r($_POST);
-echo "</pre>";
-
 session_start();
 
 //procurando login do usuário no banco de dados
@@ -19,7 +15,7 @@ $user = $stmt->fetch(PDO::FETCH_OBJ);
 
 if( empty($user) ){
     //redirecionando para página de login pois está inválido
-    header('Location: ../public/Entrar/login.php?status_usuario=suspenso&rec_erro=email%20ou%20senha%20incorretos');
+    header('Location: ../public/Entrar/login.php?status_usuario=suspenso&rec_erro=email%20ou%20senha%20incorretos%recovermail='.$_POST['recoverEmail']);
 } else {
     if ($user->status_usuario == 0){
         #desexcluindo conta do usuário

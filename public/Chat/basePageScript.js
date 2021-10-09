@@ -18,31 +18,9 @@ $(document).ready(() => {
     if (url.searchParams.get('directChat') !== null){
         $('#loadAssyncContacts').load(`getContacts.php?active=${idChatAtivoUrl}`, () => {
             $(`[chatId='${idChatAtivoUrl}']`).click()
-
-            //atualizando a listagem de contatos
-            let updateContacts = setInterval(() => {
-                let previousSearch = $('#searchParam').val()
-                let idChatAtivo = $('.active').attr('chatid')
-                if (previousSearch != ''){
-                    $('#loadAssyncContacts').load(`getContacts.php?active=${idChatAtivo}&param=${previousSearch}`);
-                } else {
-                    $('#loadAssyncContacts').load(`getContacts.php?active=${idChatAtivo}`);
-                }
-            }, 3000)
         });
     } else {
-        $('#loadAssyncContacts').load('getContacts.php', () => {
-            //atualizando a listagem de contatos
-            let updateContacts = setInterval(() => {
-                let previousSearch = $('#searchParam').val()
-                let idChatAtivo = $('.active').attr('chatid')
-                if (previousSearch != ''){
-                    $('#loadAssyncContacts').load(`getContacts.php?active=${idChatAtivo}&param=${previousSearch}`);
-                } else {
-                    $('#loadAssyncContacts').load(`getContacts.php?active=${idChatAtivo}`);
-                }
-            }, 3000)
-        });
+        $('#loadAssyncContacts').load(`getContacts.php?active=${idChatAtivoUrl}`);
     }
 
     //configurando emoji picker
@@ -109,15 +87,11 @@ $(document).ready(() => {
                 contentType: false,
                 processData: false,
                 beforeSend: () => {
-                    //criar gif de carregamento
-                    let loadingGif = document.createElement('img')
-                    loadingGif.src = "../../assets/images/loading.gif"
-                    loadingGif.width = 16
-                    loadingGif.id = "loadingGif"
-                    $('#sendFile').html(loadingGif)
+                    $('#sendFile').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>')
 
                     //desabilitar botão
                     $('#sendFile').attr('disabled', true)
+                    $('#midiaInput').attr('disabled', true)
                 },
                 complete: () => {
                     //Devolvendo o ícone de enviar
@@ -125,6 +99,7 @@ $(document).ready(() => {
 
                     //habilitar botão
                     $('#sendFile').attr('disabled', false)
+                    $('#midiaInput').attr('disabled', false)
                 },
                 success: function(data) {
                     console.log(data)
@@ -176,9 +151,19 @@ function sendMessage() {
                 id_remetente_usuario: $('#id_remetente').val(),
                 id_destinatario_usuario: $('#id_destinatario').val(),
                 mensagem_chat: messageInput.value
+            },
+            beforeSend: () => {
+                //ta carregando mano, se acalme. Vc não pode enviar uma mensagem antes de terminar de enviar a outra
+                $('#sendMessage').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>')
+                $('#sendMessage').attr('disabled', true)
+                $('#chatMessageInput').attr('disabled', true)
+            },
+            success: () => {
+                $('#sendMessage').html('<i class="fas fa-paper-plane"></i>')
+                $('#sendMessage').attr('disabled', false)
+                $('#chatMessageInput').attr('disabled', false)
+                $('#chatMessageInput').val('')
             }
-        }).done(()=>{
-            $('#chatMessageInput').val('')
         })
     }
 }

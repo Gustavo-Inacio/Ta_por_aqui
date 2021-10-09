@@ -6,6 +6,11 @@ require "../../logic/entrar_cookie.php";
 
 if(!isset($_SESSION['idUsuario'])){
     header('Location: boasVindas.php');
+    exit();
+}
+if (isset($_COOKIE['chatTutorial']) && $_COOKIE['chatTutorial'] === 'show'){
+    header('Location: boasVindas.php');
+    exit();
 }
 ?>
 <!DOCTYPE html>
@@ -104,6 +109,8 @@ if(!isset($_SESSION['idUsuario'])){
 
         <div id="loadAssyncContacts">
             <!-- Os contatos serão carregados dinamicamente -->
+            <strong class="me-3">Carregando contatos...</strong>
+            <div class="spinner-border" role="status"></div>
         </div>
     </div>
 

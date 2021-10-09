@@ -4,6 +4,10 @@ require "../DbConnection.php";
 $con = new DbConnection();
 $con = $con->connect();
 
+if ($_POST['mensagem_chat'] == ''){
+    exit();
+}
+
 //inserindo mensagem no banco de dados
 $query = "INSERT INTO chat_mensagens(id_chat_contato, id_remetente_usuario, id_destinatario_usuario, mensagem_chat) VALUE (:id_chat_contato, :id_remetente_usuario, :id_destinatario_usuario, :mensagem_chat)";
 $stmt = $con->prepare($query);
