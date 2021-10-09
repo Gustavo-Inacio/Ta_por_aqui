@@ -24,7 +24,7 @@ class DbConnection {
                 "$this->user",
                 "$this->password"
             );
-            $connect->exec('SET CHARACTER SET utf8');
+            $connect->exec('SET CHARACTER SET utf8mb4');
 
             return $connect;
 

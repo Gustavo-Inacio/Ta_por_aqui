@@ -157,14 +157,13 @@ function sendMessage() {
                 $('#sendMessage').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>')
                 $('#sendMessage').attr('disabled', true)
                 $('#chatMessageInput').attr('disabled', true)
-
-                //tratando emojis
+            },
+            success: () => {
+                $('#sendMessage').html('<i class="fas fa-paper-plane"></i>')
+                $('#sendMessage').attr('disabled', false)
+                $('#chatMessageInput').attr('disabled', false)
+                $('#chatMessageInput').val('')
             }
-        }).done(()=>{
-            $('#sendMessage').html('<i class="fas fa-paper-plane"></i>')
-            $('#sendMessage').attr('disabled', false)
-            $('#chatMessageInput').attr('disabled', false)
-            $('#chatMessageInput').val('')
         })
     }
 }
