@@ -4,6 +4,16 @@ require './unaccent.php'; // retira os acentos e caracteres especiais de uma str
 $con = new DbConnection();
 $con = $con->connect();
 
+//vefificando se tudo está preenchido
+foreach ($_POST as $key => $item){
+    if ($key !== 'userAdressComplement'){
+        if ($item === ''){
+            header('Location: ../public/Cadastrar/cadastro.php?status=erro');
+            exit();
+        }
+    }
+}
+
 function getCoordinates($data) // recebe um array de dados para a pesquisa [q]. Retorna a lat e a long do endereco
 {
     $apiKey = '2BHqTlrrRZyJOYbFEl47yRbagjjwSaY-Eu3iriuEgvY';
@@ -47,12 +57,10 @@ $adressData = array( // dados usados para capurar a posicao em lat e long
 $coordinates = getCoordinates($adressData);
 
 //salvando o cadastro no banco de dados
-$query = "";
-if( $_POST['userAdressComplement'] != "" ){
-    $query = "INSERT INTO usuarios(nome_usuario, sobrenome_usuario, fone_usuario, email_usuario, senha_usuario, data_nasc_usuario, sexo_usuario, classif_usuario, cep_usuario, uf_usuario, cidade_usuario, bairro_usuario, rua_usuario, numero_usuario, posicao_usuario, comple_usuario) VALUES (:nome, :sobrenome, :telefone, :email, :senha, :data_nascimento, :sexo, :classificacao, :cep, :estado, :cidade, :bairro, :rua, :numero, POINT(".$coordinates['lat'] . ", " . $coordinates['lng']."), :complemento);";
-} else {
-    $query = "INSERT INTO usuarios(nome_usuario, sobrenome_usuario, fone_usuario, email_usuario, senha_usuario, data_nasc_usuario, sexo_usuario, classif_usuario, cep_usuario, uf_usuario, cidade_usuario, bairro_usuario, rua_usuario, numero_usuario, posicao_usuario) VALUES (:nome, :sobrenome, :telefone, :email, :senha, :data_nascimento, :sexo, :classificacao, :cep, :estado, :cidade, :bairro, :rua, :numero,  POINT(".$coordinates['lat'] . ", " . $coordinates['lng']."));";
+if ($_POST['userAdressComplement'] == ""){
+    $_POST['userAdressComplement'] = null;
 }
+$query = "INSERT INTO usuarios(nome_usuario, sobrenome_usuario, fone_usuario, email_usuario, senha_usuario, data_nasc_usuario, sexo_usuario, classif_usuario, cep_usuario, uf_usuario, cidade_usuario, bairro_usuario, rua_usuario, numero_usuario, comple_usuario, posicao_usuario) VALUES (:nome, :sobrenome, :telefone, :email, :senha, :data_nascimento, :sexo, :classificacao, :cep, :estado, :cidade, :bairro, :rua, :numero, :complemento, POINT({$coordinates['lat']}, {$coordinates['lng']}))";
 
 $stmt = $con->prepare($query);
 $stmt->bindValue(':nome', $_POST['userName']);
@@ -69,9 +77,7 @@ $stmt->bindValue(':cidade', $_POST['userAdressCity']);
 $stmt->bindValue(':bairro', $_POST['userAdressNeighborhood']);
 $stmt->bindValue(':rua', $_POST['userAdressStreet']);
 $stmt->bindValue(':numero', $_POST['userAdressNumber']);
-if( $_POST['userAdressComplement'] != "" ){
-    $stmt->bindValue(':complemento', $_POST['userAdressComplement']);
-}
+$stmt->bindValue(':complemento', $_POST['userAdressComplement']);
 $stmt->execute();
 
 //Definindo as redes sociais do usuário

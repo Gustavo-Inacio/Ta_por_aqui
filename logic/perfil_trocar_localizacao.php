@@ -7,10 +7,6 @@ require './unaccent.php'; // retira os acentos e caracteres especiais de uma str
 $con = new DbConnection();
 $con = $con->connect();
 
-echo "<pre>";
-print_r($_POST);
-echo "</pre>";
-
 //vefificando se tudo está preenchido
 foreach ($_POST as $key => $item){
     if ($key !== 'userAdressComplement'){
