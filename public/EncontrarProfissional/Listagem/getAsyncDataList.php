@@ -14,7 +14,7 @@
 
     if(isset($inputData->getCategories) && $inputData->getCategories == "true"){
         $reponse['categoires'] = $brain->getCatgorieInfo();
-        print_r($reponse['categoires']);
+        // print_r($reponse['categoires']);
        // echo "get cat";
     }
 

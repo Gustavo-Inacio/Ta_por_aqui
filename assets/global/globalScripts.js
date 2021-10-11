@@ -17,12 +17,16 @@ const setNavbarConfiguration = () => {
 
 setNavbarConfiguration();
 
+//pegar url absoluta do projeto
+let absolutePath = location.href.split('public')
+absolutePath = absolutePath[0]
+
 function getQntMessages() {
     let element = document.getElementsByClassName('qntNonReadMsg')[0];
 
     //requisitando o script que conta as mensagens
     let xmlhttp = new XMLHttpRequest();
-    xmlhttp.open('GET', '../../logic/chat/chat_qntMsgNaoLida.php', true);
+    xmlhttp.open('GET', absolutePath+'logic/chat/chat_qntMsgNaoLida.php', true);
     xmlhttp.onreadystatechange = () => {
         if (xmlhttp.readyState === 4) {
             if (xmlhttp.status === 200){
@@ -44,7 +48,7 @@ function onlineUser() {
 
     //requisitando o script que bota o user como online
     let xmlhttp = new XMLHttpRequest();
-    xmlhttp.open('POST', '../../logic/userOnline.php', true);
+    xmlhttp.open('POST', absolutePath+'logic/userOnline.php', true);
     xmlhttp.send(formData);
 }
 
@@ -57,7 +61,7 @@ function offlineUser() {
 
     //requisitando o script que bota o user como online
     let xmlhttp = new XMLHttpRequest();
-    xmlhttp.open('POST', '../../logic/userOnline.php', true);
+    xmlhttp.open('POST', absolutePath+'logic/userOnline.php', true);
     xmlhttp.send(formData);
 }
 

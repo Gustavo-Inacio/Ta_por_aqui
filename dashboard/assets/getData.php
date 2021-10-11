@@ -32,17 +32,17 @@ class DbConnection {
         //Iniciando conexão com o bd com PDO
         try{
             $connect = new PDO(
-                "mysql:host=$this->host;dbname=$this->dbname",
+                "mysql:host=$this->host;dbname=$this->dbname;",
                 "$this->user",
                 "$this->password"
             );
+            $connect->exec('SET CHARACTER SET utf8');
 
             return $connect;
 
         } catch (PDOException $e){
             echo 'Não foi possivel se conectar com o servidor <br>';
             echo 'Código do erro: ' . $e->getCode() . '<br> Mensagem de erro: ' . $e->getMessage();
-            exit();
         }
     }
 }

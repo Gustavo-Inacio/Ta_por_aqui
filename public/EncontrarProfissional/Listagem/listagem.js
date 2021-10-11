@@ -718,7 +718,7 @@ const getCategoriesName = () => {
     };
 
     req.onload =() => {
-        console.log(req.response);
+        // console.log(req.response);
         prepareCatgories((JSON.parse(req.response)));
     }
 

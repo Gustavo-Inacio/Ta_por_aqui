@@ -20,12 +20,11 @@ class DbConnection {
         //Iniciando conexão com o bd com PDO
         try{
             $connect = new PDO(
-                "mysql:host=$this->host;dbname=$this->dbname",
+                "mysql:host=$this->host;dbname=$this->dbname;",
                 "$this->user",
                 "$this->password"
             );
-
-            // $connect->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, "SET NAMES utf8");
+            $connect->exec('SET CHARACTER SET utf8');
 
             return $connect;
 
