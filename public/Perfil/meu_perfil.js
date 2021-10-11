@@ -336,6 +336,12 @@ function callGetAdress(input){
     if(input.value.length === 8){
         //caso o input tenha 8 digitos ele chama a função passando já o value o cep
         getAdress(input.value)
+    } else {
+        //Colocando a resposta nos formulários
+        document.getElementById('userAdressCity').value = ''
+        document.getElementById('userAdressState').value = ''
+        document.getElementById('userAdressStreet').value = ''
+        document.getElementById('userAdressNeighborhood').value = ''
     }
 }
 
