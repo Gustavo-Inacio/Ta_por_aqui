@@ -139,7 +139,7 @@ function updateConversation(getChatId, getUserId, getLastMsgId) {
         method: 'POST',
         data: mydata,
         success: result => {
-            if (result === "differentMsg"){
+            if (result === "differentMsg" || result === "noMsg"){
                 loadConversation(getChatId, getUserId, false)
                 //scrollando para o fim da conversa
                 let objDiv = document.getElementsByClassName("chatMessages")[0];

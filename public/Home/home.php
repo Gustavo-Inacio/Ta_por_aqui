@@ -330,5 +330,57 @@ $qntContratos = $con->query($query)->fetch(PDO::FETCH_OBJ);
         <p class="lg">lg</p>
         <p class="xl">xl</p>
     </div>-->
+
+    <!-- Alerta para avisar sobre o uso de cookies -->
+    <pre>
+        <?=print_r($_COOKIE)?>
+    </pre>
+    <?php if (isset($_COOKIE['acceptCookies']) && $_COOKIE['acceptCookies'] === 'notAccepted') {?>
+        <div class="cookieAlert" id="cookieAlert">
+            <div class="cookieAlertContent bg-dark text-white" id="cookieAlertContent">
+                <div class="cookieAlertHeader">
+                    <h4>Aviso legal sobre o uso de cookies <i class="fas fa-cookie"></i></h4> <button class="btn btn-close btn-close-white mt-2" id="dismissCookie"></button>
+                </div>
+                <div class="cookieAlertBody">
+                    Esse site usa cookies para garantir uma melhor experiência para você!
+                </div>
+                <div class="cookieAlertFooter">
+                    <button class="mybtn mybtn-outline-conversion mybtn-sm" id="acceptCookie">Tudo bem :)</button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function fadeOut(content, body){
+                let opacity = 1
+                let fadeOut = setInterval(() => {
+                    if (opacity <= 0){
+                        clearInterval(fadeOut)
+                        body.remove()
+                    } else {
+                        opacity -= 0.3
+                        content.style.opacity = opacity
+                    }
+                }, 50)
+            }
+
+            let cookieAlert = document.getElementById('cookieAlert')
+            let cookieContent = document.getElementById('cookieAlertContent')
+
+            //apenas dismiss
+            document.getElementById('dismissCookie').addEventListener('click', () => {
+                fadeOut(cookieContent, cookieAlert)
+            })
+
+            //dismiss e não parecer mais
+            document.getElementById('acceptCookie').addEventListener('click', () => {
+                fadeOut(cookieContent, cookieAlert)
+
+                let xmlhttp = new XMLHttpRequest();
+                xmlhttp.open('POST', '../../logic/acceptCookie.php', true);
+                xmlhttp.send();
+            })
+        </script>
+    <?php }?>
 </body>
 </html>

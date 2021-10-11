@@ -161,7 +161,7 @@ const requestServices = async () => { // cuida da requisaicao de servicos
 
 
         
-
+        console.log(req.response)
         let responseData = JSON.parse(req.response);
         let responseInfo =  responseData.services.statusInfo;
         responseData = responseData.services.data;

@@ -125,7 +125,7 @@ if (isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSIO
                         </div>
                         <div class="col-md-6 mt-4 mt-md-0">
                             <label for="btnAdressModal" class="myLabel">Informações de endereço</label>
-                            <button type="button" id="btnAdressModal" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#adressModal"> Editar endereço</button>
+                            <button type="button" id="btnAdressModal" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#adressModal" onclick="requestUserLocation()"> Editar endereço</button>
                             <br> <br>
 
                             <div class="modal fade" id="adressModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
