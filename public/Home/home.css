@@ -475,6 +475,45 @@
 }
 /* -- myFinalMessageSection Fim -- */
 
+/* -- Cookie alert -- */
+.cookieAlert{
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    bottom: 0;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.cookieAlertContent{
+    align-self: center;
+    border-radius: 7px;
+}
+
+.cookieAlertHeader{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid gray;
+    padding: 5px 15px;
+}
+
+.cookieAlertHeader h4{
+    font-size: 20px;
+    display: inline-block;
+}
+
+.cookieAlertBody{
+    padding: 5px 15px;
+}
+
+.cookieAlertBody{
+    font-size: 14px;
+}
+
+.cookieAlertFooter{
+    padding: 5px 15px;
+}
+
 /* --- Media queries --- */
 @media (max-width: 285px){
     /*--- LoginSection Comeco -- */
