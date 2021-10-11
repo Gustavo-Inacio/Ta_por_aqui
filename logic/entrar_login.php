@@ -15,7 +15,7 @@ $user = $stmt->fetch(PDO::FETCH_OBJ);
 
 if( empty($user) ){
     //redirecionando para página de login pois está inválido
-    header('Location: ../public/Entrar/login.php?erro=login_invalido');
+    header('Location: ../public/Entrar/login.php?erro=login_invalido&email='.$_POST['loginEmail']);
 } else {
     if ($user->status_usuario == 0){
         header('Location: ../public/Entrar/login.php?status_usuario=suspenso');

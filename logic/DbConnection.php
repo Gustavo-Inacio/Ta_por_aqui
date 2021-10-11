@@ -10,21 +10,16 @@ class DbConnection {
     private $user = 'sql10443065';
     private $password = 'v1G7Ciq2ne';
 
-    // Server: sql10.freemysqlhosting.net
-    // Name: sql10443065
-    // Username: sql10443065
-    // Password: v1G7Ciq2ne
-    // Port number: 3306
-
     public function connect(){
         //Iniciando conexão com o bd com PDO
         try{
+            //remoto
             $connect = new PDO(
                 "mysql:host=$this->host;dbname=$this->dbname;",
                 "$this->user",
                 "$this->password"
             );
-            $connect->exec('SET CHARACTER SET utf8');
+            $connect->exec('SET CHARACTER SET utf8mb4');
 
             return $connect;
 

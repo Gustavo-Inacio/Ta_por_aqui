@@ -22,6 +22,6 @@ $lastMessage = $stmt->fetch(PDO::FETCH_OBJ);
 
 if ($id_ultima_msg == $lastMessage->id_chat_mensagem){
     echo "sameMsg";
-} else if ($id_ultima_msg != $lastMessage->id_chat_mensagem) {
+} else {
     echo "differentMsg";
 }
