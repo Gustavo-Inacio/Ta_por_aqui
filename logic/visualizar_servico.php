@@ -133,6 +133,8 @@ class VisualizeService
             else{
                 $response['status'] = 2; // se nao existir, coloca o valor padrao
             }
+
+        
         }
         else{ // se nao estiver loggado ou nao estiver em um servico
             $response['status'] = 2; // status padrao 
@@ -374,6 +376,23 @@ class VisualizeService
         return $response;
     }
 
+    public function getSelfService(){
+        if(isset($_SESSION['idUsuario']) && isset($_SESSION['serviceID'])){
+            $clientID = $_SESSION['idUsuario'];
+            $serviceID = $_SESSION['serviceID'];
+
+            $selfService = false;
+
+            $cmd = $this->con->query("select id_servico from servicos where id_prestador_servico={$clientID} and id_servico={$serviceID};");
+            if($cmd->rowCount() > 0){
+                $selfService = true;
+            }
+
+            return $selfService;
+        }
+
+    }
+
     public function getOtherService($config){
 
         $response = array(
@@ -393,7 +412,7 @@ class VisualizeService
                 $servicesID = $cmdServices->fetchAll(PDO::FETCH_ASSOC);
 
                 foreach ($servicesID as $key => $idSer) { // para cada id, busque as informacoes do servico em analise
-                    $cmdThisService = $this->con->prepare("SELECT id_servico, nota_media_servico, id_prestador_servico, nome_servico, crit_orcamento_servico From servicos where id_servico=:idSer");
+                    $cmdThisService = $this->con->prepare("SELECT id_servico, nota_media_servico, id_prestador_servico, nome_servico, crit_orcamento_servico, orcamento_servico From servicos where id_servico=:idSer");
                     $cmdThisService->bindValue('idSer', $idSer['id_servico']);
                     $cmdThisService->execute();
 
