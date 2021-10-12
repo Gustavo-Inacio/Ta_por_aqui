@@ -442,16 +442,18 @@ const initializeOtherServiceSlider =(data = []) => { // cuida da listagem de out
 
     const otherServiceItem = async(info = {}) => { // cuida do preenchimento e aplicacao na DOM de cada servico
         return new Promise ((resolve, reject) => {
-            let template_e = document.getElementById('myOtherServiceTemplate'); // este e o template do item
+            let template_e = document.importNode(document.getElementById('myOtherServiceTemplate').content, true); // este e o template do item
+
+            console.log(info)
 
             let elements = { // contem os elmentos do temlate
-                link: template_e.content.querySelector('.my-other-service-link'),
-                providerName: template_e.content.querySelector('.my-other-service-card--provider-name'),
-                serviceName: template_e.content.querySelector('.my-other-service-card--service-name'),
+                link: template_e.querySelector('.my-other-service-link'),
+                providerName: template_e.querySelector('.my-other-service-card--provider-name'),
+                serviceName: template_e.querySelector('.my-other-service-card--service-name'),
                 providerPicture: document.createElement('img'), // o elemnto img eh criado pelo js porque deve-se esperar a img carregar para mostrar o item
-                serviceRateNumber: template_e.content.querySelector('.my-rate-service-number > label'),
-                serviceLoaction: template_e.content.querySelector('.my-other-service-location'),
-                servicePrice: template_e.content.querySelector('.my-other-service-price'),
+                serviceRateNumber: template_e.querySelector('.my-rate-service-number > label'),
+                serviceLoaction: template_e.querySelector('.my-other-service-location'),
+                servicePrice: template_e.querySelector('.my-other-service-price'),
             }
 
             elements.providerPicture.onload = () => { // quando a imagem do prestador carregar tudo
@@ -460,11 +462,11 @@ const initializeOtherServiceSlider =(data = []) => { // cuida da listagem de out
                     elements.providerPicture.classList.add('my-other-service--person-picture'); // adiciona as classes ao elemento img criado pelo js.
                     elements.providerPicture.setAttribute('alt', 'Foto de perfil') // adiciona um alt no img criaod pelo js 
     
-                    let photoContainer = template_e.content.querySelector('.my-other-service--person-picture-div'); // esta eh a div onde sera colocada o le,ento img criado pelo js 
+                    let photoContainer = template_e.querySelector('.my-other-service--person-picture-div'); // esta eh a div onde sera colocada o le,ento img criado pelo js 
                     photoContainer.innerHTML = ""; // limpar ela antes de usar, pois as imagens de itens anteriores ficam aqui ainda.
                     photoContainer.appendChild(elements.providerPicture); // coloca o img criado pelo js 
     
-                    let newItem = document.importNode(template_e.content, true); // cria-se um node com as devidas informacoes
+                    let newItem = template_e; // cria-se um node com as devidas informacoes
     
                     section.style.display = "initial"; // faz a section aparecer caso for colocar um item, pois ela fica escondida por padrao
                     otherServicesSlider.addItem(newItem); // insere o node na lista - pelo metodo do glider.js
@@ -486,22 +488,27 @@ const initializeOtherServiceSlider =(data = []) => { // cuida da listagem de out
                         console.log('elemento --> ', info)
                         console.log('index --> ', i)
                     console.groupEnd();
-                    return;
+                    // return;
                 };
 
-                if(i === 'link' || i === 'providerPicture') // caso existam src para serem preenchidos ao inves do elemtno em si
+                if(i === 'link') // caso existam src para serem preenchidos ao inves do elemtno em si
+                    elements[i].setAttribute("href", info[i]);
+                else if(i === 'providerPicture')
                     elements[i].src = info[i];
-                else
+                else 
                     elements[i].innerHTML = info[i] // preenche o elemnto com a info 
             }
 
-            let rateStars = template_e.content.querySelectorAll('.my-other-service-card--rate-div svg path'); // array com os elementos das estrlinhas de avaliacao
+            let rateStars = template_e.querySelectorAll('.my-other-service-card--rate-div svg path'); // array com os elementos das estrlinhas de avaliacao
+        
             rateStars.forEach(element => { // limpa as estrelinhas do template antes de usa-las
                 element.setAttribute("fill", "#AAAA");
             });
             for(let i = 0; i < Math.floor(info.serviceRateNumber) && i < rateStars.length; i++){ // pinta de amarelo as estrelinhas de acordo com a nota
                 rateStars[i].setAttribute("fill", "#FF9839")
             }
+
+           
         })
     }
 
@@ -585,7 +592,7 @@ const hireServiceHandler = () => {
         request.send();
     }
 }
-hireServiceHandler()
+//hireServiceHandler()
 
 descriptionHandler();
 
@@ -619,16 +626,24 @@ const loadOtherService = () => {
         let data = resp.getOtherServices.data;
         let dataFormated = [];
 
+       
+
         data.forEach((elem, index) => {
-            if(!elem.service.nota_media) elem.service.nota_media = '0';
+            if(!elem.service.nota_media_servico) elem.service.nota_media_servico = '0';
+
+            let fullPrice = "";
+
+            if(!(elem.service.orcamento_servico == null)) fullPrice += ""+ elem.service.orcamento_servico;
+            if(!(elem.service.crit_orcamento_servico == null)) fullPrice += " "+ elem.service.crit_orcamento_servico;
+
             dataFormated.push({
                 link : `./visuaizarServico.php?serviceID=${elem.service.id_servico}`,
                 providerName: elem.user.nome_usuario,
                 serviceName: elem.service.nome_servico,
                 providerPicture: `../../../assets/images/users/${elem.user.imagem_usuario}`,
-                serviceRateNumber: elem.service.nota_media_servico,
+                serviceRateNumber: elem.service.nota_media_servico || 0,
                 serviceLoaction: elem.user.cidade_usuario,
-                servicePrice: elem.service.orcamento_servico,
+                servicePrice: fullPrice,
             });
 
             console.log(elem.service.nota_media_servico)
@@ -892,6 +907,8 @@ async function commentsDataHandler(response){
     let rateSum = 0;
 
     let pictureFolderPath = "../../../assets/images/users/";
+
+    if(data.length > 0) document.querySelector("#myComentSection").style.display = "block";
 
     console.log(data)
     data.forEach((elem, index) => {
