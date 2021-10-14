@@ -150,8 +150,8 @@ $qntContratos = $con->query($query)->fetch(PDO::FETCH_OBJ);
                     <h1 class="my-landing-title ">Encontre um prestador de serviços próximo a sua localização</h1>
                     <p class="my-landing-text">Todos nós precisamos de profissionais. Agora ficou fácil !! Encontre os melhores prestadores mais próximos de você.</p>
                     <div class="my-landing-search-bar-div ">
-                        <form class="my-landing-search-bar-form" action="" method="get">
-                            <input type="text" name="" id="" placeholder="Que profissional você gostaria de encontrar? ">
+                        <form class="my-landing-search-bar-form" action="../EncontrarProfissional/Listagem/listagem.php" method="GET">
+                            <input type="text" name="query" id="" placeholder="Que profissional você gostaria de encontrar? ">
                             <button type="submit">Pesquisar</button>
                         </form>
                         

@@ -1,15 +1,10 @@
+var permitSearch = true; // tem a funcao de permitar que uma nova requisicao seja feita somente depois que for terminada a requisicao atual
+
 let serviceState = {
     allservices : [],
     servicesToAdd: [],
     maxDistance : 0,
     endedSearch: false
-}
-
-function rearrangeServices(){
-    let servicesList_e = document.querySelectorAll(".service-card-link");
-    let servicesToAdd = [];
-    let serviceID_DOM = [];
-    serviceID_DOM = servicesList_e.map(elem => elem.getAttribute("serviceID"));
 }
 
 function refreshServices ()  {
@@ -42,7 +37,7 @@ let searachState = {
 };
 
 const removeSearchTag = (index) => { // cuida da remocao da tag ao clicar no close dela. Recebe o id da subCategoria
-    tagTemp = searachState.tag; 
+    let tagTemp = searachState.tag; 
     let arrayIndex;
     tagTemp.forEach((tag, i) => { // acha o index da tag dentro do array
         if(tag.id == index) arrayIndex = i;
@@ -53,7 +48,7 @@ const removeSearchTag = (index) => { // cuida da remocao da tag ao clicar no clo
 }
 
 const addSearchTag = (tagName, index) => { // cuida de add uma atg na pesquisa 
-    tagTemp = searachState.tag; // copia o estado atual
+    let tagTemp = searachState.tag; // copia o estado atual
     tagTemp.push({ // adiciona o nome da tag e o seu id (id_subcategoria)
         id: index,
         name: tagName
@@ -111,154 +106,124 @@ const refreshTagsArea = () => { // cuida de recaregar toda a area das tags
 } 
 
 const requestServices = async () => { // cuida da requisaicao de servicos
-    let idToExlucde = [];
-    let maxDist = 0;
-    console.log(serviceState.allservices)
+    if(permitSearch){
+        permitSearch = false;
 
-    serviceState.allservices.forEach((elem) => {
-        if(elem.distance > maxDist){
-            maxDist = elem.distance;
-            idToExlucde = [elem.serviceID];
+        const addSpinner = () => { // adicona o spinner para mostrar que a reuisicao foi feita. Quando ela for finalizada, o spinner eh removido
+            let spinner = `
+            <div class="text-center my-5">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        `;
+
+            let serviceSpinnerContainer = document.querySelector(".service-cards-loading-container");
+            serviceSpinnerContainer.innerHTML = spinner;
         }
-        else if(elem.distance === maxDist){
-            idToExlucde.push(elem.serviceID);
-        }
-    });
+        addSpinner();
 
-    console.log(idToExlucde)
- 
-
-    let req = new XMLHttpRequest(); 
-
-    let subCatid = []; // array responsavel por copiar os ids das subcategorias selecionadas, para enviar na requisicao
-    searachState.tag.forEach(elem => {
-        subCatid.push(elem.id);
-    });
-
-    const config = { // configuracoes de requisicao
-        getServices: true,
-        dataServices: {
-            quantity : 5,
-            maxDist: 100000000000000000000,
-            minDist: maxDist,
-            myLat: -23.87669,
-            myLng: -46.77125,
-            subCat: subCatid,
-            searchWords: searachState.write,
-            service_idToExlucde : idToExlucde || []
-        }
-        
-    };
-
-    
-
-    req.onload = () => {
-        // console.groupCollapsed('response');
-        // console.log(req.response);
-        // console.log(JSON.parse(req.response))
-        // console.groupEnd();
+        let idToExlucde = [];
+        let maxDist = 0;
 
 
-
-        
-        console.log(req.response)
-        let responseData = JSON.parse(req.response);
-        let responseInfo =  responseData.services.statusInfo;
-        responseData = responseData.services.data;
-
-        let gottenServices = [];
-
-        for(let prop in responseData){ // percorre todos os elemtnos da requisicao
-            let elem = responseData[prop];
-
-            let nota_media = elem.nota_media_servico;
-            if(!((typeof elem.nota_media_servico === "number") || (typeof elem.nota_media_servico === "string"))) nota_media = 0;
-
-            gottenServices.push({ // adiciona os dados dos servicos recebidos ao array que sera enviado para impressao na DOM
-                serviceID: elem.id_servico,
-                imgSRC: `../../../assets/images/users/${elem.imagem_usuario}`,
-                location: `${elem.uf_usuario}, ${elem.cidade_usuario}, ${elem.bairro_usuario}`,
-                serviceName: elem.nome_servico,
-                providerName: elem.nome_usuario,
-                avaliation: nota_media,
-                avaliationQuant: 1,
-                price: `${elem.orcamento_servico} ${elem.crit_orcamento_servico}`,
-                distance: Number(elem.distance)
-            });
-        }
-        
-        //atualiza o estado dos servicos
-        // let allServicesTemp = servicesSate.allServices;
-        // allServicesTemp = allServicesTemp.concat(gottenServices);
-        // servicesSate.allServices = allServicesTemp;
-
-        // console.groupCollapsed("before-aferter-all-services")
-        // console.log(gottenServices)
-        // console.log(servicesSate.allServices)
-        // console.log(allServicesTemp)
-        // console.log(`were excluded ->> ${servicesSate.service_idToExlucde}` )
-        // console.log(`State service ->> `)
-        // console.log(servicesSate);
-        // console.groupCollapsed('response');
-        // console.log(req.response);
-        // console.log(JSON.parse(req.response))
-        // console.groupEnd();
-        // console.groupEnd();
-
-        // setServiceState({services: gottenServices, lastDistance: responseInfo.maxDistance, endedResult: responseInfo.ended});
-        console.log(gottenServices);
-        setServiceState(
-            {
-                servicesToAdd: gottenServices,
-                lastDistance: responseInfo.maxDistance,
-                endedSearch: responseInfo.ended
+        serviceState.allservices.forEach((elem) => { // cuida de selecionar os ids dos servicos que possuem a distancia exata de menor distancia a ser pesquisada na requisicao. A fim de evitar repeticoes
+            if(elem.distance > maxDist){ // caso eu tenha um servico cuja distancia seja maior que a maior distanca, ele eh maior que todos os outros, portanto, deixe somente ele na array
+                maxDist = elem.distance;
+                idToExlucde = [elem.serviceID];
             }
-        );
-
-                  
-       // console.log("response bruta", req.response)
-        console.log("response", JSON.parse(req.response))
-        console.log("state", serviceState)
-
-      
-
-       
-        const requestUntilScroll = () => { // faz requisicoes ate preencher a tela e gerar um scroll. 
-            let contentSection = document.querySelector("#contentSection");
-            let serviceCardsPath = document.querySelector(".service-cards-path");
-            let viewHeight = contentSection.clientHeight - document.querySelector("#mySearchBarSection").clientHeight -  document.querySelector("#searchTagSection").clientHeight - document.querySelector("#filterSection").clientHeight;
-            // viweHieght eh o tamanho que a div ocupa na tela na visualizacao
-
-            if(!servicesSate.endedResult && (viewHeight >= serviceCardsPath.clientHeight)){ // se nao acabaram os servicos, e se a altura a ser ocupada ainda eh maior que a real altura
-                setTimeout(requestServices, 500);
-                // requestServices();
-            //     console.groupCollapsed("Resquest More")
-            //     console.log(`[!servicesSate.endedResult ->> ] ${!servicesSate.endedResult}`);
-            //     console.log(`[viewHeight ->> ] ${viewHeight}`);
-            //     console.log(`[serviceCardsPath.clientHeight ->> ] ${serviceCardsPath.clientHeight}`);
-            //    console.groupEnd();
+            else if(elem.distance == maxDist){ // caso ele tenha a distanca equivalente a maior distancia ja encontrada, ele tambem deve ser incluido na query de exlucsao
+                idToExlucde.push(elem.serviceID);
             }
-            else{
-            //    console.groupCollapsed("RNOT REQUEST MORE!!!!")
-            //     console.log(`[!servicesSate.endedResult ->> ] ${!servicesSate.endedResult}`);
-            //     console.log(`[viewHeight ->> ] ${viewHeight}`);
-            //     console.log(`[serviceCardsPath.clientHeight ->> ] ${serviceCardsPath.clientHeight}`);
-            //    console.groupEnd();
+
+        });
+
+        let req = new XMLHttpRequest(); 
+
+        let subCatid = []; // array responsavel por copiar os ids das subcategorias selecionadas, para enviar na requisicao
+        searachState.tag.forEach(elem => {
+            subCatid.push(elem.id);
+        });
+
+        const config = { // configuracoes de requisicao
+            getServices: true,
+            dataServices: {
+                quantity : 1,
+                maxDist: 100000000000000000000,
+                minDist: maxDist,
+                myLat: -23.87669,
+                myLng: -46.77125,
+                subCat: subCatid,
+                searchWords: searachState.write,
+                service_idToExlucde : idToExlucde || []
             }
+            
+        };
+
+        req.onload = () => {
+            // console.groupCollapsed('response');
+            // console.log("bruto", req.response);
+            // console.log(JSON.parse(req.response))
+            // console.groupEnd();
+
+            let responseData = JSON.parse(req.response);
+            let responseInfo =  responseData.services.statusInfo;
+            responseData = responseData.services.data;
+
+            let gottenServices = [];
+
+            for(let prop in responseData){ // percorre todos os elemtnos da requisicao
+                let elem = responseData[prop];
+
+                let nota_media = elem.nota_media_servico;
+                if(!((typeof elem.nota_media_servico === "number") || (typeof elem.nota_media_servico === "string"))) nota_media = 0;
+
+                gottenServices.push({ // adiciona os dados dos servicos recebidos ao array que sera enviado para impressao na DOM
+                    serviceID: elem.id_servico,
+                    imgSRC: `../../../assets/images/users/${elem.imagem_usuario}`,
+                    location: `${elem.uf_usuario}, ${elem.cidade_usuario}, ${elem.bairro_usuario}`,
+                    serviceName: elem.nome_servico,
+                    providerName: elem.nome_usuario,
+                    avaliation: nota_media,
+                    avaliationQuant: 1,
+                    price: `${elem.orcamento_servico} ${elem.crit_orcamento_servico}`,
+                    distance: Number(elem.distance)
+                });
+            }
+            
+            setServiceState(
+                {
+                    servicesToAdd: gottenServices,
+                    lastDistance: responseInfo.maxDistance,
+                    endedSearch: responseInfo.ended
+                }
+            );
+        
+            const requestUntilScroll = () => { // faz requisicoes ate preencher a tela e gerar um scroll. 
+                let contentSection = document.querySelector("#contentSection");
+                let serviceCardsPath = document.querySelector(".service-cards-path");
+                let viewHeight = contentSection.clientHeight - document.querySelector("#mySearchBarSection").clientHeight -  document.querySelector("#searchTagSection").clientHeight - document.querySelector("#filterSection").clientHeight;
+                // viweHieght eh o tamanho que a div ocupa na tela na visualizacao
+
+                if(!serviceState.endedSearch && (viewHeight >= serviceCardsPath.clientHeight)){ // se nao acabaram os servicos, e se a altura a ser ocupada ainda eh maior que a real altura
+                    requestServices();
+                }
+               
+            }
+        
+            requestUntilScroll();
+            let serviceSpinnerContainer = document.querySelector(".service-cards-loading-container");
+            serviceSpinnerContainer.innerHTML = "";
+            permitSearch = true; // requisicao acabou, etntao esta permitido fazer outra
+        
         }
-       
 
-        // requestUntilScroll();
-        //console.log(servicesSate)
+        req.open("POST", './getAsyncDataList.php');
 
+        req.send(JSON.stringify(config));
     }
-
-    req.open("POST", './getAsyncDataList.php');
-
-    req.send(JSON.stringify(config));
 }
 
-let maxSearchScrool = 0;
 const handleScroolSearch = () => { // cuida de fazer novas requisicoes ao scrollar a pg
     
     let section = document.querySelector("#serviceCadsSection");
@@ -266,15 +231,6 @@ const handleScroolSearch = () => { // cuida de fazer novas requisicoes ao scroll
         if((section.scrollTop + section.clientHeight > section.scrollHeight - 300) && !serviceState.endedSearch){
             // o tanto que a pessoa scrollou + a altura do conteiner recisa cjhegar ao fim para fazer uma nova requisicao.
             requestServices();
-        }
-        else{
-            // console.groupCollapsed("TERMINOU OS SERVICOS");
-            // console.log(`[Section Scroll top] ->> ${section.scrollTop}`);
-            // console.log(`[Section cleint height] ->> ${section.clientHeight}`);
-            // console.log(`[Section Scroll height] ->> ${section.scrollHeight}`);
-            // console.groupEnd();
-            console.log("TERMINOU!!!!!!!!!!!!!!!!!!!!")
-            console.log(serviceState)
         }
        
     }
@@ -284,23 +240,14 @@ handleScroolSearch();
 const refreshSearch = () => {
     refreshTagsArea();
     let serviceCadrPath_e = document.querySelector('.service-cards-path');
+    serviceCadrPath_e.innerHTML = "";
 
-    // servicesSate.service_idToExlucde = [];
-    // servicesSate.lastDistance =0;
-
-    // setServicesSate({
-    //     services :[],
-    //     lastDistance : 0,
-    //     endedResult: false , 
-    //     service_idToExlucde: [],
-    //     allServices: []
-    // });
+    
     setServiceState({
         allservices :[],
         lastDistance : 0,
         endedSearch: false , 
         service_idToExlucde: [],
-        allservices: []
     });
 
     
@@ -319,7 +266,7 @@ function setSearchState(data){
         searachState[i] = data[i];
     }
 
-    // setServicesSate({allServices : [], services :[]});
+     setServiceState({allServices : [], services :[]});
 
     refreshSearch();
 }
@@ -727,27 +674,24 @@ const getCategoriesName = () => {
     req.send(JSON.stringify(config));
 }
 
-document.querySelector("#searchButton").onclick = () => {
-    let text = document.querySelector("#searchBar").value;
-    text = text.trim();
+// let btnSearch = document.querySelector("#searchButton");
 
-    let spliText = text.split(" ")
-    if(text == "") spliText = [];   
+// const handleBtnSearch = (event) => {
+//     event.preventDefault();
+//     let text = document.querySelector("#searchBar").value;
+//     text = text.trim();
 
-    let serviceCardsPath = document.querySelector(".service-cards-path");
-    serviceCardsPath.innerHTML = "";
+//     let spliText = text.split(" ")
+//     if(text == "") spliText = [];   
 
-    setSearchState({write : spliText});
+//     let serviceCardsPath = document.querySelector(".service-cards-path");
+//     serviceCardsPath.innerHTML = "";
+
+//     setSearchState({write : spliText});
     
-};
+// };
 
-var servicesSate = {
-    services :[],
-    lastDistance : 0,
-    endedResult: false , 
-    service_idToExlucde: [],
-    allServices: []
-};
+// btnSearch.onclick = handleBtnSearch;
 
 const getService_idToExclude = () => { // gurda os ids dos ervicos que possuem a distancia == maxDistance. Isso serve para excluir sua busca na proxima requisicao 
     let services = servicesSate.allServices;
@@ -814,3 +758,4 @@ function setServicesSate (data)  {
 
 getCategoriesName();
 
+export {setSearchState};
