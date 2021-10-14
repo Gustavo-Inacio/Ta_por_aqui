@@ -2,6 +2,10 @@
 session_start();
 
 $_SESSION['listServices'] = true;
+$searchQuery = "";
+if(isset($_GET['query'])){
+    $searchQuery = $_GET['query'];
+}
 
 //caso haja cookies salvos no pc do usuário, ele vai logar com os cookies salvos
 require "../../../logic/entrar_cookie.php";
@@ -33,7 +37,7 @@ require "../../../logic/entrar_cookie.php";
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/2a19bde8ca.js" crossorigin="anonymous" defer></script>
     <script src="../../../assets/global/globalScripts.js" defer></script>
-    <script src="listagem.js" defer></script>
+    <script type="module" src="listagem.js" defer></script>
 </head>
 <body>
     <!--NavBar Comeco-->
@@ -152,19 +156,21 @@ require "../../../logic/entrar_cookie.php";
                     </button>
                 </div>
                 
+                <form class="d-flex w-100" action="./listagem.php" method="GET">
+                    <button type="submit" id="searchButton" class="serarch-icon-btn">
+                        <div class="serarch-icon-div">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21.7261 19.2913L17.832 15.3971C17.6562 15.2214 17.4179 15.1237 17.168 15.1237H16.5313C17.6093 13.7449 18.2499 12.0107 18.2499 10.1242C18.2499 5.63636 14.6135 2 10.1257 2C5.63783 2 2.00146 5.63636 2.00146 10.1242C2.00146 14.612 5.63783 18.2484 10.1257 18.2484C12.0122 18.2484 13.7464 17.6079 15.1252 16.5298V17.1665C15.1252 17.4165 15.2228 17.6547 15.3986 17.8305L19.2927 21.7246C19.6599 22.0918 20.2536 22.0918 20.6168 21.7246L21.7222 20.6193C22.0893 20.2521 22.0893 19.6584 21.7261 19.2913ZM10.1257 15.1237C7.36422 15.1237 5.12616 12.8896 5.12616 10.1242C5.12616 7.36276 7.36032 5.12469 10.1257 5.12469C12.8871 5.12469 15.1252 7.35885 15.1252 10.1242C15.1252 12.8857 12.891 15.1237 10.1257 15.1237Z" fill="#CCCCCC"/>
+                            </svg>
+                        </div>
+                    </button>
+                    
 
-                <button type="button" id="searchButton" class="serarch-icon-btn">
-                    <div class="serarch-icon-div">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M21.7261 19.2913L17.832 15.3971C17.6562 15.2214 17.4179 15.1237 17.168 15.1237H16.5313C17.6093 13.7449 18.2499 12.0107 18.2499 10.1242C18.2499 5.63636 14.6135 2 10.1257 2C5.63783 2 2.00146 5.63636 2.00146 10.1242C2.00146 14.612 5.63783 18.2484 10.1257 18.2484C12.0122 18.2484 13.7464 17.6079 15.1252 16.5298V17.1665C15.1252 17.4165 15.2228 17.6547 15.3986 17.8305L19.2927 21.7246C19.6599 22.0918 20.2536 22.0918 20.6168 21.7246L21.7222 20.6193C22.0893 20.2521 22.0893 19.6584 21.7261 19.2913ZM10.1257 15.1237C7.36422 15.1237 5.12616 12.8896 5.12616 10.1242C5.12616 7.36276 7.36032 5.12469 10.1257 5.12469C12.8871 5.12469 15.1252 7.35885 15.1252 10.1242C15.1252 12.8857 12.891 15.1237 10.1257 15.1237Z" fill="#CCCCCC"/>
-                        </svg>
+                    <div class="search-input-area-div">
+                        <input id="searchBar" type="text" name="query" value="<?php echo $searchQuery; ?>">
                     </div>
-                </button>
+                </form>
                 
-
-                <div class="search-input-area-div">
-                    <input id="searchBar" type="text">
-                </div>
             </section>
 
             <section id="searchTagSection">
@@ -281,6 +287,9 @@ require "../../../logic/entrar_cookie.php";
                 
 
                 </div>
+                <div class="service-cards-loading-container">
+                    
+                </div>
             </section>
         </section>
         
@@ -307,6 +316,50 @@ require "../../../logic/entrar_cookie.php";
             </div>
         </div>
     </footer>
+
+    <script type="module">
+        import {setSearchState} from './listagem.js';
+
+        const handleSeachText = (query) => {
+            if(!query) return;
+
+            let text = query;
+            text = text.trim();
+
+            let spliText = text.split(" ")
+            if(text == "") spliText = [];   
+
+            let serviceCardsPath = document.querySelector(".service-cards-path");
+            serviceCardsPath.innerHTML = "";
+
+            setSearchState({write : spliText});
+        }
+
+        handleSeachText("<?php echo $searchQuery; ?>");
+
+    // let btnSearch = document.querySelector("#searchButton");
+
+        // const handleBtnSearch = (event) => {
+        //     event.preventDefault();
+        //     let text = document.querySelector("#searchBar").value;
+        //     text = text.trim();
+
+        //     let spliText = text.split(" ")
+        //     if(text == "") spliText = [];   
+
+        //     let serviceCardsPath = document.querySelector(".service-cards-path");
+        //     serviceCardsPath.innerHTML = "";
+
+        //     setSearchState({write : spliText});
+            
+        // };
+
+        <?php if(!$searchQuery == ""){?>
+            // let btnSearch = document.querySelector("#searchButton");
+            // btnSearch.onclick = handleBtnSearch;
+        <?php }?>
+
+    </script>
 
     <!-- <section>
         <form action="../VisualizarServico/visuaizarServico.php" method="GET">

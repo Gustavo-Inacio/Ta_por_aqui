@@ -53,7 +53,7 @@ const removeSearchTag = (index) => { // cuida da remocao da tag ao clicar no clo
 }
 
 const addSearchTag = (tagName, index) => { // cuida de add uma atg na pesquisa 
-    tagTemp = searachState.tag; // copia o estado atual
+    let tagTemp = searachState.tag; // copia o estado atual
     tagTemp.push({ // adiciona o nome da tag e o seu id (id_subcategoria)
         id: index,
         name: tagName
