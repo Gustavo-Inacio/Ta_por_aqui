@@ -332,9 +332,6 @@ $qntContratos = $con->query($query)->fetch(PDO::FETCH_OBJ);
     </div>-->
 
     <!-- Alerta para avisar sobre o uso de cookies -->
-    <pre>
-        <?=print_r($_COOKIE)?>
-    </pre>
     <?php if (isset($_COOKIE['acceptCookies']) && $_COOKIE['acceptCookies'] === 'notAccepted') {?>
         <div class="cookieAlert" id="cookieAlert">
             <div class="cookieAlertContent bg-dark text-white" id="cookieAlertContent">
