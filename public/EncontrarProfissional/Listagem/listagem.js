@@ -25,7 +25,6 @@ function setServiceState(data) {
     refreshServices();
 }
 
-
 let searachState = {
     tag : [
         // {
@@ -35,6 +34,7 @@ let searachState = {
     ],
     write : []
 };
+
 
 const removeSearchTag = (index) => { // cuida da remocao da tag ao clicar no close dela. Recebe o id da subCategoria
     let tagTemp = searachState.tag; 
@@ -47,7 +47,7 @@ const removeSearchTag = (index) => { // cuida da remocao da tag ao clicar no clo
     setSearchState({tag: tagTemp}); // atualiza as categorias na pesquisa
 }
 
-const addSearchTag = (tagName, index) => { // cuida de add uma atg na pesquisa 
+const addSearchTag = (index, tagName) => { // cuida de add uma atg na pesquisa 
     let tagTemp = searachState.tag; // copia o estado atual
     tagTemp.push({ // adiciona o nome da tag e o seu id (id_subcategoria)
         id: index,
@@ -55,6 +55,55 @@ const addSearchTag = (tagName, index) => { // cuida de add uma atg na pesquisa
     });
 
     setSearchState({tag: tagTemp}); // atualizao estado atual
+}
+
+const toggleSearchTag = ({index, name}) => {
+    console.log(searachState)
+    if(searachState.tag.length > 0){
+        let alreadyExists = false;
+        for(let i in searachState.tag){
+
+            if(searachState.tag[i].id == index){
+                alreadyExists = true;
+            }
+        }
+
+        if(alreadyExists){
+            removeSearchTag(index);
+        }
+        else{
+            addSearchTag(index, name);
+        }
+    }
+    else{
+        addSearchTag(index, name);
+        console.log(index, name)
+    }
+    
+}
+
+const paintSelectedSubcat = () =>{
+    let selectedIDs = [];
+
+    searachState.tag.forEach((elem) => {
+        selectedIDs.push(elem.id);
+    });
+
+
+    document.querySelectorAll('.subcat-item').forEach((subcat) => {
+        let selected = false;
+        selectedIDs.forEach((id) => {
+            if(subcat.getAttribute('id') == id){
+                selected = true;
+            }
+        });
+
+        if(selected) subcat.classList.add("selected");
+        else subcat.classList.remove("selected");
+        
+    });
+
+    
 }
 
 const refreshTagsArea = () => { // cuida de recaregar toda a area das tags
@@ -71,17 +120,11 @@ const refreshTagsArea = () => { // cuida de recaregar toda a area das tags
         //btn close e todas as tags
         searchTagPath.innerHTML = `
         <div class="clear-tags-div">
-            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clip-path="url(#clip0)">
-                <path d="M14 1.75C10.7511 1.75 7.63526 3.04062 5.33794 5.33794C3.04062 7.63526 1.75 10.7511 1.75 14C1.75 17.2489 3.04062 20.3647 5.33794 22.6621C7.63526 24.9594 10.7511 26.25 14 26.25C17.2489 26.25 20.3647 24.9594 22.6621 22.6621C24.9594 20.3647 26.25 17.2489 26.25 14C26.25 10.7511 24.9594 7.63526 22.6621 5.33794C20.3647 3.04062 17.2489 1.75 14 1.75ZM14 0C17.713 0 21.274 1.47499 23.8995 4.1005C26.525 6.72601 28 10.287 28 14C28 17.713 26.525 21.274 23.8995 23.8995C21.274 26.525 17.713 28 14 28C10.287 28 6.72601 26.525 4.10051 23.8995C1.475 21.274 0 17.713 0 14C0 10.287 1.475 6.72601 4.10051 4.1005C6.72601 1.47499 10.287 0 14 0Z" fill="black"/>
-                <path d="M8.13011 19.8694C8.21139 19.9509 8.30795 20.0155 8.41425 20.0596C8.52056 20.1038 8.63452 20.1265 8.74961 20.1265C8.8647 20.1265 8.97867 20.1038 9.08497 20.0596C9.19127 20.0155 9.28783 19.9509 9.36911 19.8694L13.9996 15.2372L18.6301 19.8694C18.7115 19.9508 18.808 20.0153 18.9143 20.0593C19.0206 20.1033 19.1346 20.126 19.2496 20.126C19.3647 20.126 19.4786 20.1033 19.5849 20.0593C19.6912 20.0153 19.7878 19.9508 19.8691 19.8694C19.9505 19.788 20.015 19.6915 20.059 19.5852C20.1031 19.4789 20.1257 19.365 20.1257 19.2499C20.1257 19.1348 20.1031 19.0209 20.059 18.9146C20.015 18.8083 19.9505 18.7118 19.8691 18.6304L15.2369 13.9999L19.8691 9.3694C19.9505 9.28805 20.015 9.19147 20.059 9.08517C20.1031 8.97888 20.1257 8.86495 20.1257 8.7499C20.1257 8.63485 20.1031 8.52092 20.059 8.41463C20.015 8.30834 19.9505 8.21175 19.8691 8.1304C19.7878 8.04905 19.6912 7.98451 19.5849 7.94049C19.4786 7.89646 19.3647 7.8738 19.2496 7.8738C19.1346 7.8738 19.0206 7.89646 18.9143 7.94049C18.808 7.98451 18.7115 8.04905 18.6301 8.1304L13.9996 12.7627L9.36911 8.1304C9.28776 8.04905 9.19118 7.98451 9.08488 7.94049C8.97859 7.89646 8.86466 7.8738 8.74961 7.8738C8.63456 7.8738 8.52063 7.89646 8.41434 7.94049C8.30805 7.98451 8.21146 8.04905 8.13011 8.1304C8.04876 8.21175 7.98422 8.30834 7.94019 8.41463C7.89617 8.52092 7.8735 8.63485 7.8735 8.7499C7.8735 8.86495 7.89617 8.97888 7.94019 9.08517C7.98422 9.19147 8.04876 9.28805 8.13011 9.3694L12.7624 13.9999L8.13011 18.6304C8.04862 18.7117 7.98397 18.8082 7.93986 18.9145C7.89575 19.0208 7.87305 19.1348 7.87305 19.2499C7.87305 19.365 7.89575 19.479 7.93986 19.5853C7.98397 19.6916 8.04862 19.7881 8.13011 19.8694Z" fill="black"/>
-                </g>
-                <defs>
-                <clipPath id="clip0">
-                <rect width="28" height="28" fill="white" transform="matrix(1 0 0 -1 0 28)"/>
-                </clipPath>
-                </defs>
+            <svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8.375 13H9.125C9.22446 13 9.31984 12.9605 9.39017 12.8902C9.46049 12.8198 9.5 12.7245 9.5 12.625V5.875C9.5 5.77554 9.46049 5.68016 9.39017 5.60984C9.31984 5.53951 9.22446 5.5 9.125 5.5H8.375C8.27554 5.5 8.18016 5.53951 8.10983 5.60984C8.03951 5.68016 8 5.77554 8 5.875V12.625C8 12.7245 8.03951 12.8198 8.10983 12.8902C8.18016 12.9605 8.27554 13 8.375 13ZM13.5 2.5H10.9247L9.86219 0.728125C9.72885 0.505942 9.54022 0.322091 9.3147 0.194487C9.08917 0.066882 8.83444 -0.000123231 8.57531 1.70139e-07H5.42469C5.16567 -1.5274e-05 4.91106 0.0670412 4.68566 0.194641C4.46025 0.32224 4.27172 0.506033 4.13844 0.728125L3.07531 2.5H0.5C0.367392 2.5 0.240215 2.55268 0.146447 2.64645C0.0526784 2.74022 0 2.86739 0 3L0 3.5C0 3.63261 0.0526784 3.75979 0.146447 3.85355C0.240215 3.94732 0.367392 4 0.5 4H1V14.5C1 14.8978 1.15804 15.2794 1.43934 15.5607C1.72064 15.842 2.10218 16 2.5 16H11.5C11.8978 16 12.2794 15.842 12.5607 15.5607C12.842 15.2794 13 14.8978 13 14.5V4H13.5C13.6326 4 13.7598 3.94732 13.8536 3.85355C13.9473 3.75979 14 3.63261 14 3.5V3C14 2.86739 13.9473 2.74022 13.8536 2.64645C13.7598 2.55268 13.6326 2.5 13.5 2.5ZM5.37 1.59094C5.38671 1.56312 5.41035 1.54012 5.43862 1.52418C5.46688 1.50824 5.4988 1.49991 5.53125 1.5H8.46875C8.50115 1.49996 8.533 1.50832 8.5612 1.52426C8.58941 1.54019 8.613 1.56317 8.62969 1.59094L9.17531 2.5H4.82469L5.37 1.59094ZM11.5 14.5H2.5V4H11.5V14.5ZM4.875 13H5.625C5.72446 13 5.81984 12.9605 5.89016 12.8902C5.96049 12.8198 6 12.7245 6 12.625V5.875C6 5.77554 5.96049 5.68016 5.89016 5.60984C5.81984 5.53951 5.72446 5.5 5.625 5.5H4.875C4.77554 5.5 4.68016 5.53951 4.60984 5.60984C4.53951 5.68016 4.5 5.77554 4.5 5.875V12.625C4.5 12.7245 4.53951 12.8198 4.60984 12.8902C4.68016 12.9605 4.77554 13 4.875 13Z" fill="#888F98"/>
             </svg>
+
+            <label>Limapr Seleção</label>
         </div>
         `;
 
@@ -101,7 +144,9 @@ const refreshTagsArea = () => { // cuida de recaregar toda a area das tags
             searchTagTemplate.querySelector(".search-tag-title").innerHTML = tag.name;
             addFunctions(searchTagTemplate, index);
             searchTagPath.appendChild(searchTagTemplate);
+
         })
+        
     }
 } 
 
@@ -161,11 +206,6 @@ const requestServices = async () => { // cuida da requisaicao de servicos
         };
 
         req.onload = () => {
-            // console.groupCollapsed('response');
-            // console.log("bruto", req.response);
-            // console.log(JSON.parse(req.response))
-            // console.groupEnd();
-
             let responseData = JSON.parse(req.response);
             let responseInfo =  responseData.services.statusInfo;
             responseData = responseData.services.data;
@@ -211,9 +251,9 @@ const requestServices = async () => { // cuida da requisaicao de servicos
                
             }
         
-            requestUntilScroll();
+            requestUntilScroll(); 
             let serviceSpinnerContainer = document.querySelector(".service-cards-loading-container");
-            serviceSpinnerContainer.innerHTML = "";
+            serviceSpinnerContainer.innerHTML = ""; // remove spinner
             permitSearch = true; // requisicao acabou, etntao esta permitido fazer outra
         
         }
@@ -228,7 +268,7 @@ const handleScroolSearch = () => { // cuida de fazer novas requisicoes ao scroll
     
     let section = document.querySelector("#serviceCadsSection");
     section.onscroll = () => {
-        if((section.scrollTop + section.clientHeight > section.scrollHeight - 300) && !serviceState.endedSearch){
+        if((section.scrollTop > section.scrollHeight - 300) && !serviceState.endedSearch){
             // o tanto que a pessoa scrollou + a altura do conteiner recisa cjhegar ao fim para fazer uma nova requisicao.
             requestServices();
         }
@@ -239,6 +279,7 @@ handleScroolSearch();
 
 const refreshSearch = () => {
     refreshTagsArea();
+    paintSelectedSubcat();
     let serviceCadrPath_e = document.querySelector('.service-cards-path');
     serviceCadrPath_e.innerHTML = "";
 
@@ -334,7 +375,7 @@ const toggleCategoriesSidebar = () => {
 
 };
 
-toggleCategoriesSidebar();
+//toggleCategoriesSidebar();
 
 const categoriesScrollHandler = () => {
     document.querySelector(".categoriesSection").scrollTop = 0;
@@ -343,12 +384,13 @@ const categoriesScrollHandler = () => {
 }
 
 const mediumScreen = window.matchMedia("(min-width: 768px)");
-categoriesScrollHandler();
+//categoriesScrollHandler();
 mediumScreen.addListener(categoriesScrollHandler);
 
 const fillCategories = (data) => {
     if(!typeof data === 'array') return;
 
+    console.log(data)
     let listPath = document.querySelector('.categoriesSectionBody');
 
     const categorieItem = (item) => {
@@ -464,19 +506,6 @@ const fillCategories = (data) => {
         return wrapper;
     }
 
-    /*const bla = [
-        {
-            categorie : {
-                title: "categorieName",
-                subItems : [
-                    {title: 'subCategorie1'},
-                    {title: 'subCategorie1'},
-                    {title: 'subCategorie1'},
-                ]
-            }
-        }
-    ]*/
-
     data.forEach((item) => {
         listPath.appendChild(categorieItem(item));
     });
@@ -570,66 +599,6 @@ const serviceCardsRender = (data) => {
     });
 
 }
-/*
-const serviceCardData = [
-    {
-        serviceID: '10',
-        imgSRC: 'https://picsum.photos/2000?random=1',
-        location: 'rua pequetita vila olimpia',
-        serviceName: 'nome do servico kk',
-        providerName: 'nome do cara lá',
-        avaliation: 2.49,
-        avaliationQuant: 90,
-        price: '30 por cabeça'
-    },
-];
-
-const emptyServiceData = {
-    serviceID: '10',
-    imgSRC: ' ',
-    location: ' ',
-    serviceName: ' ',
-    providerName: ' ',
-    avaliation: 1,
-    avaliationQuant: 0,
-    price: ' '
-}
-*/
-/*
-const categories = [
-    {
-        categorie : {
-            title: "pato",
-            subItems : [
-                {title: 'sub pato wsub pato wsub pato wsub pato wsub pato wsub pato wsub pato wsub pato w'},
-                {title: 'sub pato 2'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-            ]
-        }
-    },
-    {
-        categorie : {
-            title: "pato",
-            subItems : [
-                {title: 'sub pato w'},
-                {title: 'sub pato 2'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-                {title: 'subpato 23'},
-            ]
-        }
-    }
-];*/
 
 const prepareCatgories = (resp_cat) => {
     resp_cat = resp_cat.categoires
@@ -652,10 +621,149 @@ const prepareCatgories = (resp_cat) => {
             });
         }
     }
-    fillCategories(cat);
+    //fillCategories(cat);
    
 }
 
+function catItemHandler(elemId) {
+    console.log(elemId)
+}
+
+const arrangeNewCategories = (data) => {
+    data = data.categoires;
+
+    let categorie_e = document.querySelector(".cool-categories-section");
+    let categoriesSpanContainer = document.createElement('span');
+
+    let categoriesState = {
+        selected : -1,
+    }
+
+    const fillsubCat = () => {
+        console.log(categoriesState)
+        let subcat = data[categoriesState.selected].sub;
+        let content = document.querySelector('.subcat-view .content');
+        content.innerHTML = "";
+
+        const addSubcatFuntions = (node, data) => {
+            node.onclick = () => {
+                
+                console.log(node);
+                toggleSearchTag({index: data.id, name: data.name});
+
+                // let tagsTemp = searachState.tag;
+                // tagsTemp.push({id: data.id, name: data.name});
+
+                // setSearchState({tag: tagsTemp});
+                // console.log(searachState)
+            }
+        }
+
+        for(let i in subcat){
+            let html = `
+                <div class="subcat-item col-12" id="${i}">
+                    <label>${subcat[i]}</label>
+                </div>
+            `;
+
+            let dumbSpan = document.createElement("span");
+            dumbSpan.innerHTML = html;
+            let node = dumbSpan.querySelector('.subcat-item');
+        
+            addSubcatFuntions(node, {id: i, name: subcat[i]});
+
+            content.appendChild(node);
+        }
+        
+    }
+
+    const refreshCategories = () => {
+        let catItems = categorie_e.querySelector(".cat-view").querySelectorAll('.cat-item');
+        if(categoriesState.selected !== -1){
+            
+            catItems.forEach((elem) => {
+                if(Number(elem.getAttribute('id')) === categoriesState.selected){
+                    let subCatView = document.querySelector('.subcat-view');
+                   
+                    subCatView.classList.add('selected');
+
+                    let subCatViewHeader = subCatView.querySelector("header");
+                    subCatViewHeader.style.marginBottom = `${15 + elem.getBoundingClientRect().height + 10}px`;
+
+                    elem.classList.add('selected');
+                    let marginTop = `${10 + subCatViewHeader.getBoundingClientRect().height}`;
+                    let transform = `translateY(${(elem.offsetTop - marginTop) * -1}px)`;
+               
+                    elem.style.transform = transform;
+                }else{
+                    elem.classList.add('notSelected');
+                }
+            });
+
+            
+            fillsubCat();
+        }
+        else{
+            catItems.forEach((elem) => {
+                elem.style.transform = "";
+                elem.classList.remove("selected");
+                elem.classList.remove("notSelected");
+            });
+            
+        }
+
+    }
+
+    const setCategoriesState = (data) => {
+        for(let i in data){
+            categoriesState[i] = data[i]
+        }
+
+        refreshCategories();
+    }
+    for(let i in data){
+        let elem = data[i];
+        let elemSpanContainer = document.createElement("span");
+    
+        let categorieInnerHTML = `
+        <div class="row cat-item" id='${i}'>
+            <div class="col">
+                <p class="cat-text">${elem.title}</p>
+
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7.482 11.831L1.54814 5.89714C1.26195 5.61096 1.26195 5.14698 1.54814 4.86082L2.24023 4.16873C2.52592 3.88304 2.98896 3.88249 3.27532 4.16751L8.00018 8.87023L12.725 4.16751C13.0114 3.88249 13.4744 3.88304 13.7601 4.16873L14.4522 4.86082C14.7384 5.14701 14.7384 5.61099 14.4522 5.89714L8.51835 11.831C8.23217 12.1172 7.76819 12.1172 7.482 11.831Z" fill="#3333CC"/>
+                </svg>
+            </div>
+        </div>
+        `;
+
+        elemSpanContainer.innerHTML = categorieInnerHTML;
+
+        const addFunctions = (i) => {
+            elemSpanContainer.querySelector('.cat-item').onclick = () => {
+                setCategoriesState({selected: Number(i)});
+
+                console.log("aa", searachState)
+                paintSelectedSubcat();
+            }
+
+            categorie_e.querySelector(".back-to-main-menu").onclick = () => {
+                setCategoriesState({selected: -1});
+
+
+                categorie_e.querySelector(".subcat-view").classList.remove("selected");
+                categorie_e.querySelector(".subcat-view").querySelector('.content').innerHTML = "";
+            }
+        }
+
+        addFunctions(i);
+        let node = elemSpanContainer.querySelector('.cat-item');
+
+        categorie_e.querySelector(".cat-view").appendChild(node);
+    }
+   
+    
+}
 
 const getCategoriesName = () => {
     let req = new XMLHttpRequest();
@@ -665,7 +773,7 @@ const getCategoriesName = () => {
     };
 
     req.onload =() => {
-        // console.log(req.response);
+        arrangeNewCategories(JSON.parse(req.response));
         prepareCatgories((JSON.parse(req.response)));
     }
 
@@ -674,87 +782,6 @@ const getCategoriesName = () => {
     req.send(JSON.stringify(config));
 }
 
-// let btnSearch = document.querySelector("#searchButton");
-
-// const handleBtnSearch = (event) => {
-//     event.preventDefault();
-//     let text = document.querySelector("#searchBar").value;
-//     text = text.trim();
-
-//     let spliText = text.split(" ")
-//     if(text == "") spliText = [];   
-
-//     let serviceCardsPath = document.querySelector(".service-cards-path");
-//     serviceCardsPath.innerHTML = "";
-
-//     setSearchState({write : spliText});
-    
-// };
-
-// btnSearch.onclick = handleBtnSearch;
-
-const getService_idToExclude = () => { // gurda os ids dos ervicos que possuem a distancia == maxDistance. Isso serve para excluir sua busca na proxima requisicao 
-    let services = servicesSate.allServices;
-
-    let maxDistance = 0;
-    let service_idToExlucdeTemp = [];
-    services.forEach((elem) => {
-        // console.log(elem)
-        if(elem.distance > maxDistance){
-            maxDistance = elem.distance;
-            service_idToExlucdeTemp = [elem.serviceID];
-
-            // console.groupCollapsed("else")
-            // console.log(elem.distance)
-            // console.log(maxDistance)
-            // console.log(maxDistance - elem.distance)
-            // console.groupEnd();
-        }
-        else if(elem.distance == maxDistance){
-            service_idToExlucdeTemp.push(elem.serviceID);
-        }
-        else{
-            
-        }
-
-        // console.groupCollapsed("a")
-        // console.log(elem.distance)
-        // console.log(maxDistance)
-        // console.log(elem.serviceID)
-        // console.groupEnd();
-    });
-
-    console.groupCollapsed("id-to-exclude-function")
-    console.log(service_idToExlucdeTemp)
-    console.groupEnd();
-
-    servicesSate.service_idToExlucde = service_idToExlucdeTemp;
-}
-
-
-/*
-const refreshServicesAll = (refresh) => {
-    refresh.forEach((elem) => {
-        if(elem == "services")
-            serviceCardsRender(servicesSate.services);
-    });
-
-    
-    getService_idToExclude();
-    
-}
-
-function setServicesSate (data)  {
-    let stateToRefresh = [];
-
-    for(let i in data){
-        stateToRefresh.push(i);
-
-        servicesSate[i] = data[i]
-    }
-
-    refreshServicesAll(stateToRefresh);
-}*/
 
 getCategoriesName();
 
