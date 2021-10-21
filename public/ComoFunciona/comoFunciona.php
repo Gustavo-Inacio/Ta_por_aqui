@@ -288,7 +288,7 @@ require "../../logic/entrar_cookie.php";
                         <p>Lá você poderá encontrar as dúvidas mais frequentes e poderá entrar em contato direto com os administradores por meio de un formulário de contato.</p>
                         <p>Caso preferir entrar em contato de outra forma, na mesma página há alguns outros meios de entrar em contato conosco, como por email, telefone ou instagram</p>
 
-                        <a href="../Perfil/meu_perfil.php" class="mt-3 sectionButton">Central de suporte</a>
+                        <a href="../Contato/contato.php" class="mt-3 sectionButton">Central de suporte</a>
                     </div>
                     <div class="col-md-4 d-none d-md-flex flex-row justify-content-center">
 
