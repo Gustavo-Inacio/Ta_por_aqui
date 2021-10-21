@@ -13,7 +13,7 @@ class serviceList
 
     public function getCatgorieInfo() {
         $reponse = array(
-            "status" => false
+           
         );
 
         $query = "
