@@ -74,7 +74,7 @@ setcookie('chatTutorial', '', time() - 3600, '/');
                     <a href="../Contato/contato.php" class="nav-link">Fale conosco</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
+                    <a href="../ComoFunciona/sobreNos%20old.php" class="nav-link">Sobre</a>
                 </li>
                 <li class="nav-item">
                     <a href="chat.php" class="nav-link" id="navChatLink">Chat</a>

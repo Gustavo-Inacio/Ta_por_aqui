@@ -69,7 +69,7 @@ if (isset($_COOKIE['chatTutorial']) && $_COOKIE['chatTutorial'] === 'show'){
                     <a href="../Contato/contato.php" class="nav-link">Fale conosco</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
+                    <a href="../ComoFunciona/comoFunciona.php" class="nav-link">Como funciona</a>
                 </li>
                 <li class="nav-item">
                     <a href="chat.php" class="nav-link" id="navChatLink">Chat</a>

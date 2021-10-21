@@ -61,7 +61,7 @@ if (isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSIO
                     <a href="../Contato/contato.php" class="nav-link">Fale conosco</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
+                    <a href="../ComoFunciona/comoFunciona.php" class="nav-link">Como funciona</a>
                 </li>
                 <li class="nav-item">
                     <a href="../Chat/chat.php" class="nav-link">Chat</a>
