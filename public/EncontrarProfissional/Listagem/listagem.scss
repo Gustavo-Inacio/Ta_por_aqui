@@ -94,14 +94,14 @@ button:focus{
 
 /* categorie Secttion */
 .show-sidebar{
-    transform: translateX(0);
+    transform: translateX(0) !important;
 }
 .hide-sidebar{
     transform: translateX(-100%);
 }
 
 .categories-backdrop{
-    z-index: 800;
+    z-index: 99;
     background: rgba(2, 2, 2, 0.58);
     width: 100vw;
     height: 100vh;
@@ -599,9 +599,12 @@ button:focus{
 /* service-card */ 
 
 .cool-categories-section{
+    z-index: 10000 !important;
+    
     border-radius: 12px;
     height: calc(100vh - 130px);
     overflow: auto;
+    min-height: inherit;
 
    > header{
         border-radius: 12px 12px 0 0;
@@ -609,14 +612,32 @@ button:focus{
         height: 77px;
 
         display: flex;
+        flex-direction: row;
         justify-content: center;
         align-items: center;
+
+        svg{
+            width: fit-content;
+            cursor: pointer;
+
+            padding: 18px;
+            border-radius: 20px;
+            transition: ease 0.3s;
+
+            height: 55px;
+            &:hover{
+                background-color: rgb(96, 94, 223);
+                padding: 13px;
+            }
+        }
         
         h1{
             font-weight: bold;
             font-size: 24px;
             line-height: 28px;
             letter-spacing: 0.05em;
+            width: fit-content;
+            margin: 0;
 
             color: #FFFFFF;
             text-align: center;
@@ -626,6 +647,7 @@ button:focus{
     > .content{
         padding: 7px 0 ;
         background-color: #FFF;
+        min-height: calc(100vh - 77px);
         position: relative;
         flex-wrap: nowrap;
         display: flex;
@@ -720,7 +742,7 @@ button:focus{
                 }
                 border-bottom: 4px solid transparent;
 
-                &.selected{
+                &.selected{  
                     font-weight: bold !important;
                     color:var(--my-color-six) !important;
                     font-weight: bold !important;
@@ -749,8 +771,15 @@ button:focus{
     }
 }
 #cat-container{
-    // padding: 0 80px;
-    // background: #F2F2F2;
+    position: absolute;
+    transform: translate(-100%);
+    z-index: 10000;
+    min-height: 100vh;
+    max-width: 360px;
+
+    > .row{
+        min-height: inherit;
+    }
 }
 
 @media(min-width: 500px){
@@ -776,8 +805,15 @@ button:focus{
     /* -- service cards -- */
 }
 
+@media(min-width: 720px){
+    
+}
+
 @media( min-width: 768px){
-        
+    #cat-container{
+        position: relative;
+        transform: translate(0%);
+    }
     .categoriesSection{
         padding-bottom: 0;
     }

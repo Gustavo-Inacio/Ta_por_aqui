@@ -99,17 +99,12 @@ require "../../../logic/entrar_cookie.php";
     </nav>
     <!--NavBar Fim-->
 
-    <section id="contentSection" class="container">
-        <div class="fixd-side-bar">
-        
-        </div>
-
-       
-
+    <section id="contentSection" class="container-lg">
+   
         <div class="categories-backdrop"></div>
         <template id="myCategorieItemTemplate">
             <div class="categorie-item">
-                <p class="categorieName">Programação e Tecnologia</p>
+                <p class="categorieName">...</p>
                 <svg class="categorieArrow" width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M0 10.59L4.58 6L0 1.41L1.41 0L7.41 6L1.41 12L0 10.59Z" fill="black"/>
                 </svg>
@@ -119,17 +114,17 @@ require "../../../logic/entrar_cookie.php";
         <template id="mySUBCategorieItemTemplate">
             <div class="subcategorie-container">   
                 <div class="subCategorie-header">
-                    <h1 class="subCategorie-section-title">Culinária</h1>
+                    <h1 class="subCategorie-section-title">...</h1>
                 </div> 
                 <div class="subCategorieBody">
                     <div class="subCategorie-item">
-                        <label class="subCategorie-title left-col dont-break-out">Marmitas 01</label>
+                        <label class="subCategorie-title left-col dont-break-out">... 01</label>
                     </div>
                     <div class="subCategorie-item">
-                        <label class="subCategorie-title right-col dont-break-out">Marmitas 02</label>
+                        <label class="subCategorie-title right-col dont-break-out">... 02</label>
                     </div>
                     <div class="subCategorie-item">
-                        <label class="subCategorie-title left-col dont-break-out">Marmitas 03</label>
+                        <label class="subCategorie-title left-col dont-break-out">... 03</label>
                     </div>
                 </div>
 
@@ -146,10 +141,14 @@ require "../../../logic/entrar_cookie.php";
         </section> -->
 
         <div class="row">
-            <div id="cat-container" class="col-4 ">
+            <div id="cat-container" class=" col-md-4 ">
                 <div class="row">
                     <section class="cool-categories-section my-nice-scroll-bar">
                         <header class="row">
+                            <svg class="my-categories-toggle-btn" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4.6902 8.41707L11.3658 1.74147C11.6878 1.41951 12.2098 1.41951 12.5317 1.74147L13.3103 2.52007C13.6317 2.84148 13.6323 3.36239 13.3117 3.68456L8.02111 9.00002L13.3117 14.3154C13.6323 14.6376 13.6317 15.1585 13.3103 15.4799L12.5317 16.2585C12.2097 16.5805 11.6878 16.5805 11.3658 16.2585L4.6902 9.58296C4.36827 9.26101 4.36827 8.73903 4.6902 8.41707Z" fill="white"/>
+                            </svg>
+
                             <h1 class="h1">Categorias</h1>
                         </header>
                         <div class="content row my-nice-scroll-bar">
@@ -187,7 +186,7 @@ require "../../../logic/entrar_cookie.php";
             </div>
             
             
-            <section class="filter-service-cards col-8">
+            <section class="filter-service-cards col-12 col-md-8">
                 <section id="mySearchBarSection">
                     <div class="my-categories-toggler-btn-path">
                         <button class="my-categories-toggle-btn">

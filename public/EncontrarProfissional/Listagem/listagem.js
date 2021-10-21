@@ -312,14 +312,18 @@ function setSearchState(data){
     refreshSearch();
 }
 
+  
+
 const toggleCategoriesSidebar = () => {
     let state = {
         selected: false
     };
     let backdrop = document.querySelector('.categories-backdrop');
-    let sidebar = document.querySelector('.categoriesSection');
+    let sidebar = document.querySelector('#cat-container');
     let btnToggler = document.querySelectorAll('.my-categories-toggle-btn');
     let body = document.querySelector('body');
+
+    console.log(sidebar)
 
     const refresShowSidebar = () => {
        
@@ -361,7 +365,7 @@ const toggleCategoriesSidebar = () => {
         let tempSate = !state.selected;
         setState({selected: tempSate});
 
-        document.querySelector('.categoriesSection').style.transition = "transform 0.5s";
+        sidebar.style.transition = "transform 0.5s";
     }
 
     backdrop.onclick = () => {
@@ -374,18 +378,22 @@ const toggleCategoriesSidebar = () => {
     });
 
 };
-
+toggleCategoriesSidebar();
 //toggleCategoriesSidebar();
 
 const categoriesScrollHandler = () => {
-    document.querySelector(".categoriesSection").scrollTop = 0;
-    document.querySelector(".categoriesSectionBody").scrollTop = 0;
-    
+    let sidebar = document.querySelector("#sidebar");
+    let catContainer = document.querySelector("#cat-container");
+
+    let catNode = catContainer.innerHTML;
+    sidebar.innerHTML = "";
+    sidebar.innerHTML = catNode;
 }
 
-const mediumScreen = window.matchMedia("(min-width: 768px)");
-//categoriesScrollHandler();
-mediumScreen.addListener(categoriesScrollHandler);
+
+// const mediumScreen = window.matchMedia("(min-width: 768px)");
+// //categoriesScrollHandler();
+// mediumScreen.addListener(categoriesScrollHandler);
 
 const fillCategories = (data) => {
     if(!typeof data === 'array') return;
@@ -775,6 +783,10 @@ const getCategoriesName = () => {
     req.onload =() => {
         arrangeNewCategories(JSON.parse(req.response));
         prepareCatgories((JSON.parse(req.response)));
+                
+        // const mediumScreen = window.matchMedia("(min-width: 768px)");
+        // //categoriesScrollHandler();
+        // mediumScreen.addListener(() => {categoriesScrollHandler(JSON.parse(req.response))});
     }
 
     req.open("POST", './getAsyncDataList.php');

@@ -104,8 +104,8 @@ button:focus {
 /* --- Search Bar -- */
 /* categorie Secttion */
 .show-sidebar {
-  -webkit-transform: translateX(0);
-          transform: translateX(0);
+  -webkit-transform: translateX(0) !important;
+          transform: translateX(0) !important;
 }
 
 .hide-sidebar {
@@ -114,7 +114,7 @@ button:focus {
 }
 
 .categories-backdrop {
-  z-index: 800;
+  z-index: 99;
   background: rgba(2, 2, 2, 0.58);
   width: 100vw;
   height: 100vh;
@@ -689,9 +689,11 @@ button:focus {
 
 /* service-card */
 .cool-categories-section {
+  z-index: 10000 !important;
   border-radius: 12px;
   height: calc(100vh - 130px);
   overflow: auto;
+  min-height: inherit;
 }
 
 .cool-categories-section > header {
@@ -701,6 +703,10 @@ button:focus {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -709,11 +715,32 @@ button:focus {
           align-items: center;
 }
 
+.cool-categories-section > header svg {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  cursor: pointer;
+  padding: 18px;
+  border-radius: 20px;
+  -webkit-transition: ease 0.3s;
+  transition: ease 0.3s;
+  height: 55px;
+}
+
+.cool-categories-section > header svg:hover {
+  background-color: #605edf;
+  padding: 13px;
+}
+
 .cool-categories-section > header h1 {
   font-weight: bold;
   font-size: 24px;
   line-height: 28px;
   letter-spacing: 0.05em;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin: 0;
   color: #FFFFFF;
   text-align: center;
 }
@@ -721,6 +748,7 @@ button:focus {
 .cool-categories-section > .content {
   padding: 7px 0;
   background-color: #FFF;
+  min-height: calc(100vh - 77px);
   position: relative;
   -ms-flex-wrap: nowrap;
       flex-wrap: nowrap;
@@ -856,6 +884,19 @@ button:focus {
   color: #33363a;
 }
 
+#cat-container {
+  position: absolute;
+  -webkit-transform: translate(-100%);
+          transform: translate(-100%);
+  z-index: 10000;
+  min-height: 100vh;
+  max-width: 360px;
+}
+
+#cat-container > .row {
+  min-height: inherit;
+}
+
 @media (min-width: 500px) {
   /* -- filter section -- */
   #filterSection {
@@ -881,6 +922,11 @@ button:focus {
 }
 
 @media (min-width: 768px) {
+  #cat-container {
+    position: relative;
+    -webkit-transform: translate(0%);
+            transform: translate(0%);
+  }
   .categoriesSection {
     padding-bottom: 0;
   }
