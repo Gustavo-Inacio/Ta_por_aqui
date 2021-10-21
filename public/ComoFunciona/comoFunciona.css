@@ -1,0 +1,162 @@
+body{
+    background-color: #f2f2f2;
+}
+
+.aboutUs, .searchTutorial, .filterTutorial, .providerTutorial, .chatTutorial, .needHelp{
+    padding: 40px 0;
+}
+
+.collapseOption, .criteria{
+    display: block;
+    text-align: start;
+    width: 100%;
+    border: none;
+    border-radius: 4px;
+    background-color: white;
+    color: #6060D7;
+    padding: 7px 12px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.collapseOption.selected, .collapseOption:hover{
+    background-color: #6060D7;
+    box-shadow: 0 2px 22px rgba(96, 96, 215, 0.6);
+    color: white;
+    transition: .2s;
+}
+
+.collapseContent h2 {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    color: #6060D7;
+}
+
+.collapseContent span{
+    font-style: italic;
+    font-weight: normal;
+    font-size: 18px;
+    color: #888F98;
+}
+
+.collapseContent .icon{
+    font-size: 40px;
+    background-color: #6060D7;
+    padding: 10px;
+    color: white;
+    border-radius: 6px;
+    display: inline-block;
+}
+
+.collapseContentText{
+    color: #f2f2f2;
+    background-color: #6060D7;
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 10px;
+}
+
+.searchTutorial{
+    background-color: white;
+}
+
+.sectionTitle{
+    font-style: normal;
+    font-weight: bold;
+    font-size: 42px;
+    color: #3333CC;
+}
+
+.sectionText{
+    color: #0C0C23;
+    font-size: 18px;
+}
+
+.sectionButton{
+    display: block;
+    width: 100%;
+    max-width: 700px;
+    text-align: center;
+    padding: 10px 5px;
+    font-weight: bold;
+    border-radius: 4px;
+    font-size: 18px;
+}
+
+.sectionButton:hover{
+    color: white;
+    text-decoration: none;
+    transition: .2s;
+}
+
+.searchTutorial .sectionButton{
+    color: white;
+    background-color: #45E586;
+    border: 1px solid #45E586;
+    box-shadow: 0 2px 20px #45E586;
+}
+
+.searchTutorial .sectionButton:hover{
+    background-color: #1abd5b;
+    border: 1px solid #1abd5b;
+    box-shadow: 0 2px 20px #1abd5b;
+}
+
+.sectionImg{
+    width: 100%;
+    max-width: 300px;
+}
+
+.criteria{
+    font-weight: normal;
+    max-width: 600px;
+}
+
+.filterTutorial .sectionButton, .providerTutorial .sectionButton, .needHelp .sectionButton{
+    color: #6060D7;
+    background-color: transparent;
+    border: 1px solid #6060D7;
+    max-width: 600px;
+}
+
+.filterTutorial .sectionButton:hover, .providerTutorial .sectionButton:hover, .needHelp .sectionButton:hover{
+    color: white;
+    background-color: #6060D7;
+    box-shadow: 0 2px 20px #6060D7;
+    transition: .2s;
+}
+
+.providerTutorial .sectionImg{
+    border-radius: 6px;
+}
+
+.chatTutorial{
+    background: #3333CC;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    border-radius: 64px 64px 0 0;
+    color: white;
+}
+
+.chatTutorial .sectionTitle, .chatTutorial .sectionText{
+    color: #f2f2f2;
+    text-align: end;
+}
+
+.chatTutorial .sectionButton{
+    color: #3333CC;
+    background-color: white;
+    border: 1px solid white;
+    box-shadow: 0 2px 20px rgba(255, 255, 255, 0.36);
+    max-width: 600px;
+}
+
+.chatTutorial .sectionButton:hover{
+    background-color: #e3e3e3;
+    border: 1px solid #e3e3e3;
+    box-shadow: 0 2px 20px rgba(215, 215, 215, 0.36);
+}
+
+.needHelp{
+    background-color: white;
+}

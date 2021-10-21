@@ -69,7 +69,7 @@ $qntContratos = $con->query($query)->fetch(PDO::FETCH_OBJ);
                         <a href="../Contato/contato.php" class="nav-link">Fale conosco</a>
                     </li>
                     <li class="nav-item">
-                        <a href="../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
+                        <a href="../ComoFunciona/comoFunciona.php" class="nav-link">Como funciona</a>
                     </li>
                     <li class="nav-item">
                         <a href="../Chat/chat.php" class="nav-link" id="navChatLink">Chat</a>
@@ -308,7 +308,7 @@ $qntContratos = $con->query($query)->fetch(PDO::FETCH_OBJ);
             </div>
             <div class="my-main-footer-institutional">
                 <p>INSTITUCIONAL</p>
-                <a href="../SobreNos/sobreNos.php">Quem Somos</a> <br>
+                <a href="../ComoFunciona/sobreNos%20old.php">Quem Somos</a> <br>
                 <a href="#">Faça uma doação</a> <br>
                 <a href="#">Trabalhe conosco</a> <br>
             </div>
@@ -332,9 +332,6 @@ $qntContratos = $con->query($query)->fetch(PDO::FETCH_OBJ);
     </div>-->
 
     <!-- Alerta para avisar sobre o uso de cookies -->
-    <pre>
-        <?=print_r($_COOKIE)?>
-    </pre>
     <?php if (isset($_COOKIE['acceptCookies']) && $_COOKIE['acceptCookies'] === 'notAccepted') {?>
         <div class="cookieAlert" id="cookieAlert">
             <div class="cookieAlertContent bg-dark text-white" id="cookieAlertContent">

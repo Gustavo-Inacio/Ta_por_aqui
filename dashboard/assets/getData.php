@@ -11,22 +11,10 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 class DbConnection {
-<<<<<<< HEAD
-    // private $host = 'sql10.freemysqlhosting.net';
-    // private $dbname = 'sql10435599';
-    // private $user = 'sql10435599';
-    // private $password = 'buc8h6VbjS';
-
-=======
->>>>>>> 0b1bbb38738b871d799ddcc9f1c376e9d0656e31
     private $host = 'localhost';
     private $dbname = 'ta_por_aqui';
     private $user = 'root';
     private $password = '';
-<<<<<<< HEAD
-
-=======
->>>>>>> 0b1bbb38738b871d799ddcc9f1c376e9d0656e31
 
     public function connect(){
         //Iniciando conexão com o bd com PDO

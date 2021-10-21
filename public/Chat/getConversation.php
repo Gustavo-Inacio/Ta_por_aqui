@@ -97,77 +97,81 @@ if (empty($chatInfo) || $chatInfo->status_chat_contato == 0){
         $chatMessages = $stmt->fetchAll(PDO::FETCH_OBJ);
 
         $dataMsg = [];
-        foreach ($chatMessages as $key => $message) {
-            //verificando as datas das mensagens
-            $horaMsg = new DateTime($message->hora_mensagem_chat);
-            $formatter = new IntlDateFormatter(
-                'pt_BR',
-                IntlDateFormatter::RELATIVE_MEDIUM,
-                IntlDateFormatter::NONE,
-                'America/Sao_Paulo',
-                IntlDateFormatter::GREGORIAN
-            );
-            $dataMsg[$key] = $formatter->format($horaMsg);
+        if (count($chatMessages) > 0){
+            foreach ($chatMessages as $key => $message) {
+                //verificando as datas das mensagens
+                $horaMsg = new DateTime($message->hora_mensagem_chat);
+                $formatter = new IntlDateFormatter(
+                    'pt_BR',
+                    IntlDateFormatter::RELATIVE_MEDIUM,
+                    IntlDateFormatter::NONE,
+                    'America/Sao_Paulo',
+                    IntlDateFormatter::GREGORIAN
+                );
+                $dataMsg[$key] = $formatter->format($horaMsg);
 
-            if($key > 0){
-                if ($dataMsg[$key] !== $dataMsg[intval($key)-1]){
+                if($key > 0){
+                    if ($dataMsg[$key] !== $dataMsg[intval($key)-1]){
+                        echo "<div class='chatDate'>$dataMsg[$key]</div>";
+                    }
+                } else {
                     echo "<div class='chatDate'>$dataMsg[$key]</div>";
                 }
-            } else {
-                echo "<div class='chatDate'>$dataMsg[$key]</div>";
-            }
-        ?>
-            <div class="message <?=$_SESSION['idUsuario'] == $message->id_remetente_usuario ? 'myMessage' : 'itsMessage'?>" id="<?=$message->id_chat_mensagem?>">
-                <?php if ($message->mensagem_chat === "arquivo" && $message->diretorio_arquivo_chat != null){
-                        $tmparr = explode('.', $message->diretorio_arquivo_chat);
-                        $extension = $tmparr[count($tmparr) - 1];
+            ?>
+                <div class="message <?=$_SESSION['idUsuario'] == $message->id_remetente_usuario ? 'myMessage' : 'itsMessage'?>" id="<?=$message->id_chat_mensagem?>">
+                    <?php if ($message->mensagem_chat === "arquivo" && $message->diretorio_arquivo_chat != null){
+                            $tmparr = explode('.', $message->diretorio_arquivo_chat);
+                            $extension = $tmparr[count($tmparr) - 1];
 
-                        if ($extension === 'png' || $extension === 'jpg' || $extension === 'jpeg') {?>
-                            <div class="d-flex justify-content-center">
-                                <img src="../../assets/chatSharedFiles/<?=$message->diretorio_arquivo_chat?>" alt="imagem compartilhada" class="chatImg">
-                            </div>
-                        <?php } else if ($extension === 'mp4'){ ?>
-                            <video class="chatVideo" controls>
-                                <source src="../../assets/chatSharedFiles/<?=$message->diretorio_arquivo_chat?>" type="video/mp4">
+                            if ($extension === 'png' || $extension === 'jpg' || $extension === 'jpeg') {?>
+                                <div class="d-flex justify-content-center">
+                                    <img src="../../assets/chatSharedFiles/<?=$message->diretorio_arquivo_chat?>" alt="imagem compartilhada" class="chatImg">
+                                </div>
+                            <?php } else if ($extension === 'mp4'){ ?>
+                                <video class="chatVideo" controls>
+                                    <source src="../../assets/chatSharedFiles/<?=$message->diretorio_arquivo_chat?>" type="video/mp4">
 
-                                <!-- mensagem caso o browser não suprote o player -->
-                                <span class="text-danger">Seu browser não suporta o player de vídeo. Em vez disso baixe o vídeo:</span> <br>
+                                    <!-- mensagem caso o browser não suprote o player -->
+                                    <span class="text-danger">Seu browser não suporta o player de vídeo. Em vez disso baixe o vídeo:</span> <br>
+                                    <div class="messageArq" onclick="downloadFile('<?=$message->diretorio_arquivo_chat?>', '<?=$message->apelido_arquivo_chat?>')">
+                                        <?=$message->apelido_arquivo_chat?> <i class="fas fa-download" style="margin-left: auto"></i>
+                                    </div>
+                                </video>
+                            <?php } else if ($extension === 'mp3') { ?>
+                                <audio class="chatAudio" controls>
+                                    <source src="../../assets/chatSharedFiles/<?=$message->diretorio_arquivo_chat?>" type="audio/mpeg">
+
+                                    <!-- mensagem caso o browser não suprote o player -->
+                                    <span class="text-danger">Seu browser não suporta o player de vídeo. Em vez disso baixe o vídeo:</span> <br>
+                                    <div class="messageArq" onclick="downloadFile('<?=$message->diretorio_arquivo_chat?>', '<?=$message->apelido_arquivo_chat?>')">
+                                        <?=$message->apelido_arquivo_chat?> <i class="fas fa-download" style="margin-left: auto"></i>
+                                    </div>
+                                </audio>
+                            <?php }  else {?>
                                 <div class="messageArq" onclick="downloadFile('<?=$message->diretorio_arquivo_chat?>', '<?=$message->apelido_arquivo_chat?>')">
                                     <?=$message->apelido_arquivo_chat?> <i class="fas fa-download" style="margin-left: auto"></i>
                                 </div>
-                            </video>
-                        <?php } else if ($extension === 'mp3') { ?>
-                            <audio class="chatAudio" controls>
-                                <source src="../../assets/chatSharedFiles/<?=$message->diretorio_arquivo_chat?>" type="audio/mpeg">
-
-                                <!-- mensagem caso o browser não suprote o player -->
-                                <span class="text-danger">Seu browser não suporta o player de vídeo. Em vez disso baixe o vídeo:</span> <br>
-                                <div class="messageArq" onclick="downloadFile('<?=$message->diretorio_arquivo_chat?>', '<?=$message->apelido_arquivo_chat?>')">
-                                    <?=$message->apelido_arquivo_chat?> <i class="fas fa-download" style="margin-left: auto"></i>
-                                </div>
-                            </audio>
-                        <?php }  else {?>
-                            <div class="messageArq" onclick="downloadFile('<?=$message->diretorio_arquivo_chat?>', '<?=$message->apelido_arquivo_chat?>')">
-                                <?=$message->apelido_arquivo_chat?> <i class="fas fa-download" style="margin-left: auto"></i>
-                            </div>
-                        <?php }?>
-                <?php } else {?>
-                    <div class="messageText">
-                        <?=nl2br($message->mensagem_chat)?>
-                    </div>
-                <?php }
-                if ($message->id_remetente_usuario == $_SESSION['idUsuario']) {?>
-                <div style="text-align: end">
-                    <div class="messageTime me-2"><?=$horaMsg->format('H:i')?></div>
-                    <div class="msgRead"><?=$message->mensagem_lida ? '<i class="fas fa-check-double text-primary"></i>' : '<i class="fas fa-check text-secondary"></i>'?></div>
-                </div>
-                <?php } else {?>
+                            <?php }?>
+                    <?php } else {?>
+                        <div class="messageText">
+                            <?=nl2br($message->mensagem_chat)?>
+                        </div>
+                    <?php }
+                    if ($message->id_remetente_usuario == $_SESSION['idUsuario']) {?>
                     <div style="text-align: end">
-                        <div class="messageTime me-3"><?=$horaMsg->format('H:i')?></div>
+                        <div class="messageTime me-2"><?=$horaMsg->format('H:i')?></div>
+                        <div class="msgRead"><?=$message->mensagem_lida ? '<i class="fas fa-check-double text-primary"></i>' : '<i class="fas fa-check text-secondary"></i>'?></div>
                     </div>
-                <?php }?>
-            </div>
-        <?php }?>
+                    <?php } else {?>
+                        <div style="text-align: end">
+                            <div class="messageTime me-3"><?=$horaMsg->format('H:i')?></div>
+                        </div>
+                    <?php }?>
+                </div>
+            <?php }
+        } else {
+            echo "<div class='message d-none'>Nenhuma mensagem no chat ainda</div>";
+        }?>
     </div>
 </div>
 </body>
