@@ -290,13 +290,14 @@ require "../../../logic/entrar_cookie.php";
                         </svg>
                     </div>
 
-                    <button class="btn-change-location">
+                    <button id="btn-change-location" class="btn-change-location" data-bs-toggle="modal" data-bs-target="#addressModal">
                         <svg width="8" height="10" viewBox="0 0 8 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M3.36461 9.79824C0.526758 5.6842 0 5.26197 0 3.75C0 1.67893 1.67893 0 3.75 0C5.82107 0 7.5 1.67893 7.5 3.75C7.5 5.26197 6.97324 5.6842 4.13539 9.79824C3.94916 10.0673 3.55082 10.0672 3.36461 9.79824ZM3.75 5.3125C4.61295 5.3125 5.3125 4.61295 5.3125 3.75C5.3125 2.88705 4.61295 2.1875 3.75 2.1875C2.88705 2.1875 2.1875 2.88705 2.1875 3.75C2.1875 4.61295 2.88705 5.3125 3.75 5.3125Z" fill="white"/>
                         </svg>
 
-                        <p class="change-location-btn-title"> <span class="sm-change-location-text"> Localização </span> <span class="normal-change-location-text"> Modificar Localização</span></p>
+                        <span class="change-location-btn-title"> <span class="sm-change-location-text"> Localização </span> <span class="normal-change-location-text"> Modificar Localização</span></span>
                     </button>
+                    <div class="text-secondary mt-3 text-end w-100" style="font-size: 12px" id="showTempLocation"><span>Usando localização temporária: </span> <strong>Rua Ernesta Pelosini, 195, Bairro Nova Petrópolis - São Bernardo do Campo, SP</strong></div>
                 </section>
 
                 <template id="serviceCardTemplate">
@@ -368,9 +369,65 @@ require "../../../logic/entrar_cookie.php";
                 </section>
             </section>
         </div>
-        
-        
     </section>
+
+    <!-- modal de trocar de endereço -->
+    <div class="modal fade" id="addressModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Trocar endereço de pesquisa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <!-- inputs com informações do endereço -->
+                <form action="#" method="post" id="changeLocationForm">
+                    <div class="modal-body">
+                        <button type="button" class="btn btn-info text-light w-100 mb-3" data-bs-toggle="popover" data-bs-trigger="focus" title="Como assim?" data-bs-content="Use essa função caso você precise pesquisar um serviço, mas está em um local diferente do que você cadastrou perfil. Ao configurar essa nova localização, ela será usada como referência para pesquisar os serviços mais próximos de você na localização atual, ignorando a localização que você cadastrou. Essa é uma localização temporária e não alterará as suas informações de cadastro. Caso você tenha permitido, nós pegamos sua localização atual para autocompletar os campos abaixo.">Como assim?</button>
+
+                        <label for="userAdressCEP" class="myLabel">CEP</label> <br>
+                        <input type="text" class="form-control requiredAdressData" name="userAdressCEP" id="userAdressCEP" placeholder="ex.: 01234567" maxlength="8">
+                        <small id="cepError" class="text-danger"></small>
+
+                        <div class="row mt-3">
+                            <div class="col-3">
+                                <label for="userAdressState" class="myLabel">Estado</label> <br>
+                                <input type="text" class="form-control requiredAdressData mb-3" name="userAdressState" id="userAdressState" readonly data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="autocompletado com o CEP" data-bs-placement="top">
+                            </div>
+                            <div class="col-9">
+                                <label for="userAdressCity" class="myLabel">Cidade</label> <br>
+                                <input type="text" class="form-control requiredAdressData mb-3" name="userAdressCity" id="userAdressCity" placeholder="autocompletado com o CEP" readonly>
+                            </div>
+                        </div>
+
+                        <label for="userAdressNeighborhood" class="myLabel">Bairro</label> <br>
+                        <input type="text" class="form-control requiredAdressData mb-3" name="userAdressNeighborhood" id="userAdressNeighborhood" placeholder="Digite seu bairro">
+
+                        <div class="row">
+                            <div class="col-9">
+                                <label for="userAdressStreet" class="myLabel">Rua</label> <br>
+                                <input type="text" class="form-control requiredAdressData mb-3" name="userAdressStreet" id="userAdressStreet" placeholder="Digite sua rua">
+                            </div>
+                            <div class="col-3">
+                                <label for="userAdressNumber" class="myLabel">Número</label> <br>
+                                <input type="number" class="form-control requiredAdressData mb-3" name="userAdressNumber" id="userAdressNumber" maxlength="5">
+                            </div>
+                        </div>
+
+                        <label for="userAdressComplement" class="myLabel">Complemento</label> <br>
+                        <input type="text" class="form-control mb-3" name="userAdressComplement" id="userAdressComplement" placeholder="Digite o complemento (caso tenha)" data-bs-toggle="popover" data-bs-trigger="hover" title="Exemplo" data-bs-content="apto. 24 BL A" data-bs-placement="top" maxlength="20">
+                        <div class="text-danger mt-3" id="adressInfoError" style="font-size: 13px"></div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="mybtn mybtn-conversion">Salvar endereço temporário</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- modal de trocar de endereço fim -->
 
     <footer id="myMainFooter">
         <div id="myMainFooterContainer" class="container-fluid">

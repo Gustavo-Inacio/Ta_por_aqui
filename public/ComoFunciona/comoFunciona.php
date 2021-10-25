@@ -157,7 +157,7 @@ require "../../logic/entrar_cookie.php";
                                 </div>
                             </div>
                             <div class="collapseContentText">
-                                <p>A plataforma <strong>Tá por aqui</strong> garante o seu conforto e confiabilidade como cliente indicando os melhores e mais próximos prestadores para fazerem um serviço para você.</p>
+                                <p>A plataforma <strong>Tá por aqui</strong> garante o seu conforto e confiabilidade como cliente, indicando os melhores e mais próximos prestadores para fazerem um serviço para você.</p>
                                 <p>É sempre possível checar a qualidade do serviço prestado por meio das avaliações e das redes sociais</p>
                             </div>
                         </div>
@@ -288,7 +288,7 @@ require "../../logic/entrar_cookie.php";
                         <p>Lá você poderá encontrar as dúvidas mais frequentes e poderá entrar em contato direto com os administradores por meio de un formulário de contato.</p>
                         <p>Caso preferir entrar em contato de outra forma, na mesma página há alguns outros meios de entrar em contato conosco, como por email, telefone ou instagram</p>
 
-                        <a href="../Perfil/meu_perfil.php" class="mt-3 sectionButton">Central de suporte</a>
+                        <a href="../Contato/contato.php" class="mt-3 sectionButton">Central de suporte</a>
                     </div>
                     <div class="col-md-4 d-none d-md-flex flex-row justify-content-center">
 

@@ -385,3 +385,33 @@ function getAdress(cep){
 
     ajax.send()
 }
+
+document.getElementById('getCurrentLocationBtn').addEventListener('click', () => {
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(position => {
+            let ajax = new XMLHttpRequest()
+            ajax.open('GET', `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${position.coords.latitude},${position.coords.longitude}&apiKey=2BHqTlrrRZyJOYbFEl47yRbagjjwSaY-Eu3iriuEgvY`)
+
+            ajax.onreadystatechange = () => {
+                if(ajax.readyState == 4 && ajax.status == 200){
+                    let enderecoJSON = ajax.responseText
+
+                    //convertendo a resposta JSON em objeto
+                    enderecoJSON = JSON.parse(enderecoJSON)
+
+                    //Colocando a resposta nos formulários
+                    document.getElementById('userAdressCEP').value = enderecoJSON['items'][0].address.postalCode.replace('-','')
+                    document.getElementById('userAdressCity').value = enderecoJSON['items'][0].address.city
+                    document.getElementById('userAdressState').value = enderecoJSON['items'][0].address.stateCode
+                    document.getElementById('userAdressStreet').value = enderecoJSON['items'][0].address.street
+                    document.getElementById('userAdressNeighborhood').value = enderecoJSON['items'][0].address.district
+                    document.getElementById('userAdressNumber').value = enderecoJSON['items'][0].address.houseNumber
+
+                } else if(ajax.readyState == 4 && ajax.status == 400){
+                    alert('Erro ao se conectar com os correios')
+                }
+            }
+            ajax.send()
+        })
+    }
+})
