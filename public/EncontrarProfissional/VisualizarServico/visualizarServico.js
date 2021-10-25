@@ -137,8 +137,8 @@ const loadReportService = () => { // carrega e monat o layout de dununcia.
     const setDOM = () => { // coloca na DOM
         let serviceName = document.getElementById("myServiceName").innerHTML;
         let providerName = document.getElementById("myProviderName").innerHTML;
-        
-        let porcessedNode = ReportInterface({node:iframeNode, type: 'service', data: {service: serviceName, provider: providerName}});
+        let serviceId = document.getElementById('getServiceIdForComplain').value
+        let porcessedNode = ReportInterface({node:iframeNode, type: 'service', data: {service: serviceName, provider: providerName, serviceId: serviceId}});
     
         let modal = document.querySelector('#serviceReportModal #myReportModalBody');
         modal.appendChild(porcessedNode)
@@ -230,7 +230,7 @@ const commentSectionHandler = (info = []) => { // cuida da section inteira de co
             }
 
 
-
+            let commentId = data.commentId;
             let user = data.userName;
             let publishDate = data.publishDate;
             let service = document.getElementById("myServiceName").innerHTML;
@@ -258,7 +258,7 @@ const commentSectionHandler = (info = []) => { // cuida da section inteira de co
                 
                 getNode();
                 const setDOM = async () => { // monta o layout na DOM
-                    let processedNode = await ReportInterface({node:iframeNode, type: 'comment', data: {comment: comment, user, publishDate, service, sequencialNumber}})
+                    let processedNode = await ReportInterface({node:iframeNode, type: 'comment', data: {comment: comment, user, publishDate, service, sequencialNumber, commentId: commentId}})
                    
                     await modalTrigger.setAttribute('data-bs-target',`#reportComent${sequencialNumber}`) // muda o id para nao dar conflito entre os modais de comentario
                     await modal.setAttribute('id',`reportComent${sequencialNumber}`)// muda o id para nao dar conflito entre os modais de comentario
@@ -336,6 +336,7 @@ const commentSectionHandler = (info = []) => { // cuida da section inteira de co
     
     info.forEach((data) => { // para cada item recebido, chama a funcao que cria cada um e manda criar 
         commentItem(data)
+        console.log(data)
     });
     
 }
@@ -917,7 +918,8 @@ async function commentsDataHandler(response){
             profilePicture: pictureFolderPath + elem.user.imagem_usuario,
             rateStars : elem.comment.nota_comentario,
             publishDate: elem.comment.data_comentario,
-            text: elem.comment.desc_comentario
+            text: elem.comment.desc_comentario,
+            commentId: elem.comment.id_comentario
         });
         commentQuantity++;
 
@@ -976,4 +978,3 @@ async function getCommentsData00(){
 //getOtherServicesData();
 
 export {commentsDataHandler, refreshAverageRate};
-

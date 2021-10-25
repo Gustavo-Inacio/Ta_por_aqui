@@ -898,15 +898,19 @@ button:focus {
 }
 
 #addressModal{
-  z-index: 10002 !important;
+  z-index: 10003 !important;
 }
 
 .modal-backdrop {
-  z-index: 10001 !important;
+  z-index: 10002 !important;
 }
 
 .popover{
-  z-index: 10003 !important;
+  z-index: 10004 !important;
+}
+
+#myMainFooter{
+  z-index: 10001 !important;
 }
 
 @media (min-width: 500px) {

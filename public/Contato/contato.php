@@ -69,7 +69,7 @@ if(isset($_SESSION['idUsuario'])) {
                     <a href="contato.php" class="nav-link">Fale conosco</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../ComoFunciona/comoFunciona.php" class="nav-link">Como funciona</a>
+                    <a href="../ComoFunciona/comoFunciona.php" class="nav-link">Sobre</a>
                 </li>
                 <li class="nav-item">
                     <a href="../Chat/chat.php" class="nav-link" id="navChatLink">Chat</a>
