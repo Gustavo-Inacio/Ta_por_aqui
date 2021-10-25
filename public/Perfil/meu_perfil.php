@@ -481,6 +481,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                 <!-- inputs com informações do endereço -->
                 <form action="../../logic/perfil_trocar_localizacao.php" method="post" id="changeLocationForm">
                     <div class="modal-body">
+                        <button type="button" id="getCurrentLocationBtn" class="btn btn-info text-light w-100 mb-3">Pegar minha localização atual</button>
                         <label for="userAdressCEP" class="myLabel">CEP</label> <br>
                         <input type="text" class="form-control required" name="userAdressCEP" id="userAdressCEP" placeholder="ex.: 01234567" onkeyup="callGetAdress(this)" onchange="callGetAdress(this)" required value="<?=$user->cep_usuario?>">
                         <small id="cepError" class="text-danger"></small>

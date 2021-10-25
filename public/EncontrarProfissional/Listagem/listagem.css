@@ -897,6 +897,18 @@ button:focus {
   min-height: inherit;
 }
 
+#addressModal{
+  z-index: 10002 !important;
+}
+
+.modal-backdrop {
+  z-index: 10001 !important;
+}
+
+.popover{
+  z-index: 10003 !important;
+}
+
 @media (min-width: 500px) {
   /* -- filter section -- */
   #filterSection {

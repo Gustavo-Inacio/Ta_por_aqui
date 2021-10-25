@@ -1,3 +1,8 @@
+var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+    return new bootstrap.Popover(popoverTriggerEl)
+})
+
 var permitSearch = true; // tem a funcao de permitar que uma nova requisicao seja feita somente depois que for terminada a requisicao atual
 
 let serviceState = {
@@ -796,5 +801,120 @@ const getCategoriesName = () => {
 
 
 getCategoriesName();
+
+document.getElementById('userAdressCEP').addEventListener('keyup', () => {
+    let cep = document.getElementById('userAdressCEP').value
+    if(cep.length === 8){
+        //caso o input tenha 8 digitos ele chama a função passando já o value o cep
+        let url = `https://viacep.com.br/ws/${cep}/json/unicode/`
+
+        let ajax = new XMLHttpRequest()
+        ajax.open('GET', url)
+
+        ajax.onreadystatechange = () => {
+            if(ajax.readyState == 4 && ajax.status == 200){
+                let enderecoJSON = ajax.responseText
+
+                //convertendo a resposta JSON em objeto
+                enderecoJSON = JSON.parse(enderecoJSON)
+
+                if(enderecoJSON.erro == true){
+                    //tratativa de CEP invalido
+                    let aviso = document.getElementById('cepError')
+                    aviso.innerHTML = 'Digite um CEP valido'
+
+                } else{
+                    //retirando aviso caso exista
+                    if(document.getElementById('cepError')){
+                        document.getElementById('cepError').innerHTML = ''
+                    }
+
+                    //Colocando a resposta nos formulários
+                    document.getElementById('userAdressCity').value = enderecoJSON.localidade
+                    document.getElementById('userAdressState').value = enderecoJSON.uf
+                    document.getElementById('userAdressStreet').value = enderecoJSON.logradouro
+                    document.getElementById('userAdressNeighborhood').value = enderecoJSON.bairro
+                }
+            }
+            if(ajax.readyState == 4 && ajax.status == 400){
+                alert('Erro ao se conectar com os correios')
+            }
+        }
+        ajax.send()
+    } else {
+        //Colocando a resposta nos formulários
+        document.getElementById('userAdressCity').value = ''
+        document.getElementById('userAdressState').value = ''
+        document.getElementById('userAdressStreet').value = ''
+        document.getElementById('userAdressNeighborhood').value = ''
+    }
+})
+
+document.getElementById('btn-change-location').addEventListener('click', () => {
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(position => {
+            let ajax = new XMLHttpRequest()
+            ajax.open('GET', `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${position.coords.latitude},${position.coords.longitude}&apiKey=2BHqTlrrRZyJOYbFEl47yRbagjjwSaY-Eu3iriuEgvY`)
+
+            ajax.onreadystatechange = () => {
+                if(ajax.readyState == 4 && ajax.status == 200){
+                    let enderecoJSON = ajax.responseText
+
+                    //convertendo a resposta JSON em objeto
+                    enderecoJSON = JSON.parse(enderecoJSON)
+
+                    //Colocando a resposta nos formulários
+                    document.getElementById('userAdressCEP').value = enderecoJSON['items'][0].address.postalCode.replace('-','')
+                    document.getElementById('userAdressCity').value = enderecoJSON['items'][0].address.city
+                    document.getElementById('userAdressState').value = enderecoJSON['items'][0].address.stateCode
+                    document.getElementById('userAdressStreet').value = enderecoJSON['items'][0].address.street
+                    document.getElementById('userAdressNeighborhood').value = enderecoJSON['items'][0].address.district
+                    document.getElementById('userAdressNumber').value = enderecoJSON['items'][0].address.houseNumber
+
+                } else if(ajax.readyState == 4 && ajax.status == 400){
+                    alert('Erro ao se conectar com os correios')
+                }
+            }
+            ajax.send()
+        })
+    }
+})
+
+document.getElementById('changeLocationForm').addEventListener('submit', event => {
+    //previnir reload
+    event.preventDefault()
+
+    //Validar campos
+    let valid = true
+    let errorMsg = ""
+
+    //CEP com 8 caracteres
+    let userAdressCEP = document.getElementById('userAdressCEP')
+    if (userAdressCEP.value.length !== 8){
+        valid = false
+        errorMsg = "CEP inválido. Siga o padrão do exemplo"
+
+        userAdressCEP.classList.add("is-invalid")
+    } else{
+        userAdressCEP.classList.remove("is-invalid")
+    }
+
+    //Todos os campos obrigatórios preenchidos
+    Array.from(document.getElementsByClassName("requiredAdressData")).forEach((el) => {
+        if (el.value === ""){
+            el.classList.add('is-invalid')
+            valid = false
+            errorMsg = "Preencha todos os campos"
+        } else {
+            el.classList.remove('is-invalid')
+        }
+    });
+
+    document.getElementById('adressInfoError').innerText = errorMsg
+    if (valid){
+        //Pegar coordenadas de acordo com os dados de endereço do formulário
+        let formData = new FormData(document.getElementById('changeLocationForm'))
+    }
+})
 
 export {setSearchState};

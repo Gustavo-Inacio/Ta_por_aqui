@@ -157,7 +157,7 @@ require "../../logic/entrar_cookie.php";
                                 </div>
                             </div>
                             <div class="collapseContentText">
-                                <p>A plataforma <strong>Tá por aqui</strong> garante o seu conforto e confiabilidade como cliente indicando os melhores e mais próximos prestadores para fazerem um serviço para você.</p>
+                                <p>A plataforma <strong>Tá por aqui</strong> garante o seu conforto e confiabilidade como cliente, indicando os melhores e mais próximos prestadores para fazerem um serviço para você.</p>
                                 <p>É sempre possível checar a qualidade do serviço prestado por meio das avaliações e das redes sociais</p>
                             </div>
                         </div>
