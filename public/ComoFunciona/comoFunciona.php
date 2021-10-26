@@ -268,7 +268,7 @@ require "../../logic/entrar_cookie.php";
                         <h1 class="sectionTitle mb-3">Use chat para se comunicar e negociar com seu cliente</h1>
 
                         <p class="sectionText">Nossa plataforma conta com uma página de chat, onde é possível se comunicar com o cliente que contratou o serviço, ou com um profissional que você pretende contratar.</p>
-                        <a href="../Perfil/meu_perfil.php" class="mt-3 sectionButton align-self-end">Entrar no Chat <i class="far fa-comment ms-3"></i></a>
+                        <a href="../Chat/chat.php" class="mt-3 sectionButton align-self-end">Entrar no Chat <i class="far fa-comment ms-3"></i></a>
                     </div>
                 </div>
             </div>

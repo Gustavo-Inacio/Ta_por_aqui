@@ -98,6 +98,59 @@ if (empty($chatInfo)){
                     await modalTrigger.setAttribute('data-bs-toggle',`modal`)
                     await modalTrigger.setAttribute('data-bs-target',`#serviceComplainModal`)
                     await modalBody.appendChild(processedNode) // pega o node retornado e o coloca na DOM
+
+                    let submitform = processedNode.querySelector('#complainForm')
+                    submitform.addEventListener('submit', event => {
+                        event.preventDefault()
+
+                        let formData = new FormData(event.target)
+                        let xhr = new XMLHttpRequest()
+
+                        let msg = document.querySelector('#my-report-verification-section-subtitle')
+                        let btn = processedNode.querySelector('#submitComplain')
+
+                        xhr.open('POST', '../../logic/denuncia_enviar.php')
+                        btn.innerHTML = 'Enviar Denúncia <div class="spinner-border" role="status" style="width: 16px; height: 16px"></div>'
+
+                        xhr.onreadystatechange = () => {
+                            if (xhr.readyState == 4){
+                                if (xhr.status == 200){
+                                    let response = JSON.parse(xhr.response)
+                                    if (response[0] === '00000'){
+                                        //exibir mensagem de sucesso
+                                        msg.className = 'text-success fw-bold'
+                                        msg.innerHTML = "Denúncia enviada com sucesso. Obrigado por ajudar a plataforma a melhorar!"
+                                        msg.style.fontSize = "18px"
+                                    } else if(response[0] === 'not logged'){
+                                        msg.className = 'text-danger fw-bold'
+                                        msg.style.fontSize = "18px"
+                                        msg.innerHTML = "Erro ao acessar seu login. Verifique se você realmente está logado e tente novamente. Caso o erro persistam entre em contato pelo fale conosco"
+                                    } else {
+                                        msg.className = 'text-danger fw-bold'
+                                        msg.style.fontSize = "18px"
+                                        msg.innerHTML = "Erro ao processar denúncia. Recarregue a página e tente novamente. Caso o erro persista, entre em contato pelo fale conosco."
+                                    }
+                                } else {
+                                    msg.className = 'text-danger fw-bold'
+                                    msg.style.fontSize = "18px"
+                                    msg.innerHTML = "Erro ao enviar denúncia para o servidor. Recarregue a página e tente novamente. Caso o erro persista, entre em contato pelo fale conosco."
+                                }
+
+                                //substituir botão de enviar por botão de fechar
+                                btn.innerHTML = 'Fechar'
+                                btn.className = 'mybtn mybtn-secondary'
+                                btn.type = 'button'
+                                btn.setAttribute('data-bs-dismiss', 'modal')
+
+                                //Excluir botão de editar
+                                processedNode.querySelector('.my-edit-report-btn').remove()
+
+                                //excluir seção de confirmação
+                                processedNode.querySelector('#data-confirm').remove()
+                            }
+                        }
+                        xhr.send(formData)
+                    })
                 }
             }
             reportHandler()
