@@ -898,15 +898,19 @@ button:focus {
 }
 
 #addressModal{
-  z-index: 10002 !important;
+  z-index: 10003 !important;
 }
 
 .modal-backdrop {
-  z-index: 10001 !important;
+  z-index: 10002 !important;
 }
 
 .popover{
-  z-index: 10003 !important;
+  z-index: 10004 !important;
+}
+
+#myMainFooter{
+  z-index: 10001 !important;
 }
 
 @media (min-width: 500px) {
@@ -964,7 +968,7 @@ button:focus {
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
             flex-direction: column;
-    height: inherit;
+    /*height: inherit;*/
     margin-top: 0;
   }
   .categoriesSection > .title-area {
@@ -980,7 +984,7 @@ button:focus {
   }
   .categoriesSectionBody {
     overflow-y: auto;
-    height: inherit;
+    /*height: inherit;*/
     -ms-flex-preferred-size: auto;
         flex-basis: auto;
   }

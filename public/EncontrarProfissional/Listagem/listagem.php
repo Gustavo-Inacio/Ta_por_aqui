@@ -19,6 +19,8 @@ require "../../../logic/entrar_cookie.php";
 //     $a = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 //     print_r($a);
+
+print_r($_GET);
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -29,11 +31,13 @@ require "../../../logic/entrar_cookie.php";
 
     <title>Tá por aqui - Encontre um profissional</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="../../../assets/global/globalStyles.css">
     <link rel="stylesheet" href="listagem.css">
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/2a19bde8ca.js" crossorigin="anonymous" defer></script>
     <script src="../../../assets/global/globalScripts.js" defer></script>
@@ -71,7 +75,7 @@ require "../../../logic/entrar_cookie.php";
                         <a href="../../Contato/contato.php" class="nav-link">Fale conosco</a>
                     </li>
                     <li class="nav-item">
-                        <a href="../../ComoFunciona/comoFunciona.php" class="nav-link">Como funciona</a>
+                        <a href="../../ComoFunciona/comoFunciona.php" class="nav-link">Sobre</a>
                     </li>
                     <li class="nav-item">
                         <a href="../../Chat/chat.php" class="nav-link" id="navChatLink">Chat</a>
@@ -208,6 +212,8 @@ require "../../../logic/entrar_cookie.php";
 
                         <div class="search-input-area-div">
                             <input id="searchBar" type="text" name="query" value="<?php echo $searchQuery; ?>">
+                            <input type="hidden" name="tmpLat" id="tmpLat" value="<?= $_GET['tmpLat'] ?? '' ?>">
+                            <input type="hidden" name="tmpLng" id="tmpLng" value="<?= $_GET['tmpLng'] ?? '' ?>">
                         </div>
                     </form>
                     
@@ -297,7 +303,9 @@ require "../../../logic/entrar_cookie.php";
 
                         <span class="change-location-btn-title"> <span class="sm-change-location-text"> Localização </span> <span class="normal-change-location-text"> Modificar Localização</span></span>
                     </button>
-                    <div class="text-secondary mt-3 text-end w-100" style="font-size: 12px" id="showTempLocation"><span>Usando localização temporária: </span> <strong>Rua Ernesta Pelosini, 195, Bairro Nova Petrópolis - São Bernardo do Campo, SP</strong></div>
+
+                    <div class="text-secondary mt-3 text-end w-100" style="font-size: 12px" id="showTempLocation"><!--<span>Usando localização temporária: </span> <strong>Rua Ernesta Pelosini, 195, Bairro Nova Petrópolis - São Bernardo do Campo, SP</strong>--></div>
+
                 </section>
 
                 <template id="serviceCardTemplate">
@@ -421,7 +429,7 @@ require "../../../logic/entrar_cookie.php";
                     </div>
 
                     <div class="modal-footer">
-                        <button type="submit" class="mybtn mybtn-conversion">Salvar endereço temporário</button>
+                        <button type="submit" class="mybtn mybtn-conversion" id="saveTempAdressBtn">Salvar endereço temporário</button>
                     </div>
                 </form>
             </div>
@@ -452,7 +460,7 @@ require "../../../logic/entrar_cookie.php";
     </footer>
 
     <script type="module">
-        import {setSearchState} from './listagem.js';
+        import {setSearchState, setTempPosition, tempPosition} from './listagem.js';
 
         const handleSeachText = (query) => {
             if(!query) return;
@@ -468,6 +476,8 @@ require "../../../logic/entrar_cookie.php";
 
             setSearchState({write : spliText});
         }
+
+        setTempPosition({tempLat: <?=$_GET['tmpLat'] ?? 'false' ?>, tempLng: <?=$_GET['tmpLng'] ?? 'false' ?>})
 
         handleSeachText("<?php echo $searchQuery; ?>");
 
@@ -504,7 +514,7 @@ require "../../../logic/entrar_cookie.php";
                 <div class="content row">
                     
                     <div class="col-12 cat-view">
-                        <!-- <div class="row cat-item selected">
+                         <div class="row cat-item selected">
                             <div class="col">
                                 <p class="cat-text">Programação e Tecnologia</p>
 
@@ -579,6 +589,5 @@ require "../../../logic/entrar_cookie.php";
             </section>
         </div>
     </div> -->
-     
 </body>
 </html>

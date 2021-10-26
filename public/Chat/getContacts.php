@@ -100,7 +100,7 @@ $ativo = $_GET['active'] ?? 'nenhumkk';
                 $stmt = $con->query($query);
                 $qntMsgNaoLida = $stmt->fetch(PDO::FETCH_OBJ)->qnt;
             ?>
-                <div class="userDiv row <?=$ativo == $chatFavorito['id_chat_contato'] ? 'active' : ''?>" chatId="<?=$chatFavorito['id_chat_contato']?>" onclick="loadConversation(<?=$chatFavorito['id_chat_contato']?>, <?=$destinatario['id_usuario']?>)">
+                <div class="userDiv row <?=$ativo == $chatFavorito['id_chat_contato'] ? 'active' : ''?>" chatId="<?=$chatFavorito['id_chat_contato']?>" onclick="loadConversation(<?=$chatFavorito['id_chat_contato']?>, <?=$destinatario['id_usuario']?>, true, '<?=$chatFavorito['nome_servico']?>', '<?=$destinatario['nome_usuario'] . ' ' . $destinatario['sobrenome_usuario']?>', <?=$chatFavorito['id_servico']?>)">
                     <div class="col-3 col-md-12 col-lg-3 d-flex d-md-none d-xl-flex">
                         <img src="../../assets/images/users/<?=$destinatario['imagem_usuario']?>" alt="Imagem do usuário" class="userImg">
                     </div>
@@ -180,7 +180,7 @@ $ativo = $_GET['active'] ?? 'nenhumkk';
             ?>
             <div class="usersGroup">
                 <?php if ($chatContato['status_chat_contato'] == 1) {?>
-                    <div class="userDiv row <?=$ativo == $chatContato['id_chat_contato'] ? 'active' : ''?>" chatId="<?=$chatContato['id_chat_contato']?>" onclick="loadConversation(<?=$chatContato['id_chat_contato']?>, <?=$destinatario['id_usuario']?>, '<?=$destinatario['nome_usuario']?>', '<?=$chatContato['nome_servico']?>')">
+                    <div class="userDiv row <?=$ativo == $chatContato['id_chat_contato'] ? 'active' : ''?>" chatId="<?=$chatContato['id_chat_contato']?>" onclick="loadConversation(<?=$chatContato['id_chat_contato']?>, <?=$destinatario['id_usuario']?>, true, '<?=$chatContato['nome_servico']?>', '<?=$destinatario['nome_usuario'] . ' ' . $destinatario['sobrenome_usuario']?>', <?=$chatContato['id_servico']?>)">
                         <div class="col-3 col-md-12 col-lg-3 d-flex d-md-none d-xl-flex">
                             <img src="../../assets/images/users/<?=$destinatario['imagem_usuario']?>" alt="Imagem do usuário" class="userImg">
                         </div>

@@ -93,7 +93,7 @@
                         <a href="../../Contato/contato.php" class="nav-link">Fale conosco</a>
                     </li>
                     <li class="nav-item">
-                        <a href="../../ComoFunciona/comoFunciona.php" class="nav-link">Como funciona</a>
+                        <a href="../../ComoFunciona/comoFunciona.php" class="nav-link">Sobre</a>
                     </li>
                     <li class="nav-item">
                         <a href="../../Chat/chat.php" class="nav-link" id="navChatLink">Chat</a>
@@ -177,7 +177,7 @@
                                     </a>
                                 </div>
 
-                                <!-- Modal -->
+                                <!-- Modal antigo de denúncia
                                 <div class="modal fade" id="serviceReportModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                     <div id="myReportModalDialog" class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
                                     <div class="modal-content">
@@ -185,6 +185,15 @@
                                         
                                         </div>
                                     </div>
+                                    </div>
+                                </div> -->
+
+                                <!-- modal de denúncia de serviço -->
+                                <div class="modal fade" id="serviceReportModal" tabindex="-1">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-body" id="myReportModalBody"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -674,7 +683,7 @@
                         </div>
                     </div>
 
-                     <!-- Modal -->
+                     <!-- Modal de denúncia de comentário antigo
                      <div class="modal fade" id="reportComent" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div id="myReportModalDialog" class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
                           <div class="modal-content">
@@ -682,6 +691,15 @@
                               
                             </div>
                           </div>
+                        </div>
+                    </div> -->
+
+                    <!-- modal de denúncia de serviço -->
+                    <div class="modal fade" id="reportComent" tabindex="-1">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-body" id="myReportModalBody"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -703,6 +721,8 @@
         </div>
     </section>
 
+    <input type="hidden" hidden id="getServiceIdForComplain" value="<?=$serviceData['id_servico']?>">
+
     <footer id="myMainFooter">
         <div id="myMainFooterContainer" class="container-fluid">
             <div class="my-main-footer-logo">
@@ -710,7 +730,7 @@
             </div>
             <div class="my-main-footer-institutional">
                 <p>INSTITUCIONAL</p>
-                <a href="../../ComoFunciona/sobreNos%20old.php">Quem Somos</a> <br>
+                <a href="../../ComoFunciona/comoFunciona.php">Quem Somos</a> <br>
                 <a href="#">Faça uma doação</a> <br>
                 <a href="#">Trabalhe conosco</a> <br>
             </div>

@@ -20,7 +20,7 @@ function returnToContacts() {
 var updateChat
 var updateUserStatus;
 var lastMessageId
-function loadConversation(chatId, userId, changeConversationLoad = true, serviceName, providerName){
+function loadConversation(chatId, userId, changeConversationLoad = true, serviceName, providerName, serviceId){
     //verificando se o ID existe
     if ($(`[chatId='${chatId}']`).length > 0){
         $('#loadAssyncData').innerHTML = "";
@@ -36,6 +36,7 @@ function loadConversation(chatId, userId, changeConversationLoad = true, service
         $('#id_destinatario').val(userId)
         $('#nome_servico').val(serviceName)
         $('#nome_prestador').val(providerName)
+        $('#serviceId').val(serviceId)
 
         //requisitando assincronamente a segunda coluna
         $.ajax({
