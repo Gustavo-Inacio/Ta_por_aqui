@@ -5,11 +5,39 @@ var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
 
 var permitSearch = true; // tem a funcao de permitar que uma nova requisicao seja feita somente depois que for terminada a requisicao atual
 
+let apiKey = '2BHqTlrrRZyJOYbFEl47yRbagjjwSaY-Eu3iriuEgvY';
+
 let serviceState = {
     allservices : [],
     servicesToAdd: [],
     maxDistance : 0,
     endedSearch: false
+}
+
+let tempPosition = {
+    tempLat: false,
+    tempLng: false,
+    logradouro: false
+}
+
+function setTempPosition(data) {
+    for (let i in data){
+        tempPosition[i] = data[i]
+    }
+
+    if (tempPosition.tempLat !== false || !tempPosition.tempLng !== false){
+        //pegar nome da rua apartir da coordenada
+        let xhr = new XMLHttpRequest()
+        xhr.open('GET', `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${tempPosition.tempLat},${tempPosition.tempLng}&apiKey=${apiKey}`)
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState == 4 && xhr.status == 200){
+                let tempLocation = JSON.parse(xhr.response)
+                console.log(tempLocation)
+                document.getElementById('showTempLocation').innerHTML = `<span>Usando localização temporária: </span> <strong>${tempLocation.items[0].address.label}</strong>`
+            }
+        }
+        xhr.send()
+    }
 }
 
 function refreshServices ()  {
@@ -201,13 +229,12 @@ const requestServices = async () => { // cuida da requisaicao de servicos
                 quantity : 1,
                 maxDist: 100000000000000000000,
                 minDist: maxDist,
-                myLat: -23.87669,
-                myLng: -46.77125,
+                myLat: tempPosition.tempLat,
+                myLng: tempPosition.tempLng,
                 subCat: subCatid,
                 searchWords: searachState.write,
                 service_idToExlucde : idToExlucde || []
             }
-            
         };
 
         req.onload = () => {
@@ -804,7 +831,7 @@ getCategoriesName();
 
 document.getElementById('userAdressCEP').addEventListener('keyup', () => {
     let cep = document.getElementById('userAdressCEP').value
-    if(cep.length === 8){
+    if(cep.length === 8 && !isNaN(Number(document.getElementById('userAdressCEP').value))){
         //caso o input tenha 8 digitos ele chama a função passando já o value o cep
         let url = `https://viacep.com.br/ws/${cep}/json/unicode/`
 
@@ -880,6 +907,9 @@ document.getElementById('btn-change-location').addEventListener('click', () => {
     }
 })
 
+let addressModal = document.getElementById('addressModal')
+let myModal = new bootstrap.Modal(addressModal)
+
 document.getElementById('changeLocationForm').addEventListener('submit', event => {
     //previnir reload
     event.preventDefault()
@@ -913,8 +943,37 @@ document.getElementById('changeLocationForm').addEventListener('submit', event =
     document.getElementById('adressInfoError').innerText = errorMsg
     if (valid){
         //Pegar coordenadas de acordo com os dados de endereço do formulário
-        let formData = new FormData(document.getElementById('changeLocationForm'))
+        let data = []
+        Array.from(document.getElementsByClassName('requiredAdressData')).forEach((el, i) => {
+            data[i] = el.value.trim()
+            //unaccent
+        })
+
+        let q = `${data[4]}%2C+${data[0]}+${data[2]}%2C+${data[1]}+Brasil`
+
+        let xhr = new XMLHttpRequest()
+        xhr.open('GET', `https://geocode.search.hereapi.com/v1/geocode?q=${q}&apiKey=${apiKey}`)
+        document.getElementById('saveTempAdressBtn').innerHTML = 'Salvar endereço temporário <div class="spinner-border" role="status" style="width: 16px; height: 16px"></div>'
+        document.getElementById('saveTempAdressBtn').disabled = 'disabled'
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState == 4 && xhr.status == 200){
+                document.getElementById('saveTempAdressBtn').innerHTML = 'Salvar endereço temporário'
+                document.getElementById('saveTempAdressBtn').disabled = ''
+
+                let tempLocation = JSON.parse(xhr.response)
+                tempPosition.tempLat = tempLocation.items[0].position.lat
+                tempPosition.tempLng = tempLocation.items[0].position.lng
+
+                document.getElementById('tmpLat').value = tempPosition.tempLat
+                document.getElementById('tmpLng').value = tempPosition.tempLng
+
+                setTempPosition({tempLat: tempPosition.tempLat, tempLng: tempPosition.tempLng, logradouro: {uf: data[1], cidade: data[2], bairro: data[3], rua: data[4]}})
+
+                myModal.hide()
+            }
+        }
+        xhr.send()
     }
 })
 
-export {setSearchState};
+export {setSearchState, setTempPosition, tempPosition};

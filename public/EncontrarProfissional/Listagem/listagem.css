@@ -968,7 +968,7 @@ button:focus {
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
             flex-direction: column;
-    height: inherit;
+    /*height: inherit;*/
     margin-top: 0;
   }
   .categoriesSection > .title-area {
@@ -984,7 +984,7 @@ button:focus {
   }
   .categoriesSectionBody {
     overflow-y: auto;
-    height: inherit;
+    /*height: inherit;*/
     -ms-flex-preferred-size: auto;
         flex-basis: auto;
   }
