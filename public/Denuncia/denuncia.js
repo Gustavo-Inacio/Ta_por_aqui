@@ -297,7 +297,7 @@ Ela retorna  um outro node para ser acoplado a DOM
             if (xhr.readyState == 4) {
                 if (xhr.status == 200){
                     let reasonList = JSON.parse(xhr.response)
-                    reasonList.push({id_denuncia_motivo: 'Outro', denuncia_motivo: 'Outro'})
+                    reasonList.push({id_denuncia_motivo: 14, denuncia_motivo: 'Outro'})
 
                     setState({reasonList})
                 } else {

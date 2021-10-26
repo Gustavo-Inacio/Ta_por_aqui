@@ -5,9 +5,10 @@ require "DbConnection.php";
 $con = new DbConnection();
 $con = $con->connect();
 
-echo "<pre>";
-print_r($_POST);
-echo "</pre>";
+if (!isset($_SESSION['idUsuario']) || $_SESSION['idUsuario'] == ""){
+    echo json_encode([0 => 'not logged']);
+    exit();
+}
 
 if ($_POST['reportType'] === 'service'){
     $query = "INSERT INTO denuncia_servico(id_servico, id_denuncia_motivo, id_usuario, desc_denuncia_serv) values (:id_servico, :id_denuncia_motivo, :id_usuario, :desc_denuncia_serv)";
@@ -17,6 +18,8 @@ if ($_POST['reportType'] === 'service'){
     $stmt->bindValue(':id_usuario', $_SESSION['idUsuario']);
     $stmt->bindValue(':desc_denuncia_serv', $_POST['reportDesc']);
     $stmt->execute();
+
+    echo json_encode($stmt->errorInfo());
 } else if ($_POST['reportType'] === 'comment'){
     $query = "INSERT INTO denuncia_comentario(id_comentario, id_denuncia_motivo, id_usuario, desc_denuncia_comen) values (:id_comentario, :id_denuncia_motivo, :id_usuario, :desc_denuncia_comen)";
     $stmt = $con->prepare($query);
@@ -25,10 +28,6 @@ if ($_POST['reportType'] === 'service'){
     $stmt->bindValue(':id_usuario', $_SESSION['idUsuario']);
     $stmt->bindValue(':desc_denuncia_comen', $_POST['reportDesc']);
     $stmt->execute();
+
+    echo json_encode($stmt->errorInfo());
 }
-
-if ($_POST['currentUrl']){
-
-}
-
-header('Location:' . $_POST['currentUrl']);

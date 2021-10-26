@@ -170,23 +170,30 @@
 
                                 <div id="serviceMenuOptions" class="service-dot-options-menu">
                                     <a href="#" class="service-dot-item">
-                                        <button type="button" class="" data-bs-toggle="modal" data-bs-target="#serviceReportModal">
+                                        <button type="button" class="" data-bs-toggle="modal" data-bs-target="<?=isset($_SESSION['idUsuario']) ? '#serviceReportModal' : '#notLoggedToComplain-modal'?>">
                                             Denunciar Serviço
                                         </button>
-                                        
                                     </a>
                                 </div>
 
-                                <!-- Modal antigo de denúncia
-                                <div class="modal fade" id="serviceReportModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                    <div id="myReportModalDialog" class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div id="myReportModalBody" class="modal-body">
-                                        
+                                <!-- Modal -->
+                                <div class="modal fade" id="notLoggedToComplain-modal" tabindex="-1" aria-labelledby="notLoggedToComplain-label" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="notLoggedToChat-label">Entre em sua conta</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Pra denunciar um serviço ou um comentário é necessário estar logado
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                                <a href="../../Entrar/login.php"><button type="button" class="btn btn-primary">Loggin / Cadastrar</button></a>
+                                            </div>
                                         </div>
                                     </div>
-                                    </div>
-                                </div> -->
+                                </div>
 
                                 <!-- modal de denúncia de serviço -->
                                 <div class="modal fade" id="serviceReportModal" tabindex="-1">
@@ -985,7 +992,6 @@
         textarea_e.onkeydown = writeCommentResizeTextArea;
 
         writeCommentResizeTextArea();
-
     </script>
     <?php }?>
 

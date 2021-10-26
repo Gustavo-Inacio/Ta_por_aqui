@@ -19,8 +19,10 @@ require "../../../logic/entrar_cookie.php";
 //     $a = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 //     print_r($a);
-
-print_r($_GET);
+$logged = 'false';
+if (isset($_SESSION['idUsuario']) && $_SESSION['idUsuario'] !== ""){
+    $logged = 'true';
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -385,7 +387,7 @@ print_r($_GET);
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Trocar endereço de pesquisa</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><?=isset($_SESSION['idUsuario']) ? 'Trocar' : 'Adicionar'?> endereço de pesquisa</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
@@ -460,7 +462,7 @@ print_r($_GET);
     </footer>
 
     <script type="module">
-        import {setSearchState, setTempPosition, tempPosition} from './listagem.js';
+        import {setSearchState, setTempPosition, userNotLogged, tempPosition} from './listagem.js';
 
         const handleSeachText = (query) => {
             if(!query) return;
@@ -477,9 +479,39 @@ print_r($_GET);
             setSearchState({write : spliText});
         }
 
-        setTempPosition({tempLat: <?=$_GET['tmpLat'] ?? 'false' ?>, tempLng: <?=$_GET['tmpLng'] ?? 'false' ?>})
+        <?php
+            $tempLat = "";
+            $tempLng = "";
+            if (isset($_GET['tmpLat'])){
+                if ($_GET['tmpLat'] !== ""){
+                    $tempLat = $_GET['tmpLat'];
+                } else {
+                    $tempLat = 'false';
+                }
+            } else {
+                $tempLat = 'false';
+            }
+
+        if (isset($_GET['tmpLng'])){
+            if ($_GET['tmpLng'] !== ""){
+                $tempLng = $_GET['tmpLng'];
+            } else {
+                $tempLng = 'false';
+            }
+        } else {
+            $tempLng = 'false';
+        }
+
+        if ($tempLat !== 'false' && $tempLng !== 'false'){
+            echo "setTempPosition({tempLat: $tempLat, tempLng: $tempLng})";
+        }
+        ?>
 
         handleSeachText("<?php echo $searchQuery; ?>");
+
+        let logged = <?=$logged?> || false
+        userNotLogged(logged)
+
 
     // let btnSearch = document.querySelector("#searchButton");
 
