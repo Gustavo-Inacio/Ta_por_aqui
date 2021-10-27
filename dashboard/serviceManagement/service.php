@@ -105,7 +105,7 @@ $serviceComplain = $serviceReport->getComplainsToThisService();
 
 <!-- paginas -->
 <div class="main" id="pagina">
-    <h1>Relatório de serviços - Pintura de parede (1)</h1>
+    <h1>Relatório de serviços - <?=$serviceInfo['nome_servico']?></h1>
 
     <a href="serviceReport.php"> <i class="fas fa-arrow-left"></i> voltar </a>
 

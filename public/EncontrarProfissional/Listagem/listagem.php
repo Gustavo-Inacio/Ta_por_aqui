@@ -303,7 +303,7 @@ if (isset($_SESSION['idUsuario']) && $_SESSION['idUsuario'] !== ""){
                             <path d="M3.36461 9.79824C0.526758 5.6842 0 5.26197 0 3.75C0 1.67893 1.67893 0 3.75 0C5.82107 0 7.5 1.67893 7.5 3.75C7.5 5.26197 6.97324 5.6842 4.13539 9.79824C3.94916 10.0673 3.55082 10.0672 3.36461 9.79824ZM3.75 5.3125C4.61295 5.3125 5.3125 4.61295 5.3125 3.75C5.3125 2.88705 4.61295 2.1875 3.75 2.1875C2.88705 2.1875 2.1875 2.88705 2.1875 3.75C2.1875 4.61295 2.88705 5.3125 3.75 5.3125Z" fill="white"/>
                         </svg>
 
-                        <span class="change-location-btn-title"> <span class="sm-change-location-text"> Localização </span> <span class="normal-change-location-text"> Modificar Localização</span></span>
+                        <span class="change-location-btn-title"> <span class="sm-change-location-text"> Localização </span> <span class="normal-change-location-text"> <?=isset($_SESSION['idUsuario']) ? 'Modificar' : 'Adicionar' ?> Localização</span></span>
                     </button>
 
                     <div class="text-secondary mt-3 text-end w-100" style="font-size: 12px" id="showTempLocation"><!--<span>Usando localização temporária: </span> <strong>Rua Ernesta Pelosini, 195, Bairro Nova Petrópolis - São Bernardo do Campo, SP</strong>--></div>
