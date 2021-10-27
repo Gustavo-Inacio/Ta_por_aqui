@@ -104,7 +104,7 @@ $userServices = $userReport->getUserServices();
 
 <!-- paginas -->
 <div class="main" id="pagina">
-    <h2>Relatório de usuários - Natan Barbosa (3)</h2>
+    <h2>Relatório de usuários - <?=$userInfo['nome_usuario']?> <?=$userInfo['sobrenome_usuario']?></h2>
     <a href="userReport.php"> <i class="fas fa-arrow-left"></i> voltar </a> <br>
 
     <?php if ($banMsg !== "") { ?>

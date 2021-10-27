@@ -106,7 +106,7 @@ $commentComplains = $commentReport->getConplainsToThisComment();
 
 <!-- paginas -->
 <div class="main" id="pagina">
-    <h2>Denúncias de comentários - comentário do Natan (1)</h2>
+    <h2>Denúncias de comentários - comentário do(a) <?=$commentInfo['nome_usuario']?> <?=$commentInfo['sobrenome_usuario']?> sobre o serviço <?=$commentInfo['nome_servico']?></h2>
 
     <a href="commentComplaint.php"> <i class="fas fa-arrow-left"></i> voltar </a>
 
