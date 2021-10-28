@@ -93,7 +93,7 @@ if (isset($_POST['exitReasons'])){
     <?php if ($operationMsg !== "") { ?>
         <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
             <span><?=$operationMsg?></span>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     <?php }?>
 

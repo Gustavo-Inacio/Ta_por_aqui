@@ -13,8 +13,6 @@
     $serviceID = $_GET['serviceID'];
     $_SESSION['serviceID'] = $serviceID;
 
-    print_r($_SESSION);
-
     $brain = new VisualizeService($serviceID);
     $providerData = $brain->getPorviderInfo();
     if(!$providerData){
@@ -375,7 +373,7 @@
                                         </defs>
                                     </svg>
                                     
-                                    <p class="celphone-number"><?php echo $providerData['fone_usuario'] ?></p>
+                                    <p class="celphone-number"><?= $providerData['fone_usuario'] == '' ? 'O usuário não tem um telefone de contato' : $providerData['fone_usuario'] ?></p>
                                 </div>
                             </div>
                             

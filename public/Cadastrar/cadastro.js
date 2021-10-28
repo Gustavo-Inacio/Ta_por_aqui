@@ -35,9 +35,6 @@ function showConfirmPass(){
     aux++
 }
 
-//mascara do telefone
-$('#userPhone').mask('(00) 00000-0000');
-
 //mascara do cep
 $('#userAdressCEP').mask('00000000');
 
@@ -104,20 +101,6 @@ function registerConfirm(){
         } else {
             userPass.classList.remove("is-invalid")
             userPass.style.border = "1.5px solid 888F98"
-        }
-
-        //telefone tem 15 caracteres
-        let userPhone = document.getElementById('userPhone')
-        if (userPhone.value.length !== 15){
-            valid = false
-            errorMsg = "Número de telefone inválido. Siga o padrão do exemplo"
-
-            userPhone.classList.add("is-invalid")
-            userPhone.style.border = "1.5px solid red"
-
-        } else{
-            userPhone.classList.remove("is-invalid")
-            userPhone.style.border = "1.5px solid 888F98"
         }
 
         //CEP tem 8 caracteres
@@ -252,6 +235,12 @@ function callGetAdress(input){
     if(input.value.length === 8){
         //caso o input tenha 8 digitos ele chama a função passando já o value o cep
         getAdress(input.value)
+    } else {
+        //Colocando a resposta nos formulários
+        document.getElementById('userAdressCity').value = ''
+        document.getElementById('userAdressState').value = ''
+        document.getElementById('userAdressStreet').value = ''
+        document.getElementById('userAdressNeighborhood').value = ''
     }
 }
 
@@ -297,7 +286,7 @@ function getAdress(cep){
 }
 
 function requestUserLocation() {
-    if(navigator.geolocation){
+    if(navigator.geolocation && document.getElementById('userAdressCEP').value == ''){
         navigator.geolocation.getCurrentPosition(position => {
             let ajax = new XMLHttpRequest()
             ajax.open('GET', `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${position.coords.latitude},${position.coords.longitude}&apiKey=2BHqTlrrRZyJOYbFEl47yRbagjjwSaY-Eu3iriuEgvY`)

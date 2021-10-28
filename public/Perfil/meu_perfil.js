@@ -3,12 +3,6 @@ $(function () {
     $('[data-toggle="popover"]').popover()
 })
 
-//preenchendo fake input com placeholder
-if(document.getElementById('showUserSite').innerText === ""){
-    document.getElementById('showUserSite').innerText = "Caso tenha, insira seu site ou porfólio online"
-    document.getElementById('showUserSite').style.color = "#6c757d"
-}
-
 //permitir que o usuário clique nos botões de salvar e cancelar e edite seu perfil
 function changeButtonColor(){
     let saveButton = document.getElementById("buttonSave")
@@ -20,13 +14,11 @@ function changeButtonColor(){
     cancelButton.disabled = ''
 
     document.getElementById('buttonEdit').classList.add('d-none')
-    document.getElementById('showUserSite').classList.add('d-none')
-    document.getElementById('userSite').classList.remove('d-none')
 
     let name = document.getElementById("userName")
     let lastName = document.getElementById("userLastName")
+    let contactEmail = document.getElementById("userContactEmail")
     let cell = document.getElementById("userCell")
-    let site = document.getElementById("userSite")
     let description = document.getElementById("userDescription")
 
     name.removeAttribute('readonly')
@@ -39,8 +31,8 @@ function changeButtonColor(){
     cell.removeAttribute('readonly')
     cell.style.color = 'black'
 
-    site.removeAttribute('readonly')
-    site.style.color = 'black'
+    contactEmail.removeAttribute('readonly')
+    contactEmail.style.color = 'black'
 
     description.removeAttribute('readonly')
     description.style.color = 'black'

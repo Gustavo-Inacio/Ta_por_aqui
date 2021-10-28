@@ -102,7 +102,7 @@ if (isset($_POST['assunto']) && isset($_POST['msgAnterior']) && isset($_POST['ms
     <?php if ($changeContactMsg !== "") { ?>
         <div class="alert alert-info alert-dismissible fade show mt-3" role="alert" style="max-width: 500px">
             <span><?=$changeContactMsg?></span>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     <?php }?>
 
@@ -110,7 +110,7 @@ if (isset($_POST['assunto']) && isset($_POST['msgAnterior']) && isset($_POST['ms
     <?php if ($sendMailMsg !== "") { ?>
         <div class="alert alert-info alert-dismissible fade show mt-3" role="alert" style="max-width: 500px">
             <span><?=$sendMailMsg?></span>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     <?php }?>
 

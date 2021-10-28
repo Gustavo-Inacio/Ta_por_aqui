@@ -113,14 +113,14 @@ $commentComplains = $commentReport->getConplainsToThisComment();
     <?php if ($banMsg !== "") { ?>
         <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert" style="max-width: 500px">
             <span><?=$banMsg?></span>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     <?php }?>
 
     <?php if ($changeComplainMsg !== "") { ?>
         <div class="alert alert-info alert-dismissible fade show mt-3" role="alert" style="max-width: 500px">
             <span><?=$changeComplainMsg?></span>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     <?php }?>
 
