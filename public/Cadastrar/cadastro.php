@@ -104,9 +104,6 @@ if (isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSIO
                             <label for="userLastName" class="myLabel">Sobrenome</label>
                             <input type="text" class="form-control required" name="userLastName" id="userLastName" placeholder="Insira o seu sobrenome" maxlength="15">
                             <br>
-                            <label for="userPhone" class="myLabel">Telefone</label>
-                            <input type="tel" class="form-control required" name="userPhone" id="userPhone" placeholder="ex.: (00) 00000-0000">
-                            <br>
                             <label for="userEmail" class="myLabel">Email</label>
                             <input type="email" class="form-control required" name="userEmail" id="userEmail" placeholder="ex.: exemplo@gmail.com" maxlength="40">
                             <br>

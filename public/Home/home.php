@@ -104,9 +104,7 @@ $qntContratos = $con->query($query)->fetch(PDO::FETCH_OBJ);
                 <?php if(isset($_GET['conta']) && $_GET['conta'] == "reativada") {?>
                     <div class="alert alert-success alert-dismissible" role="alert">
                         Conta reativada com sucesso
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                 <?php }?>
                 <h1 class="my-landing-title">Encontre um prestador de serviços próximo a sua localização</h1>
@@ -163,29 +161,6 @@ $qntContratos = $con->query($query)->fetch(PDO::FETCH_OBJ);
                         <img src="../../assets/images/landing-img.png" alt="" class="my-landing-img">
                     </div>
                 </div>
-            </div>
-        </div>
-        <!--Suggestion Bar-->
-        <div class="container-fluid order-sm-1 p-0">
-            <div class="row my-services-suggestion-bar-path">
-                <div id="mySuggestionBarControllerLeft">
-                    <i class="fas fa-chevron-left"></i>
-                </div>
-                <div id="mySuggestionBarControllerRight">
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-
-                <template id="myServiceItemTemplate">
-                    <div class="my-service-item">
-                        <a href="#" class="my-service-item-a">
-                            <i id="myServiceItemIcon" class="fas fa-map-marker-alt"></i>
-                            <p id="myServiceItemText" class="my-service-item-text">Erro!!</p>
-                        </a>
-                    </div>
-                </template>
-
-                <div class="my-services-suggestion-bar"></div> <!--Esta e a lista  - dinamica com js-->
-                
             </div>
         </div>
     </section>

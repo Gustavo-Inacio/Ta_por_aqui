@@ -246,8 +246,8 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                         <br>
 
                         <label for="userCell">Celular</label> <br>
-                        <input type="text" class="form-control" name="userCell" id="userCell" readonly required
-                            value="<?=$user->fone_usuario?>">
+                        <input type="text" class="form-control" name="userCell" id="userCell" readonly
+                            value="<?=$user->fone_usuario?>" placeholder="você não adicionou um número de telefone">
 
                         <br>
 
@@ -257,16 +257,21 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                     </div>
 
                     <div class="col-md-6 mt-3 mt-md-0">
-                        <label for="userEmail">Email</label> <br>
+                        <?php
+                        //censurar email
+                        $censorStart = substr($user->email_usuario, 0, 4);
+                        $censorEnd = substr($user->email_usuario, -3);
+                        $userCensoredMail = "$censorStart*****$censorEnd";
+                        ?>
+                        <label for="userEmail">Email de login</label> <br>
                         <input type="text" class="form-control" id="userEmail" readonly maxlength="40"
-                            value="<?=$user->email_usuario?>">
+                            value="<?=$userCensoredMail?>">
 
                         <br>
 
-                        <label for="userSite">Site</label> <br>
-                        <input type="url" class="form-control d-none" name="userSite" id="userSite" readonly placeholder="Caso tenha, insira seu site ou porfólio online" maxlength="40"
-                            value="<?=$user->site_usuario?>">
-                        <div id="showUserSite"><a href="<?=$user->site_usuario?>" target="_blank"><?=$user->site_usuario?></a></div>
+                        <label for="userContactEmail">Email de contato</label> <br>
+                        <input type="text" class="form-control" id="userContactEmail" name="userContactEmail" readonly maxlength="40"
+                               value="<?=$user->email_contato_usuario?>" placeholder="você não adicionou um email de contato">
 
                         <br>
 

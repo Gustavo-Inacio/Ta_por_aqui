@@ -10,7 +10,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-class DbConnection {
+class DashboardConnection {
     //private $host = 'localhost';
     //private $dbname = 'ta_por_aqui';
     //private $user = 'root';
@@ -68,7 +68,7 @@ class AnalisysChartData {
     //Contruir dados
     public function __construct($year) {
         //conectar com o banco
-        $this->con = new DbConnection();
+        $this->con = new DashboardConnection();
         $this->con = $this->con->connect();
 
         $extraUserParam = '';
@@ -294,7 +294,7 @@ class UsersListing {
 
     public function __construct(){
         //conectar com o banco
-        $this->con = new DbConnection();
+        $this->con = new DashboardConnection();
         $this->con = $this->con->connect();
     }
 
@@ -336,7 +336,7 @@ class ServicesListing {
 
     public function __construct(){
         //conectar com o banco
-        $this->con = new DbConnection();
+        $this->con = new DashboardConnection();
         $this->con = $this->con->connect();
     }
 
@@ -382,7 +382,7 @@ class CommentsListing {
 
     public function __construct(){
         //conectar com o banco
-        $this->con = new DbConnection();
+        $this->con = new DashboardConnection();
         $this->con = $this->con->connect();
     }
 
@@ -412,7 +412,7 @@ class ContactListing {
 
     public function __construct(){
         //conectar com o banco
-        $this->con = new DbConnection();
+        $this->con = new DashboardConnection();
         $this->con = $this->con->connect();
     }
 
@@ -452,7 +452,7 @@ class UserReport {
 
     public function __construct($id){
         //conectar com o banco
-        $this->con = new DbConnection();
+        $this->con = new DashboardConnection();
         $this->con = $this->con->connect();
 
         $this->id_usuario = $id;
@@ -519,7 +519,7 @@ class CommentReport {
 
     public function __construct($id){
         //conectar com o banco
-        $this->con = new DbConnection();
+        $this->con = new DashboardConnection();
         $this->con = $this->con->connect();
 
         $this->id_comentario = $id;
@@ -568,7 +568,7 @@ class ServiceReport {
 
     public function __construct($id){
         //conectar com o banco
-        $this->con = new DbConnection();
+        $this->con = new DashboardConnection();
         $this->con = $this->con->connect();
 
         $this->id_servico = $id;
@@ -635,7 +635,7 @@ class ContactReport {
 
     public function __construct($id){
         //conectar com o banco
-        $this->con = new DbConnection();
+        $this->con = new DashboardConnection();
         $this->con = $this->con->connect();
 
         $this->id_contato = $id;
@@ -691,7 +691,7 @@ class AppControl{
 
     public function __construct(){
         //conectar com o banco
-        $this->con = new DbConnection();
+        $this->con = new DashboardConnection();
         $this->con = $this->con->connect();
     }
 

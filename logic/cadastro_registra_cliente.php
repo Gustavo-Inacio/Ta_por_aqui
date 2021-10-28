@@ -60,12 +60,11 @@ $coordinates = getCoordinates($adressData);
 if ($_POST['userAdressComplement'] == ""){
     $_POST['userAdressComplement'] = null;
 }
-$query = "INSERT INTO usuarios(nome_usuario, sobrenome_usuario, fone_usuario, email_usuario, senha_usuario, data_nasc_usuario, sexo_usuario, classif_usuario, cep_usuario, uf_usuario, cidade_usuario, bairro_usuario, rua_usuario, numero_usuario, comple_usuario, posicao_usuario) VALUES (:nome, :sobrenome, :telefone, :email, :senha, :data_nascimento, :sexo, :classificacao, :cep, :estado, :cidade, :bairro, :rua, :numero, :complemento, POINT({$coordinates['lat']}, {$coordinates['lng']}))";
+$query = "INSERT INTO usuarios(nome_usuario, sobrenome_usuario, email_usuario, senha_usuario, data_nasc_usuario, sexo_usuario, classif_usuario, cep_usuario, uf_usuario, cidade_usuario, bairro_usuario, rua_usuario, numero_usuario, comple_usuario, posicao_usuario) VALUES (:nome, :sobrenome, :email, :senha, :data_nascimento, :sexo, :classificacao, :cep, :estado, :cidade, :bairro, :rua, :numero, :complemento, POINT({$coordinates['lat']}, {$coordinates['lng']}))";
 
 $stmt = $con->prepare($query);
 $stmt->bindValue(':nome', $_POST['userName']);
 $stmt->bindValue(':sobrenome', $_POST['userLastName']);
-$stmt->bindValue(':telefone', $_POST['userPhone']);
 $stmt->bindValue(':email', $_POST['userEmail']);
 $stmt->bindValue(':senha', sha1($_POST['userPass']));
 $stmt->bindValue(':data_nascimento', $_POST['userBirthDate']);
