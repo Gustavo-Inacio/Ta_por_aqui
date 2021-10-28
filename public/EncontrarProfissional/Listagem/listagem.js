@@ -157,7 +157,7 @@ const refreshTagsArea = () => { // cuida de recaregar toda a area das tags
             <path d="M8.375 13H9.125C9.22446 13 9.31984 12.9605 9.39017 12.8902C9.46049 12.8198 9.5 12.7245 9.5 12.625V5.875C9.5 5.77554 9.46049 5.68016 9.39017 5.60984C9.31984 5.53951 9.22446 5.5 9.125 5.5H8.375C8.27554 5.5 8.18016 5.53951 8.10983 5.60984C8.03951 5.68016 8 5.77554 8 5.875V12.625C8 12.7245 8.03951 12.8198 8.10983 12.8902C8.18016 12.9605 8.27554 13 8.375 13ZM13.5 2.5H10.9247L9.86219 0.728125C9.72885 0.505942 9.54022 0.322091 9.3147 0.194487C9.08917 0.066882 8.83444 -0.000123231 8.57531 1.70139e-07H5.42469C5.16567 -1.5274e-05 4.91106 0.0670412 4.68566 0.194641C4.46025 0.32224 4.27172 0.506033 4.13844 0.728125L3.07531 2.5H0.5C0.367392 2.5 0.240215 2.55268 0.146447 2.64645C0.0526784 2.74022 0 2.86739 0 3L0 3.5C0 3.63261 0.0526784 3.75979 0.146447 3.85355C0.240215 3.94732 0.367392 4 0.5 4H1V14.5C1 14.8978 1.15804 15.2794 1.43934 15.5607C1.72064 15.842 2.10218 16 2.5 16H11.5C11.8978 16 12.2794 15.842 12.5607 15.5607C12.842 15.2794 13 14.8978 13 14.5V4H13.5C13.6326 4 13.7598 3.94732 13.8536 3.85355C13.9473 3.75979 14 3.63261 14 3.5V3C14 2.86739 13.9473 2.74022 13.8536 2.64645C13.7598 2.55268 13.6326 2.5 13.5 2.5ZM5.37 1.59094C5.38671 1.56312 5.41035 1.54012 5.43862 1.52418C5.46688 1.50824 5.4988 1.49991 5.53125 1.5H8.46875C8.50115 1.49996 8.533 1.50832 8.5612 1.52426C8.58941 1.54019 8.613 1.56317 8.62969 1.59094L9.17531 2.5H4.82469L5.37 1.59094ZM11.5 14.5H2.5V4H11.5V14.5ZM4.875 13H5.625C5.72446 13 5.81984 12.9605 5.89016 12.8902C5.96049 12.8198 6 12.7245 6 12.625V5.875C6 5.77554 5.96049 5.68016 5.89016 5.60984C5.81984 5.53951 5.72446 5.5 5.625 5.5H4.875C4.77554 5.5 4.68016 5.53951 4.60984 5.60984C4.53951 5.68016 4.5 5.77554 4.5 5.875V12.625C4.5 12.7245 4.53951 12.8198 4.60984 12.8902C4.68016 12.9605 4.77554 13 4.875 13Z" fill="#888F98"/>
             </svg>
 
-            <label>Limapr Seleção</label>
+            <label>limpar Seleção</label>
         </div>
         `;
 
@@ -976,41 +976,41 @@ document.getElementById('changeLocationForm').addEventListener('submit', event =
     }
 })
 
-function userNotLogged(logged) {
+function userNotLogged(is_set_location) {
     myModal = new bootstrap.Modal(addressModal, {
         backdrop: 'static'
     })
 
-    if (!logged){
+    if (is_set_location === 'false'){
         myModal.show()
-    }
 
-    if(navigator.geolocation){
-        navigator.geolocation.getCurrentPosition(position => {
-            let ajax = new XMLHttpRequest()
-            ajax.open('GET', `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${position.coords.latitude},${position.coords.longitude}&apiKey=2BHqTlrrRZyJOYbFEl47yRbagjjwSaY-Eu3iriuEgvY`)
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(position => {
+                let ajax = new XMLHttpRequest()
+                ajax.open('GET', `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${position.coords.latitude},${position.coords.longitude}&apiKey=2BHqTlrrRZyJOYbFEl47yRbagjjwSaY-Eu3iriuEgvY`)
 
-            ajax.onreadystatechange = () => {
-                if(ajax.readyState == 4 && ajax.status == 200){
-                    let enderecoJSON = ajax.responseText
+                ajax.onreadystatechange = () => {
+                    if(ajax.readyState == 4 && ajax.status == 200){
+                        let enderecoJSON = ajax.responseText
 
-                    //convertendo a resposta JSON em objeto
-                    enderecoJSON = JSON.parse(enderecoJSON)
+                        //convertendo a resposta JSON em objeto
+                        enderecoJSON = JSON.parse(enderecoJSON)
 
-                    //Colocando a resposta nos formulários
-                    document.getElementById('userAdressCEP').value = enderecoJSON['items'][0].address.postalCode.replace('-','')
-                    document.getElementById('userAdressCity').value = enderecoJSON['items'][0].address.city
-                    document.getElementById('userAdressState').value = enderecoJSON['items'][0].address.stateCode
-                    document.getElementById('userAdressStreet').value = enderecoJSON['items'][0].address.street
-                    document.getElementById('userAdressNeighborhood').value = enderecoJSON['items'][0].address.district
-                    document.getElementById('userAdressNumber').value = enderecoJSON['items'][0].address.houseNumber
+                        //Colocando a resposta nos formulários
+                        document.getElementById('userAdressCEP').value = enderecoJSON['items'][0].address.postalCode.replace('-','')
+                        document.getElementById('userAdressCity').value = enderecoJSON['items'][0].address.city
+                        document.getElementById('userAdressState').value = enderecoJSON['items'][0].address.stateCode
+                        document.getElementById('userAdressStreet').value = enderecoJSON['items'][0].address.street
+                        document.getElementById('userAdressNeighborhood').value = enderecoJSON['items'][0].address.district
+                        document.getElementById('userAdressNumber').value = enderecoJSON['items'][0].address.houseNumber
 
-                } else if(ajax.readyState == 4 && ajax.status == 400){
-                    alert('Erro ao se conectar com os correios')
+                    } else if(ajax.readyState == 4 && ajax.status == 400){
+                        alert('Erro ao se conectar com os correios')
+                    }
                 }
-            }
-            ajax.send()
-        })
+                ajax.send()
+            })
+        }
     }
 }
 

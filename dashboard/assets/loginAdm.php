@@ -4,7 +4,7 @@ session_start();
 require "getData.php";
 
 //conectar com o banco
-$con = new DbConnection();
+$con = new DashboardConnection();
 $con = $con->connect();
 
 $query = "SELECT * from administradores where email_adm = :email and senha_adm = :senha";
