@@ -125,7 +125,7 @@ echo '</pre>';
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
         <?php } ?>
-        <form enctype="multipart/form-data" action="../../../logic/perfil_criar_servico.php" method="POST" id="serviceForm">
+        <form enctype="multipart/form-data" action="" method="POST" id="serviceForm">
 
             <!-- 1. Etapa de criação do serviço -->
             <div class="row stageContent">
