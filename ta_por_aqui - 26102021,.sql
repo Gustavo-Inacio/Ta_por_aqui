@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 09-Out-2021 às 11:35
+-- Tempo de geração: 26-Out-2021 às 18:55
 -- Versão do servidor: 10.4.20-MariaDB
 -- versão do PHP: 8.0.9
 
@@ -91,7 +91,8 @@ CREATE TABLE `chat_contatos` (
 INSERT INTO `chat_contatos` (`id_chat_contato`, `id_servico`, `status_chat_contato`, `quem_bloqueou_contato`, `criacao_chat_contato`, `ultima_att_contato`, `id_prestador`, `id_cliente`) VALUES
 (4, 2, 1, NULL, '2021-10-03 13:01:41', '2021-10-06 14:45:32', 3, 1),
 (5, 1, 1, NULL, '2021-10-03 13:21:23', '2021-10-09 14:14:43', 1, 2),
-(7, 3, 1, NULL, '2021-10-06 14:44:22', '2021-10-07 12:07:05', 2, 1);
+(7, 3, 1, NULL, '2021-10-06 14:44:22', '2021-10-21 13:58:31', 2, 1),
+(8, 3, 1, NULL, '2021-10-25 15:07:55', '2021-10-25 15:07:55', 2, 3);
 
 -- --------------------------------------------------------
 
@@ -186,9 +187,9 @@ INSERT INTO `chat_mensagens` (`id_chat_mensagem`, `id_chat_contato`, `id_remeten
 (75, 5, 1, 2, 'youtube.com/pele', NULL, NULL, '2021-10-06 15:20:56', 1),
 (77, 5, 1, 2, 'Ta funcionando?', NULL, NULL, '2021-10-07 13:16:38', 1),
 (78, 5, 1, 2, 'ok, está!', NULL, NULL, '2021-10-07 13:16:42', 1),
-(79, 5, 2, 1, 'oiiiiiii????????', NULL, NULL, '2021-10-09 13:35:51', 0),
-(80, 5, 2, 1, 'hola maestro', NULL, NULL, '2021-10-09 13:36:44', 0),
-(81, 5, 2, 1, '😍😍😍', NULL, NULL, '2021-10-09 14:14:43', 0);
+(79, 5, 2, 1, 'oiiiiiii????????', NULL, NULL, '2021-10-09 13:35:51', 1),
+(80, 5, 2, 1, 'hola maestro', NULL, NULL, '2021-10-09 13:36:44', 1),
+(81, 5, 2, 1, '😍😍😍', NULL, NULL, '2021-10-09 14:14:43', 1);
 
 -- --------------------------------------------------------
 
@@ -211,7 +212,8 @@ CREATE TABLE `comentarios` (
 --
 
 INSERT INTO `comentarios` (`id_comentario`, `id_servico`, `id_usuario`, `nota_comentario`, `desc_comentario`, `data_comentario`, `status_comentario`) VALUES
-(1, 1, 1, '4.0', 'kkkkkkkkkkkkkkkkkkkkkkkkkkkkkk. Meu próprio serviço é muito bom', '2021-10-06 12:31:25', 1);
+(1, 1, 1, '4.0', 'kkkkkkkkkkkkkkkkkkkkkkkkkkkkkk. Meu próprio serviço é muito bom', '2021-10-06 12:31:25', 1),
+(2, 3, 3, '5.0', 'Muito bom esse serviço. A canela é de ótima qualidade', '2021-10-25 16:14:24', 1);
 
 -- --------------------------------------------------------
 
@@ -234,10 +236,11 @@ CREATE TABLE `contratos` (
 
 INSERT INTO `contratos` (`id_contrato`, `id_servico`, `id_cliente`, `id_prestador`, `data_contrato`, `status_contrato`) VALUES
 (1, 1, 2, 1, '2021-09-27 12:32:29', 1),
-(2, 1, 3, 1, '2021-09-29 16:06:57', 0),
+(2, 1, 3, 1, '2021-09-29 16:06:57', 2),
 (3, 2, 1, 3, '2021-10-03 13:01:28', 1),
 (4, 1, 1, 1, '2021-10-06 12:29:50', 1),
-(5, 3, 1, 2, '2021-10-06 14:44:20', 0);
+(5, 3, 1, 2, '2021-10-06 14:44:20', 1),
+(6, 3, 3, 2, '2021-10-25 15:07:53', 1);
 
 -- --------------------------------------------------------
 
@@ -291,8 +294,8 @@ CREATE TABLE `denuncia_comentario` (
 
 CREATE TABLE `denuncia_motivo` (
   `id_denuncia_motivo` int(11) NOT NULL,
-  `denuncia_motivo` varchar(20) NOT NULL,
-  `categoria_motivo` int(11) NOT NULL COMMENT '1 = para serviços, 2 = para comentários'
+  `denuncia_motivo` varchar(30) NOT NULL,
+  `categoria_motivo` int(11) NOT NULL COMMENT '1 = para serviços, 2 = para comentários, 3 = ambos'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -301,7 +304,19 @@ CREATE TABLE `denuncia_motivo` (
 
 INSERT INTO `denuncia_motivo` (`id_denuncia_motivo`, `denuncia_motivo`, `categoria_motivo`) VALUES
 (1, 'serviço enganoso', 1),
-(2, 'comentário ofensivo', 2);
+(2, 'comentário ofensivo', 2),
+(3, 'potencialmente perigoso', 1),
+(4, 'fraude/golpe', 1),
+(5, 'danificou meus bens', 1),
+(6, 'Prestador ofensivo', 1),
+(7, 'calúnia/mentira', 2),
+(8, 'spam', 2),
+(9, 'conteúdo sexual', 2),
+(10, 'assédio/bullying', 2),
+(11, 'abuso infantil', 2),
+(12, 'conteúdo pornográfico', 1),
+(13, 'abuso infantil', 1),
+(14, 'Outro', 3);
 
 -- --------------------------------------------------------
 
@@ -387,9 +402,9 @@ CREATE TABLE `servicos` (
 --
 
 INSERT INTO `servicos` (`id_servico`, `id_prestador_servico`, `nome_servico`, `tipo_servico`, `desc_servico`, `orcamento_servico`, `crit_orcamento_servico`, `data_public_servico`, `nota_media_servico`, `status_servico`, `qnt_visualizacoes_servico`) VALUES
-(1, 1, 'Desenvolvimento de site', 0, 'Desenvolvo um site para o seu negócio', NULL, 'A definir orcamento', '2021-09-27 12:31:25', '4.0', 1, 0),
+(1, 1, 'Desenvolvimento de site', 0, 'Desenvolvo um site para o seu negócio', NULL, 'A definir orcamento', '2021-09-27 12:31:25', '4.0', 0, 0),
 (2, 3, 'Conserto celular', 1, 'mldnaskjfas', NULL, 'A definir orcamento', '2021-09-29 22:05:33', NULL, 1, 0),
-(3, 2, 'Vendedor de canela', 1, 'Eu virei vendedor de canela\r\nnão vendo manjericção\r\nsó vendo canela ya\r\nsoca nela ya\r\nsoca soca nela ya', '50.00', 'por canela', '2021-10-06 14:44:06', NULL, 1, 0);
+(3, 2, 'Vendedor de canela', 1, 'Eu virei vendedor de canela\r\nnão vendo manjericção\r\nsó vendo canela ya\r\nsoca nela ya\r\nsoca soca nela ya', '50.00', 'por canela', '2021-10-06 14:44:06', '5.0', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -628,10 +643,11 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `nome_usuario`, `sobrenome_usuario`, `fone_usuario`, `email_usuario`, `senha_usuario`, `data_nasc_usuario`, `sexo_usuario`, `classif_usuario`, `cep_usuario`, `uf_usuario`, `cidade_usuario`, `bairro_usuario`, `rua_usuario`, `numero_usuario`, `comple_usuario`, `data_entrada_usuario`, `desc_usuario`, `site_usuario`, `status_usuario`, `online_usuario`, `imagem_usuario`, `nota_media_usuario`, `posicao_usuario`) VALUES
-(1, 'Jayden', 'Barbosa', '(45) 78451-2336', 'natanbarbosa@vivaldi.net', '14240d95986f1c26d62c5b5c70bf3d81ef49f9c0', '2000-04-25', 'F', 2, '68500310', 'PA', 'Marabá', 'Velha Marabá', 'Rua Magalhães Barata', '89', 'ap 14B', '2021-09-22 13:06:32', NULL, NULL, 1, 0, 'user1/profile_image/16329342236154994f61a3b.png', '4.0', 0x0000000001010000002ba4fca4da6715c03eae0d15e39048c0),
-(2, 'Everton', 'Silva', '(75) 13235-4845', 'lauringamesbr@gmail.com', '14240d95986f1c26d62c5b5c70bf3d81ef49f9c0', '2000-09-02', 'M', 1, '09771200', 'SP', 'São Bernardo do Campo', 'Nova Petrópolis', 'Rua Professor Antônio Prudente', '78', NULL, '2021-09-27 12:28:14', NULL, NULL, 1, 0, 'user2/profile_image/1632933749615497755c9b0.jpg', NULL, 0x000000000101000000cea5b8aaecb337c0ee3d5c72dc4547c0),
-(3, 'Edson', 'José', '(12) 45784-5265', 'natanbarbosa525@gmail.com', '14240d95986f1c26d62c5b5c70bf3d81ef49f9c0', '2000-07-02', 'M', 1, '57046782', 'AL', 'Maceió', 'Serraria', 'Rua Euclides Gonçalves Navarro', '45', NULL, '2021-09-29 16:05:01', '', '', 1, 0, 'user3/profile_image/1633471796615ccd347e5ac.jpg', NULL, 0x00000000010100000063d17476323823c05bd3bce314dd41c0),
-(4, 'Macintosh', 'Destroyer', '(14) 95165-2316', 'kowevap225@cantouri.com', '14240d95986f1c26d62c5b5c70bf3d81ef49f9c0', '2000-07-19', 'O', 0, '65076902', 'MA', 'São Luís', 'São Francisco', 'Avenida Ana Jansen 200', '45', NULL, '2021-10-02 22:03:12', NULL, NULL, 1, 0, 'no_picture.jpg', NULL, 0x00000000010100000022a64412bd0c04c017f19d98f52646c0);
+(1, 'Jayden', 'Barbosa', '(45) 78451-2336', 'natanbarbosa@vivaldi.net', '14240d95986f1c26d62c5b5c70bf3d81ef49f9c0', '2000-04-25', 'F', 0, '68500310', 'PA', 'Marabá', 'Velha Marabá', 'Rua Magalhães Barata', '89', 'ap 14B', '2021-09-22 13:06:32', NULL, NULL, 1, 0, 'user1/profile_image/16329342236154994f61a3b.png', '4.0', 0x0000000001010000002ba4fca4da6715c03eae0d15e39048c0),
+(2, 'Everton', 'Silva', '(75) 13235-4845', 'lauringamesbr@gmail.com', '14240d95986f1c26d62c5b5c70bf3d81ef49f9c0', '2000-09-02', 'M', 1, '09771200', 'SP', 'São Bernardo do Campo', 'Nova Petrópolis', 'Rua Professor Antônio Prudente', '78', NULL, '2021-09-27 12:28:14', NULL, NULL, 1, 0, 'user2/profile_image/1632933749615497755c9b0.jpg', '5.0', 0x000000000101000000cea5b8aaecb337c0ee3d5c72dc4547c0),
+(3, 'Edson', 'José', '(12) 45784-5265', 'natanbarbosa525@gmail.com', '14240d95986f1c26d62c5b5c70bf3d81ef49f9c0', '2000-07-02', 'M', 1, '57046782', 'AL', 'Maceió', 'Serraria', 'Rua Euclides Gonçalves Navarro', '45', NULL, '2021-09-29 16:05:01', '', '', 1, 1, 'user3/profile_image/16352539206177fea0d1ab5.jpeg', NULL, 0x00000000010100000063d17476323823c05bd3bce314dd41c0),
+(4, 'Macintosh', 'Destroyer', '(14) 95165-2316', 'kowevap225@cantouri.com', '14240d95986f1c26d62c5b5c70bf3d81ef49f9c0', '2000-07-19', 'O', 0, '65076902', 'MA', 'São Luís', 'São Francisco', 'Avenida Ana Jansen 200', '45', NULL, '2021-10-02 22:03:12', NULL, NULL, 1, 0, 'no_picture.jpg', NULL, 0x00000000010100000022a64412bd0c04c017f19d98f52646c0),
+(5, 'Emerson', 'Azevedo', '(54) 45432-1312', 'lorkoyolti@vusra.com', '14240d95986f1c26d62c5b5c70bf3d81ef49f9c0', '2000-07-28', 'M', 0, '09175430', 'SP', 'Santo André', 'Vila Helena', 'Rua Cruz Alta', '139', NULL, '2021-10-18 21:12:34', NULL, NULL, 1, 1, 'no_picture.jpg', NULL, 0x0000000001010000009f93de37beae37c0e7525c55f64147c0);
 
 -- --------------------------------------------------------
 
@@ -667,7 +683,11 @@ INSERT INTO `usuario_redes_sociais` (`id_rede_social`, `id_usuario`, `rede_socia
 (13, 4, 'instagram', NULL, NULL),
 (14, 4, 'facebook', NULL, NULL),
 (15, 4, 'twitter', NULL, NULL),
-(16, 4, 'linkedin', NULL, NULL);
+(16, 4, 'linkedin', NULL, NULL),
+(17, 5, 'instagram', NULL, NULL),
+(18, 5, 'facebook', NULL, NULL),
+(19, 5, 'twitter', NULL, NULL),
+(20, 5, 'linkedin', NULL, NULL);
 
 --
 -- Índices para tabelas despejadas
@@ -844,7 +864,7 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de tabela `chat_contatos`
 --
 ALTER TABLE `chat_contatos`
-  MODIFY `id_chat_contato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_chat_contato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de tabela `chat_contatos_favoritos`
@@ -856,19 +876,19 @@ ALTER TABLE `chat_contatos_favoritos`
 -- AUTO_INCREMENT de tabela `chat_mensagens`
 --
 ALTER TABLE `chat_mensagens`
-  MODIFY `id_chat_mensagem` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+  MODIFY `id_chat_mensagem` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 
 --
 -- AUTO_INCREMENT de tabela `comentarios`
 --
 ALTER TABLE `comentarios`
-  MODIFY `id_comentario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_comentario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `contratos`
 --
 ALTER TABLE `contratos`
-  MODIFY `id_contrato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_contrato` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `deletar_conta_motivos`
@@ -886,7 +906,7 @@ ALTER TABLE `denuncia_comentario`
 -- AUTO_INCREMENT de tabela `denuncia_motivo`
 --
 ALTER TABLE `denuncia_motivo`
-  MODIFY `id_denuncia_motivo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_denuncia_motivo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de tabela `denuncia_servico`
@@ -916,7 +936,7 @@ ALTER TABLE `servicos`
 -- AUTO_INCREMENT de tabela `servicos_salvos`
 --
 ALTER TABLE `servicos_salvos`
-  MODIFY `id_servico_salvo` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_servico_salvo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `servico_categorias`
@@ -940,13 +960,13 @@ ALTER TABLE `subcategorias`
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `usuario_redes_sociais`
 --
 ALTER TABLE `usuario_redes_sociais`
-  MODIFY `id_rede_social` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_rede_social` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Restrições para despejos de tabelas

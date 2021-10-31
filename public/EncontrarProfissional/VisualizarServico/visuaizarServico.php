@@ -733,7 +733,7 @@
         <p class="xl">xl</p>
     </div>-->
 
-    <?php if(!$isMyService){?>
+    <?php if(!$isMyService && isset($_SESSION['idUsuario'])){?>
         <script>
             const hireServiceHandler = () => {
             let btnHire = document.querySelector('.my-hire-service-btn');
