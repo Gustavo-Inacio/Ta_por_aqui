@@ -54,7 +54,6 @@ if (empty($chatInfo)){
 }
 ?>
 <head>
-    <!-- <script src="importComplain.js" type="module"></script> -->
     <script src="generalScripts.js"></script>
     <script type="module">
         function downloadFileOnUserInfo(fileDirectory, filename){
@@ -68,8 +67,9 @@ if (empty($chatInfo)){
         import ReportInterface from "../Denuncia/denuncia.js";
 
         function serviceComplain(element) {
-            let user = element.getAttribute('providerName');
-            let service = element.getAttribute('serviceName');
+            let user = $('#nome_prestador').val();
+            let service = $('#nome_servico').val();
+            let serviceId = $('#serviceId').val()
             let modal = document.querySelector('#serviceComplainModal');
             let modalBody = document.querySelector('#serviceComplainModalBody')
             let modalTrigger = element
@@ -94,10 +94,63 @@ if (empty($chatInfo)){
                 getNode();
 
                 const setDOM = async () => { // monta o layout na DOM
-                    let processedNode = await ReportInterface({node:iframeNode, type: 'service', data: {service: service, provider: user}})
+                    let processedNode = await ReportInterface({node:iframeNode, type: 'service', data: {service: service, provider: user, serviceId: serviceId}})
                     await modalTrigger.setAttribute('data-bs-toggle',`modal`)
                     await modalTrigger.setAttribute('data-bs-target',`#serviceComplainModal`)
                     await modalBody.appendChild(processedNode) // pega o node retornado e o coloca na DOM
+
+                    let submitform = processedNode.querySelector('#complainForm')
+                    submitform.addEventListener('submit', event => {
+                        event.preventDefault()
+
+                        let formData = new FormData(event.target)
+                        let xhr = new XMLHttpRequest()
+
+                        let msg = document.querySelector('#my-report-verification-section-subtitle')
+                        let btn = processedNode.querySelector('#submitComplain')
+
+                        xhr.open('POST', '../../logic/denuncia_enviar.php')
+                        btn.innerHTML = 'Enviar Denúncia <div class="spinner-border" role="status" style="width: 16px; height: 16px"></div>'
+
+                        xhr.onreadystatechange = () => {
+                            if (xhr.readyState == 4){
+                                if (xhr.status == 200){
+                                    let response = JSON.parse(xhr.response)
+                                    if (response[0] === '00000'){
+                                        //exibir mensagem de sucesso
+                                        msg.className = 'text-success fw-bold'
+                                        msg.innerHTML = "Denúncia enviada com sucesso. Obrigado por ajudar a plataforma a melhorar!"
+                                        msg.style.fontSize = "18px"
+                                    } else if(response[0] === 'not logged'){
+                                        msg.className = 'text-danger fw-bold'
+                                        msg.style.fontSize = "18px"
+                                        msg.innerHTML = "Erro ao acessar seu login. Verifique se você realmente está logado e tente novamente. Caso o erro persistam entre em contato pelo fale conosco"
+                                    } else {
+                                        msg.className = 'text-danger fw-bold'
+                                        msg.style.fontSize = "18px"
+                                        msg.innerHTML = "Erro ao processar denúncia. Recarregue a página e tente novamente. Caso o erro persista, entre em contato pelo fale conosco."
+                                    }
+                                } else {
+                                    msg.className = 'text-danger fw-bold'
+                                    msg.style.fontSize = "18px"
+                                    msg.innerHTML = "Erro ao enviar denúncia para o servidor. Recarregue a página e tente novamente. Caso o erro persista, entre em contato pelo fale conosco."
+                                }
+
+                                //substituir botão de enviar por botão de fechar
+                                btn.innerHTML = 'Fechar'
+                                btn.className = 'mybtn mybtn-secondary'
+                                btn.type = 'button'
+                                btn.setAttribute('data-bs-dismiss', 'modal')
+
+                                //Excluir botão de editar
+                                processedNode.querySelector('.my-edit-report-btn').remove()
+
+                                //excluir seção de confirmação
+                                processedNode.querySelector('#data-confirm').remove()
+                            }
+                        }
+                        xhr.send(formData)
+                    })
                 }
             }
             reportHandler()
@@ -153,7 +206,7 @@ if (empty($chatInfo)){
         <div class="dangerOption text-success dangerFakeLine" onclick="location.href = '../EncontrarProfissional/VisualizarServico/visuaizarServico.php?serviceID=<?=$show == 0 ? $userInfo->id_servico : $serviceId?>'">Ir para o serviço <i class="fas fa-briefcase"></i></div>
         <div class="dangerOption dangerFakeLine" onclick="toggleBlockUser(0, <?=$_GET['chatId']?>, <?=$_SESSION['idUsuario']?>)">Bloquear <i class="fas fa-user-slash"></i></div>
         <?php if($show == 0) { ?>
-            <div class="dangerOption" id="serviceComplain" serviceName="<?=$userInfo->nome_servico?>" providerName="<?=$userInfo->nome_usuario?> <?=$userInfo->sobrenome_usuario?>">Denunciar serviço <i class="fas fa-ban"></i></div>
+            <div class="dangerOption" id="serviceComplain">Denunciar serviço <i class="fas fa-ban"></i></div>
         <?php }?>
     </div>
 </body>

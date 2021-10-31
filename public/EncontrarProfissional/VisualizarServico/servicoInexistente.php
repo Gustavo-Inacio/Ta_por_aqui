@@ -14,6 +14,38 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/2a19bde8ca.js" crossorigin="anonymous" defer></script>
     <script src="../../../assets/global/globalScripts.js" defer></script>
+
+    <style>
+        .serviceNotFoundImg{
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .serviceNotFoundText h1{
+            font-weight: bold;
+            font-size: 42px;
+            color: black;
+        }
+
+        .whatHappened{
+            padding: 15px;
+            border-radius: 6px;
+            width: 100%;
+            max-width: 500px;
+            margin: 10px 0;
+        }
+
+        .whatHappened h3{
+            font-weight: bold;
+            font-size: 28px;
+            color: #525252;
+        }
+
+        .serviceNotFoundText a.mybtn:hover{
+            text-decoration: none;
+            color: white;
+        }
+    </style>
 </head>
 
 <body>
@@ -48,7 +80,7 @@
                         <a href="../../Contato/contato.php" class="nav-link">Fale conosco</a>
                     </li>
                     <li class="nav-item">
-                        <a href="../../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
+                        <a href="../../ComoFunciona/comoFunciona.php" class="nav-link">Sobre</a>
                     </li>
                     <li class="nav-item">
                         <a href="../../Chat/chat.php" class="nav-link" id="navChatLink">Chat</a>
@@ -75,11 +107,26 @@
         </div>
     </nav>
     <!--NavBar Fim-->
-        <section>
-            <h1>serviço Não encontrado </h1>
-            <p>depois tem que fazer o front dessa pagina</p>
-            <p>Volte para a pagina de listagem de servicos <a href="../Listagem/listagem.php">Listagem</a></p>
-        </section>
+    <div class="container mb-5">
+        <div class="row">
+            <div class="col-md-4 d-flex flex-column justify-content-center mb-3 mb-md-0">
+                <img src="../../../assets/images/user_not_found.png" alt="Detetive procurando serviço" class="serviceNotFoundImg mx-auto">
+            </div>
+            <div class="col-md-8 d-flex flex-column justify-content-center serviceNotFoundText">
+                <h1>O serviço procurado não pôde ser carregado</h1>
+                <div class="whatHappened">
+                    <h3>O que pode ter acontecido: </h3>
+                    <ul>
+                        <li>Você pode ter digitado a url errada</li>
+                        <li>O prestador desse serviço desativou a conta</li>
+                        <li>Esse serviço recebeu muitas denúncias e foi banido</li>
+                    </ul>
+                </div>
+                <p>Se tiver alguma dúvida ou reclamação em relação ao ocorrido, entre em contato pelo <a href="../../Contato/contato.php">Fale conosco</a></p>
+                <a href="../Listagem/listagem.php" class="mybtn mybtn-complement"> <i class="fas fa-arrow-left"></i> Voltar para a página de listagem</a>
+            </div>
+        </div>
+    </div>
 
     <footer id="myMainFooter">
         <div id="myMainFooterContainer" class="container-fluid">

@@ -87,7 +87,7 @@ if( !isset($_GET['id']) || empty($user) ){
                         <a href="../Contato/contato.php" class="nav-link">Fale conosco</a>
                     </li>
                     <li class="nav-item">
-                        <a href="../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
+                        <a href="../ComoFunciona/comoFunciona.php" class="nav-link">Sobre</a>
                     </li>
                     <li class="nav-item">
                         <a href="../Chat/chat.php" class="nav-link" id="navChatLink">Chat</a>
@@ -154,7 +154,7 @@ if( !isset($_GET['id']) || empty($user) ){
                 </div>
                 <div class="my-main-footer-institutional">
                     <p>INSTITUCIONAL</p>
-                    <a href="../SobreNos/sobreNos.php">Quem Somos</a> <br>
+                    <a href="../ComoFunciona/sobreNos%20old.php">Quem Somos</a> <br>
                     <a href="#">Faça uma doação</a> <br>
                     <a href="#">Trabalhe conosco</a> <br>
                 </div>
@@ -233,7 +233,7 @@ if( !isset($_GET['id']) || empty($user) ){
                         <a href="../Contato/contato.php" class="nav-link">Fale conosco</a>
                     </li>
                     <li class="nav-item">
-                        <a href="../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
+                        <a href="../ComoFunciona/comoFunciona.php" class="nav-link">Sobre</a>
                     </li>
                     <li class="nav-item">
                         <a href="../Chat/chat.php" class="nav-link" id="navChatLink">Chat</a>
@@ -313,23 +313,17 @@ if( !isset($_GET['id']) || empty($user) ){
 
                         <label for="userCell">Celular</label> <br>
                         <input type="text" class="form-control" name="userCell" id="userCell" readonly
-                            value="<?=$user->fone_usuario?>">
+                            value="<?=$user->fone_usuario?>" placeholder="usuário sem telefone de contato">
 
                     </div>
 
                     <div class="col-md-6 mt-3 mt-md-0">
-                        <label for="userEmail">Email</label> <br>
-                        <input type="text" class="form-control" name="userEmail" id="userEmail" readonly
-                            value="<?=$user->email_usuario?>">
+
+                        <label for="userContactEmail">Email de contato</label> <br>
+                        <input type="text" class="form-control" id="userContactEmail" name="userContactEmail" readonly maxlength="40"
+                               value="<?=$user->email_contato_usuario?>" placeholder="usuário sem email de contato">
 
                         <br>
-
-                        <?php if( $user->site_usuario != "" ) {?>
-                            <label for="showUserSite">Site</label> <br>
-                            <div id="showUserSite"> <a href="<?=$user->site_usuario?>" target="_blank"> <?=$user->site_usuario?> </a> </div>
-
-                            <br>
-                        <?php }?>
 
                         <label for="userDescription">Descrição</label> <br>
                         <textarea name="userDescription" class="form-control" id="userDescription" placeholder="O usuário não colocou nenhuma descrição"
@@ -452,7 +446,7 @@ if( !isset($_GET['id']) || empty($user) ){
             </div>
             <div class="my-main-footer-institutional">
                 <p>INSTITUCIONAL</p>
-                <a href="../SobreNos/sobreNos.php">Quem Somos</a> <br>
+                <a href="../ComoFunciona/sobreNos%20old.php">Quem Somos</a> <br>
                 <a href="#">Faça uma doação</a> <br>
                 <a href="#">Trabalhe conosco</a> <br>
             </div>

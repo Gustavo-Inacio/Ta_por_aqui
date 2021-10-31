@@ -89,7 +89,7 @@ echo '</pre>';
                     <a href="../Contato/contato.php" class="nav-link">Fale conosco</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
+                    <a href="../ComoFunciona/comoFunciona.php" class="nav-link">Sobre</a>
                 </li>
                 <li class="nav-item">
                     <a href="../Chat/chat.php" class="nav-link" id="navChatLink">Chat</a>
@@ -125,7 +125,7 @@ echo '</pre>';
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
         <?php } ?>
-        <form enctype="multipart/form-data" action="../../../logic/perfil_criar_servico.php" method="POST" id="serviceForm">
+        <form enctype="multipart/form-data" action="" method="POST" id="serviceForm">
 
             <!-- 1. Etapa de criação do serviço -->
             <div class="row stageContent">

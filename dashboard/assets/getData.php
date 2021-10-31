@@ -10,23 +10,15 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-class DbConnection {
-<<<<<<< HEAD
-    // private $host = 'sql10.freemysqlhosting.net';
-    // private $dbname = 'sql10435599';
-    // private $user = 'sql10435599';
-    // private $password = 'buc8h6VbjS';
-
-=======
->>>>>>> 0b1bbb38738b871d799ddcc9f1c376e9d0656e31
-    private $host = 'localhost';
-    private $dbname = 'ta_por_aqui';
-    private $user = 'root';
-    private $password = '';
-<<<<<<< HEAD
-
-=======
->>>>>>> 0b1bbb38738b871d799ddcc9f1c376e9d0656e31
+class DashboardConnection {
+    //private $host = 'localhost';
+    //private $dbname = 'ta_por_aqui';
+    //private $user = 'root';
+    //private $password = '';
+    private $host = 'sql10.freemysqlhosting.net';
+    private $dbname = 'sql10444871';
+    private $user = 'sql10444871';
+    private $password = 'mQjzmpfgRa';
 
     public function connect(){
         //Iniciando conexão com o bd com PDO
@@ -76,7 +68,7 @@ class AnalisysChartData {
     //Contruir dados
     public function __construct($year) {
         //conectar com o banco
-        $this->con = new DbConnection();
+        $this->con = new DashboardConnection();
         $this->con = $this->con->connect();
 
         $extraUserParam = '';
@@ -302,7 +294,7 @@ class UsersListing {
 
     public function __construct(){
         //conectar com o banco
-        $this->con = new DbConnection();
+        $this->con = new DashboardConnection();
         $this->con = $this->con->connect();
     }
 
@@ -344,12 +336,12 @@ class ServicesListing {
 
     public function __construct(){
         //conectar com o banco
-        $this->con = new DbConnection();
+        $this->con = new DashboardConnection();
         $this->con = $this->con->connect();
     }
 
     public function selectAllServices(){
-        $query = "SELECT s.id_servico, s.nome_servico, s.id_prestador_servico, s.tipo_servico, s.nota_media_servico, s.status_servico, u.id_usuario, u.nome_usuario from servicos as s join usuarios as u on s.id_prestador_servico = u.id_usuario left join denuncia_servico as ds on s.id_servico = ds.id_servico";
+        $query = "SELECT s.id_servico, s.nome_servico, s.id_prestador_servico, s.tipo_servico, s.nota_media_servico, s.status_servico, u.id_usuario, u.nome_usuario from servicos as s join usuarios as u on s.id_prestador_servico = u.id_usuario left join denuncia_servico as ds on s.id_servico = ds.id_servico group by s.id_servico";
         $stmt = $this->con->query($query);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -358,13 +350,13 @@ class ServicesListing {
     public function selectFilteredServices($status, $complain){
         $query = "";
         if ($status !== "" && $complain === ""){
-            $query = "SELECT s.id_servico, s.nome_servico, s.id_prestador_servico, s.tipo_servico, s.nota_media_servico, s.status_servico, u.id_usuario, u.nome_usuario from servicos as s join usuarios as u on s.id_prestador_servico = u.id_usuario left join denuncia_servico as ds on s.id_servico = ds.id_servico WHERE s.status_servico = " . intval($status);
+            $query = "SELECT s.id_servico, s.nome_servico, s.id_prestador_servico, s.tipo_servico, s.nota_media_servico, s.status_servico, u.id_usuario, u.nome_usuario from servicos as s join usuarios as u on s.id_prestador_servico = u.id_usuario left join denuncia_servico as ds on s.id_servico = ds.id_servico WHERE s.status_servico = " . intval($status) . " group by s.id_servico";
         } else if ($status === "" && $complain !== ""){
-            $query = "SELECT s.id_servico, s.nome_servico, s.id_prestador_servico, s.tipo_servico, s.nota_media_servico, s.status_servico, u.id_usuario, u.nome_usuario from servicos as s join usuarios as u on s.id_prestador_servico = u.id_usuario right join denuncia_servico as ds on s.id_servico = ds.id_servico";
+            $query = "SELECT s.id_servico, s.nome_servico, s.id_prestador_servico, s.tipo_servico, s.nota_media_servico, s.status_servico, u.id_usuario, u.nome_usuario from servicos as s join usuarios as u on s.id_prestador_servico = u.id_usuario right join denuncia_servico as ds on s.id_servico = ds.id_servico group by s.id_servico";
         } else if($status !== "" && $complain !== ""){
-            $query = "SELECT s.id_servico, s.nome_servico, s.id_prestador_servico, s.tipo_servico, s.nota_media_servico, s.status_servico, u.id_usuario, u.nome_usuario from servicos as s join usuarios as u on s.id_prestador_servico = u.id_usuario right join denuncia_servico as ds on s.id_servico = ds.id_servico WHERE s.status_servico = " . intval($status);
+            $query = "SELECT s.id_servico, s.nome_servico, s.id_prestador_servico, s.tipo_servico, s.nota_media_servico, s.status_servico, u.id_usuario, u.nome_usuario from servicos as s join usuarios as u on s.id_prestador_servico = u.id_usuario right join denuncia_servico as ds on s.id_servico = ds.id_servico WHERE s.status_servico = " . intval($status) . " group by s.id_servico";
         } else {
-            $query = "SELECT s.id_servico, s.nome_servico, s.id_prestador_servico, s.tipo_servico, s.nota_media_servico, s.status_servico, u.id_usuario, u.nome_usuario from servicos as s join usuarios as u on s.id_prestador_servico = u.id_usuario left join denuncia_servico as ds on s.id_servico = ds.id_servico";
+            $query = "SELECT s.id_servico, s.nome_servico, s.id_prestador_servico, s.tipo_servico, s.nota_media_servico, s.status_servico, u.id_usuario, u.nome_usuario from servicos as s join usuarios as u on s.id_prestador_servico = u.id_usuario left join denuncia_servico as ds on s.id_servico = ds.id_servico group by s.id_servico";
         }
 
         $stmt = $this->con->query($query);
@@ -372,7 +364,7 @@ class ServicesListing {
     }
 
     public function selectSearchedServices($input, $param){
-        $query = "SELECT s.id_servico, s.nome_servico, s.id_prestador_servico, s.tipo_servico, s.nota_media_servico, s.status_servico, u.id_usuario, u.nome_usuario from servicos as s join usuarios as u on s.id_prestador_servico = u.id_usuario left join denuncia_servico as ds on s.id_servico = ds.id_servico WHERE $param like '$input%'";
+        $query = "SELECT s.id_servico, s.nome_servico, s.id_prestador_servico, s.tipo_servico, s.nota_media_servico, s.status_servico, u.id_usuario, u.nome_usuario from servicos as s join usuarios as u on s.id_prestador_servico = u.id_usuario left join denuncia_servico as ds on s.id_servico = ds.id_servico WHERE $param like '$input%' group by s.id_servico";
         $stmt = $this->con->query($query);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -390,19 +382,19 @@ class CommentsListing {
 
     public function __construct(){
         //conectar com o banco
-        $this->con = new DbConnection();
+        $this->con = new DashboardConnection();
         $this->con = $this->con->connect();
     }
 
     public function selectAllComments(){
-        $query = "SELECT c.id_comentario, c.id_servico, c.id_usuario, c.desc_comentario, s.nome_servico, u.nome_usuario from comentarios as c join servicos as s on c.id_servico = s.id_servico join usuarios as u on c.id_usuario = u.id_usuario join denuncia_comentario dc on c.id_comentario = dc.id_comentario where (select count(*) from denuncia_comentario where dc.id_comentario AND dc.status_denuncia_comen != 2) > 0";
+        $query = "SELECT c.id_comentario, c.id_servico, c.id_usuario, c.desc_comentario, s.nome_servico, u.nome_usuario from comentarios as c join servicos as s on c.id_servico = s.id_servico join usuarios as u on c.id_usuario = u.id_usuario join denuncia_comentario dc on c.id_comentario = dc.id_comentario where (select count(*) from denuncia_comentario where dc.id_comentario AND dc.status_denuncia_comen != 2) > 0 group by c.id_comentario";
         $stmt = $this->con->query($query);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function selectSearchedComments($input, $param){
-        $query = "SELECT c.id_comentario, c.id_servico, c.id_usuario, c.desc_comentario, s.nome_servico, u.nome_usuario from comentarios as c join servicos as s on c.id_servico = s.id_servico join usuarios as u on c.id_usuario = u.id_usuario join denuncia_comentario dc on c.id_comentario = dc.id_comentario WHERE $param like '%$input%' AND (select count(*) from denuncia_comentario where dc.id_comentario AND dc.status_denuncia_comen != 2) > 0";
+        $query = "SELECT c.id_comentario, c.id_servico, c.id_usuario, c.desc_comentario, s.nome_servico, u.nome_usuario from comentarios as c join servicos as s on c.id_servico = s.id_servico join usuarios as u on c.id_usuario = u.id_usuario join denuncia_comentario dc on c.id_comentario = dc.id_comentario WHERE $param like '%$input%' AND (select count(*) from denuncia_comentario where dc.id_comentario AND dc.status_denuncia_comen != 2) > 0 group by c.id_comentario";
         $stmt = $this->con->query($query);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -420,7 +412,7 @@ class ContactListing {
 
     public function __construct(){
         //conectar com o banco
-        $this->con = new DbConnection();
+        $this->con = new DashboardConnection();
         $this->con = $this->con->connect();
     }
 
@@ -460,7 +452,7 @@ class UserReport {
 
     public function __construct($id){
         //conectar com o banco
-        $this->con = new DbConnection();
+        $this->con = new DashboardConnection();
         $this->con = $this->con->connect();
 
         $this->id_usuario = $id;
@@ -527,7 +519,7 @@ class CommentReport {
 
     public function __construct($id){
         //conectar com o banco
-        $this->con = new DbConnection();
+        $this->con = new DashboardConnection();
         $this->con = $this->con->connect();
 
         $this->id_comentario = $id;
@@ -576,7 +568,7 @@ class ServiceReport {
 
     public function __construct($id){
         //conectar com o banco
-        $this->con = new DbConnection();
+        $this->con = new DashboardConnection();
         $this->con = $this->con->connect();
 
         $this->id_servico = $id;
@@ -643,7 +635,7 @@ class ContactReport {
 
     public function __construct($id){
         //conectar com o banco
-        $this->con = new DbConnection();
+        $this->con = new DashboardConnection();
         $this->con = $this->con->connect();
 
         $this->id_contato = $id;
@@ -699,7 +691,7 @@ class AppControl{
 
     public function __construct(){
         //conectar com o banco
-        $this->con = new DbConnection();
+        $this->con = new DashboardConnection();
         $this->con = $this->con->connect();
     }
 

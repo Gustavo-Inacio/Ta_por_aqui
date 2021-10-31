@@ -470,6 +470,7 @@ button:focus {
           box-sizing: border-box;
   border-radius: 144px;
   margin-right: 10px;
+  margin-top: 7px;
 }
 
 #searchTagSection .search-tag svg {
@@ -480,6 +481,11 @@ button:focus {
 
 #searchTagSection .search-tag svg:hover {
   background-color: #ebebeb;
+}
+
+#searchTagSection .search-tag svg:hover .search-tag{
+  background-color: #FF6F6F;
+  color: white;
 }
 
 #searchTagSection .search-tag .search-tag-title {
@@ -512,6 +518,16 @@ button:focus {
   color: #888F98;
   margin-left: 8px;
   cursor: pointer;
+}
+
+#searchTagSection .clear-tags-div:hover{
+  background-color: #FF6F6F;
+  transition: .2s;
+}
+
+#searchTagSection .clear-tags-div:hover label, #searchTagSection .clear-tags-div:hover i{
+  color: white;
+  transition: .2s;
 }
 
 /* search tag section */
@@ -897,6 +913,53 @@ button:focus {
   min-height: inherit;
 }
 
+#addressModal{
+  z-index: 10003 !important;
+}
+
+.modal-backdrop {
+  z-index: 10002 !important;
+}
+
+.popover{
+  z-index: 10004 !important;
+}
+
+#myMainFooter{
+  z-index: 10001 !important;
+}
+
+.beforeSearch{
+  padding: 15px;
+  background-color: #f2f2f2;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 500px;
+  margin: 25px auto 0 auto;
+}
+
+.beforeSearch h3{
+  color: #888F98;
+  font-weight: bold;
+  text-align: center;
+  font-size: 32px;
+}
+
+.beforeSearch ul{
+  color: #888F98;
+  font-size: 14px;
+}
+
+.beforeSearch ul li span{
+  padding: 5px 9px;
+  background-color: #888F98;
+  box-sizing: border-box;
+  border-radius: 144px;
+  color: white;
+  font-size: 13px;
+  margin: 0 7px;
+}
+
 @media (min-width: 500px) {
   /* -- filter section -- */
   #filterSection {
@@ -952,7 +1015,7 @@ button:focus {
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
             flex-direction: column;
-    height: inherit;
+    /*height: inherit;*/
     margin-top: 0;
   }
   .categoriesSection > .title-area {
@@ -968,7 +1031,7 @@ button:focus {
   }
   .categoriesSectionBody {
     overflow-y: auto;
-    height: inherit;
+    /*height: inherit;*/
     -ms-flex-preferred-size: auto;
         flex-basis: auto;
   }

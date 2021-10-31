@@ -104,15 +104,13 @@ $userServices = $userReport->getUserServices();
 
 <!-- paginas -->
 <div class="main" id="pagina">
-    <h2>Relatório de usuários - Natan Barbosa (3)</h2>
+    <h2>Relatório de usuários - <?=$userInfo['nome_usuario']?> <?=$userInfo['sobrenome_usuario']?></h2>
     <a href="userReport.php"> <i class="fas fa-arrow-left"></i> voltar </a> <br>
 
     <?php if ($banMsg !== "") { ?>
         <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert" style="max-width: 500px">
             <span><?=$banMsg?></span>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     <?php }?>
 

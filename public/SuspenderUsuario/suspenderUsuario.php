@@ -68,7 +68,7 @@ $motivos = $stmt->fetchAll(PDO::FETCH_OBJ);
                     <a href="../Contato/contato.php" class="nav-link">Fale conosco</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
+                    <a href="../ComoFunciona/comoFunciona.php" class="nav-link">Sobre</a>
                 </li>
                 <li class="nav-item">
                     <a href="../Chat/chat.php" class="nav-link">Chat</a>

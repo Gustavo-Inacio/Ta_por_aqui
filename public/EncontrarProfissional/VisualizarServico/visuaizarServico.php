@@ -13,8 +13,6 @@
     $serviceID = $_GET['serviceID'];
     $_SESSION['serviceID'] = $serviceID;
 
-    print_r($_SESSION);
-
     $brain = new VisualizeService($serviceID);
     $providerData = $brain->getPorviderInfo();
     if(!$providerData){
@@ -93,7 +91,7 @@
                         <a href="../../Contato/contato.php" class="nav-link">Fale conosco</a>
                     </li>
                     <li class="nav-item">
-                        <a href="../../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
+                        <a href="../../ComoFunciona/comoFunciona.php" class="nav-link">Sobre</a>
                     </li>
                     <li class="nav-item">
                         <a href="../../Chat/chat.php" class="nav-link" id="navChatLink">Chat</a>
@@ -170,21 +168,37 @@
 
                                 <div id="serviceMenuOptions" class="service-dot-options-menu">
                                     <a href="#" class="service-dot-item">
-                                        <button type="button" class="" data-bs-toggle="modal" data-bs-target="#serviceReportModal">
+                                        <button type="button" class="" data-bs-toggle="modal" data-bs-target="<?=isset($_SESSION['idUsuario']) ? '#serviceReportModal' : '#notLoggedToComplain-modal'?>">
                                             Denunciar Serviço
                                         </button>
-                                        
                                     </a>
                                 </div>
 
                                 <!-- Modal -->
-                                <div class="modal fade" id="serviceReportModal" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                    <div id="myReportModalDialog" class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div id="myReportModalBody" class="modal-body">
-                                        
+                                <div class="modal fade" id="notLoggedToComplain-modal" tabindex="-1" aria-labelledby="notLoggedToComplain-label" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="notLoggedToChat-label">Entre em sua conta</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Pra denunciar um serviço ou um comentário é necessário estar logado
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                                <a href="../../Entrar/login.php"><button type="button" class="btn btn-primary">Loggin / Cadastrar</button></a>
+                                            </div>
                                         </div>
                                     </div>
+                                </div>
+
+                                <!-- modal de denúncia de serviço -->
+                                <div class="modal fade" id="serviceReportModal" tabindex="-1">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-body" id="myReportModalBody"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -359,7 +373,7 @@
                                         </defs>
                                     </svg>
                                     
-                                    <p class="celphone-number"><?php echo $providerData['fone_usuario'] ?></p>
+                                    <p class="celphone-number"><?= $providerData['fone_usuario'] == '' ? 'O usuário não tem um telefone de contato' : $providerData['fone_usuario'] ?></p>
                                 </div>
                             </div>
                             
@@ -674,7 +688,7 @@
                         </div>
                     </div>
 
-                     <!-- Modal -->
+                     <!-- Modal de denúncia de comentário antigo
                      <div class="modal fade" id="reportComent" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div id="myReportModalDialog" class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
                           <div class="modal-content">
@@ -682,6 +696,15 @@
                               
                             </div>
                           </div>
+                        </div>
+                    </div> -->
+
+                    <!-- modal de denúncia de serviço -->
+                    <div class="modal fade" id="reportComent" tabindex="-1">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-body" id="myReportModalBody"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -703,6 +726,8 @@
         </div>
     </section>
 
+    <input type="hidden" hidden id="getServiceIdForComplain" value="<?=$serviceData['id_servico']?>">
+
     <footer id="myMainFooter">
         <div id="myMainFooterContainer" class="container-fluid">
             <div class="my-main-footer-logo">
@@ -710,7 +735,7 @@
             </div>
             <div class="my-main-footer-institutional">
                 <p>INSTITUCIONAL</p>
-                <a href="../../SobreNos/sobreNos.php">Quem Somos</a> <br>
+                <a href="../../ComoFunciona/comoFunciona.php">Quem Somos</a> <br>
                 <a href="#">Faça uma doação</a> <br>
                 <a href="#">Trabalhe conosco</a> <br>
             </div>
@@ -965,7 +990,6 @@
         textarea_e.onkeydown = writeCommentResizeTextArea;
 
         writeCommentResizeTextArea();
-
     </script>
     <?php }?>
 

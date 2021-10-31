@@ -50,7 +50,7 @@ class VisualizeService
     public function getComments(){
         $data = []; // dados que serao retornados
 
-        $cmdComment = $this->con->query("SELECT nota_comentario, desc_comentario, id_usuario, data_comentario FROM comentarios WHERE id_servico='$this->serviceID' ORDER BY data_comentario DESC");
+        $cmdComment = $this->con->query("SELECT nota_comentario, desc_comentario, id_usuario, data_comentario, id_comentario FROM comentarios WHERE id_servico='$this->serviceID' ORDER BY data_comentario DESC");
         $commentList = $cmdComment->fetchAll(PDO::FETCH_ASSOC); // busca a lista de comentarios do servico atual.
 
         foreach ($commentList as $key => $value) { // para cada comentario, busque os dados dos usuarios que comentaram
@@ -489,5 +489,3 @@ class VisualizeService
     }
   
 }
-
-

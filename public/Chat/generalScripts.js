@@ -20,7 +20,7 @@ function returnToContacts() {
 var updateChat
 var updateUserStatus;
 var lastMessageId
-function loadConversation(chatId, userId, changeConversationLoad = true, serviceName, providerName){
+function loadConversation(chatId, userId, changeConversationLoad = true, serviceName, providerName, serviceId){
     //verificando se o ID existe
     if ($(`[chatId='${chatId}']`).length > 0){
         $('#loadAssyncData').innerHTML = "";
@@ -36,6 +36,7 @@ function loadConversation(chatId, userId, changeConversationLoad = true, service
         $('#id_destinatario').val(userId)
         $('#nome_servico').val(serviceName)
         $('#nome_prestador').val(providerName)
+        $('#serviceId').val(serviceId)
 
         //requisitando assincronamente a segunda coluna
         $.ajax({
@@ -139,7 +140,7 @@ function updateConversation(getChatId, getUserId, getLastMsgId) {
         method: 'POST',
         data: mydata,
         success: result => {
-            if (result === "differentMsg" || result === "noMsg"){
+            if (result === "differentMsg"){
                 loadConversation(getChatId, getUserId, false)
                 //scrollando para o fim da conversa
                 let objDiv = document.getElementsByClassName("chatMessages")[0];
@@ -147,33 +148,41 @@ function updateConversation(getChatId, getUserId, getLastMsgId) {
 
                 //atualizando a listagem de contatos
                 $('#loadAssyncContacts').load('getContacts.php?active='+getChatId);
+            } else if(result === "noMsg"){
+                //atualizando conversa
+                loadConversation(getChatId, getUserId, false)
+
+                //atualizando a listagem de contatos
+                $('#loadAssyncContacts').load('getContacts.php?active='+getChatId);
             }
         }
     })
 
-    //Ler mensagem dinamicamente caso o chat esteja aberto
-    $.ajax({
-        url: '../../logic/chat/chat_lerMsg.php',
-        method: 'POST',
-        data: {
-            id_contato: getChatId
-        }
-    })
-
-    //Marcar mensagem como lida dinamicamente
-    $.ajax({
-        url: '../../logic/chat/chat_atualizarMsgLida.php',
-        method: 'POST',
-        data: {
-            id_contato: getChatId
-        },
-        success: result => {
-            if (result === '1'){
-                $('.msgRead .fas').remove()
-                $('.msgRead').append('<i class="fas fa-check-double text-primary"></i>')
+    if (document.getElementsByClassName('message').length > 0){
+        //Ler mensagem dinamicamente caso o chat esteja aberto
+        $.ajax({
+            url: '../../logic/chat/chat_lerMsg.php',
+            method: 'POST',
+            data: {
+                id_contato: getChatId
             }
-        }
-    })
+        })
+
+        //Marcar mensagem como lida dinamicamente
+        $.ajax({
+            url: '../../logic/chat/chat_atualizarMsgLida.php',
+            method: 'POST',
+            data: {
+                id_contato: getChatId
+            },
+            success: result => {
+                if (result === '1'){
+                    $('.msgRead .fas').remove()
+                    $('.msgRead').append('<i class="fas fa-check-double text-primary"></i>')
+                }
+            }
+        })
+    }
 }
 
 //abrindo os detalhes do usuário

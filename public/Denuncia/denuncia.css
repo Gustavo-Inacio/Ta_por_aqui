@@ -120,7 +120,7 @@
     font-weight: bold;
     font-size: 14px;
     color: #FFFFFF;
-    transition: 1s;
+    transition: .2s;
 }
 
 .my-submit-btn:hover{

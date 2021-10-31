@@ -61,7 +61,7 @@ Ela retorna  um outro node para ser acoplado a DOM
             verify: node.querySelector('#myVerificationSection')
         },
         btnEdit: node.querySelector('.my-edit-report-btn'),
-        btnCancel: node.querySelector('.my-cancel-report-btn'),
+        //btnCancel: node.querySelector('.my-cancel-report-btn')
     }
 
     typeSupported.business.loadInterface = () => { // carrega a interface de negocios
@@ -94,15 +94,15 @@ Ela retorna  um outro node para ser acoplado a DOM
         structureElements.btnReasonDropdown.innerHTML = state.reasonSelected || "selecione";
 
         structureElements.reasonDropdown.innerHTML = ""; // limpa o dropdwon
-        for(let i in state.reasonList){ // aplica nele toods os itens que estao no array: 'state.reasonList'
-            structureElements.reasonDropdown.innerHTML +=
-            `<label class="my-report-reason-drop-item dropdown-item">${state.reasonList[i]}</label>`
-        }
+        state.reasonList.forEach((reason) => {
+            structureElements.reasonDropdown.innerHTML += `<label class="my-report-reason-drop-item dropdown-item" reasonId="${reason.id_denuncia_motivo}">${reason.denuncia_motivo}</label>`
+        })
 
         let reasonItems = node.querySelectorAll('.my-report-reason-drop-item');
         reasonItems.forEach((item) => { // adicona as functions de click em cada item do dropdown
             item.onclick = () => {
                 setState({reasonSelected: item.innerHTML}) // atualiza o state do reasonSelected
+                setState({reasonId: item.getAttribute('reasonId')}) // atualiza o state do reasonSelected
             }
         })
     }
@@ -149,6 +149,11 @@ Ela retorna  um outro node para ser acoplado a DOM
         refreshAll(); // atualiza todas as funcoes que dependem 
     }
 
+    //passando a url em que a denúncia foi feita
+    setState({
+        currentUrl: location.href
+    })
+
     typeSupported.business.setData = () => { // insere os dados recebidos no state
         if(typeof data.business !== 'string') {console.log(`[typeSupported.business.setData] --> invalid business name`); return}
 
@@ -166,7 +171,8 @@ Ela retorna  um outro node para ser acoplado a DOM
         setState({
             type: 'service',
             service: data.service,
-            provider: data.provider
+            provider: data.provider,
+            serviceId: data.serviceId
         })
     }
 
@@ -178,6 +184,7 @@ Ela retorna  um outro node para ser acoplado a DOM
             service: data.service,
             sequencialNumber: data.sequencialNumber,
             publishDate: data.publishDate,
+            commentId: data.commentId
         })
     }
 
@@ -197,18 +204,22 @@ Ela retorna  um outro node para ser acoplado a DOM
             type: node.querySelector('.reportType_form'),
             provider: node.querySelector('.providerName_form'),
             service: node.querySelector('.serviceName_form'),
+            serviceId: node.querySelector('.serviceId_form'),
             business: node.querySelector('.smallBusiness_form'),
             reason: node.querySelector('.reason_form'),
+            reasonId: node.querySelector('.reasonId_form'),
             comment: node.querySelector('.comment_form'),
+            commentId: node.querySelector('.commentId_form'),
             user: node.querySelector('.commentUser_form'),
             publishDate: node.querySelector('.commentPublishDate_form'),
             sequencialNumber: node.querySelector('.commentSequncialNumber_form'),
+            commentReportText: node.querySelector('.reportDesc_form'),
+            currentUrl: node.querySelector('.currentUrl_form')
         }
 
         for(let i in input_form){ // pega os dados do state e coloca nos inputs
             if(state[i]) input_form[i].value = state[i] // se a propriedade que existir no state, existir nesse obj, entao coloca o valor que esta no state no input
         }
-
     }
 
     structureElements.btnSend.onclick = () => { // ao clica rno btn enviar que esta na primeira section
@@ -256,11 +267,12 @@ Ela retorna  um outro node para ser acoplado a DOM
         setState({visibleSection: structureElements.section.write}) // retorna para a section de editar
     }
     
-    structureElements.btnCancel.onclick = () => { // btn cancelar limpa tudo do state 
+    /*structureElements.btnCancel.onclick = () => { // btn cancelar limpa tudo do state
         setState({
             type : null,
             service: null,
             provider: null,
+            serviceId: null,
             reasonList: [],
             visibleSection : node.querySelector('#myReportSection'),
             comment: null,
@@ -269,31 +281,36 @@ Ela retorna  um outro node para ser acoplado a DOM
             publishDate: null,
             business: null,
         });
-    }
+    }*/
 
     setData();
 
     const getRasons = async () => { // simulacao de tempo de dalay para pegar as informacoes de mostivos de denuncia
-        fetch('https://jsonplaceholder.typicode.com/posts')
-            .then(reposnse => reposnse.json())
-            .then( reposnse => {
-                let reasonList = [
-                    'reaosn a',
-                    'reaosn b',
-                    'reao c',
-                    'd reason',
-                ];
+        //pegar url absoluta do projeto
+        let absolutePath = location.href.split('public')
+        absolutePath = absolutePath[0]
 
-                reasonList.push('Outro') // adiciona o 'outro' no final do array
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', `${absolutePath}/logic/denuncia_getComplainsReasons.php?type=${type}`)
 
-                setState({reasonList}) // atualiza o state com o seu valor
-            })
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200){
+                    let reasonList = JSON.parse(xhr.response)
+                    reasonList.push({id_denuncia_motivo: 14, denuncia_motivo: 'Outro'})
+
+                    setState({reasonList})
+                } else {
+                    alert('Falha ao fazer a requisição dos motivos de deúncia. Recarregue a página e se o erro persistir, entre em contato pelo fale conosco')
+                }
+            }
+        }
+        xhr.send()
     }
 
-    getRasons();   
+    getRasons();
     
-    
-    return node; // retona o node com tudo resolvido 
+    return node; // retona o node com tudo resolvido
 }
 
 export default reportHandler;

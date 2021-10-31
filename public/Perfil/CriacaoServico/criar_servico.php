@@ -62,7 +62,7 @@ if($_SESSION['classificacao'] == 0){
                     <a href="../../Contato/contato.php" class="nav-link">Fale conosco</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
+                    <a href="../../ComoFunciona/comoFunciona.php" class="nav-link">Como funciona</a>
                 </li>
                 <li class="nav-item">
                     <a href="../../Chat/chat.php" class="nav-link" id="navChatLink">Chat</a>
@@ -332,7 +332,7 @@ if($_SESSION['classificacao'] == 0){
         </div>
         <div class="my-main-footer-institutional">
             <p>INSTITUCIONAL</p>
-            <a href="../../SobreNos/sobreNos.php">Quem Somos</a> <br>
+            <a href="../../ComoFunciona/sobreNos%20old.php">Quem Somos</a> <br>
             <a href="#">Faça uma doação</a> <br>
             <a href="#">Trabalhe conosco</a> <br>
         </div>

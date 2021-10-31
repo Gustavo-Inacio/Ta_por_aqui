@@ -109,7 +109,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                         <a href="../Contato/contato.php" class="nav-link">Fale conosco</a>
                     </li>
                     <li class="nav-item">
-                        <a href="../SobreNos/sobreNos.php" class="nav-link">Sobre</a>
+                        <a href="../ComoFunciona/comoFunciona.php" class="nav-link">Sobre</a>
                     </li>
                     <li class="nav-item">
                         <a href="../Chat/chat.php" class="nav-link" id="navChatLink">Chat</a>
@@ -246,8 +246,8 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                         <br>
 
                         <label for="userCell">Celular</label> <br>
-                        <input type="text" class="form-control" name="userCell" id="userCell" readonly required
-                            value="<?=$user->fone_usuario?>">
+                        <input type="text" class="form-control" name="userCell" id="userCell" readonly
+                            value="<?=$user->fone_usuario?>" placeholder="você não adicionou um número de telefone">
 
                         <br>
 
@@ -257,16 +257,21 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                     </div>
 
                     <div class="col-md-6 mt-3 mt-md-0">
-                        <label for="userEmail">Email</label> <br>
+                        <?php
+                        //censurar email
+                        $censorStart = substr($user->email_usuario, 0, 4);
+                        $censorEnd = substr($user->email_usuario, -3);
+                        $userCensoredMail = "$censorStart*****$censorEnd";
+                        ?>
+                        <label for="userEmail">Email de login</label> <br>
                         <input type="text" class="form-control" id="userEmail" readonly maxlength="40"
-                            value="<?=$user->email_usuario?>">
+                            value="<?=$userCensoredMail?>">
 
                         <br>
 
-                        <label for="userSite">Site</label> <br>
-                        <input type="url" class="form-control d-none" name="userSite" id="userSite" readonly placeholder="Caso tenha, insira seu site ou porfólio online" maxlength="40"
-                            value="<?=$user->site_usuario?>">
-                        <div id="showUserSite"><a href="<?=$user->site_usuario?>" target="_blank"><?=$user->site_usuario?></a></div>
+                        <label for="userContactEmail">Email de contato</label> <br>
+                        <input type="text" class="form-control" id="userContactEmail" name="userContactEmail" readonly maxlength="40"
+                               value="<?=$user->email_contato_usuario?>" placeholder="você não adicionou um email de contato">
 
                         <br>
 
@@ -481,6 +486,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                 <!-- inputs com informações do endereço -->
                 <form action="../../logic/perfil_trocar_localizacao.php" method="post" id="changeLocationForm">
                     <div class="modal-body">
+                        <button type="button" id="getCurrentLocationBtn" class="btn btn-info text-light w-100 mb-3">Pegar minha localização atual</button>
                         <label for="userAdressCEP" class="myLabel">CEP</label> <br>
                         <input type="text" class="form-control required" name="userAdressCEP" id="userAdressCEP" placeholder="ex.: 01234567" onkeyup="callGetAdress(this)" onchange="callGetAdress(this)" required value="<?=$user->cep_usuario?>">
                         <small id="cepError" class="text-danger"></small>
@@ -1009,7 +1015,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
             </div>
             <div class="my-main-footer-institutional">
                 <p>INSTITUCIONAL</p>
-                <a href="../SobreNos/sobreNos.php">Quem Somos</a> <br>
+                <a href="../ComoFunciona/sobreNos%20old.php">Quem Somos</a> <br>
                 <a href="#">Faça uma doação</a> <br>
                 <a href="#">Trabalhe conosco</a> <br>
             </div>

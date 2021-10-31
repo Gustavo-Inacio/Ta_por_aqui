@@ -3,12 +3,6 @@ $(function () {
     $('[data-toggle="popover"]').popover()
 })
 
-//preenchendo fake input com placeholder
-if(document.getElementById('showUserSite').innerText === ""){
-    document.getElementById('showUserSite').innerText = "Caso tenha, insira seu site ou porfólio online"
-    document.getElementById('showUserSite').style.color = "#6c757d"
-}
-
 //permitir que o usuário clique nos botões de salvar e cancelar e edite seu perfil
 function changeButtonColor(){
     let saveButton = document.getElementById("buttonSave")
@@ -20,13 +14,11 @@ function changeButtonColor(){
     cancelButton.disabled = ''
 
     document.getElementById('buttonEdit').classList.add('d-none')
-    document.getElementById('showUserSite').classList.add('d-none')
-    document.getElementById('userSite').classList.remove('d-none')
 
     let name = document.getElementById("userName")
     let lastName = document.getElementById("userLastName")
+    let contactEmail = document.getElementById("userContactEmail")
     let cell = document.getElementById("userCell")
-    let site = document.getElementById("userSite")
     let description = document.getElementById("userDescription")
 
     name.removeAttribute('readonly')
@@ -39,8 +31,8 @@ function changeButtonColor(){
     cell.removeAttribute('readonly')
     cell.style.color = 'black'
 
-    site.removeAttribute('readonly')
-    site.style.color = 'black'
+    contactEmail.removeAttribute('readonly')
+    contactEmail.style.color = 'black'
 
     description.removeAttribute('readonly')
     description.style.color = 'black'
@@ -385,3 +377,33 @@ function getAdress(cep){
 
     ajax.send()
 }
+
+document.getElementById('getCurrentLocationBtn').addEventListener('click', () => {
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(position => {
+            let ajax = new XMLHttpRequest()
+            ajax.open('GET', `https://revgeocode.search.hereapi.com/v1/revgeocode?at=${position.coords.latitude},${position.coords.longitude}&apiKey=2BHqTlrrRZyJOYbFEl47yRbagjjwSaY-Eu3iriuEgvY`)
+
+            ajax.onreadystatechange = () => {
+                if(ajax.readyState == 4 && ajax.status == 200){
+                    let enderecoJSON = ajax.responseText
+
+                    //convertendo a resposta JSON em objeto
+                    enderecoJSON = JSON.parse(enderecoJSON)
+
+                    //Colocando a resposta nos formulários
+                    document.getElementById('userAdressCEP').value = enderecoJSON['items'][0].address.postalCode.replace('-','')
+                    document.getElementById('userAdressCity').value = enderecoJSON['items'][0].address.city
+                    document.getElementById('userAdressState').value = enderecoJSON['items'][0].address.stateCode
+                    document.getElementById('userAdressStreet').value = enderecoJSON['items'][0].address.street
+                    document.getElementById('userAdressNeighborhood').value = enderecoJSON['items'][0].address.district
+                    document.getElementById('userAdressNumber').value = enderecoJSON['items'][0].address.houseNumber
+
+                } else if(ajax.readyState == 4 && ajax.status == 400){
+                    alert('Erro ao se conectar com os correios')
+                }
+            }
+            ajax.send()
+        })
+    }
+})

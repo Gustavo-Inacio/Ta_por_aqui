@@ -137,11 +137,64 @@ const loadReportService = () => { // carrega e monat o layout de dununcia.
     const setDOM = () => { // coloca na DOM
         let serviceName = document.getElementById("myServiceName").innerHTML;
         let providerName = document.getElementById("myProviderName").innerHTML;
-        
-        let porcessedNode = ReportInterface({node:iframeNode, type: 'service', data: {service: serviceName, provider: providerName}});
+        let serviceId = document.getElementById('getServiceIdForComplain').value
+        let processedNode = ReportInterface({node:iframeNode, type: 'service', data: {service: serviceName, provider: providerName, serviceId: serviceId}});
     
         let modal = document.querySelector('#serviceReportModal #myReportModalBody');
-        modal.appendChild(porcessedNode)
+        modal.appendChild(processedNode)
+
+        let submitform = processedNode.querySelector('#complainForm')
+        submitform.addEventListener('submit', event => {
+            event.preventDefault()
+
+            let formData = new FormData(event.target)
+            let xhr = new XMLHttpRequest()
+
+            let msg = processedNode.querySelector('#my-report-verification-section-subtitle')
+            let btn = processedNode.querySelector('#submitComplain')
+
+            xhr.open('POST', '../../../logic/denuncia_enviar.php')
+            btn.innerHTML = 'Enviar Denúncia <div class="spinner-border" role="status" style="width: 16px; height: 16px"></div>'
+
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState == 4){
+                    if (xhr.status == 200){
+                        let response = JSON.parse(xhr.response)
+                        if (response[0] === '00000'){
+                            //exibir mensagem de sucesso
+                            msg.className = 'text-success fw-bold'
+                            msg.innerHTML = "Denúncia enviada com sucesso. Obrigado por ajudar a plataforma a melhorar!"
+                            msg.style.fontSize = "18px"
+                        } else if(response[0] === 'not logged'){
+                            msg.className = 'text-danger fw-bold'
+                            msg.style.fontSize = "18px"
+                            msg.innerHTML = "Erro ao acessar seu login. Verifique se você realmente está logado e tente novamente. Caso o erro persistam entre em contato pelo fale conosco"
+                        } else {
+                            msg.className = 'text-danger fw-bold'
+                            msg.style.fontSize = "18px"
+                            msg.innerHTML = "Erro ao processar denúncia. Recarregue a página e tente novamente. Caso o erro persista, entre em contato pelo fale conosco."
+                        }
+                    } else {
+                        msg.className = 'text-danger fw-bold'
+                        msg.style.fontSize = "18px"
+                        msg.innerHTML = "Erro ao enviar denúncia para o servidor. Recarregue a página e tente novamente. Caso o erro persista, entre em contato pelo fale conosco."
+                    }
+
+                    //substituir botão de enviar por botão de fechar
+                    btn.innerHTML = 'Fechar'
+                    btn.className = 'mybtn mybtn-secondary'
+                    btn.type = 'button'
+                    btn.setAttribute('data-bs-dismiss', 'modal')
+
+                    //Excluir botão de editar
+                    processedNode.querySelector('.my-edit-report-btn').remove()
+
+                    //excluir seção de confirmação
+                    processedNode.querySelector('#data-confirm').remove()
+                }
+            }
+            xhr.send(formData)
+        })
     }
 
     const getNode = async () => { // faz a requisicao pelo NODE
@@ -230,7 +283,7 @@ const commentSectionHandler = (info = []) => { // cuida da section inteira de co
             }
 
 
-
+            let commentId = data.commentId;
             let user = data.userName;
             let publishDate = data.publishDate;
             let service = document.getElementById("myServiceName").innerHTML;
@@ -258,24 +311,73 @@ const commentSectionHandler = (info = []) => { // cuida da section inteira de co
                 
                 getNode();
                 const setDOM = async () => { // monta o layout na DOM
-                    let processedNode = await ReportInterface({node:iframeNode, type: 'comment', data: {comment: comment, user, publishDate, service, sequencialNumber}})
+                    let processedNode = await ReportInterface({node:iframeNode, type: 'comment', data: {comment: comment, user, publishDate, service, sequencialNumber, commentId: commentId}})
                    
                     await modalTrigger.setAttribute('data-bs-target',`#reportComent${sequencialNumber}`) // muda o id para nao dar conflito entre os modais de comentario
                     await modal.setAttribute('id',`reportComent${sequencialNumber}`)// muda o id para nao dar conflito entre os modais de comentario
     
                     await modalBody.appendChild(processedNode) // pega o node retornado e o coloca na DOM
+
+                    let submitform = processedNode.querySelector('#complainForm')
+                    submitform.addEventListener('submit', event => {
+                        event.preventDefault()
+
+                        let formData = new FormData(event.target)
+                        let xhr = new XMLHttpRequest()
+
+                        let msg = processedNode.querySelector('#my-report-verification-section-subtitle')
+                        let btn = processedNode.querySelector('#submitComplain')
+
+                        xhr.open('POST', '../../../logic/denuncia_enviar.php')
+                        btn.innerHTML = 'Enviar Denúncia <div class="spinner-border" role="status" style="width: 16px; height: 16px"></div>'
+
+                        xhr.onreadystatechange = () => {
+                            if (xhr.readyState == 4){
+                                if (xhr.status == 200){
+                                    let response = JSON.parse(xhr.response)
+                                    if (response[0] === '00000'){
+                                        //exibir mensagem de sucesso
+                                        msg.className = 'text-success fw-bold'
+                                        msg.innerHTML = "Denúncia enviada com sucesso. Obrigado por ajudar a plataforma a melhorar!"
+                                        msg.style.fontSize = "18px"
+                                    } else if(response[0] === 'not logged'){
+                                        msg.className = 'text-danger fw-bold'
+                                        msg.style.fontSize = "18px"
+                                        msg.innerHTML = "Erro ao acessar seu login. Verifique se você realmente está logado e tente novamente. Caso o erro persistam entre em contato pelo fale conosco"
+                                    } else {
+                                        msg.className = 'text-danger fw-bold'
+                                        msg.style.fontSize = "18px"
+                                        msg.innerHTML = "Erro ao processar denúncia. Recarregue a página e tente novamente. Caso o erro persista, entre em contato pelo fale conosco."
+                                    }
+                                } else {
+                                    msg.className = 'text-danger fw-bold'
+                                    msg.style.fontSize = "18px"
+                                    msg.innerHTML = "Erro ao enviar denúncia para o servidor. Recarregue a página e tente novamente. Caso o erro persista, entre em contato pelo fale conosco."
+                                }
+
+                                console.log(msg)
+
+                                //substituir botão de enviar por botão de fechar
+                                btn.innerHTML = 'Fechar'
+                                btn.className = 'mybtn mybtn-secondary'
+                                btn.type = 'button'
+                                btn.setAttribute('data-bs-dismiss', 'modal')
+
+                                //Excluir botão de editar
+                                processedNode.querySelector('.my-edit-report-btn').remove()
+
+                                //excluir seção de confirmação
+                                processedNode.querySelector('#data-confirm').remove()
+                            }
+                        }
+                        xhr.send(formData)
+                    })
                 }
-
-                
             }
-
-            
-
             moreOpstionHandler();
             readMoreHandler();
             publishDateHandler();
             reportHandler();
-            
         }
 
         const rateHandler = (rateNumber) => { // cuida de pintar as estrelinhas de acordo com a avaliacao
@@ -336,6 +438,7 @@ const commentSectionHandler = (info = []) => { // cuida da section inteira de co
     
     info.forEach((data) => { // para cada item recebido, chama a funcao que cria cada um e manda criar 
         commentItem(data)
+        console.log(data)
     });
     
 }
@@ -507,8 +610,6 @@ const initializeOtherServiceSlider =(data = []) => { // cuida da listagem de out
             for(let i = 0; i < Math.floor(info.serviceRateNumber) && i < rateStars.length; i++){ // pinta de amarelo as estrelinhas de acordo com a nota
                 rateStars[i].setAttribute("fill", "#FF9839")
             }
-
-           
         })
     }
 
@@ -917,7 +1018,8 @@ async function commentsDataHandler(response){
             profilePicture: pictureFolderPath + elem.user.imagem_usuario,
             rateStars : elem.comment.nota_comentario,
             publishDate: elem.comment.data_comentario,
-            text: elem.comment.desc_comentario
+            text: elem.comment.desc_comentario,
+            commentId: elem.comment.id_comentario
         });
         commentQuantity++;
 
@@ -976,4 +1078,3 @@ async function getCommentsData00(){
 //getOtherServicesData();
 
 export {commentsDataHandler, refreshAverageRate};
-

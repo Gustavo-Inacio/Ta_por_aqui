@@ -106,25 +106,21 @@ $commentComplains = $commentReport->getConplainsToThisComment();
 
 <!-- paginas -->
 <div class="main" id="pagina">
-    <h2>Denúncias de comentários - comentário do Natan (1)</h2>
+    <h2>Denúncias de comentários - comentário do(a) <?=$commentInfo['nome_usuario']?> <?=$commentInfo['sobrenome_usuario']?> sobre o serviço <?=$commentInfo['nome_servico']?></h2>
 
     <a href="commentComplaint.php"> <i class="fas fa-arrow-left"></i> voltar </a>
 
     <?php if ($banMsg !== "") { ?>
         <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert" style="max-width: 500px">
             <span><?=$banMsg?></span>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     <?php }?>
 
     <?php if ($changeComplainMsg !== "") { ?>
         <div class="alert alert-info alert-dismissible fade show mt-3" role="alert" style="max-width: 500px">
             <span><?=$changeComplainMsg?></span>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     <?php }?>
 
