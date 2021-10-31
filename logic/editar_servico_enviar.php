@@ -137,15 +137,16 @@ foreach ($_POST['subcategoria'] as $subcategoria){
 //Atualizando as informações gerais do serviço
 $query = '';
 if ($_POST['tipoPagamento'] == 1){
-    $query = "UPDATE servicos SET nome_servico = :nome, tipo_servico = :tipo, desc_servico = :desc, orcamento_servico = null, crit_orcamento_servico = 'A definir orçamento'";
+    $query = "UPDATE servicos SET nome_servico = :nome, tipo_servico = :tipo, desc_servico = :desc, orcamento_servico = null, crit_orcamento_servico = 'A definir orçamento' WHERE id_servico = :id_servico";
 } else {
-    $query = "UPDATE servicos SET nome_servico = :nome, tipo_servico = :tipo, desc_servico = :desc, orcamento_servico = :orcamento, crit_orcamento_servico = :crit_orcamento";
+    $query = "UPDATE servicos SET nome_servico = :nome, tipo_servico = :tipo, desc_servico = :desc, orcamento_servico = :orcamento, crit_orcamento_servico = :crit_orcamento WHERE id_servico = :id_servico";
 }
 
 $stmt = $con->prepare($query);
 $stmt->bindValue(':nome', $_POST['nome']);
 $stmt->bindValue(':tipo', $_POST['tipo']);
 $stmt->bindValue(':desc', $_POST['descricao']);
+$stmt->bindValue(':id_servico', $_POST['serviceId']);
 if ($_POST['tipoPagamento'] == 2){
     $stmt->bindValue(':orcamento', $_POST['orcamento']);
     $stmt->bindValue(':crit_orcamento', $_POST['criterio']);
