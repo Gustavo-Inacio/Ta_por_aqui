@@ -10,7 +10,7 @@ if($_SESSION['classificacao'] == 0){
     header('Location: ../Home/home.php');
 }
 
-require '../../logic/editar_servico_brain.php';
+require_once '../../logic/editar_servico_brain.php';
 
 
 $editService = new editService($_POST['serviceID']);
@@ -21,19 +21,10 @@ if(!$serviceIsMine){
     die();
 }
 
-$allCategories = $editService->getAllCategories();
-$allsubCategories = $editService->getAllSubcategories();
-
 $serviceData = $editService->getServiceData(); // verifica se o servico eh dele mesmo, e retorna o dados
 if(!isset($serviceData['serviceData']['orcamento_servico'])){
     print_r( "selected");
 }
-echo '<pre style="background-color:white">';
-print_r($serviceData);
-print_r($allCategories);
-echo '</pre>';
-
-
 ?>
 <!DOCTYPE html>
 <html lang="pt">
@@ -55,6 +46,36 @@ echo '</pre>';
     <script src="https://kit.fontawesome.com/2a19bde8ca.js" crossorigin="anonymous" defer></script>
     <script src="../../assets/global/globalScripts.js" defer></script>
     <script src="./editar_servico.js" defer></script>
+    <script defer>
+        let idCategoria = <?=$serviceData['serviceData']['categoria_mestre']?>;
+        let serviceId = <?=$_POST['serviceID']?>;
+
+        $.ajax({
+            url: 'subcategorias/subcategorias.php',
+            method: 'post',
+            data: {
+                requested_category: idCategoria,
+                currentServiceCategory: idCategoria,
+                serviceId: serviceId
+            },
+            success: data => {
+                document.getElementById('categoriesModalContent').innerHTML = data
+
+                //etapa 3 --> categoria do serviço
+                document.getElementById('cardServiceCategory').innerHTML = ""
+
+                $('.checkCategory:checked').each( (index, checkbox) => {
+                    if ( $('.checkCategory:checked').length - 1 === index ){
+                        //sem vírgula no fim
+                        document.getElementById('cardServiceCategory').innerHTML += $(`label[for="subcategoria${checkbox.value}"]`)[0].innerText
+                    } else {
+                        //com vírgula no fim
+                        document.getElementById('cardServiceCategory').innerHTML += $(`label[for="subcategoria${checkbox.value}"]`)[0].innerText + ", "
+                    }
+                } )
+            }
+        })
+    </script>
 </head>
 
 <body>
@@ -122,10 +143,12 @@ echo '</pre>';
         <?php if(isset($_GET['erro'])) { ?>
             <div class="alert alert-danger alert-dismissible" role="alert">
                 <?= $_GET['erro'] ?>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php } ?>
-        <form enctype="multipart/form-data" action="" method="POST" id="serviceForm">
+        <form enctype="multipart/form-data" action="../../logic/editar_servico_enviar.php" method="POST" id="serviceForm">
+
+            <input type="hidden" name="serviceId" value="<?=$_POST['serviceID']?>">
 
             <!-- 1. Etapa de criação do serviço -->
             <div class="row stageContent">
@@ -146,7 +169,7 @@ echo '</pre>';
                 <section class="col-md-6 ml-5 d-flex align-items-center p-0">
                     <div class="formItems">
                         <label for="nome">Nome do serviço</label> <br>
-                        <input type="text" class="form-control required" name="nome" id="nome" placeholder="ex.: encanamento" onchange="createConfirmCard(1,this.value)" maxlength="30" value="<?php echo $serviceData['serviceData']['nome_servico']?>">
+                        <input type="text" class="form-control required" name="nome" id="nome" placeholder="ex.: encanamento" onchange="createConfirmCard(1)" maxlength="30" value="<?php echo $serviceData['serviceData']['nome_servico']?>">
                     </div>
                 </section>
             </div>
@@ -175,7 +198,7 @@ echo '</pre>';
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="tipo">Tipo de serviço</label> <br>
-                                <select name="tipo" id="tipo" class="form-select required" data-bs-placement="top" data-bs-toggle="popover" data-bs-trigger="hover" title="Nota" data-bs-content="Caso o serviço seja remoto, ele não dependerá da localização do usuário para aparecer nas buscas" onchange="createConfirmCard(2,this.value)">
+                                <select name="tipo" id="tipo" class="form-select required" data-bs-placement="top" data-bs-toggle="popover" data-bs-trigger="hover" title="Nota" data-bs-content="Caso o serviço seja remoto, ele não dependerá da localização do usuário para aparecer nas buscas" onchange="createConfirmCard(2)">
                                     <option value="">Selecionar</option>
                                     <option <?php if($serviceData['serviceData']['tipo_servico'] == 0){echo "selected";}?> value="0">Remoto</option>
                                     <option <?php if($serviceData['serviceData']['tipo_servico'] == 1){echo "selected";}?> value="1">Presencial</option>
@@ -184,20 +207,22 @@ echo '</pre>';
 
                             <div class="col-md-6 mt-4 mt-md-0">
                                 <label for="categorias">Categorias do serviço</label>
-                                <button type="button" class="btn btn-primary w-100" id="categorias" data-bs-toggle="modal" data-bs-target="#ModalCategories"> Escolha a categoria  </button>
+                                <button type="button" class="btn btn-primary w-100" id="categorias" data-bs-toggle="modal" data-bs-target="#categoriesModal">Escolha a categoria</button>
 
                                 <small class="text-light">Clique no botão, escolha uma área de atuação e selecione até 3 categorias que condizem com seu serviço.</small>
                             </div>
                         </div>
                         <br>
                         <label for="descricao">Descrição</label> <br>
-                        <textarea class="form-control required" name="descricao" id="descricao" rows="6" placeholder="Escreva aqui os detalhes do seu serviço, como por exemplo como ele é feito, quanto tempo leva aproximadamente, que materiais serão usados, no que ele ajuda o seu cliente, qual seu critério de cobrança, entre outras coisas que você achar relevante" onchange="createConfirmCard(4, this.value)" maxlength="65535"><?php echo $serviceData['serviceData']['desc_servico']?></textarea>
+                        <textarea class="form-control required" name="descricao" id="descricao" rows="6" placeholder="Escreva aqui os detalhes do seu serviço, como por exemplo como ele é feito, quanto tempo leva aproximadamente, que materiais serão usados, no que ele ajuda o seu cliente, qual seu critério de cobrança, entre outras coisas que você achar relevante" onchange="createConfirmCard(4)" maxlength="65535"><?php echo $serviceData['serviceData']['desc_servico']?></textarea>
                     </div>
                 </section>
 
-                <div class="modal fade" id="ModalCategories" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog ">
-                        <!-- dinamico prelo js -->
+                <div class="modal fade" id="categoriesModal" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content" id="categoriesModalContent">
+                            <!-- Conteúdo carregado dinamicamente -->
+                        </div>
                     </div>
                 </div>
 
@@ -229,7 +254,7 @@ echo '</pre>';
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="tipoPagamento">Defina o tipo orçamento</label> <br>
-                                <select class="form-select required" name="tipoPagamento" id="tipoPagamento" onchange="toggleOrcamentoComMedia(this.value); createConfirmCard(5, this.value)">
+                                <select class="form-select required" name="tipoPagamento" id="tipoPagamento" onchange="toggleOrcamentoComMedia(this.value); createConfirmCard(5)">
                                     <option value="">Selecione um orçamento</option>
                                     <option <?php if(!isset($serviceData['serviceData']['orcamento_servico'])){echo "selected";}?> value="1">Orçamento</option>
                                     <option <?php if(isset($serviceData['serviceData']['orcamento_servico'])){echo "selected";}?> value="2">Orçamento com média</option>
@@ -245,7 +270,7 @@ echo '</pre>';
 
                             <div class='col-6' id='divCriterio'>
                                 <label for='criterio'>Defina o critério</label>
-                                <input type="text" class="form-control" name="criterio" id="criterio" list="listaCriterios" onchange="createConfirmCard(6)" maxlength="25" value="<?php if(isset($serviceData['serviceData']['crit_orcamento_servico'])){echo $serviceData['serviceData']['crit_orcamento_servico'];} ?>">
+                                <input type="text" class="form-control" name="criterio" id="criterio" list="listaCriterios" onchange="createConfirmCard(6)" maxlength="25" value="<?php if($serviceData['serviceData']['crit_orcamento_servico'] !== 'A definir orçamento'){echo $serviceData['serviceData']['crit_orcamento_servico'];} ?>">
                                 <datalist id="listaCriterios">
                                     <option value="por hora">
                                     <option value="por m²">
@@ -280,21 +305,34 @@ echo '</pre>';
                 <!-- Form -->
                 <section class="col-md-6 ml-5 d-flex align-items-center p-0">
                     <div class="formItems">
-                        <label for="imagens[]">Selecione até 4 imagens (obrigatório ao menos uma)</label> <br>
+                        <label for="imagens[]" id="selectNewImagesMsg">Selecione, no máximo, mais <?=4 - count($serviceData['serviceIMG'])?> <?=4 - count($serviceData['serviceIMG']) === 1 ? 'imagem' : 'imagens'?></label> <br>
                         <label for="imagens[]" class="fakeInputFile">Enviar arquivos <i class="fas fa-upload"></i></label>
-                        <input type="file" class="d-none" name="imagens[]" id="imagens[]" aria-describedby="icon" multiple accept="image/png, image/jpeg, image/jpg" onchange="verifyImage(this)">
+                        <input type="file" class="d-none" name="imagens[]" id="imagens[]" aria-describedby="icon" multiple accept="image/png, image/jpeg, image/jpg" onchange="verifyImage(this);">
                         <span class="text-danger" id="imageErrorMsg"></span>
 
                         <!-- exibir preview das imagens -->
-                        <small class="text-info d-none" id="obsImgPreview">As imagens mostradas a seguir são apenas prévias (os tamanhos podem estar distorcidos). Os tamanhos originais das imagens são mantidos.</small>
+                        <h4 class="text-info d-none mt-4" id="obsImgPreview">Imagens novas</h4>
                         <div id="divImgPreview">
 
                         </div>
 
                         <div style="clear: both"></div>
 
-                        <!-- botão de excluir imagens -->
+                        <!-- botão de excluir imagens novas -->
                         <button type="button" class="btn btn-danger d-none" id="deleteImages" onclick="removePreviewImages()"> <i class="fas fa-trash"></i> Excluir imagens </button>
+
+                        <h4 class="text-info mt-4" id="obsOriginalImgPreview">Imagens atuais</h4>
+                        <div id="divOriginalImgPreview">
+                            <?php foreach ($serviceData['serviceIMG'] as $img) {?>
+                                <div class="btnImage" id="originalImg<?=$img['id_imagem']?>">
+                                    <img class="originalImgPreview" src="../../assets/images/users/<?=$img['dir_servico_imagem']?>" alt="nova imagem do serviço">
+                                    <button type="button" class="btn btn-danger deleteBtn" onclick="deleteOriginalImg('<?=$img['id_imagem']?>')"><i class="fas fa-minus"></i></button>
+                                    <input type="hidden" class="originalImgInput" name="oldImages[][id_imagem]" value="<?=$img['id_imagem']?>">
+                                </div>
+                            <?php }?>
+                        </div>
+
+                        <div style="clear: both"></div>
 
                     </div>
                 </section>
@@ -325,19 +363,18 @@ echo '</pre>';
                         <div class="card" id="revisionCard">
                             <h5 class="card-header">Serviço</h5>
                             <div class="card-body">
-                                <h5 class="card-title" id="cardServiceName">  </h5>
+                                <h5 class="card-title" id="cardServiceName"></h5>
                                 <p class="card-text text-dark">
-                                    <strong>Tipo: </strong> <span id="cardServiceType">  </span> <br>
-                                    <strong>Categorias: </strong> <span id="cardServiceCategory">  </span> <br>
+                                    <strong>Tipo: </strong> <span id="cardServiceType"></span> <br>
+                                    <strong>Categorias: </strong> <span id="cardServiceCategory"></span> <br>
                                     <strong>Descrição: </strong> <p id="cardServiceDescription" class="m-0 p-0 text-dark"></p> <br>
-                                    <strong>Pagamento: </strong> <span id="cardServicePayment">  </span> <br>
+                                    <strong>Pagamento: </strong> <span id="cardServicePayment"></span> <br>
                                 </p>
-                                <btn type="button" class="myBtn myBtnGreen mb-3" id="confirmService" onclick="createServiceValidation()">Confirmar e criar serviço</btn> <br>
-                                <btn type="button" class="myBtn myBtnRed" id="cancelService" onclick="giveUpService()">Voltar e desistir do serviço</btn> <br>
+                                <button type="button" class="myBtn myBtnGreen mb-3" id="confirmService" onclick="createServiceValidation()">Editar serviço</button> <br>
+                                <button type="button" class="myBtn myBtnRed" id="cancelService" onclick="confirm('Você tem certeza que deseja sair? As informações trocadas do serviço não serão salvas') ? location.href = '../EncontrarProfissional/VisualizarServico/visuaizarServico.php?serviceID=<?=$_POST['serviceID']?>' : '#';">Cancelar edição</button> <br>
                                 <strong class="text-danger" id="createServiceErrorMsg"></strong>
                             </div>
                         </div>
-
                     </div>
                 </section>
             </div>
@@ -351,7 +388,7 @@ echo '</pre>';
 <footer id="myMainFooter">
     <div id="myMainFooterContainer" class="container-fluid">
         <div class="my-main-footer-logo">
-            <img src="../../assets/images/dumb-footer.png" alt="Tá por Aqui" class="my-footer-img">
+            <img src="../../assets/images/dumb-footer.png" alt="Tá por Aqui" class="my-footer-img">button
         </div>
         <div class="my-main-footer-institutional">
             <p>INSTITUCIONAL</p>
@@ -370,114 +407,6 @@ echo '</pre>';
     </div>
 </footer>
 <!-- /footer -->
-
-
-<script>
-    let modalPath = document.querySelector("#ModalCategories > .modal-dialog");
-
-    let categoriesHTML = `
-        <div class="modal-content" id="ModalCategoriesContent">
-            <div class="modal-header">
-                <h5 class="modal-title">Categorias disponíveis</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-body">
-                <?php foreach ($allCategories as $i => $categoria) {
-                    if($i === count($allCategories) - 1) {
-                ?>
-                        <div class="masterCategory d-flex last" onclick="setCategorieState({nameMasterSelected: '<?=$categoria['nome_categoria']?>, masterSelected: <?php echo $categoria['id_categoria']?>})"> <span><?=$categoria['nome_categoria']?></span> <span class="ms-auto"> <i class="fas fa-arrow-right"></i> </span> </div>
-                    <?php } else {?>
-                        <div class="masterCategory d-flex" onclick="setCategorieState({nameMasterSelected: '<?=$categoria['nome_categoria']?>', masterSelected: <?php echo $categoria['id_categoria']?>})"> <span><?=$categoria['nome_categoria']?></span><span class="ms-auto"> <i class="fas fa-arrow-right"></i> </span> </div>
-                    <?php
-                    }
-                }?>
-            </div>
-        </div>
-    `;
-
-    let allCategories =  <?php echo(json_encode($allCategories));?> || "";
-    let allsubCategories = <?php echo(json_encode($allsubCategories));?> || "";
-
-    let categorieState = {
-        masterSelected : -1,
-        nameMasterSelected : '',
-        subSelected : -1,
-    }
-
-    const dispalyCategories = () => {
-        modalPath.innerHTML = categoriesHTML;
-        //  refreshCategories({masterSelected: -1, subSelected: -1, nameMasterSelected : ''});
-    }
-    dispalyCategories();
-
-    const displaySubCategories = (list) => {
-        if(list.length == 0){
-            dispalyCategories();
-            return;
-        }
-        let listHtml = '';
-
-        for(let i = 0; i < list.length; i++){
-            let elem = list[i];
-
-            listHtml += `<div class="subCategory"> <input type="checkbox" class="checkCategory" name="subcategoria[]" id="subcategoria${elem.id_subcategoria}" value="${elem.id_subcategoria}"> <label for="subcategoria${elem.id_subcategoria}" class="text-dark"> ${elem.nome_subcategoria} </label> </div>`;
-        }
-
-
-        let subCategoriesHtml = `
-        <div class="modal-content" id="ModalCategoriesContent">
-            <div class="modal-header">
-                <span class="returnArrow me-3" onclick="dispalyCategories()"> <i class="fas fa-arrow-left"></i> </span>
-
-                <h5 class="modal-title"> ${categorieState.nameMasterSelected} </h5>
-
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <div class="modal-body">
-            ${listHtml}
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="mybtn mybtn-complement" data-bs-dismiss="modal">Salvar categorias</button>
-            </div>
-        </div>
-        `;
-
-        modalPath.innerHTML = subCategoriesHtml;
-    }
-
-    function refreshCategories (){
-        if(categorieState.masterSelected >= 0){
-            let subCategoreisRelated =[];
-
-            for(let i = 0; i < allsubCategories.length; i++){
-                let elem = allsubCategories[i];
-                if(elem.id_categoria == categorieState.masterSelected) {
-                    subCategoreisRelated.push(elem);
-                }
-            }
-            console.log(subCategoreisRelated);
-
-            displaySubCategories(subCategoreisRelated);
-        }
-
-      
-    }
-
-    const setCategorieState = (data) => {
-        for(let i in data){
-            categorieState[i] = data[i];
-        }
-
-        refreshCategories();
-    }
-
-    console.log(
-        allsubCategories
-    );
-</script>
 </body>
 
 </html>

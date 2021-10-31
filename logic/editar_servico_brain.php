@@ -50,6 +50,9 @@ class editService
                 $data['serviceIMG'] = $serviceImgCMD->fetchAll(PDO::FETCH_ASSOC);
             }
 
+            $masterCategoryCMD = $this->con->query("SELECT id_categoria from subcategorias WHERE id_subcategoria = {$data['subcategories'][0]['id_subcategoria']}");
+            $data['serviceData']['categoria_mestre'] = $masterCategoryCMD->fetch(PDO::FETCH_OBJ)->id_categoria;
+
             return $data;
         }
     }
@@ -65,5 +68,7 @@ class editService
         return $isMyService;
     }
 
+    public function getCon(){
+        return $this->con;
+    }
 }
-?>
