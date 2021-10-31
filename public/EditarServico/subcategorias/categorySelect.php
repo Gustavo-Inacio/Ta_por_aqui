@@ -1,5 +1,5 @@
 <?php
-    require "../../../../logic/DbConnection.php";
+    require "../../../logic/DbConnection.php";
     $con = new DbConnection();
     $con = $con->connect();
 
@@ -17,9 +17,9 @@
     <?php foreach ($listaCategorias as $i => $categoria) {
         if($i === count($listaCategorias) - 1) {
     ?>
-            <div class="masterCategory d-flex last" onclick="loadCategory('subcategorias.php?id_categoria=<?=$categoria->id_categoria?>')"> <span><?=$categoria->nome_categoria?></span> <span class="ms-auto"> <i class="fas fa-arrow-right"></i> </span> </div>
+            <div class="masterCategory d-flex last" onclick="loadCategory('<?=$categoria->id_categoria?>', <?=$_POST['currentServiceCategory']?>, <?=$_POST['serviceId']?>)"> <span><?=$categoria->nome_categoria?></span> <span class="ms-auto"> <i class="fas fa-arrow-right"></i> </span> </div>
         <?php } else {?>
-            <div class="masterCategory d-flex" onclick="loadCategory('subcategorias.php?id_categoria=<?=$categoria->id_categoria?>')"> <span><?=$categoria->nome_categoria?></span> <span class="ms-auto"> <i class="fas fa-arrow-right"></i> </span> </div>
+            <div class="masterCategory d-flex" onclick="loadCategory('<?=$categoria->id_categoria?>', <?=$_POST['currentServiceCategory']?>, <?=$_POST['serviceId']?>)"> <span><?=$categoria->nome_categoria?></span> <span class="ms-auto"> <i class="fas fa-arrow-right"></i> </span> </div>
         <?php
         }
     }?>

@@ -95,7 +95,7 @@ if($_SESSION['classificacao'] == 0){
         <?php if(isset($_GET['erro'])) { ?>
             <div class="alert alert-danger alert-dismissible" role="alert">
                 <?= $_GET['erro'] ?>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php } ?>
         <form enctype="multipart/form-data" action="../../../logic/perfil_criar_servico.php" method="POST" id="serviceForm">

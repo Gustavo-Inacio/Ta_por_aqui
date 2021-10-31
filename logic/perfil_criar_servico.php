@@ -9,6 +9,7 @@ $con = $con->connect();
 #Quantidade de categorias
 if( count($_POST['subcategoria']) > 3 || count($_POST['subcategoria']) === 0 ){
     header('Location: ../public/Perfil/CriacaoServico/criar_servico.php?erro=quantidade%20invalida%20de%20categorias');
+    exit();
 }
 
 #Verificando os arquivos enviados
@@ -16,6 +17,7 @@ if ($_FILES['imagens']['name'][0] !== ""){
     //imagens > 4
     if( count($_FILES['imagens']['name']) > 4 ){
         header('Location: ../public/Perfil/CriacaoServico/criar_servico.php?erro=Excedeu%20o%20numero%20de%20imagens%20permitidas');
+        exit();
     }
 
     //não é imagem / imagem grande demais
@@ -37,7 +39,7 @@ if ($_FILES['imagens']['name'][0] !== ""){
 #montando orcamento
 $query = "";
 if($_POST['tipoPagamento'] == 1){ //orçamento sem critério ("a definir orçamento")
-    $query = "INSERT INTO servicos(id_prestador_servico, nome_servico, tipo_servico, desc_servico, crit_orcamento_servico) values(:prestador, :nome_servico, :tipo, :descricao, 'A definir orcamento')";
+    $query = "INSERT INTO servicos(id_prestador_servico, nome_servico, tipo_servico, desc_servico, crit_orcamento_servico) values(:prestador, :nome_servico, :tipo, :descricao, 'A definir orçamento')";
 } else if($_POST['tipoPagamento'] == 2){ //orçamento com critério (tem valor estipulado)
     $query = "INSERT INTO servicos(id_prestador_servico, nome_servico, tipo_servico, desc_servico, orcamento_servico, crit_orcamento_servico) values(:prestador, :nome_servico, :tipo, :descricao, :orcamento_valor, :orcamento_criterio)";
 }

@@ -6,15 +6,38 @@ $(function () {
 //mascara do valor fixo
 $('#orcamento').mask('##0.00', {reverse: true});
 
-//carregar modal de selecionar categorias
-$('#categoriesModalContent').load('subcategorias/categorySelect.php')
-
 //carregar categorias
-function loadCategory(subcategory){
-    $('#categoriesModalContent').load(`subcategorias/${subcategory}`)
+function loadCategory(requestedCategory, thisServiceCategory, serviceId){
+    $.ajax({
+        url: 'subcategorias/subcategorias.php',
+        method: 'post',
+        data: {
+            requested_category: requestedCategory,
+            currentServiceCategory: thisServiceCategory,
+            serviceId: serviceId
+        },
+        success: data => {
+            document.getElementById('categoriesModalContent').innerHTML = data
 
-    //atualizar o card de confirmação
-    createConfirmCard(3)
+            //atualizar o card de confirmação
+            createConfirmCard(3)
+        }
+    })
+}
+
+function backToCatSelection(thisServiceCategory, serviceId) {
+    console.log(thisServiceCategory, serviceId)
+    $.ajax({
+        url: 'subcategorias/categorySelect.php',
+        method: 'post',
+        data: {
+            currentServiceCategory: thisServiceCategory,
+            serviceId: serviceId
+        },
+        success: data => {
+            document.getElementById('categoriesModalContent').innerHTML = data
+        }
+    })
 }
 
 //limitar até 3 categorias e atualizar o card de confirmação
@@ -67,8 +90,11 @@ function verifyImage(inputImage){
     } )
 
     if(isImg){
-        //Verificar se possui apenas 4 imagens
-        if(inputImage.files.length > 4){
+        //calcular, contando com as imagens antigas, quantas imagens novas o user pode selecionar
+        let qntImagensAntigas = document.getElementsByClassName('originalImgInput').length
+        let maxImgAllowed = 4 - qntImagensAntigas
+
+        if(inputImage.files.length > maxImgAllowed){
             //limpar imagens caso haja
             document.getElementById('divImgPreview').innerHTML = ""
 
@@ -77,7 +103,7 @@ function verifyImage(inputImage){
 
             //mensagem de erro >4 imagens
             inputImage.value = ""
-            document.getElementById('imageErrorMsg').innerHTML = "Você selecionou mais do que 4 imagens"
+            document.getElementById('imageErrorMsg').innerHTML = "O número total de imagens (novas e antigas) ultrapassa 4"
         } else {
             //TUDO CERTO. EXIBINDO PRÉVIA DAS IMAGENS ESCOLHIDAS
             //limpar imagens e mensagens de erro caso haja
@@ -131,6 +157,7 @@ function verifyImage(inputImage){
         document.getElementById('obsImgPreview').classList.add('d-none')
     }
 
+    updateMaxNumberImgLabel(inputImage.files.length)
 }
 
 function removePreviewImages(){
@@ -147,16 +174,19 @@ function removePreviewImages(){
 
     //escondendo aviso dobre a preview das imagens
     document.getElementById('obsImgPreview').classList.add('d-none')
+
+    updateMaxNumberImgLabel()
 }
 
 //Montar card de confirmação
-function createConfirmCard(step, value){
+function createConfirmCard(step){
     if(step === 1){
         //etapa 1 --> nome do serviço
-        document.getElementById('cardServiceName').innerHTML = value
+        document.getElementById('cardServiceName').innerHTML = document.getElementById('nome').value
 
     } else if(step === 2){
         //etapa 2 --> tipo de serviço
+        let value = document.getElementById('tipo').value
         let ServiceType = ""
         if(value !== ""){
             ServiceType = value == 0 ? "remoto" : "presencial"
@@ -178,6 +208,7 @@ function createConfirmCard(step, value){
         } )
 
     } else if(step === 4){
+        let value = document.getElementById('descricao').value
         //etapa 4 --> descrição do serviço
         if(value.length < 20){
             document.getElementById('cardServiceDescription').innerHTML = value
@@ -186,6 +217,7 @@ function createConfirmCard(step, value){
         }
 
     } else if(step === 5){
+        let value = document.getElementById('tipoPagamento').value
         //etapa 5 --> pagamento do serviço (orçamento sem média)
         if (value == 1) {
             document.getElementById('cardServicePayment').innerHTML = "A definir orçamento"
@@ -198,6 +230,12 @@ function createConfirmCard(step, value){
         document.getElementById('cardServicePayment').innerHTML = $('#orcamento').val() + " " + $('#criterio').val()
     }
 }
+
+createConfirmCard(1)
+createConfirmCard(2)
+createConfirmCard(4)
+createConfirmCard(5)
+createConfirmCard(6)
 
 function createServiceValidation() {
     let valid = true
@@ -232,9 +270,9 @@ function createServiceValidation() {
     }
 
     //Verificando se há imagens
-    if(document.getElementById('imagens[]').files.length === 0){
+    if(document.getElementById('imagens[]').files.length === 0 && document.getElementsByClassName('originalImgInput').length === 0){
         valid = false
-        errorMsg = "Adicione ao menos uma imagem para seu serviço";
+        errorMsg = "Não deixe seu serviço sem imagens. Mostre para as pessoas seus resultados!";
         document.getElementById('imagens[]').classList.add('is-invalid')
     } else {
         document.getElementById('imagens[]').classList.remove('is-invalid')
@@ -253,9 +291,31 @@ function createServiceValidation() {
 
     //Enviar ou Error message Output
     valid ? document.getElementById('serviceForm').submit() : errorMsgOutput.innerText = errorMsg
-
 }
 
-function giveUpService(){
-    confirm("Você tem certeza que deseja sair? As informações do formulário não serão salvas") ? location.href = "../meu_perfil.php" : "";
+function deleteOriginalImg(ImgId){
+    //deletar div contendo prévia da imagem e input de identificação
+    document.getElementById(`originalImg${ImgId}`).remove()
+
+    //verificar se todas as imagens antigas foram deletadas
+    if (document.getElementsByClassName('originalImgPreview').length === 0){
+        document.getElementById('obsOriginalImgPreview').remove()
+        document.getElementById('divOriginalImgPreview').remove()
+    }
+
+    updateMaxNumberImgLabel()
+}
+
+function updateMaxNumberImgLabel(qntNewImgs = 0){
+    let label = document.getElementById('selectNewImagesMsg')
+    let qntOldImgs = document.getElementsByClassName('originalImgInput').length
+    let maxImgsAllowed = 4 - (qntOldImgs + qntNewImgs)
+
+    if (maxImgsAllowed > 0){
+        label.innerHTML = `Selecione, no máximo, mais ${maxImgsAllowed} ${maxImgsAllowed === 1 ? 'imagem' : 'imagens'}`
+    } else {
+        label.innerHTML = `Limite de imagens alcançado.`
+    }
+
+    console.log(maxImgsAllowed)
 }
