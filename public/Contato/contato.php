@@ -7,13 +7,13 @@ $con = $con->connect();
 
 $user_info = [];
 if(isset($_SESSION['idUsuario'])) {
-    $query = "SELECT nome_usuario, sobrenome_usuario, email_usuario, fone_usuario from usuarios where id_usuario = " . $_SESSION['idUsuario'];
+    $query = "SELECT nome_usuario, sobrenome_usuario, email_contato_usuario, fone_usuario from usuarios where id_usuario = " . $_SESSION['idUsuario'];
     $stmt = $con->query($query);
     $user_info = $stmt->fetch(PDO::FETCH_ASSOC);
 } else {
     $user_info['nome_usuario'] = null;
     $user_info['sobrenome_usuario'] = null;
-    $user_info['email_usuario'] = null;
+    $user_info['email_contato_usuario'] = null;
     $user_info['fone_usuario'] = null;
 }
 ?>
@@ -146,8 +146,8 @@ if(isset($_SESSION['idUsuario'])) {
                         </div>
 
                         <div class="form-group col-md-6 mb-3" id="address">
-                            <label for="contactEmail">Endereço de Email</label>
-                            <input type="email" name="contactEmail" id="contactEmail" class="form-control required" placeholder="seu@email.com" required value="<?=$user_info['email_usuario']?>">
+                            <label for="contactEmail">Email de contato</label>
+                            <input type="email" name="contactEmail" id="contactEmail" class="form-control required" placeholder="seu@email.com" required value="<?=$user_info['email_contato_usuario']?>">
                         </div>
 
                         <div class="form-group col-md-6 mb-3" id="reason">
