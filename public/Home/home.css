@@ -1,963 +1,1015 @@
 /* -- LandingSection Comeco -- */
-#myLandingSection{
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 30px;
+#myLandingSection {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-bottom: 30px;
 }
 
-/* Suggestion Bar*/ 
-
-.my-services-suggestion-bar-path{
-    position: relative;
-    overflow: hidden;
-    margin: 0;
-    height: clamp(92px, 15vw, 120px);
-    max-height: 164px;
-    border: 1px solid #CCCCCC;
-    box-sizing: border-box;
-    
+/* Suggestion Bar*/
+.my-services-suggestion-bar-path {
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+  height: clamp(92px, 15vw, 120px);
+  max-height: 164px;
+  border: 1px solid #CCCCCC;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
-.my-services-suggestion-bar{
-    height: 100%;
-    width: fit-content;
-    padding: clamp(22px, 3vw, 27px) 80px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: nowrap;
-    overflow: hidden;
-    transition: margin 0.5s;
+.my-services-suggestion-bar {
+  height: 100%;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: clamp(22px, 3vw, 27px) 80px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  overflow: hidden;
+  -webkit-transition: margin 0.5s;
+  transition: margin 0.5s;
 }
 
-.my-service-item:last-child a{
-    margin-right: 0;
+.my-service-item:last-child a {
+  margin-right: 0;
 }
 
-#mySuggestionBarControllerRight, #mySuggestionBarControllerLeft{
-   width: 50px;
-   height: 100%;
-   background-color: rgba(0, 0, 0, 0.034);
-   transition: background-color 0.3s;
-   cursor: pointer;
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   position: absolute;
-   overflow: hidden;
+#mySuggestionBarControllerRight, #mySuggestionBarControllerLeft {
+  width: 50px;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.034);
+  -webkit-transition: background-color 0.3s;
+  transition: background-color 0.3s;
+  cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  position: absolute;
+  overflow: hidden;
 }
 
-#mySuggestionBarControllerRight:hover, #mySuggestionBarControllerLeft:hover{
-    background-color: rgba(0, 0, 0, 0.418);
+#mySuggestionBarControllerRight:hover, #mySuggestionBarControllerLeft:hover {
+  background-color: rgba(0, 0, 0, 0.418);
 }
 
-#mySuggestionBarControllerLeft{
-    left: 0px;
+#mySuggestionBarControllerLeft {
+  left: 0px;
 }
 
-#mySuggestionBarControllerRight{
-    right: 0px;
+#mySuggestionBarControllerRight {
+  right: 0px;
 }
 
-.my-service-item{
-    width: fit-content;
-    display: inline-block;
+.my-service-item {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  display: inline-block;
 }
 
-.my-service-item-a, .my-service-item-a:hover{
-    font: 700 clamp(11px, 3vw, 13.5px) 'Roboto', sans-serif;
-    color: var(--my-color-two);
-    text-decoration: none;
-    margin-right: clamp(43px, 12vw, 80px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    white-space: nowrap;
-    overflow: hidden;
+.my-service-item-a, .my-service-item-a:hover {
+  font: 700 clamp(11px, 3vw, 13.5px) "Roboto", sans-serif;
+  color: var(--my-color-two);
+  text-decoration: none;
+  margin-right: clamp(43px, 12vw, 80px);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
-
-.my-service-item-a > i{
-    font-size: clamp(21.67px, 3vw, 33.3px);
+.my-service-item-a > i {
+  font-size: clamp(21.67px, 3vw, 33.3px);
 }
 
-.my-service-item-a p{
-    margin-top: 7px;
+.my-service-item-a p {
+  margin-top: 7px;
 }
 
-/* -- Landing Content -- */ 
-
-#myLandingContentAreaContainer{
-    margin: 0;
-    padding: 0;
-    padding-top: 30px;
+/* -- Landing Content -- */
+#myLandingContentAreaContainer {
+  margin: 0;
+  padding: 0;
+  padding-top: 30px;
 }
 
-.my-landing-conetent-area{
-    display: flex;
-    align-items: center;
+.my-landing-conetent-area {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
-.my-landing-text-content{
-    padding-left: clamp(25px, 3vw, 80px);;
-    padding-right: 113px;
-    width: 57.3%;
+.my-landing-text-content {
+  padding-left: clamp(25px, 3vw, 80px);
+  padding-right: 113px;
+  width: 57.3%;
 }
 
-.my-landing-title{
-    font: 900 clamp(25px, 3vw, 48px) 'Lato', sans-serif;
-    color: #000C26;
+.my-landing-title {
+  font: 900 clamp(25px, 3vw, 48px) "Lato", sans-serif;
+  color: #000C26;
 }
 
-.my-landing-text{
-    font: 400 16px 'Lato', sans-serif;
-    font-style: italic;
-    color: #000C26;
-    margin-top: 14px;
+.my-landing-text {
+  font: 400 16px 'Lato', sans-serif;
+  font-style: italic;
+  color: #000C26;
+  margin-top: 14px;
 }
 
-.my-landing-search-bar-form, .my-landing-search-bar-div{
-    display:flex;
+.my-landing-search-bar-form, .my-landing-search-bar-div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
-.my-landing-search-bar-div{
-    width: 100%;
-    padding-top: 17px;
+.my-landing-search-bar-div {
+  width: 100%;
+  padding-top: 17px;
 }
 
-.my-landing-search-bar-form{
-    position: relative;
-    width: 100%;
+.my-landing-search-bar-form {
+  position: relative;
+  width: 100%;
 }
 
-.my-landing-search-bar-form > input{
-    background-color: rgba(31, 20, 175, 0.1);
-    border: 1px solid rgba(31, 20, 175, 1);
-    border-radius: 27.5px;
-    font: 400 12px 'Roboto', sans-serif;
-    color: #2B2472;
-    padding: 16px 29px;
-    width: 100%;
-    height: 100%;
+.my-landing-search-bar-form > input {
+  background-color: rgba(31, 20, 175, 0.1);
+  border: 1px solid #1f14af;
+  border-radius: 27.5px;
+  font: 400 12px 'Roboto', sans-serif;
+  color: #2B2472;
+  padding: 16px 29px;
+  width: 100%;
+  height: 100%;
 }
 
-.my-landing-search-bar-form > button{
-    position: absolute;
-    right: 0;
-    background-color: #1F14AF;
-    border-radius: 70px;
-    font: 700 14px 'Roboto', sans-serif;
-    color: #FFF;
-    width: 124px;
-    height: 100%;
-    border: none;
+.my-landing-search-bar-form > button {
+  position: absolute;
+  right: 0;
+  background-color: #1F14AF;
+  border-radius: 70px;
+  font: 700 14px 'Roboto', sans-serif;
+  color: #FFF;
+  width: 124px;
+  height: 100%;
+  border: none;
 }
 
-
-.my-landing-img-content{
-    width: clamp( 42.7vw, 69.8vw, 59.9vw)
+.my-landing-img-content {
+  width: clamp(42.7vw, 69.8vw, 59.9vw);
 }
 
-.my-landing-img-div{
-    overflow: hidden;
-    
+.my-landing-img-div {
+  overflow: hidden;
 }
 
-.my-landing-img{
-    width: calc(100% + 85px);
-    border-radius: 85px;
-    position: relative;
+.my-landing-img {
+  width: calc(100% + 85px);
+  border-radius: 85px;
+  position: relative;
 }
 
 /* -- Mobile Landing Inicio-- */
-.my-mobile-landing{
-    display: flex ;
-    flex-direction: column;
-}
-.my-mobile-landing > .my-landing-text-content{
-    display: flex ;
-    flex-direction: row;
-    width: 100%;
-    padding-right: 0;
-    padding-left: clamp(25px, 3vw, 80px);
+.my-mobile-landing {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 
-.my-mobile-landing > .my-landing-title{
-    padding: 0 clamp(25px, 3vw, 80px);
-}
-.my-landing-text-content-moblie{
-    padding-right: 9px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    width: 40.1vw;
-}
-
-.my-mobile-landing .my-landing-search-bar-form{
-    width: 100%;
-    padding: 0 20px;
-    height: fit-content;
-    margin-bottom: 17px;
+.my-mobile-landing > .my-landing-text-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  width: 100%;
+  padding-right: 0;
+  padding-left: clamp(25px, 3vw, 80px);
 }
 
-.my-mobile-landing .my-landing-search-bar-form .minimum{ display: none;}
-.my-mobile-landing .my-landing-search-bar-form .extra-small{ display: flex; }
-
-.my-mobile-landing .my-landing-search-bar-form > button{
-    width: 93px;
-    right: 20px;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 13px;
-    line-height: 30px;
-    padding-left: 20px;
-    padding-right: 20px;
+.my-mobile-landing > .my-landing-title {
+  padding: 0 clamp(25px, 3vw, 80px);
 }
 
-.my-mobile-landing .my-landing-search-bar-form > input{
-    font-style: normal;
-    font-weight: normal;
-    font-size: 13px;
-    line-height: 12px;
-    padding: 14px 19px;
+.my-landing-text-content-moblie {
+  padding-right: 9px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  width: 40.1vw;
 }
+
+.my-mobile-landing .my-landing-search-bar-form {
+  width: 100%;
+  padding: 0 20px;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  margin-bottom: 17px;
+}
+
+.my-mobile-landing .my-landing-search-bar-form .minimum {
+  display: none;
+}
+
+.my-mobile-landing .my-landing-search-bar-form .extra-small {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.my-mobile-landing .my-landing-search-bar-form > button {
+  width: 93px;
+  right: 20px;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 30px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.my-mobile-landing .my-landing-search-bar-form > input {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 12px;
+  padding: 14px 19px;
+}
+
 /* -- Mobile Landing Fim-- */
 /* -- LandingSection Fim -- */
-
 /* --- LoginSection Comeco -- */
-#myLoginSection{
-    background-color: var(--my-color-two);
-    width: 100%;
-    height: fit-content;
-    font-family: 'Roboto', sans-serif;
-    padding: 65px 0;
-    color: #FFF;
+#myLoginSection {
+  background-color: var(--my-color-two);
+  width: 100%;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  font-family: 'Roboto', sans-serif;
+  padding: 65px 0;
+  color: #FFF;
 }
 
-#myLoginSectionCol{
-    margin: 0 auto;
-    max-width: 591px;
-    padding: 0;
+#myLoginSectionCol {
+  margin: 0 auto;
+  max-width: 591px;
+  padding: 0;
 }
 
-.my-login-section--title{
-    font-style: normal;
-    font-weight: 900;
-    font-size: 36px;
-    line-height: 42px;
-    text-align: center;
-    margin-bottom: 10px;
+.my-login-section--title {
+  font-style: normal;
+  font-weight: 900;
+  font-size: 36px;
+  line-height: 42px;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
-.my-login-section--text{
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 19px;
-    text-align: center;
+.my-login-section--text {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
 }
 
-.my-login-section--btn-area{
-    width: 100%;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    margin-top: 33px;
+.my-login-section--btn-area {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-top: 33px;
 }
 
-.my-login-section--btn-area > .btn-login-a > button , .my-login-section--btn-area > .btn-signup-a > button{
-    border: 1px solid var(--my-color-three);
-    padding: 12px 48px;
-    background-color: transparent;
-    border-radius: 32px;
-    color: var(--my-color-three);
-
-    font-weight: bold;
-    font-size: 14px;
-    line-height: 24px;
-
-    white-space: nowrap;
-    word-wrap:nowrap;
+.my-login-section--btn-area > .btn-login-a > button, .my-login-section--btn-area > .btn-signup-a > button {
+  border: 1px solid var(--my-color-three);
+  padding: 12px 48px;
+  background-color: transparent;
+  border-radius: 32px;
+  color: var(--my-color-three);
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 24px;
+  white-space: nowrap;
+  word-wrap: nowrap;
 }
 
-.my-login-section--btn-area > .btn-signup-a > button{
-    background-color: var(--my-color-three);
-    color: var(--my-color-two);
+.my-login-section--btn-area > .btn-signup-a > button {
+  background-color: var(--my-color-three);
+  color: var(--my-color-two);
 }
 
 /* --- LoginSection Fim -- */
-
 /*--- MyWelcomeSection Comeco -- */
-#myWelcomeSection{
-    padding: 64px;
-    position: relative;
-    overflow: hidden;
-    color: var(--my-second-color);
+#myWelcomeSection {
+  padding: 64px;
+  position: relative;
+  overflow: hidden;
+  color: var(--my-second-color);
 }
 
-#myLeftYellow{
-    position: absolute;
-    width: 487px;
-    height: 586px;
-    left: -200.49px;
-    top: -226px;
-    z-index: -1;
-}
-#myRightYellow{
-    position: absolute;
-    width: 289px;
-    height: 348px;
-    right: -18px;
-    top: -133px;
-    z-index: -1;
+#myLeftYellow {
+  position: absolute;
+  width: 487px;
+  height: 586px;
+  left: -200.49px;
+  top: -226px;
+  z-index: -1;
 }
 
-.my-welcome-section-text-row{
-    position: relative;
+#myRightYellow {
+  position: absolute;
+  width: 289px;
+  height: 348px;
+  right: -18px;
+  top: -133px;
+  z-index: -1;
 }
 
-.my-welcome-section-text-row::after{
-    content: '';
-    border: 1px solid #0C0C23;
-    width: 200px;
-    position: absolute;
-
-    left: calc(50% - 100px);
-    bottom: 24px;
+.my-welcome-section-text-row {
+  position: relative;
 }
 
-.my-welcome-section-text-row > .col{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.my-welcome-section-text-row::after {
+  content: '';
+  border: 1px solid #0C0C23;
+  width: 200px;
+  position: absolute;
+  left: calc(50% - 100px);
+  bottom: 24px;
 }
 
-.my-welcome-section--text{
-    font-family: 'Roboto', sans-serif;
-    font-size: 16px;
-    line-height: 19px;
-    text-align: center;
-    max-width: 603.93px;
-    margin-bottom: 48px;
-    
+.my-welcome-section-text-row > .col {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
-.my-welcome-section--title{
-    font-family: 'Roboto', sans-serif;
-    font-weight: 900;
-    font-size: 36px;
-    line-height: 42px;
-    text-align: center;
-    margin-bottom: 10px;
+.my-welcome-section--text {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+  max-width: 603.93px;
+  margin-bottom: 48px;
 }
 
-.my-welcome-item{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.my-welcome-section--title {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 900;
+  font-size: 36px;
+  line-height: 42px;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
-.my-welcome-item > i{
-    font-size: 75.41px;
-    color: var(--my-color-two);
-    margin-bottom: 27.1px;
+.my-welcome-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
-.my-welcome-item--subtitle{
-    font-family: 'Roboto', sans-serif;
-    font-weight: bold;
-    font-size: 24px;
-    line-height: 28px;
-    text-align: center;
+.my-welcome-item > i {
+  font-size: 75.41px;
+  color: var(--my-color-two);
+  margin-bottom: 27.1px;
 }
 
-.my-welcome-item--text{
-    font-family: Roboto;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 19px;
-    text-align: center;
+.my-welcome-item--subtitle {
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 28px;
+  text-align: center;
 }
 
+.my-welcome-item--text {
+  font-family: Roboto;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+}
 
 /*--- MyWelcomeSection Fim -- */
-
-
 /* --MyDataSection Comeco -- */
-#myDataSection{
-    background-color: var(--my-color-two);
-    color: #FFF;
-    padding: 64px 0;
-    font-family: 'Roboto', sans-serif;
-    text-align: center;
+#myDataSection {
+  background-color: var(--my-color-two);
+  color: #FFF;
+  padding: 64px 0;
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
 }
 
-#myDataSectionContainer > .row{
-    justify-content: space-between;
-    position: relative;
+#myDataSectionContainer > .row {
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  position: relative;
 }
 
-#myDataSectionContainer > .row::before, #myDataSectionContainer > .row::after{
-    content: '';
-    position: absolute;
-    width: 130px;
-    border: 3px solid #FFF;
-    background-color: #FFF;
-    border-radius: 3px;
-    left: calc(50% - 130px/2);
+#myDataSectionContainer > .row::before, #myDataSectionContainer > .row::after {
+  content: '';
+  position: absolute;
+  width: 130px;
+  border: 3px solid #FFF;
+  background-color: #FFF;
+  border-radius: 3px;
+  left: calc(50% - 130px/2);
 }
 
-#myDataSectionContainer > .row::before{
-    top: -3px;
-}
-#myDataSectionContainer > .row::after{
-    bottom: -3px;
+#myDataSectionContainer > .row::before {
+  top: -3px;
 }
 
-.my-section-data-item{
-    padding: 40px 0;
+#myDataSectionContainer > .row::after {
+  bottom: -3px;
 }
 
-.my-section-data-item > p{
-    font-weight: 300;
-    font-size: 24px;
-    line-height: 28px;
-    margin-bottom: 9px;
+.my-section-data-item {
+  padding: 40px 0;
 }
 
-.my-section-data-item > h1{
-    font-weight: 900;
-    font-size: 48px;
-    line-height: 56px;
+.my-section-data-item > p {
+  font-weight: 300;
+  font-size: 24px;
+  line-height: 28px;
+  margin-bottom: 9px;
 }
+
+.my-section-data-item > h1 {
+  font-weight: 900;
+  font-size: 48px;
+  line-height: 56px;
+}
+
 /* --MyDataSection Fim -- */
-
 /* -- myFinalMessageSection Comeco -- */
-#myFinalMessageSection{
-    padding: 90px;
-    font-family: 'Roboto', sans-serif;
-    text-align: center;
-    position: relative;
+#myFinalMessageSection {
+  padding: 90px;
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+  position: relative;
 }
 
-#myFinalMessageSection::before{
-    content: '';
-    position: absolute;
-    height: calc(38px + 56px);
-    width: 56vw;
-
-    left: calc(50% - 28vw);
-    top: calc(50% - calc(2*38px + 56px) / 2);
-    background-color: rgba(249, 255, 160, 0.3);;
-
-    border-radius: 133.5px;
+#myFinalMessageSection::before {
+  content: '';
+  position: absolute;
+  height: calc(38px + 56px);
+  width: 56vw;
+  left: calc(50% - 28vw);
+  top: calc(50% - calc(2*38px + 56px) / 2);
+  background-color: rgba(249, 255, 160, 0.3);
+  border-radius: 133.5px;
 }
 
-#myFinalMessageContainer > .row > .col-12{
-    padding: 0;
+#myFinalMessageContainer > .row > .col-12 {
+  padding: 0;
 }
 
-.my-final-message{
-    font-weight: 900;
-    font-size: 48px;
-    line-height: 56px;
-    letter-spacing: 0.28em;
-    color: var(--my-color-six);
-
-    margin-bottom: 14px;
+.my-final-message {
+  font-weight: 900;
+  font-size: 48px;
+  line-height: 56px;
+  letter-spacing: 0.28em;
+  color: var(--my-color-six);
+  margin-bottom: 14px;
 }
 
-.my-second-final-message{
-    font-size: 24px;
-    line-height: 28px;
-    color: rgba(31, 20, 175, 1);
+.my-second-final-message {
+  font-size: 24px;
+  line-height: 28px;
+  color: #1f14af;
 }
+
 /* -- myFinalMessageSection Fim -- */
-
 /* -- Cookie alert -- */
-.cookieAlert{
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-    bottom: 0;
-    width: 100%;
-    margin-bottom: 10px;
+.cookieAlert {
+  position: fixed;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  bottom: 0;
+  width: 100%;
+  margin-bottom: 10px;
 }
 
-.cookieAlertContent{
-    align-self: center;
-    border-radius: 7px;
+.cookieAlertContent {
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  border-radius: 7px;
 }
 
-.cookieAlertHeader{
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 1px solid gray;
-    padding: 5px 15px;
+.cookieAlertHeader {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  border-bottom: 1px solid gray;
+  padding: 5px 15px;
 }
 
-.cookieAlertHeader h4{
-    font-size: 20px;
-    display: inline-block;
+.cookieAlertHeader h4 {
+  font-size: 20px;
+  display: inline-block;
 }
 
-.cookieAlertBody{
-    padding: 5px 15px;
+.cookieAlertBody {
+  padding: 5px 15px;
 }
 
-.cookieAlertBody{
-    font-size: 14px;
+.cookieAlertBody {
+  font-size: 14px;
 }
 
-.cookieAlertFooter{
-    padding: 5px 15px;
+.cookieAlertFooter {
+  padding: 5px 15px;
 }
 
 /* --- Media queries --- */
-@media (max-width: 285px){
-    /*--- LoginSection Comeco -- */
-    .my-login-section--btn-area{
-        flex-direction: column;
-        justify-content: initial;
-    }
-    
-    .my-login-section--btn-area button, .my-login-section--btn-area a{
-        width: 100%;
-        margin-top: 5px;
-    }
-    /*--- LoginSection Fim -- */
-
+@media (max-width: 285px) {
+  /*--- LoginSection Comeco -- */
+  .my-login-section--btn-area {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: initial;
+        -ms-flex-pack: initial;
+            justify-content: initial;
+  }
+  .my-login-section--btn-area button, .my-login-section--btn-area a {
+    width: 100%;
+    margin-top: 5px;
+  }
+  /*--- LoginSection Fim -- */
 }
-
 
 @media (max-width: 335px) {
-    /* --- Landing Section Comeco--- */
-    .my-mobile-landing .my-landing-search-bar-form{
-        display: flex;
-        flex-direction: column;
-    }
-
-    .my-mobile-landing .my-landing-search-bar-form > button{
-        position: initial;
-        width: 100%;
-        margin-top: 5px;
-        padding: 8px 16px;
-    }
-    .my-mobile-landing .my-landing-search-bar-form > input{
-        padding: 14px 19px !important;
-    }
-    /* --- Landing Section Fim--- */
-    /* --- Login Section Comeco--- */
-    .my-login-section--btn-area > .btn-login-a > button , .my-login-section--btn-area > .btn-signup-a > button{
-        font-size: 13px;
-        padding: 12px 32px;
-        
-    }
-    /* --- Login Section Fim--- */
-
-    /* -- My Final Message Section Inicio-- */
-    .my-final-message {
-        font-size: 15px !important;
-    }
-
-    
-    /* -- My Final Message Section Fim-- */
-
-
+  /* --- Landing Section Comeco--- */
+  .my-mobile-landing .my-landing-search-bar-form {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .my-mobile-landing .my-landing-search-bar-form > button {
+    position: initial;
+    width: 100%;
+    margin-top: 5px;
+    padding: 8px 16px;
+  }
+  .my-mobile-landing .my-landing-search-bar-form > input {
+    padding: 14px 19px !important;
+  }
+  /* --- Landing Section Fim--- */
+  /* --- Login Section Comeco--- */
+  .my-login-section--btn-area > .btn-login-a > button, .my-login-section--btn-area > .btn-signup-a > button {
+    font-size: 13px;
+    padding: 12px 32px;
+  }
+  /* --- Login Section Fim--- */
+  /* -- My Final Message Section Inicio-- */
+  .my-final-message {
+    font-size: 15px !important;
+  }
+  /* -- My Final Message Section Fim-- */
 }
-@media (max-width: 430px){
-    .my-mobile-landing .my-landing-search-bar-form > .minimum{ display: flex; }
 
-    .my-mobile-landing .my-landing-search-bar-form > input{
-        padding-right: 100px;
-    }
-
-    .my-mobile-landing .my-landing-search-bar-form > .extra-small{ display: none;}
+@media (max-width: 430px) {
+  .my-mobile-landing .my-landing-search-bar-form > .minimum {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  .my-mobile-landing .my-landing-search-bar-form > input {
+    padding-right: 100px;
+  }
+  .my-mobile-landing .my-landing-search-bar-form > .extra-small {
+    display: none;
+  }
 }
 
 @media (max-width: 575px) {
-
-    .my-landing-title{
-        font-size: 25px;
-    }
-
-    .my-landing-text{
-        font-size: clamp(15px, 3vw, 18px);
-        font-weight: 800;
-        font-style: italic;
-        line-height: clamp(13.2px, 3vw, 20px);
-        white-space: normal;
-    }
-
-    .my-landing-img{
-        border-radius: clamp(20px, 15vw, 45px);
-        width: calc(100% + 82px);
-    }
-
-    .my-landing-img-content{
-        width: 59.9vw;
-    }
-
-    .my-mobile-landing-row {
-        display: flex;
-    }
-
-    .my-desk-landing-row{
-        display: none;
-    }
-
-    .my-mobile-landing{
-        display: flex;
-    }
-
-    .my-desk-landing{
-        display: none;
-    }
-
-    /* --- LoginSection Comeco -- */
-    #myLoginSection{
-        padding: 21px 25px;
-    }
-
-    .my-login-section--title {
-        font-size: 18px;
-    }
-    .my-login-section--text {
-        font-size: 13.5px;
-    }
-    
-    /* --- LoginSection Fim -- */
-
-    /* -- Welcome Section Comceco -- */
-    #myWelcomeSection{
-        padding: 30px 25px;
-    }
-
-    #myLeftYellow{
-        width: 236px;
-        left: -149px;
-    }
-    #myRightYellow{ 
-        width: 125px;
-        right: -5px;
-    }
-
-    .my-welcome-section--title{
-        font-size: 24px;
-    }
-    .my-welcome-section--text{
-        font-size: 16px;
-    }
-
-    .my-welcome-item--subtitle{
-        font-size: 22px;
-    }
-    /* -- Welcome Section Fim -- */
-
-    /* --- Data Section Comeco -- */
-    #myDataSection{
-        padding: 43px 0;
-    }
-
-    .my-section-data-item{
-        padding: 17.5px 0;
-    }
-    
-    .my-section-data-item:first-child {
-        padding-top: 35px;
-    }
-
-    .my-section-data-item:last-child{
-        padding-bottom: 35px;
-    }
-
-    .my-section-data-item > p{
-        font-size: 20px;
-    }
-    .my-section-data-item > h1{
-        font-size: 30px;
-        line-height: 35px;
-    }
-    /* --- Data Section Fim -- */
-
-    /*--- My Final Message Section Comeco --- */
-    #myFinalMessageSection{
-        padding: 34px 25px;
-    }
-
-    #myFinalMessageSection::before{
-        width: calc(100% - 56px);
-        left: calc(50% - calc(100% - 56px) / 2);
-        height: 29px;
-        top: calc(50% - calc(2*25px + 29px) / 2);
-    }
-
-    .my-final-message{
-        font-size: 25px;
-        line-height: 29px;
-    }
-
-    .my-second-final-message{
-        font-size: 15px;
-    }
-    /*--- My Final Message Section Fim --- */
+  .my-landing-title {
+    font-size: 25px;
+  }
+  .my-landing-text {
+    font-size: clamp(15px, 3vw, 18px);
+    font-weight: 800;
+    font-style: italic;
+    line-height: clamp(13.2px, 3vw, 20px);
+    white-space: normal;
+  }
+  .my-landing-img {
+    border-radius: clamp(20px, 15vw, 45px);
+    width: calc(100% + 82px);
+  }
+  .my-landing-img-content {
+    width: 59.9vw;
+  }
+  .my-mobile-landing-row {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  .my-desk-landing-row {
+    display: none;
+  }
+  .my-mobile-landing {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  .my-desk-landing {
+    display: none;
+  }
+  /* --- LoginSection Comeco -- */
+  #myLoginSection {
+    padding: 21px 25px;
+  }
+  .my-login-section--title {
+    font-size: 18px;
+  }
+  .my-login-section--text {
+    font-size: 13.5px;
+  }
+  /* --- LoginSection Fim -- */
+  /* -- Welcome Section Comceco -- */
+  #myWelcomeSection {
+    padding: 30px 25px;
+  }
+  #myLeftYellow {
+    width: 236px;
+    left: -149px;
+  }
+  #myRightYellow {
+    width: 125px;
+    right: -5px;
+  }
+  .my-welcome-section--title {
+    font-size: 24px;
+  }
+  .my-welcome-section--text {
+    font-size: 16px;
+  }
+  .my-welcome-item--subtitle {
+    font-size: 22px;
+  }
+  /* -- Welcome Section Fim -- */
+  /* --- Data Section Comeco -- */
+  #myDataSection {
+    padding: 43px 0;
+  }
+  .my-section-data-item {
+    padding: 17.5px 0;
+  }
+  .my-section-data-item:first-child {
+    padding-top: 35px;
+  }
+  .my-section-data-item:last-child {
+    padding-bottom: 35px;
+  }
+  .my-section-data-item > p {
+    font-size: 20px;
+  }
+  .my-section-data-item > h1 {
+    font-size: 30px;
+    line-height: 35px;
+  }
+  /* --- Data Section Fim -- */
+  /*--- My Final Message Section Comeco --- */
+  #myFinalMessageSection {
+    padding: 34px 25px;
+  }
+  #myFinalMessageSection::before {
+    width: calc(100% - 56px);
+    left: calc(50% - calc(100% - 56px) / 2);
+    height: 29px;
+    top: calc(50% - calc(2*25px + 29px) / 2);
+  }
+  .my-final-message {
+    font-size: 25px;
+    line-height: 29px;
+  }
+  .my-second-final-message {
+    font-size: 15px;
+  }
+  /*--- My Final Message Section Fim --- */
 }
 
-@media (min-width: 576px) { 
-    /* --- Landing Section Comeco--- */
-    .my-mobile-landing-row {
-        display: flex;
-    }
-
-    .my-desk-landing-row{
-        display: none;
-    }
-
-    .my-mobile-landing{
-        display: flex;
-    }
-
-    .my-desk-landing{
-        display: none;
-    }
-    /* --- Landing Section Fim --- */
-
-    /* --- LoginSection Comeco -- */
-
-    .my-login-section--title {
-        font-size: 30px;
-    }
-    
-    .my-login-section--text{
-        font-size: 14.5px;
-    }
-    
- 
-    /* --- LoginSection Fim -- */ 
-    /* -- Welcome Section Comeco -- */
-    #myWelcomeSection{
-        padding: 70px 42px;
-    }
-
-    .my-welcome-section-text-row::after{
-        width: 400px;
-        left: calc(50% - 200px);
-        border-width: 1px;
-    }
-    /* -- Welcome Section Fim -- */
-
-    /* --- Data Section Comeco -- */
-    #myDataSectionContainer > .row::before, #myDataSectionContainer > .row::after{
-        width: 400px;
-        left: calc(50% - 200px);
-        border-width: 2.5px;
-        border-radius: 1.25;
-    }
-
-    .my-section-data-item > p{
-        font-size: 19px;
-    }
-
-    .my-section-data-item > h1{
-        font-size: 41px;
-    }
-    /* --- Data Section Fim -- */
-
-    /*--- My Final Message Section Comeco --- */
-    #myFinalMessageSection{
-        padding: 50px 80px;
-    }
-
-    #myFinalMessageSection::before{
-        width: calc(100% - 56px);
-        left: calc(50% - calc(100% - 56px) / 2);
-        height: 32px;
-        top: calc(50% - calc(2*30px + 32px) / 2);
-    }
-
-    .my-final-message{
-        font-size: 30px;
-    }
-
-    .my-second-final-message{
-        font-size: 20px;
-    }
-    /*--- My Final Message Section Fim --- */
+@media (min-width: 576px) {
+  /* --- Landing Section Comeco--- */
+  .my-mobile-landing-row {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  .my-desk-landing-row {
+    display: none;
+  }
+  .my-mobile-landing {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  .my-desk-landing {
+    display: none;
+  }
+  /* --- Landing Section Fim --- */
+  /* --- LoginSection Comeco -- */
+  .my-login-section--title {
+    font-size: 30px;
+  }
+  .my-login-section--text {
+    font-size: 14.5px;
+  }
+  /* --- LoginSection Fim -- */
+  /* -- Welcome Section Comeco -- */
+  #myWelcomeSection {
+    padding: 70px 42px;
+  }
+  .my-welcome-section-text-row::after {
+    width: 400px;
+    left: calc(50% - 200px);
+    border-width: 1px;
+  }
+  /* -- Welcome Section Fim -- */
+  /* --- Data Section Comeco -- */
+  #myDataSectionContainer > .row::before, #myDataSectionContainer > .row::after {
+    width: 400px;
+    left: calc(50% - 200px);
+    border-width: 2.5px;
+    border-radius: 1.25;
+  }
+  .my-section-data-item > p {
+    font-size: 19px;
+  }
+  .my-section-data-item > h1 {
+    font-size: 41px;
+  }
+  /* --- Data Section Fim -- */
+  /*--- My Final Message Section Comeco --- */
+  #myFinalMessageSection {
+    padding: 50px 80px;
+  }
+  #myFinalMessageSection::before {
+    width: calc(100% - 56px);
+    left: calc(50% - calc(100% - 56px) / 2);
+    height: 32px;
+    top: calc(50% - calc(2*30px + 32px) / 2);
+  }
+  .my-final-message {
+    font-size: 30px;
+  }
+  .my-second-final-message {
+    font-size: 20px;
+  }
+  /*--- My Final Message Section Fim --- */
 }
 
-@media(min-width: 632px){
-    .my-mobile-landing{
-        display: none;
-    }
-
-    .my-desk-landing{
-        display: flex;
-    }
-
-    .my-landing-text-content{
-        padding-right: clamp(12px, 5vw, 113px);
-    }
-
-    .my-landing-search-bar-form{
-        display: flex;
-        flex-direction: column;
-    }
-
-    .my-landing-search-bar-form button{
-        position: initial;
-        width: 100%;
-        margin-top: 5px;
-        height: fit-content;
-        padding: 16px 16px;
-    }
+@media (min-width: 632px) {
+  .my-mobile-landing {
+    display: none;
+  }
+  .my-desk-landing {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  .my-landing-text-content {
+    padding-right: clamp(12px, 5vw, 113px);
+  }
+  .my-landing-search-bar-form {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .my-landing-search-bar-form button {
+    position: initial;
+    width: 100%;
+    margin-top: 5px;
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
+    padding: 16px 16px;
+  }
 }
 
-@media (min-width: 768px) { /* md */
-    /* --- Landing Section Comeco--- */
-    .my-mobile-landing-row {
-        display: none;
-    }
-
-    .my-desk-landing-row{
-        display: flex;
-    }
-    /* --- Landing Section Fim --- */
-    /* --- Login Section Comeco --- */
-    .my-login-section--title {
-        font-size: 33px;
-    }
-    
-    .my-login-section--text{
-        font-size: 15px;
-    }
-    
-    /* --- Login Section Fim --- */
-
-    /* --- Data Section Comeco -- */
-    .my-section-data-item:last-child{
-        padding-top: 0;
-    }
-
-    .my-section-data-item > p{
-        font-size: 21px;
-    }
-    .my-section-data-item > h1{
-        font-size: 32px;
-        line-height: 35px;
-    }
-    /* --- Data Section Fim -- */
-
-    #myFinalMessageSection{
-        padding: 50px 80px;
-    }
-
-    #myFinalMessageSection::before{
-        width: calc(100% - 56px);
-        left: calc(50% - calc(100% - 56px) / 2);
-        height: 56px;
-        top: calc(50% - calc(2*48px + 56px) / 2);
-    }
-
-    .my-final-message{
-        font-size: 48px;
-        line-height: 56px;
-    }
-
-    .my-second-final-message{
-        font-size: 24px;
-    }
+@media (min-width: 768px) {
+  /* md */
+  /* --- Landing Section Comeco--- */
+  .my-mobile-landing-row {
+    display: none;
+  }
+  .my-desk-landing-row {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  /* --- Landing Section Fim --- */
+  /* --- Login Section Comeco --- */
+  .my-login-section--title {
+    font-size: 33px;
+  }
+  .my-login-section--text {
+    font-size: 15px;
+  }
+  /* --- Login Section Fim --- */
+  /* --- Data Section Comeco -- */
+  .my-section-data-item:last-child {
+    padding-top: 0;
+  }
+  .my-section-data-item > p {
+    font-size: 21px;
+  }
+  .my-section-data-item > h1 {
+    font-size: 32px;
+    line-height: 35px;
+  }
+  /* --- Data Section Fim -- */
+  #myFinalMessageSection {
+    padding: 50px 80px;
+  }
+  #myFinalMessageSection::before {
+    width: calc(100% - 56px);
+    left: calc(50% - calc(100% - 56px) / 2);
+    height: 56px;
+    top: calc(50% - calc(2*48px + 56px) / 2);
+  }
+  .my-final-message {
+    font-size: 48px;
+    line-height: 56px;
+  }
+  .my-second-final-message {
+    font-size: 24px;
+  }
 }
 
-@media (min-width: 992px) { 
-
-    .my-landing-text-content{
-        padding-right: 113px;
-        padding-left: 80px;
-    }
-
-    /* --- Login Section Comeco --- */
-    .my-login-section--title {
-        font-size: 36px;
-    }
-    
-    .my-login-section--text{
-        font-size: 16px;
-    }
-    
-    /* --- Login Section Fim --- */
-
-    /* --- Data Section Comeco -- */
-    .my-section-data-item:last-child{
-        padding-top: 40px;
-    }
-
-   /*--- Dat Section Fim -- */
-
-   /* -- myFinalMessageSection Comeco -- */
-    #myFinalMessageSection{
-        padding: 90px 200px;
-    }
-
-    #myFinalMessageSection::before{
-        height: calc(38px + 56px);
-        width: 56vw;
-
-        left: calc(50% - 28vw);
-        top: calc(50% - calc(2*38px + 56px) / 2);
-        background-color: rgba(249, 255, 160, 0.3);;
-
-        border-radius: 133.5px;
-    }
-
-    .my-final-message{
-        font-size: 48px;
-        line-height: 56px;
-        letter-spacing: 0.28em;
-
-        margin-bottom: 14px;
-    }
-
-    .my-second-final-message{
-        font-size: 24px;
-        line-height: 28px;
-    }
-    /* -- myFinalMessageSection Fim -- */
-
+@media (min-width: 992px) {
+  .my-landing-text-content {
+    padding-right: 113px;
+    padding-left: 80px;
+  }
+  /* --- Login Section Comeco --- */
+  .my-login-section--title {
+    font-size: 36px;
+  }
+  .my-login-section--text {
+    font-size: 16px;
+  }
+  /* --- Login Section Fim --- */
+  /* --- Data Section Comeco -- */
+  .my-section-data-item:last-child {
+    padding-top: 40px;
+  }
+  /*--- Dat Section Fim -- */
+  /* -- myFinalMessageSection Comeco -- */
+  #myFinalMessageSection {
+    padding: 90px 200px;
+  }
+  #myFinalMessageSection::before {
+    height: calc(38px + 56px);
+    width: 56vw;
+    left: calc(50% - 28vw);
+    top: calc(50% - calc(2*38px + 56px) / 2);
+    background-color: rgba(249, 255, 160, 0.3);
+    border-radius: 133.5px;
+  }
+  .my-final-message {
+    font-size: 48px;
+    line-height: 56px;
+    letter-spacing: 0.28em;
+    margin-bottom: 14px;
+  }
+  .my-second-final-message {
+    font-size: 24px;
+    line-height: 28px;
+  }
+  /* -- myFinalMessageSection Fim -- */
 }
 
-@media(min-width: 1155px){
-    
-    .my-landing-search-bar-form > input {
-        padding-right: 125px;
-    }
-    .my-landing-search-bar-form{
-        display: flex;
-        flex-direction: row;
-    }
-
-    .my-landing-search-bar-form button{
-        position: absolute;
-        width: fit-content;
-        height: fit-content;
-        padding: 16px 25px;
-        margin: 0;
-    }
-
-    /* --- Data Section Comeco -- */
-
-    .my-section-data-item > p{
-        font-size: 21px;
-    }
-    .my-section-data-item > h1{
-        font-size: 48px;
-        line-height: 56px;
-    }
-    /* --- Data Section Fim -- */
+@media (min-width: 1155px) {
+  .my-landing-search-bar-form > input {
+    padding-right: 125px;
+  }
+  .my-landing-search-bar-form {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+  }
+  .my-landing-search-bar-form button {
+    position: absolute;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
+    height: fit-content;
+    padding: 16px 25px;
+    margin: 0;
+  }
+  /* --- Data Section Comeco -- */
+  .my-section-data-item > p {
+    font-size: 21px;
+  }
+  .my-section-data-item > h1 {
+    font-size: 48px;
+    line-height: 56px;
+  }
+  /* --- Data Section Fim -- */
 }
 
-@media (min-width: 1200px) { 
-    .my-landing-search-bar-form button{
-        padding: 16px 30px;
-    }
+@media (min-width: 1200px) {
+  .my-landing-search-bar-form button {
+    padding: 16px 30px;
+  }
 }
+/*# sourceMappingURL=home.css.map */

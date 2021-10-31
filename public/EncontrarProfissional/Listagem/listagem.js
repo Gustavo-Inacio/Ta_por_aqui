@@ -273,6 +273,10 @@ const requestServices = async () => { // cuida da requisaicao de servicos
                 let nota_media = elem.nota_media_servico;
                 if(!((typeof elem.nota_media_servico === "number") || (typeof elem.nota_media_servico === "string"))) nota_media = 0;
 
+                if(elem.orcamento_servico == null || !elem.orcamento_servico){
+                    elem.orcamento_servico = "";
+                }
+
                 gottenServices.push({ // adiciona os dados dos servicos recebidos ao array que sera enviado para impressao na DOM
                     serviceID: elem.id_servico,
                     imgSRC: `../../../assets/images/users/${elem.imagem_usuario}`,
@@ -285,6 +289,8 @@ const requestServices = async () => { // cuida da requisaicao de servicos
                     distance: Number(elem.distance)
                 });
             }
+
+            console.log(gottenServices)
             
             setServiceState(
                 {
