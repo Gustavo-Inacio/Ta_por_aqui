@@ -1,0 +1,657 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital@1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700&display=swap');
+
+:root{
+    --my-color-white: #FFF;
+    --my-color-one: #F5FF6C;
+    --my-color-two: #0C0C23;
+    --my-color-three: #45E586;
+    --my-color-four: #CDCDCD;
+    --my-color-five: #888F98;
+    --my-color-six: #3333CC;
+}
+
+*{
+    box-sizing: border-box !important;
+    margin: 0;
+    padding: 0;
+}
+
+/* --- Utilidades Comeco --- */
+textarea:focus, input:focus, select:focus, button:focus {
+    outline: 0 !important;
+}
+
+.show{
+    display: initial !important;
+} 
+
+.hide{
+    display: none  !important;
+}
+
+.loading{
+    background-color: #c1c1c1;
+    position: relative;
+    overflow: hidden;
+}
+
+.loading::before{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: linear-gradient(to right, transparent, #d3d3d3, transparent);
+    transform: translateX(-100%);
+    animation: loading 2s infinite;
+}
+
+@keyframes loading{
+    100%{
+        transform: translateX(100%);
+    }
+}
+
+.dont-break-out { /* a palavra é forcada a quebrar no meio*/
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  
+  }
+/* --- Utilidades Fim --- */ 
+
+/* -- MainTopNavbar Comeco --*/
+#myMainTopNavbarToggler{
+    border: 1px solid rgb(136, 136, 136);
+}
+
+.my-navbar-toggler-icon{
+    height: 36px;
+    padding: 9px 5.62px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.my-navbar-toggler-icon div{
+    width: 100%;
+    border: 1px solid #000;
+    min-width: 24.75px;
+    background-color: #000;
+}
+
+#myMainTopNavbar{
+    height: 80px !important;
+    background-color: #FFF;
+    padding: 0 16px;
+    z-index: 1000;
+}
+
+#myMainTopNavbarNav{
+    justify-content: center;
+    z-index: 1000;
+    background-color: white;
+}
+
+#myMainTopNavbarNav > .navbar-nav{
+    padding-bottom: 25px;
+    padding-top: 8px;
+}
+
+#myMainTopNavbarNav > ul{
+    max-width: 700px;
+    width: 100%;
+    justify-content: space-between;
+}
+
+#myMainTopNavbarNav .nav-item{
+    margin-left: 25px;
+}
+
+#myMainTopNavbarNav .nav-link{
+    color: #000C26;
+    font: 400 16px 'Lato', sans-serif;
+}
+
+#myMainTopNavbarNavBackdrop{
+    position: fixed;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: none;
+    cursor: pointer;
+}
+
+#profileMenu{
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-left: 25px;
+}
+
+#profileMenu:hover{
+    cursor: pointer;
+}
+/* -- MainTopNavbar Fim --*/
+
+
+/* --- Main Footer Comeco -- */
+#myMainFooter{
+    background-color: var(--my-color-two);
+    padding: 21px 31px;
+    font-family: 'Roboto', sans-serif;
+    color: #FFF;
+}
+
+#myMainFooterContainer{
+    display: grid !important;
+    grid-template: 1fr/1fr;
+    
+    grid-template-areas: 
+        'logo'
+        'institutional'
+        'socialMedia'
+    ;
+    column-gap: clamp(0px, 10vw, 70px);
+
+    padding: 0;
+    margin: 0;
+
+}
+
+.my-main-footer-logo{
+    grid-area: logo;
+    display: flex;
+    height: fit-content;
+    justify-content: center;
+    align-self: center;
+    margin-bottom: 11px;
+}
+
+
+#myMainFooter .my-footer-img{
+    width: 90px;
+    height: 42px;
+}
+
+
+.my-main-footer-institutional{
+    grid-area: institutional;
+    justify-self: center;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #FFF;
+}
+
+#myMainFooter .my-main-footer-institutional > p{
+    margin-bottom: 7px;
+    font-weight: 800;
+    font-size: 15px;
+    line-height: 18px;
+}
+
+#myMainFooter .my-main-footer-institutional a , #myMainFooter .my-main-footer-institutional a:hover{
+    font-style: unset;
+    color: inherit;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 150%;
+}
+#myMainFooter .my-main-footer-socialMedia > p{
+    font-weight: 800;
+    font-size: 15px;
+    line-height: 18px;
+    margin-bottom: 7px;
+    align-self: center;
+    text-align: center;
+}
+
+.my-main-footer-socialMedia{
+    grid-area: socialMedia;
+    white-space: nowrap;
+    justify-self: center;
+    align-content: space-between;
+    display: flex;
+    flex-direction: column;
+}
+
+.my-footer-social-medias-div{
+    display: flex;
+    justify-content: space-between;
+}
+
+#myMainFooter .my-main-footer-socialMedia i{
+    font-size: 16.46px;
+    color: #FFF;
+}
+
+
+/*btn patterns and colors*/
+.mybtn {
+    box-sizing: border-box;
+    display: inline-block;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: unset;
+    text-align: center;
+    vertical-align: middle;
+    background: transparent;
+    border: 1px solid unset;
+    width: auto;
+    padding: 7px 1.5em;
+    border-radius: 30px;
+}
+
+.mybtn:focus {
+    outline: none;
+}
+
+.mybtn-sm{
+    font-size: 13px;
+    width: auto;
+    padding: 4px 1.2em;
+}
+
+.mybtn-conversion{
+    color: white;
+    background: #45E586;
+    border-radius: 34px;
+    border: 1px solid #45E586;
+}
+
+.mybtn-conversion:hover{
+    background: #40d67c;
+    transition: .5s;
+}
+
+.mybtn-outline-conversion{
+    color: #45E586;
+    background: transparent;
+    border-radius: 34px;
+    border: 2px solid #45E586;
+}
+
+.mybtn-outline-conversion:hover{
+    color: white;
+    background: #45E586;
+    border-radius: 34px;
+    border: 2px solid #45E586;
+    transition: .2s;
+}
+
+.mybtn-complement{
+    color: white;
+    background: #3333CC;
+    border-radius: 34px;
+    border: 1px solid #3333CC;
+}
+
+.mybtn-complement:hover{
+    background: #2727a4;
+    transition: .5s;
+}
+
+.mybtn-outline-complement{
+    color: #3333CC;
+    background: transparent;
+    border-radius: 34px;
+    border: 2px solid #3333CC;
+}
+
+.mybtn-outline-complement:hover{
+    color: white;
+    background: #3333CC;
+    border-radius: 34px;
+    border: 2px solid #3333CC;
+    transition: .2s;
+}
+
+.mybtn-danger{
+    color: white;
+    background: #FF6F6F;
+    border-radius: 34px;
+    border: 1px solid #FF6F6F;
+}
+
+.mybtn-danger:hover{
+    background: #c25555;
+    transition: .5s;
+}
+
+.mybtn-outline-danger{
+    color: #FF6F6F;
+    background: transparent;
+    border-radius: 34px;
+    border: 2px solid #FF6F6F;
+}
+
+.mybtn-outline-danger:hover{
+    color: white;
+    background: #FF6F6F;
+    border-radius: 34px;
+    border: 2px solid #FF6F6F;
+    transition: .2s;
+}
+
+.mybtn-secondary{
+    color: white;
+    background: #0C0C23;
+    border-radius: 34px;
+    border: 1px solid #0C0C23;
+}
+
+.mybtn-secondary:hover{
+    background: #232369;
+    transition: .5s;
+}
+
+/* --- Main Footer Fim -- */
+
+/* --- General links --- */
+
+a{
+    text-decoration: none;
+}
+
+a:hover{
+    text-decoration: underline;
+}
+
+.qntNonReadMsg{
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    font-size: 14px;
+    text-align: center;
+    background-color: #FF6F6F;
+    color: #F2F2F2;
+    border-radius: 50%;
+}
+
+#mobileBottomNavbarSection-spacer{
+    height: 81px;
+    display: flex;
+
+}
+#mobileBottomNavbarSection{
+    --webkit-backface-visibility: hidden;
+    background: #FFFFFF;
+  
+    border: 1px solid #F2F2F2;
+    border-radius: 16px 16px 0px 0px;
+
+    box-shadow: 0 -5px 10px rgba(133, 133, 133, 0.459);
+
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+   
+
+    .mobile-navbar-item{
+        transition: all 0.5s ease;
+        padding: 11px 0 20px 0;
+        &:first-child{
+            border-radius: 16px 0 0px 0px;
+        }
+        &:last-child{
+            border-radius: 0px 16px 0px 0px;
+        }
+
+        &:hover{
+            background-color: #eee;
+        }
+        &.active{
+            position: relative;
+            &::after{
+                content: '';
+                width: 58px;
+                height: 4px;
+                background: #3430CF;
+                border-radius: 46px;
+                position: absolute;
+                top: -1px;
+                left: calc(50% - (58px / 2));
+            }
+
+            p{
+                color: #3333CC;
+            }
+
+            svg path{
+                fill: #3333CC;
+            }
+        }
+         a{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: transparent;
+            text-decoration: none;
+            &:hover{
+                text-decoration: none;
+            }
+          
+
+            p{
+                font-size: 12px;
+                color: #888F98;
+                margin: 0;
+            }
+        }
+    }
+
+    .getting-out{
+        padding: 0 !important;
+        display: flex;
+        justify-content: center;
+        &:hover{
+            background-color: transparent;
+        }
+    }
+
+    .getting-out a{
+        // transform: translateY(calc(-1 * (11px + 50%))) scale(1.2);
+        transform: translateY(-50%) scale(1.2);
+        background: linear-gradient(139.42deg, #3333CC -3.78%, #4504FF 107.03%);
+        box-shadow: 0px 10px 28px rgba(51, 51, 204, 0.36);
+        border-radius: 39px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        height: 48px;
+        width: 48px;
+
+        padding: 0;
+    }
+    
+}
+
+/* --- General links fim --- */
+
+/* --- Media queries --- */
+@media (min-width: 285px){
+
+    /* -- Main Footer Comeco --- */
+    
+    #myMainFooterContainer{
+
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        justify-content: center;
+        grid-template-areas: 
+            'logo institutional'
+            'socialMedia institutional'
+        ;
+    }
+
+    #myMainFooter .my-main-footer-institutional > p{
+        margin-bottom: 7px;
+    }
+
+    .my-main-footer-institutional{
+        margin: 0;
+        padding-bottom: 0;
+        border: none;
+    }
+
+    /* -- Main Footer Fim --- */
+}
+
+@media (max-width: 575px) { 
+    .test > .xs {display: block;}
+    .test > .sm {display: none;}
+    .test > .md {display: none;}
+    .test > .lg {display: none;}
+    .test > .xl {display: none;}
+}
+
+@media (max-width: 768px) { /* md */
+    /*Configurações da foto de perfil*/
+    #profileMenu{
+        margin-left: 20px;
+        margin-bottom: 20px;
+    }
+
+    #myMainTopNavbarNav{
+        margin: 0 -28px;
+    }
+}
+
+@media (min-width: 576px) { 
+    #mobileBottomNavbarSection-spacer{
+        display: none;
+    }
+   
+    .test > .xs {display: none;}
+    .test > .sm {display: block;}
+    .test > .md {display: none;}
+    .test > .lg {display: none;}
+    .test > .xl {display: none;}
+}
+@media (min-width: 768px) { /* md */
+    /* -- MainTopNavbar Comeco --*/
+    #myMainTopNavbar{
+        padding: 0 50px;
+    }
+
+    #myMainTopNavbarNav > .navbar-nav{
+        padding: 0;
+    }
+   
+    #myMainTopNavbarNav .nav-item{
+        margin: 0 auto;
+    }
+
+    /* -- MainTopNavbar Fim --*/
+
+    /* Main Footer Comeco */ 
+    #myMainFooter{
+        padding: 50px;
+    }
+
+    #myMainFooterContainer{
+
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr;
+        grid-template-areas: 
+            'logo institutional socialMedia'
+        ;
+    }
+
+    #myMainFooter .my-footer-img{
+        width: 128px;
+        height: 60px;
+    }
+
+    #myMainFooter .my-main-footer-institutional > p{
+        font-size: 17px;
+    }
+
+    #myMainFooter .my-main-footer-institutional > a{
+        font-size: 15px;
+    }
+
+    #myMainFooter .my-main-footer-socialMedia i{
+        font-size: 25.1px;
+    }
+
+    #myMainFooter .my-main-footer-socialMedia{
+        width: 100%;
+        height: 100%;
+    }
+
+    .my-footer-social-medias-div{
+        width: 100%;
+        justify-content: space-evenly;
+        margin: auto 0;
+    }
+    /* Main Footer Comeco */ 
+  
+    .test > .xs {display: none;}
+    .test > .sm {display: none;}
+    .test > .md {display: block;}
+    .test > .lg {display: none;}
+    .test > .xl {display: none;}
+}
+@media (min-width: 992px) { 
+    /* -- myMainTopNavbar Comeco -- */
+    #myMainTopNavbar{
+        padding: 0 80px;
+    }
+    /* -- myMainTopNavbar Fim -- */
+
+    /* -- Main Footer Comeco -- */
+    #myMainFooter .my-main-footer-socialMedia i{
+        font-size: 32.1px;
+    }
+    /* -- Main Footer Fim -- */
+
+    .test > .xs {display: none;}
+    .test > .sm {display: none;}
+    .test > .md {display: none;}
+    .test > .lg {display: block;}
+    .test > .xl {display: none;}
+
+}
+@media (min-width: 1200px) { 
+    .test > .xs {display: none;}
+    .test > .sm {display: none;}
+    .test > .md {display: none;}
+    .test > .lg {display: none;}
+    .test > .xl {display: block;}
+}
+
+/*
+Extra small (xs) devices (portrait phones, less than 576px)
+No media query since this is the default in Bootstrap
+
+Small (sm) devices (landscape phones, 576px and up)
+@media (min-width: 576px) { ... }
+
+Medium (md) devices (tablets, 768px and up)
+@media (min-width: 768px) { ... }
+
+Large (lg) devices (desktops, 992px and up)
+@media (min-width: 992px) { ... }
+
+Extra (xl) large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) { ... }
+*/
