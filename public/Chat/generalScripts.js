@@ -14,6 +14,9 @@ function returnToChat(){
 function returnToContacts() {
     $('#chatSecondColumn').removeClass('opened').addClass('closed')
     $('#chatFirstColumn').removeClass('closed').addClass('opened')
+
+    $('#mobileBottomNavbarSection').removeClass('d-none')
+    $('#mobileBottomNavbarSection-spacer').removeClass('d-none')
 }
 
 //carregar conversa

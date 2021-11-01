@@ -52,6 +52,11 @@ if (empty($chatInfo) || $chatInfo->status_chat_contato == 0){
             download.click()
             download.remove()
         }
+
+        $(document).ready(() => {
+            $('#mobileBottomNavbarSection').addClass('d-none')
+            $('#mobileBottomNavbarSection-spacer').addClass('d-none')
+        })
     </script>
 </head>
 <body style="position: relative">

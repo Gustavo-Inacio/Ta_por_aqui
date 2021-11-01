@@ -1,8 +1,6 @@
 <?php
 session_start();
 
-print_r($_POST['serviceID']);
-
 if( empty($_SESSION['idUsuario'] || empty($_POST['serviceID'])) ){
     header('Location: ../Home/home.php');
 }
@@ -17,14 +15,11 @@ $editService = new editService($_POST['serviceID']);
 
 $serviceIsMine = $editService->verifySelfService(); // verifica se o servico eh dele mesmo
 if(!$serviceIsMine){
-    header('Location: ../Home/home.php');
+    header('Location: ../EncontrarProfissional/VisualizarServico/visuaizarServico.php?serviceID='.$_POST['serviceID']);
     die();
 }
 
 $serviceData = $editService->getServiceData(); // verifica se o servico eh dele mesmo, e retorna o dados
-if(!isset($serviceData['serviceData']['orcamento_servico'])){
-    print_r( "selected");
-}
 ?>
 <!DOCTYPE html>
 <html lang="pt">
