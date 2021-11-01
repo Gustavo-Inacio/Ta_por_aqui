@@ -903,6 +903,50 @@ button:focus {
   height: inherit;
 }
 
+.beforeSearch {
+  padding: 15px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 500px;
+  margin: 25px auto 0 auto;
+}
+
+.beforeSearch h3 {
+  color: #888F98;
+  font-weight: bold;
+  text-align: center;
+  font-size: 32px;
+}
+
+.beforeSearch ul {
+  color: #888F98;
+  font-size: 14px;
+}
+
+.beforeSearch ul li span {
+  padding: 5px 9px;
+  background-color: #888F98;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border-radius: 144px;
+  color: white;
+  font-size: 13px;
+  margin: 0 7px;
+}
+
+#searchTagSection .clear-tags-div:hover {
+  background-color: #FF6F6F;
+  -webkit-transition: .2s;
+  transition: .2s;
+}
+
+#searchTagSection .clear-tags-div:hover label, #searchTagSection .clear-tags-div:hover i {
+  color: white;
+  -webkit-transition: .2s;
+  transition: .2s;
+}
+
 @media (min-width: 500px) {
   /* -- filter section -- */
   #filterSection {

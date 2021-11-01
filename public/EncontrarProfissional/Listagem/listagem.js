@@ -204,14 +204,34 @@ const refreshTagsArea = () => { // cuida de recaregar toda a area das tags
             searchTagPath.appendChild(searchTagTemplate);
         })
     }
-} 
+}
+
+function verifyUserLoggin(){
+    let loggedUser = ''
+
+    let verifyLogginRequest = new XMLHttpRequest()
+    verifyLogginRequest.open('GET', '../../../logic/verifyUserOnline.php', false)
+    verifyLogginRequest.onreadystatechange = () => {
+        if (verifyLogginRequest.readyState === 4 && verifyLogginRequest.status === 200){
+            loggedUser = verifyLogginRequest.response
+        }
+    }
+    verifyLogginRequest.send()
+
+    return loggedUser
+}
 
 const requestServices = async () => { // cuida da requisaicao de servicos
-    if(permitSearch){
-        permitSearch = false;
+    let loggedUser = verifyUserLoggin()
 
-        const addSpinner = () => { // adicona o spinner para mostrar que a reuisicao foi feita. Quando ela for finalizada, o spinner eh removido
-            let spinner = `
+    if (loggedUser === 'false' && (tempPosition.tempLat === false || tempPosition.tempLng === false)){
+        alert('É preciso adicionar algum endereço para fazer a pesquisa pelos serviços')
+    } else {
+        if(permitSearch){
+            permitSearch = false;
+
+            const addSpinner = () => { // adicona o spinner para mostrar que a reuisicao foi feita. Quando ela for finalizada, o spinner eh removido
+                let spinner = `
             <div class="text-center my-5">
                 <div class="spinner-border" role="status">
                     <span class="visually-hidden">Loading...</span>
@@ -219,47 +239,46 @@ const requestServices = async () => { // cuida da requisaicao de servicos
             </div>
         `;
 
-            let serviceSpinnerContainer = document.querySelector(".service-cards-loading-container");
-            serviceSpinnerContainer.innerHTML = spinner;
-        }
-        addSpinner();
-
-        let idToExlucde = [];
-        let maxDist = 0;
-
-
-        serviceState.allservices.forEach((elem) => { // cuida de selecionar os ids dos servicos que possuem a distancia exata de menor distancia a ser pesquisada na requisicao. A fim de evitar repeticoes
-            if(elem.distance > maxDist){ // caso eu tenha um servico cuja distancia seja maior que a maior distanca, ele eh maior que todos os outros, portanto, deixe somente ele na array
-                maxDist = elem.distance;
-                idToExlucde = [elem.serviceID];
+                let serviceSpinnerContainer = document.querySelector(".service-cards-loading-container");
+                serviceSpinnerContainer.innerHTML = spinner;
             }
-            else if(elem.distance == maxDist){ // caso ele tenha a distanca equivalente a maior distancia ja encontrada, ele tambem deve ser incluido na query de exlucsao
-                idToExlucde.push(elem.serviceID);
-            }
+            addSpinner();
 
-        });
+            let idToExlucde = [];
+            let maxDist = 0;
 
-        let req = new XMLHttpRequest(); 
 
-        let subCatid = []; // array responsavel por copiar os ids das subcategorias selecionadas, para enviar na requisicao
-        searachState.tag.forEach(elem => {
-            subCatid.push(elem.id);
-        });
+            serviceState.allservices.forEach((elem) => { // cuida de selecionar os ids dos servicos que possuem a distancia exata de menor distancia a ser pesquisada na requisicao. A fim de evitar repeticoes
+                if(elem.distance > maxDist){ // caso eu tenha um servico cuja distancia seja maior que a maior distanca, ele eh maior que todos os outros, portanto, deixe somente ele na array
+                    maxDist = elem.distance;
+                    idToExlucde = [elem.serviceID];
+                }
+                else if(elem.distance == maxDist){ // caso ele tenha a distanca equivalente a maior distancia ja encontrada, ele tambem deve ser incluido na query de exlucsao
+                    idToExlucde.push(elem.serviceID);
+                }
 
-        const config = { // configuracoes de requisicao
-            getServices: true,
-            dataServices: {
-                quantity : 1,
-                maxDist: 100000000000000000000,
-                minDist: maxDist,
-                myLat: tempPosition.tempLat,
-                myLng: tempPosition.tempLng,
-                subCat: subCatid,
-                searchWords: searachState.write,
-                service_idToExlucde : idToExlucde || []
-            }
-        };
+            });
 
+            let req = new XMLHttpRequest();
+
+            let subCatid = []; // array responsavel por copiar os ids das subcategorias selecionadas, para enviar na requisicao
+            searachState.tag.forEach(elem => {
+                subCatid.push(elem.id);
+            });
+
+            const config = { // configuracoes de requisicao
+                getServices: true,
+                dataServices: {
+                    quantity : 1,
+                    maxDist: 100000000000000000000,
+                    minDist: maxDist,
+                    myLat: tempPosition.tempLat,
+                    myLng: tempPosition.tempLng,
+                    subCat: subCatid,
+                    searchWords: searachState.write,
+                    service_idToExlucde : idToExlucde || []
+                }
+            };
         req.onload = () => {
             let responseData = JSON.parse(req.response);
             let responseInfo =  responseData.services.statusInfo;
@@ -291,37 +310,36 @@ const requestServices = async () => { // cuida da requisaicao de servicos
             }
 
             console.log(gottenServices)
-            
-            setServiceState(
-                {
-                    servicesToAdd: gottenServices,
-                    lastDistance: responseInfo.maxDistance,
-                    endedSearch: responseInfo.ended
-                }
-            );
-        
-            const requestUntilScroll = () => { // faz requisicoes ate preencher a tela e gerar um scroll. 
-                let contentSection = document.querySelector("#contentSection");
-                let serviceCardsPath = document.querySelector(".service-cards-path");
-                let viewHeight = contentSection.clientHeight - document.querySelector("#mySearchBarSection").clientHeight -  document.querySelector("#searchTagSection").clientHeight - document.querySelector("#filterSection").clientHeight;
-                // viweHieght eh o tamanho que a div ocupa na tela na visualizacao
+                setServiceState(
+                    {
+                        servicesToAdd: gottenServices,
+                        lastDistance: responseInfo.maxDistance,
+                        endedSearch: responseInfo.ended
+                    }
+                );
 
-                if(!serviceState.endedSearch && (viewHeight >= serviceCardsPath.clientHeight)){ // se nao acabaram os servicos, e se a altura a ser ocupada ainda eh maior que a real altura
-                    requestServices();
+                const requestUntilScroll = () => { // faz requisicoes ate preencher a tela e gerar um scroll.
+                    let contentSection = document.querySelector("#contentSection");
+                    let serviceCardsPath = document.querySelector(".service-cards-path");
+                    let viewHeight = contentSection.clientHeight - document.querySelector("#mySearchBarSection").clientHeight -  document.querySelector("#searchTagSection").clientHeight - document.querySelector("#filterSection").clientHeight;
+                    // viweHieght eh o tamanho que a div ocupa na tela na visualizacao
+
+                    if(!serviceState.endedSearch && (viewHeight >= serviceCardsPath.clientHeight)){ // se nao acabaram os servicos, e se a altura a ser ocupada ainda eh maior que a real altura
+                        requestServices();
+                    }
                 }
-               
+
+                requestUntilScroll();
+                let serviceSpinnerContainer = document.querySelector(".service-cards-loading-container");
+                serviceSpinnerContainer.innerHTML = ""; // remove spinner
+                permitSearch = true; // requisicao acabou, etntao esta permitido fazer outra
+
             }
-        
-            requestUntilScroll(); 
-            let serviceSpinnerContainer = document.querySelector(".service-cards-loading-container");
-            serviceSpinnerContainer.innerHTML = ""; // remove spinner
-            permitSearch = true; // requisicao acabou, etntao esta permitido fazer outra
-        
+
+            req.open("POST", './getAsyncDataList.php');
+
+            req.send(JSON.stringify(config));
         }
-
-        req.open("POST", './getAsyncDataList.php');
-
-        req.send(JSON.stringify(config));
     }
 }
 
@@ -344,15 +362,15 @@ const refreshSearch = () => {
     let serviceCadrPath_e = document.querySelector('.service-cards-path');
     serviceCadrPath_e.innerHTML = "";
 
-    
+
     setServiceState({
         allservices :[],
         lastDistance : 0,
-        endedSearch: false , 
+        endedSearch: false ,
         service_idToExlucde: [],
     });
 
-    
+
     if(!(searachState.tag.length ==0 && searachState.write == ""))
     requestServices();
 

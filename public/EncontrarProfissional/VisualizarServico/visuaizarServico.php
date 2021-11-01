@@ -34,7 +34,7 @@
 
     $isProvider = false;
 
-    if(isset($_SESSION['classificacao']) && $_SESSION['classificacao'] > 1){
+    if(isset($_SESSION['classificacao']) && $_SESSION['classificacao'] >= 1){
         $isProvider = true;
     }
 ?>
@@ -416,15 +416,14 @@
                                             <button class="my-hire-service-btn">Contratar serviço</button>
                                         <?php } ?>
                                     <?php } else{?>
-                                    <form action="../../EditarServico/editar_servico.php" method="POST">
-                                        <input type="number" hidden name="serviceID" value="<?php echo $serviceID?>">
-                                        <a href="#">
-                                            <button class="btn btn-success" type="submit">
-                                                Editar serviço
-                                            </button>    
-                                        </a>
-                                    </form>
-                                        
+                                        <form action="../../EditarServico/editar_servico.php" method="POST">
+                                            <input type="number" hidden name="serviceID" value="<?php echo $serviceID?>">
+                                            <a href="#">
+                                                <button class="btn btn-success" type="submit">
+                                                    Editar serviço
+                                                </button>
+                                            </a>
+                                        </form>
                                     <?php }?>
                                 <?php } else{ ?>
 
