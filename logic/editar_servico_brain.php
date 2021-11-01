@@ -58,10 +58,11 @@ class editService
     }
 
     public function verifySelfService(){
-        $cmd = $this->con->query("select id_servico from servicos where id_prestador_servico={$_SESSION['idUsuario']} and id_servico={$_SESSION['serviceID']};");
+        $cmd = $this->con->query("select id_servico from servicos where id_prestador_servico={$_SESSION['idUsuario']} and id_servico={$this->serviceID};");
+        $result = $cmd->fetch(PDO::FETCH_OBJ);
         $isMyService = false;
 
-        if($cmd->rowCount() > 0){
+        if($result !== false){
             $isMyService = true;
         }
         
