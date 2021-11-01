@@ -125,6 +125,7 @@ if(isset($_SESSION['classificacao']) && $_SESSION['classificacao'] >= 1){
                     <ul>
                         <li>Você pode ter digitado a url errada</li>
                         <li>O prestador desse serviço desativou a conta</li>
+                        <li>O prestador decidiu ocultar esse serviço do público</li>
                         <li>Esse serviço recebeu muitas denúncias e foi banido</li>
                     </ul>
                 </div>
