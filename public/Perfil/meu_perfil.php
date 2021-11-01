@@ -31,7 +31,7 @@ if(isset($_SESSION['classificacao']) && $_SESSION['classificacao'] >= 1){
 //puxando os serviços relacionados ao prestador
 if($_SESSION['classificacao'] !== 0){
     //serviços disponibilizados
-    $query = "SELECT id_servico, nome_servico, tipo_servico, crit_orcamento_servico, orcamento_servico, data_public_servico FROM servicos WHERE id_prestador_servico = " . $_SESSION['idUsuario'] . " AND status_servico = 1 ORDER BY id_servico DESC LIMIT 0,4";
+    $query = "SELECT id_servico, nome_servico, tipo_servico, crit_orcamento_servico, orcamento_servico, data_public_servico FROM servicos WHERE id_prestador_servico = " . $_SESSION['idUsuario'] . " AND status_servico != 0 AND status_servico != 2 ORDER BY id_servico DESC LIMIT 0,4";
     $stmt = $con->query($query);
     $userServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
