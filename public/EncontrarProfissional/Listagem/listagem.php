@@ -12,7 +12,7 @@ require "../../../logic/entrar_cookie.php";
 
 $isProvider = false;
 
-if(isset($_SESSION['classificacao']) && $_SESSION['classificacao'] > 1){
+if(isset($_SESSION['classificacao']) && $_SESSION['classificacao'] >= 1){
     $isProvider = true;
 }
 
