@@ -17,22 +17,23 @@ class VisualizeService
     {
         $data = [];
 
-        $cmd_provider = $this->con->query("SELECT id_prestador_servico from servicos where id_servico='$this->serviceID'");
-        if($cmd_provider->rowCount() > 0){
-            $providerID = $cmd_provider->fetch(PDO::FETCH_ASSOC)['id_prestador_servico'];
+        // captura as infos do preatador que esteja relacionada a esse servico , sendo que o status do servico deva ser 1 'disponivel'
+        $cmd_provider = $this->con->query("SELECT nome_usuario, sobrenome_usuario, classif_usuario, fone_usuario, uf_usuario, cidade_usuario, rua_usuario, numero_usuario 
+        FROM usuarios, servicos where id_usuario = id_prestador_servico and id_servico={$this->serviceID} and status_servico=1;");
+        
+        $data = $cmd_provider->fetch(PDO::FETCH_ASSOC);
 
-            $command = $this->con->query("SELECT id_usuario, nome_usuario, sobrenome_usuario, classif_usuario, fone_usuario, uf_usuario, cidade_usuario, rua_usuario, numero_usuario FROM usuarios WHERE id_usuario='$providerID'");
-            $data = $command->fetch(PDO::FETCH_ASSOC);    
-        }
-
-       
         return $data;
     }
 
     public function getServiceInfo(){
         $data = [];
 
+<<<<<<< HEAD
+        $command = $this->con->query("SELECT id_servico, nome_servico, desc_servico, crit_orcamento_servico, tipo_servico, data_public_servico, nota_media_servico, orcamento_servico FROM servicos WHERE id_servico='$this->serviceID' and status_servico=1;");
+=======
         $command = $this->con->query("SELECT id_servico, nome_servico, desc_servico, crit_orcamento_servico, tipo_servico, data_public_servico, nota_media_servico, orcamento_servico, status_servico FROM servicos WHERE id_servico='$this->serviceID'");
+>>>>>>> 5999d5202734af7ccf0f4c2710aad2d1f9132571
         $data = $command->fetch(PDO::FETCH_ASSOC);
 
         return $data;
@@ -41,74 +42,54 @@ class VisualizeService
     public function getServiceImages(){
         $data = [];
 
-        $command = $this->con->query("SELECT dir_servico_imagem FROM servico_imagens WHERE id_servico='$this->serviceID'");
+        // busca pelas fotos do servico, sendo que o status do servio deva ser 1
+        $command = $this->con->query("SELECT dir_servico_imagem FROM servico_imagens, servicos WHERE servicos.id_servico=6 and servico_imagens.id_servico = servicos.id_servico and status_servico=1;");
         $data = $command->fetchAll(PDO::FETCH_COLUMN);
 
         return $data;
     }
 
     public function getComments(){
-        $data = []; // dados que serao retornados
+        $data = array(); // dados que serao retornados
 
-        $cmdComment = $this->con->query("SELECT nota_comentario, desc_comentario, id_usuario, data_comentario, id_comentario FROM comentarios WHERE id_servico='$this->serviceID' ORDER BY data_comentario DESC");
-        $commentList = $cmdComment->fetchAll(PDO::FETCH_ASSOC); // busca a lista de comentarios do servico atual.
+        $cmdComment = $this->con->query("
+        SELECT nota_comentario, servicos.id_servico, desc_comentario, usuarios.id_usuario,
+        data_comentario, id_comentario, nome_usuario, sobrenome_usuario, imagem_usuario 
+        FROM comentarios, servicos, usuarios 
+        
+        WHERE comentarios.id_servico={$this->serviceID} and comentarios.id_servico = servicos.id_servico 
+        and usuarios.id_usuario = comentarios.id_usuario and 
+        servicos.status_servico = 1 and status_comentario = 1 and status_usuario=1
+        
+        ORDER BY data_comentario DESC;");
 
-        foreach ($commentList as $key => $value) { // para cada comentario, busque os dados dos usuarios que comentaram
-            $user_id = $value['id_usuario']; // esse eh o usuario do comentario em analise
-            $cmdUser = $this->con->query("SELECT nome_usuario, sobrenome_usuario, imagem_usuario FROM usuarios WHERE id_usuario='$user_id'");
-            $userData = $cmdUser->fetch(PDO::FETCH_ASSOC); // buscou os dados do comentario em analise
-
-            $data[$key]["comment"] = $value; // neste index inclua um obj com os dados do cometario em si.
-            $data[$key]["user"] = $userData; // neste index inclua um obj com os dados do usuario que fez o comentario
+        $dataComment = $cmdComment->fetchAll(PDO::FETCH_ASSOC);
+        if($dataComment){
+            $data = $dataComment;
         }
 
-        //$data['updatedAverage'] = $this->refreshAverageRate($this->serviceID);
-
-        $jsonData = json_encode($data); // transforma em json
         return $data; // retorna os dados em formto de json.
     }
 
     public function getProviderAverage(){ // esta funcao retorna a quantidade de avaliacoes (comentarios), a soma de todas elas, e a média
-        $response = array( // array de reponstas
-            'data' => [ // dados que serao retornados
-                'sum' => 0,
-                'quantity' => 0,
-                'average' => 0
-            ],
-            'finished'=> false // se terminou de forma certa
-        );
+        $response = array();// array de reponstas
 
-        $cmd = $this->con->query("SELECT id_prestador_servico from servicos where id_servico='$this->serviceID'"); // pega o id do prestador do servico atual
+        $cmdProviderId = $this->con->query("select id_prestador_servico from servicos where id_servico={$this->serviceID} and status_servico=1;");
+        $respProviderId = $cmdProviderId->fetch(PDO::FETCH_ASSOC);
 
-        if($cmd->rowCount() > 0){ // caso exista esse prestador
-            $providerID = $cmd->fetch(PDO::FETCH_ASSOC)['id_prestador_servico'];
+        if($respProviderId){
 
-            $cmdServices = $this->con->query("SELECT id_servico FROM servicos WHERE id_prestador_servico='$providerID'"); // pega todos os servicos do prestador
-            if($cmdServices->rowCount() > 0  && $cmdServices){ // caso a bsuca ocorreu bem, e existam servicos
-                $services = $cmdServices->fetchAll(PDO::FETCH_ASSOC); // ids dos servicos
+            $cmdAvgCount = $this->con->query("
+                select count(nota_comentario) as quantity, nota_media_usuario from comentarios, servicos, usuarios
+                where comentarios.id_servico = servicos.id_servico and 
+                servicos.id_prestador_servico = usuarios.id_usuario and usuarios.id_usuario = {$respProviderId['id_prestador_servico']} and 
+                status_usuario =1 ;
+            ");
 
-                foreach($services as $index => $elem){ // em cada servico, pega todos os comentarios e extrai as notas
-                    $cmd = $this->con->prepare("SELECT nota_comentario from comentarios where id_servico=:id");
-                    $cmd->bindValue(':id', $elem['id_servico']);
-                    $cmd->execute(); // pega todas as notas do servico em analise do prestador atual.
-
-                    if($cmd->rowCount() > 0){ // caso existam avaliacoes desse servico
-                        $rates = $cmd->fetchAll(PDO::FETCH_ASSOC); // extrai todas as notas 
-
-                        foreach ($rates as $i => $rate) { // em cada nota ele soma o valor delas, e aumenta a quantidade.
-                            $response['data']['sum'] += $rate['nota_comentario']; // soma o valor
-                            $response['data']['quantity']++; // aumenta a quantidade
-                            $response['finished'] = true;
-                        }
-                    }
-                    
-                }
+            $dataAvgCount = $cmdAvgCount->fetch(PDO::FETCH_ASSOC);
+            if($dataAvgCount){
+                $response = $dataAvgCount;
             }
-
-            if($response['data']['quantity'] > 0){
-                $response['data']['average'] = $response['data']['sum'] / $response['data']['quantity']; // esta eh a media das notas   
-            }
-            
         }
 
         return $response;
@@ -158,69 +139,50 @@ class VisualizeService
         $response = array( // array de reposta
             'provider' => array( // infos do provedor de servico
                 'rateQuantity' => 0,
-                'sumRate' => 0,
                 'averageRate' => 0
             ),
             'service' => array(
                 'rateQuantity' => 0,
-                'sumRate' => 0,
                 'averageRate' => 0
             ),
             'info' => array( // satus da funcoa
-                'finished' => false, // se terminou = true
+                'finished' => true, // se terminou = true
             )
         );
 
-        //este primeiro bloco, processara as notas do servico em si.
-        $cmd = $this->con->query("SELECT nota_comentario FROM comentarios WHERE id_servico='$serviceID'"); // pegue todos os campos de comentarios desse servico e extraia a nota de cada um
-        if($cmd->rowCount() > 0 && $cmd){ // caso exista ao mesnos 1 comentario.
-            $serviceRates = $cmd->fetchAll(PDO::FETCH_ASSOC); // armazene as notas dos coentarios desse servico
-            $response['service']['rateQuantity'] = $cmd->rowCount(); // prencha a resposta com a quantidade de avaliacoes que tem nesse servico.
+        $cmdProviderId = $this->con->query("select id_prestador_servico from servicos where id_servico={$this->serviceID} and status_servico=1;");
+        $respProviderId = $cmdProviderId->fetch(PDO::FETCH_ASSOC);
 
-            foreach ($serviceRates as $key => $rate) { // para cada nota ...
-                $response['service']['sumRate'] += $rate['nota_comentario']; // ... adicone na soma de notas no array de resposta
-            }
+        if($respProviderId){
+            $cmdAvgCount = $this->con->query("
+                select count(nota_comentario) as quantity, nota_media_usuario from comentarios, servicos, usuarios
+                where comentarios.id_servico = servicos.id_servico and 
+                servicos.id_prestador_servico = usuarios.id_usuario and usuarios.id_usuario = {$respProviderId['id_prestador_servico']} and 
+                status_usuario =1 ;
+            ");
 
-            $response['service']['averageRate'] = $response['service']['sumRate'] / $response['service']['rateQuantity']; // calcula a media do servico em si, e coloca no array de respostas
-        }
-
-        // esse segundo bloco de codigo processara todas as avaliacoes de todos os servico do prestador, e atualizara a sua media de prestador.
-        $cmdProvider = $this->con->query("SELECT id_prestador_servico FROM servicos WHERE id_servico='$serviceID'"); // ache o ID do prestador, a fim de buscar todos os seus servicos
-        if($cmdProvider->rowCount() > 0){ // caso exista esse ID do prestador
-            $providerID = $cmdProvider->fetch(PDO::FETCH_ASSOC)['id_prestador_servico']; // extraia o ID.
-
-            $cmdAllServicesID = $this->con->query("SELECT id_servico FROM servicos WHERE id_prestador_servico='$providerID'"); // busque todos os IDs de servico, cujo o prestador seja o que acahamos
-            if($cmdAllServicesID->rowCount() > 0 && $cmdAllServicesID){ // verificando se a bsca deu certo.
-                $servicesID_data = $cmdAllServicesID->fetchAll(PDO::FETCH_ASSOC); // extaria todos os IDs de servico que estajam vinculados com esse prestador
-                foreach ($servicesID_data as $key => $serv) { // para cada servico desse prestador ...
-                    $serv = $serv['id_servico']; // id do servico em analise
-
-                    $cmd_thisServiceComments = $this->con->query("SELECT nota_comentario FROM comentarios WHERE id_servico='$serv'"); // busque a nota que esta nos comentarios desse servico em analise
-                    if($cmd_thisServiceComments->rowCount() > 0){ // se existirem comentarios nesse servioc em analise
-                        $data_commentsRate = $cmd_thisServiceComments->fetchAll(PDO::FETCH_ASSOC); // extraia todas as notas dos comentarios
-
-                        $response['provider']['rateQuantity'] += $cmd_thisServiceComments->rowCount(); // adicone no array de repostas a quantidade de comentarios desse servico em analise somada com outros sericos que ja foram analisados
-
-                        foreach ($data_commentsRate as $key => $commentRate) { // para cada nota desse servico em analise
-                            $commentRate = $commentRate['nota_comentario']; // extarai a nota individual
-                            $response['provider']['sumRate'] += $commentRate; // adicona essa nota no array de repostas, somando com as outras notas 
-                        }
-
-                    }
-                }
-
-                if($response['provider']['rateQuantity'] > 0){ // verificacao para nao existir divisao por zero
-                    $response['provider']['averageRate'] = $response['provider']['sumRate'] / $response['provider']['rateQuantity']; // calcula a media do provider e coloca no array de repostas 
-                }
-                
+            $dataAvgCount = $cmdAvgCount->fetch(PDO::FETCH_ASSOC);
+            if($dataAvgCount){
+                $response['provider']['rateQuantity'] = $dataAvgCount['quantity'];
+                $response['provider']['averageRate'] = $dataAvgCount['nota_media_usuario'];
             }
         }
 
-        $response['info']['finished'] = true;
+        $cmdServiceAvgQuantity = $this->con->query("
+        select count(*) as quantity, servicos.nota_media_servico from comentarios, servicos
+        where comentarios.id_servico = servicos.id_servico and servicos.id_servico = {$this->serviceID};
+        ");
+
+        $dataServiceCountAvg = $cmdServiceAvgQuantity->fetch(PDO::FETCH_ASSOC);
+        if($dataServiceCountAvg){
+            $response['service']['rateQuantity'] = $dataServiceCountAvg['quantity'];
+            $response['service']['averageRate'] = $dataServiceCountAvg['nota_media_servico'];
+        }
+
         return $response; // retone o array
     }
 
-    private function refreshAverageRate ($serviceID){
+    private function refreshAverageRate ($serviceID){ // parei aqui senhor inácio. vc mesmo!!!!
     /*  Esta funcao calcula a media da nota do servico, e a media da nota do prestador.
         Portanto, ela deve ser chamada todas as vezes que um novo comentario ou avaliacao
         for inserido.

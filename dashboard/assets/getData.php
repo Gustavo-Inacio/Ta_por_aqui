@@ -15,10 +15,18 @@ class DashboardConnection {
     private $dbname = 'sql10448047';
     private $user = 'sql10448047';
     private $password = 'evDnaSbzST';
+<<<<<<< HEAD
+
+    //private $host = 'sql10.freemysqlhosting.net';
+    //private $dbname = 'sql10444871';
+    //private $user = 'sql10444871';
+    //private $password = 'mQjzmpfgRa';
+=======
     //private $host = 'localhost';
     //private $dbname = 'ta_por_aqui';
     //private $user = 'root';
     //private $password = '';
+>>>>>>> 5999d5202734af7ccf0f4c2710aad2d1f9132571
 
     public function connect(){
         //Iniciando conexão com o bd com PDO

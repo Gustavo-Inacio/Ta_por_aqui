@@ -763,11 +763,12 @@ loadOtherService();
 
 const saveService = () => {
     let unsavedSVG = `
-        <svg id="saveSVG-unsave" width="46" height="44" viewBox="0 0 46 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!--<svg id="saveSVG-unsave" width="46" height="44" viewBox="0 0 46 44" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="0.5" y="0.5" width="44.2941" height="43" rx="7.5" stroke="#FF6F6F"/>
             <path d="M14 31L33 12" stroke="#FF6F6F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M33 31L14 12" stroke="#FF6F6F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+        </svg> -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#0036a7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path><line x1="9" y1="14" x2="15" y2="14"></line></svg>
     `;
 
     let savedSVG = `
@@ -779,14 +780,19 @@ const saveService = () => {
     `;
     
     let btnSave = document.querySelectorAll('.my-save-service-btn');
+    let labelSave = document.querySelectorAll('.save-service-label p');
     const saveResponseRandler = (response, index) => {
         console.log(response)
         let data = JSON.parse(response);
         if(data.saveService.allRight){
-            if(data.saveService.inserted)
+            if(data.saveService.inserted){
                 btnSave[index].innerHTML = unsavedSVG;
-            else if(data.saveService.deleted)
+                labelSave.forEach(elem => {elem.innerHTML = "Descartar"});
+            }
+            else if(data.saveService.deleted){
                 btnSave[index].innerHTML = savedSVG;
+                labelSave.forEach(elem => {elem.innerHTML = "Salvar"});
+            }
         }
     }
 
@@ -937,11 +943,13 @@ loadCommentsData();
 
 const refreshAverageRate = (data) => {
     if(!data.info.finished) return false;
+
+    console.log("dados malucos", data)
     
     const refreshProviderRate = (providerInfo) => {
         let lbl_rate = document.querySelectorAll('.provider-rate--number');
         lbl_rate.forEach(elem => {
-            elem.innerHTML = providerInfo.averageRate.toFixed(1);
+            elem.innerHTML = Number(providerInfo.averageRate).toFixed(1);
         });
 
         let rateSatrs = document.querySelectorAll('.provider-rate--stars svg path');
@@ -960,7 +968,7 @@ const refreshAverageRate = (data) => {
     const refrechServiceRate = (serviceInfo) => {
         let lbl_rate = document.querySelectorAll('.service-rate--number ');
         lbl_rate.forEach(elem => {
-            elem.innerHTML = serviceInfo.averageRate.toFixed(1);
+            elem.innerHTML = Number(serviceInfo.averageRate).toFixed(1);
         });
 
         let rateSatrs = document.querySelectorAll('.my-rate-service-info .service-rate--stars svg path');
@@ -1013,18 +1021,25 @@ async function commentsDataHandler(response){
 
     console.log(data)
     data.forEach((elem, index) => {
+        console.log(elem)
         commentsData.push({
-            userName: `${elem.user.nome_usuario}  ${elem.user.sobrenome_usuario}`,
-            profilePicture: pictureFolderPath + elem.user.imagem_usuario,
-            rateStars : elem.comment.nota_comentario,
-            publishDate: elem.comment.data_comentario,
-            text: elem.comment.desc_comentario,
-            commentId: elem.comment.id_comentario
+            // userName: `${elem.user.nome_usuario}  ${elem.user.sobrenome_usuario}`,
+            // profilePicture: pictureFolderPath + elem.user.imagem_usuario,
+            // rateStars : elem.comment.nota_comentario,
+            // publishDate: elem.comment.data_comentario,
+            // text: elem.comment.desc_comentario,
+            // commentId: elem.comment.id_comentario
+            userName: `${elem.nome_usuario}  ${elem.sobrenome_usuario}`,
+            profilePicture: pictureFolderPath + elem.imagem_usuario,
+            rateStars : elem.nota_comentario,
+            publishDate: elem.data_comentario,
+            text: elem.desc_comentario,
+            commentId: elem.id_comentario
         });
         commentQuantity++;
 
-        if(elem.comment.nota > 5) elem.comment.nota = 5;
-        rateSum += elem.comment.nota * 1;
+        if(elem.nota > 5) elem.nota = 5;
+        rateSum += elem.nota * 1;
     });
     console.log(commentsData)
     commentSectionHandler(commentsData);
