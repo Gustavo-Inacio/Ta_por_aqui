@@ -617,8 +617,5 @@ if (isset($_SESSION['idUsuario']) && $_SESSION['idUsuario'] !== ""){
         ?>
         userNotLogged('<?=$is_set_location?>')
     </script>
-
-
-
 </body>
 </html>
