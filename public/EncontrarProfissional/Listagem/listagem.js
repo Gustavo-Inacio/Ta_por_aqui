@@ -249,16 +249,18 @@ const requestServices = async () => { // cuida da requisaicao de servicos
         const config = { // configuracoes de requisicao
             getServices: true,
             dataServices: {
-                quantity : 1,
+                quantity : 15,
                 maxDist: 100000000000000000000,
                 minDist: maxDist,
-                myLat: tempPosition.tempLat,
-                myLng: tempPosition.tempLng,
+                myLat: Number(tempPosition.tempLat),
+                myLng: Number(tempPosition.tempLng),
                 subCat: subCatid,
                 searchWords: searachState.write,
                 service_idToExlucde : idToExlucde || []
             }
         };
+
+        console.log(config)
 
         req.onload = () => {
             let responseData = JSON.parse(req.response);
@@ -978,10 +980,11 @@ document.getElementById('changeLocationForm').addEventListener('submit', event =
             //unaccent
         })
 
-        let q = `${data[4]}%2C+${data[0]}+${data[2]}%2C+${data[1]}+Brasil`
+        // let q = `${data[4]}%2C+${data[0]}+${data[2]}%2C+${data[1]}+Brasil`
+        let qq = `country='Brazil';city=${data[2]};district=${data[3]};street=${data[4]};state=${data[1]};postalCode=${data[0]}`
 
         let xhr = new XMLHttpRequest()
-        xhr.open('GET', `https://geocode.search.hereapi.com/v1/geocode?q=${q}&apiKey=${apiKey}`)
+        xhr.open('GET', `https://geocode.search.hereapi.com/v1/geocode?qq=${qq}&apiKey=${apiKey}`)
         document.getElementById('saveTempAdressBtn').innerHTML = 'Salvar endereço temporário <div class="spinner-border" role="status" style="width: 16px; height: 16px"></div>'
         document.getElementById('saveTempAdressBtn').disabled = 'disabled'
         xhr.onreadystatechange = () => {
