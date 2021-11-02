@@ -29,11 +29,7 @@ class VisualizeService
     public function getServiceInfo(){
         $data = [];
 
-<<<<<<< HEAD
         $command = $this->con->query("SELECT id_servico, nome_servico, desc_servico, crit_orcamento_servico, tipo_servico, data_public_servico, nota_media_servico, orcamento_servico FROM servicos WHERE id_servico='$this->serviceID' and status_servico=1;");
-=======
-        $command = $this->con->query("SELECT id_servico, nome_servico, desc_servico, crit_orcamento_servico, tipo_servico, data_public_servico, nota_media_servico, orcamento_servico, status_servico FROM servicos WHERE id_servico='$this->serviceID'");
->>>>>>> 5999d5202734af7ccf0f4c2710aad2d1f9132571
         $data = $command->fetch(PDO::FETCH_ASSOC);
 
         return $data;
