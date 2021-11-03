@@ -54,7 +54,7 @@ function registerConfirm(){
     //nada nulo
     let nullinputs = false
     let inputs = []
-
+     
     inputs = document.getElementsByClassName('required')
     $(inputs).each((index, input)=>{
         if(input.value == ""){
@@ -90,6 +90,8 @@ function registerConfirm(){
             userConfirmPass.classList.remove("is-invalid")
             userConfirmPass.style.border = "1.5px solid 888F98"
         }
+
+       
 
         //verificar senha segura
         if (userPass.value.length < 8 || !regexnum.test(userPass.value) || !regexword.test(userPass.value)){
@@ -148,6 +150,18 @@ function registerConfirm(){
             userBirth.classList.add("is-invalid")
             userBirth.style.border = "1.5px solid red"
         }
+
+         // verificar email valido
+        if(document.querySelector('#userEmail').value.search("@") === -1){
+            valid = false;
+            errorMsg = "Insira um email válido!";
+            document.querySelector("#userEmail").classList.add("is-invalid");
+            document.querySelector("#userEmail").style.border = "1.5px solid red";
+        }else{
+            document.querySelector("#userEmail").classList.remove("is-invalid");
+            document.querySelector("#userEmail").style.border = "1.5px solid #888F98";
+        }
+
     }
 
     document.getElementById('msgErro').innerHTML = errorMsg
@@ -174,12 +188,14 @@ function registerConfirm(){
             complete: () => {
                 //tirar gif
                 document.getElementById('loadingGif').remove()
+             
 
                 //habilitar botão
                 $('#btnCreateAccount').attr('disabled', false)
             },
             success: sendEmailStatus => {
                 if(sendEmailStatus.status === "enviado"){
+                    console.log(sendEmailStatus)
                     //mostrar modal de confirmação de email
                     let confirmEmailModal = new bootstrap.Modal(document.getElementById('confirmEmailModal'))
                     confirmEmailModal.show()

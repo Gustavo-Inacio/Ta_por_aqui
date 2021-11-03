@@ -1091,29 +1091,32 @@ async function getCommentsData00(){
 }
 
 //getOtherServicesData();
-
-document.getElementById('hideServiceForm').addEventListener('submit', event => {
-    event.preventDefault();
-    let formData = new FormData(event.target);
-    let xhr = new XMLHttpRequest();
-    xhr.open('POST', '../../../logic/ocultar_servico.php')
-    xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4 && xhr.status === 200){
-            if (xhr.response == 1 || xhr.response == 3){
-                document.getElementById('btnHide').innerText = xhr.response == 3 ? 'Voltar a exibir serviço' : 'Suspender serviço'
-                if (xhr.response == 3){
-                    let hideServiceObs = document.createElement('small')
-                    hideServiceObs.className = 'text-danger'
-                    hideServiceObs.id = 'hideServiceObs'
-                    hideServiceObs.innerText = 'Seu serviço atualmente não está sendo mostrado para o público'
-                    document.getElementById('hideServiceForm').appendChild(hideServiceObs)
-                } else {
-                    document.getElementById('hideServiceObs').remove()
+let hireServiceForm = document.querySelectorAll('#hideServiceForm');
+hireServiceForm.forEach((elem) => {
+    elem.addEventListener('submit', event => {
+        event.preventDefault();
+        let formData = new FormData(event.target);
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', '../../../logic/ocultar_servico.php')
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4 && xhr.status === 200){
+                if (xhr.response == 1 || xhr.response == 3){
+                    document.getElementById('btnHide').innerText = xhr.response == 3 ? 'Voltar a exibir serviço' : 'Suspender serviço'
+                    if (xhr.response == 3){
+                        let hideServiceObs = document.createElement('small')
+                        hideServiceObs.className = 'text-danger'
+                        hideServiceObs.id = 'hideServiceObs'
+                        hideServiceObs.innerText = 'Seu serviço atualmente não está sendo mostrado para o público'
+                        document.getElementById('hideServiceForm').appendChild(hideServiceObs)
+                    } else {
+                        document.getElementById('hideServiceObs').remove()
+                    }
                 }
             }
         }
-    }
-    xhr.send(formData)
-})
+        xhr.send(formData)
+    })
+});
+
 
 export {commentsDataHandler, refreshAverageRate};
