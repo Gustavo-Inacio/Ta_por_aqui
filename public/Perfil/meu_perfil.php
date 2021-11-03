@@ -4,8 +4,8 @@ session_start();
 //caso haja cookies salvos no pc do usuário, ele vai logar com os cookies salvos
 require "../../logic/entrar_cookie.php";
 
-if( $_SESSION['idUsuario'] === "" ){
-    header('Location: ../Home/home.php');
+if(!isset($_SESSION['idUsuario']) || $_SESSION['idUsuario'] == "" ){
+    header('Location: ../Entrar/login.php');
 }
 
 require "../../logic/DbConnection.php";
