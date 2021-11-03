@@ -60,6 +60,8 @@ if (isset($contact->id_chat_contato)){
     $absolutePath = explode('logic', $currentUrl);
     $absolutePath = $absolutePath[0] . 'public/Chat/chat.php?directChat=' . $con->lastInsertId();
 
+    header('location: ../../public/Chat/chat.php?directChat=' . $con->lastInsertId());
+
     //configurando o email da empresa
     $mail = new phpMailer(true);
     $mail->SMTPDebug = false;
@@ -81,6 +83,4 @@ if (isset($contact->id_chat_contato)){
     $mail->Body = "<h1>Um novo cliente entrou em contato com você</h1> <p>Um cliente se interessou por seu serviço e entrou em contato com você por meio de nosso serviço de chat.</p> <p>Inicie uma conversação com ele pelo <a href='$absolutePath'>Chat de nossa plataforma</a></p>";
     $mail->AltBody = 'Seu serviço de email precisa suportar html para visualizar essa mensagem';
     $mail->send();
-
-    header('location: ../../public/Chat/chat.php?directChat=' . $con->lastInsertId());
 }

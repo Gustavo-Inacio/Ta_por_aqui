@@ -768,6 +768,47 @@ button:focus{
     }
 }
 
+.beforeSearch {
+    padding: 15px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 500px;
+    margin: 25px auto 0 auto;
+
+    h3 {
+        color: #888F98;
+        font-weight: bold;
+        text-align: center;
+        font-size: 32px;
+    }
+
+    ul {
+        color: #888F98;
+        font-size: 14px;
+
+        li span {
+            padding: 5px 9px;
+            background-color: #888F98;
+            box-sizing: border-box;
+            border-radius: 144px;
+            color: white;
+            font-size: 13px;
+            margin: 0 7px;
+        }
+    }
+}
+
+#searchTagSection .clear-tags-div:hover {
+    background-color: #FF6F6F;
+    transition: .2s;
+
+    label, i {
+        color: white;
+        transition: .2s;
+    }
+}
+
 @media(min-width: 500px){
     /* -- filter section -- */
     #filterSection{

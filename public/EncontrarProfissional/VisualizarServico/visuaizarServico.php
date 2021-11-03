@@ -1,8 +1,9 @@
 <?php
     session_start();
 
-    if(!$_GET['serviceID']){
-        header('Location: ../Listagem/listagem.php');
+    if(!isset($_GET['serviceID'])){
+        require './servicoInexistente.php';
+        return;
     }
 
     require '../../../logic/visualizar_servico.php';
@@ -15,12 +16,23 @@
 
     $brain = new VisualizeService($serviceID);
     $providerData = $brain->getPorviderInfo();
+
     if(!$providerData){
         require './servicoInexistente.php';
         return;
     }
 
     $serviceData = $brain->getServiceInfo();
+  
+
+    if ($serviceData['status_servico'] == 0 || $serviceData['status_servico'] == 2){
+        require './servicoInexistente.php';
+        return;
+    } else if ($serviceData['status_servico'] == 3 && (isset($_SESSION['idUsuario']) && $_SESSION['idUsuario'] != $providerData['id_usuario'])){
+        require './servicoInexistente.php';
+        return;
+    }
+
     $serviceImg = $brain->getServiceImages();
 
     $avaliationPermited = $brain->getAvaliationPermited();
@@ -34,7 +46,7 @@
 
     $isProvider = false;
 
-    if(isset($_SESSION['classificacao']) && $_SESSION['classificacao'] > 1){
+    if(isset($_SESSION['classificacao']) && $_SESSION['classificacao'] >= 1){
         $isProvider = true;
     }
 ?>
@@ -416,15 +428,16 @@
                                             <button class="my-hire-service-btn">Contratar serviço</button>
                                         <?php } ?>
                                     <?php } else{?>
-                                    <form action="../../EditarServico/editar_servico.php" method="POST">
-                                        <input type="number" hidden name="serviceID" value="<?php echo $serviceID?>">
-                                        <a href="#">
-                                            <button class="btn btn-success" type="submit">
-                                                Editar serviço
-                                            </button>    
-                                        </a>
-                                    </form>
-                                        
+                                        <form action="../../EditarServico/editar_servico.php" method="POST">
+                                            <input type="number" hidden name="serviceID" value="<?php echo $serviceID?>">
+                                            <button class="btn btn-success w-100" type="submit">Editar serviço</button>
+                                        </form>
+
+                                        <form id="hideServiceForm" action="#" method="POST" class="mt-3">
+                                            <input type="number" hidden name="serviceID" value="<?php echo $serviceID?>">
+                                            <button id="btnHide" class="btn btn-danger w-100" type="submit"><?=$serviceData['status_servico'] == 1 ? 'Suspender' : 'Voltar a exibir'?> serviço</button>
+                                            <?= $serviceData['status_servico'] == 3 ? '<small class="text-danger" id="hideServiceObs">Seu serviço atualmente não está sendo mostrado para o público</small>' : ''?>
+                                        </form>
                                     <?php }?>
                                 <?php } else{ ?>
 

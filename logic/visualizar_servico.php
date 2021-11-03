@@ -15,11 +15,11 @@ class VisualizeService
 
     public function getPorviderInfo()
     {
-        $data = [];
+        $data = array();
 
         // captura as infos do preatador que esteja relacionada a esse servico , sendo que o status do servico deva ser 1 'disponivel'
-        $cmd_provider = $this->con->query("SELECT nome_usuario, sobrenome_usuario, classif_usuario, fone_usuario, uf_usuario, cidade_usuario, rua_usuario, numero_usuario 
-        FROM usuarios, servicos where id_usuario = id_prestador_servico and id_servico={$this->serviceID} and status_servico=1;");
+        $cmd_provider = $this->con->query("SELECT id_usuario, nome_usuario, sobrenome_usuario, classif_usuario, fone_usuario, uf_usuario, cidade_usuario, rua_usuario, numero_usuario 
+        FROM usuarios, servicos where id_usuario = id_prestador_servico and id_servico={$this->serviceID}");
         
         $data = $cmd_provider->fetch(PDO::FETCH_ASSOC);
 
@@ -29,7 +29,7 @@ class VisualizeService
     public function getServiceInfo(){
         $data = [];
 
-        $command = $this->con->query("SELECT id_servico, nome_servico, desc_servico, crit_orcamento_servico, tipo_servico, data_public_servico, nota_media_servico, orcamento_servico FROM servicos WHERE id_servico='$this->serviceID' and status_servico=1;");
+        $command = $this->con->query("SELECT id_servico, nome_servico, desc_servico, crit_orcamento_servico, tipo_servico, data_public_servico, nota_media_servico, orcamento_servico, status_servico FROM servicos WHERE id_servico='$this->serviceID'");
         $data = $command->fetch(PDO::FETCH_ASSOC);
 
         return $data;
@@ -39,7 +39,7 @@ class VisualizeService
         $data = [];
 
         // busca pelas fotos do servico, sendo que o status do servio deva ser 1
-        $command = $this->con->query("SELECT dir_servico_imagem FROM servico_imagens, servicos WHERE servicos.id_servico=6 and servico_imagens.id_servico = servicos.id_servico and status_servico=1;");
+        $command = $this->con->query("SELECT dir_servico_imagem FROM servico_imagens, servicos WHERE servicos.id_servico=6 and servico_imagens.id_servico = servicos.id_servico");
         $data = $command->fetchAll(PDO::FETCH_COLUMN);
 
         return $data;
@@ -54,8 +54,7 @@ class VisualizeService
         FROM comentarios, servicos, usuarios 
         
         WHERE comentarios.id_servico={$this->serviceID} and comentarios.id_servico = servicos.id_servico 
-        and usuarios.id_usuario = comentarios.id_usuario and 
-        servicos.status_servico = 1 and status_comentario = 1 and status_usuario=1
+        and usuarios.id_usuario = comentarios.id_usuario and status_comentario = 1 and status_usuario=1
         
         ORDER BY data_comentario DESC;");
 
@@ -70,7 +69,7 @@ class VisualizeService
     public function getProviderAverage(){ // esta funcao retorna a quantidade de avaliacoes (comentarios), a soma de todas elas, e a média
         $response = array();// array de reponstas
 
-        $cmdProviderId = $this->con->query("select id_prestador_servico from servicos where id_servico={$this->serviceID} and status_servico=1;");
+        $cmdProviderId = $this->con->query("select id_prestador_servico from servicos where id_servico={$this->serviceID}");
         $respProviderId = $cmdProviderId->fetch(PDO::FETCH_ASSOC);
 
         if($respProviderId){
@@ -146,7 +145,7 @@ class VisualizeService
             )
         );
 
-        $cmdProviderId = $this->con->query("select id_prestador_servico from servicos where id_servico={$this->serviceID} and status_servico=1;");
+        $cmdProviderId = $this->con->query("select id_prestador_servico from servicos where id_servico={$this->serviceID}");
         $respProviderId = $cmdProviderId->fetch(PDO::FETCH_ASSOC);
 
         if($respProviderId){
