@@ -16,17 +16,19 @@
 
     $brain = new VisualizeService($serviceID);
     $providerData = $brain->getPorviderInfo();
+
     if(!$providerData){
         require './servicoInexistente.php';
         return;
     }
 
     $serviceData = $brain->getServiceInfo();
+  
 
     if ($serviceData['status_servico'] == 0 || $serviceData['status_servico'] == 2){
         require './servicoInexistente.php';
         return;
-    } else if ($serviceData['status_servico'] == 3 && (!isset($_SESSION['idUsuario']) || (isset($_SESSION['idUsuario']) && $_SESSION['idUsuario'] != $providerData['id_usuario']))){
+    } else if ($serviceData['status_servico'] == 3 && (isset($_SESSION['idUsuario']) && $_SESSION['idUsuario'] != $providerData['id_usuario'])){
         require './servicoInexistente.php';
         return;
     }

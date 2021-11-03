@@ -15,6 +15,7 @@ class DashboardConnection {
     private $dbname = 'sql10448047';
     private $user = 'sql10448047';
     private $password = 'evDnaSbzST';
+
     //private $host = 'localhost';
     //private $dbname = 'ta_por_aqui';
     //private $user = 'root';
