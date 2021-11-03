@@ -111,18 +111,14 @@ if(isset($_SESSION['classificacao']) && $_SESSION['classificacao'] >= 1){
             <?php if(isset($_GET['status']) && $_GET['status'] === "0") {?>
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     Não foi possível enviar sua mensagem pois algum campo não foi preenchido. Tente novamente preenchendo todos os campos obrigatórios
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php }?>
 
             <?php if(isset($_GET['status']) && $_GET['status'] === "1") {?>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     Obrigado por enviar sua mensagem para nós. Analisaremos o problema/sugestão e, caso solicitado, entraremos em contato com você assim que possível
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php }?>
 
@@ -146,17 +142,17 @@ if(isset($_SESSION['classificacao']) && $_SESSION['classificacao'] >= 1){
                 <form method="POST" action="../../logic/contato_enviar.php" id="contactForms">
                     <div class="row">
                         <div class="form-group col-md-6 mb-3" id="nome">
-                            <label for="contactName">Nome</label>
+                            <label for="contactName">Nome*</label>
                             <input type="text" name="contactName" id="contactName" class="form-control required" placeholder="Nome Sobrenome" required value="<?=$user_info['nome_usuario']?><?=$user_info['nome_usuario'] === null ? "" : " "?><?=$user_info['sobrenome_usuario']?>">
                         </div>
 
                         <div class="form-group col-md-6 mb-3" id="address">
-                            <label for="contactEmail">Email de contato</label>
+                            <label for="contactEmail">Email de contato*</label>
                             <input type="email" name="contactEmail" id="contactEmail" class="form-control required" placeholder="seu@email.com" required value="<?=$user_info['email_contato_usuario']?>">
                         </div>
 
                         <div class="form-group col-md-6 mb-3" id="reason">
-                            <label for="contactReason">Motivos de contato</label> <br>
+                            <label for="contactReason">Motivos de contato*</label> <br>
                             <select class="form-select" name="contactReason" id="contactReason" required>
                                 <option value="">Selecione um motivo</option>
                                 <option value="1">Elogios</option>
@@ -170,11 +166,11 @@ if(isset($_SESSION['classificacao']) && $_SESSION['classificacao'] >= 1){
 
                         <div class="form-group col-md-6 mb-3" id="phone">
                             <label for="contactPhone">Telefone / Cel.</label>
-                            <input type="tel" name="contactPhone" id="contactPhone" class="form-control required" placeholder="(00) 0000-0000" required value="<?=$user_info['fone_usuario']?>">
+                            <input type="tel" name="contactPhone" id="contactPhone" class="form-control required" placeholder="(00) 0000-0000" value="<?=$user_info['fone_usuario']?>">
                         </div>
 
                         <div class="form-group col-md-12 mb-3" id="message">
-                            <label for="contactMessage">Mensagem</label>
+                            <label for="contactMessage">Mensagem*</label>
                             <textarea class="form-control" name="contactMessage" id="contactMessage" rows="4" required placeholder="Escreva aqui uma mensagem reportando algum problema que você experienciou em nossa plataforma, ou com alguma sugestão que queira nos dar"></textarea>
                         </div>
                     </div>
