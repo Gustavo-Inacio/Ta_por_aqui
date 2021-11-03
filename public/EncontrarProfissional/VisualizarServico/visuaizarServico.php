@@ -137,7 +137,7 @@
                         <div class="provider-rate-div">
                             <p class="provider-rate--text">Classificação Média do Prestador:</p>
                             <p class="provider-rate--number">
-                                <?php echo $providerAvarege['data']['average'] ?>
+                                <?php echo $providerAvarege['nota_media_usuario'] ?>
                             </p>
                             <div class="provider-rate--stars">
                                 <svg class="provider-rate-star" width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -157,7 +157,7 @@
                                 </svg>
                             </div>
 
-                            <p class="provider-rate--quantity">(<?php echo $providerAvarege['data']['quantity'] ?> - avaliações)</p>
+                            <p class="provider-rate--quantity">(<?php echo $providerAvarege['quantity'] ?> - avaliações)</p>
                         </div>
 
                         <div class="service-techinical-info">
@@ -453,16 +453,12 @@
                                 <?php } ?>
                             </div>
 
-                            <div class="col-auto d-flex align-items-center ms-auto">
+                            <div class="col-auto d-flex align-items-center ms-auto p-0">
                                 <div class="save-service-div">
                                     <?php if(isset($_SESSION['idUsuario'])){ ?>
                                         <button class="my-save-service-btn">
                                             <?php if($serviceIsSaved) {?>
-                                                <svg id="saveSVG-unsave" width="46" height="44" viewBox="0 0 46 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <rect x="0.5" y="0.5" width="44.2941" height="43" rx="7.5" stroke="#FF6F6F"/>
-                                                    <path d="M14 31L33 12" stroke="#FF6F6F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                                                    <path d="M33 31L14 12" stroke="#FF6F6F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                                                </svg>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#0036a7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path><line x1="9" y1="14" x2="15" y2="14"></line></svg>
                                             <?php } else {?>
                                             <svg id="saveSVG-save" width="46" height="44" viewBox="0 0 46 44" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <rect x="0.5" y="0.5" width="44.2941" height="43" rx="7.5" stroke="#FF6F6F"/>
