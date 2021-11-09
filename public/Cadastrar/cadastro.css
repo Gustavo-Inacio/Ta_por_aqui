@@ -6,7 +6,6 @@ svg{
 
 body{
     position: relative;
-    font-family: 'Roboto';
 }
 
 
@@ -41,10 +40,6 @@ body{
         padding: 40px 60px 50px 40px;
     }
 }*/
-
-#registerContent h1{
-    font-weight: 700;
-}
 
 #registerDiv label.myLabel{
     font-weight: 690;
