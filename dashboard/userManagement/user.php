@@ -215,10 +215,6 @@ $userServices = $userReport->getUserServices();
                     <td><?=$userInfo['uf_usuario']?>, <?=$userInfo['cidade_usuario']?></td>
                 </tr>
                 <tr>
-                    <th>Classificação:</th>
-                    <td><?php echo $userInfo['classif_usuario'] === 0 ? "Cliente" : "Prestador"?></td>
-                </tr>
-                <tr>
                     <th>Data de cadastro:</th>
                     <?php
                     $data_nasc = new DateTime($userInfo['data_entrada_usuario']);
@@ -226,8 +222,8 @@ $userServices = $userReport->getUserServices();
                     <td><?=$data_nasc->format('d/m/Y')?></td>
                 </tr>
                 <tr>
-                    <th>Site inserido:</th>
-                    <td><a href="www.kekw.com"><?=$userInfo['site_usuario']?></a></td>
+                    <th>Email de contato:</th>
+                    <td><?=$userInfo['email_contato_usuario']?></td>
                 </tr>
                 <tr>
                     <th>Descrição inserida:</th>

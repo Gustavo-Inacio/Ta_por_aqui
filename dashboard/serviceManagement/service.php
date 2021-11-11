@@ -174,6 +174,13 @@ $serviceComplain = $serviceReport->getComplainsToThisService();
             </td>
         </tr>
         <tr>
+            <th>Data de Criação:</th>
+            <?php
+                $data_criacao = new DateTime($serviceInfo['data_public_servico']);
+            ?>
+            <td><?=$data_criacao->format('d/m/Y')?></td>
+        </tr>
+        <tr>
             <th>Nota média:</th>
             <td><?=$serviceInfo['nota_media_servico']?>/5.0</td>
         </tr>

@@ -155,7 +155,7 @@ if (isset($_GET['contactReason']) || isset($_GET['contactStatus'])){
                         <div class="text-center font-weight-bold"><?=$contact['id_contato']?></div>
                     </div>
                     <div class="col-sm-3 mb-3 mb-sm-0">
-                        <div>Feito pelo usuário</div>
+                        <div>Email para contato</div>
                         <div class="font-weight-bold"><?=$contact['email_contato']?></div>
                     </div>
                     <div class="col-sm-4 mb-3 mb-sm-0">

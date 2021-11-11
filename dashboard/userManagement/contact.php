@@ -130,7 +130,7 @@ if (isset($_POST['assunto']) && isset($_POST['msgAnterior']) && isset($_POST['ms
             <td><?=$contactInfo['nome_contato']?></td>
         </tr>
         <tr>
-            <th>Email:</th>
+            <th>Email de contato:</th>
             <td><?=$contactInfo['email_contato']?></td>
         </tr>
         <tr>
