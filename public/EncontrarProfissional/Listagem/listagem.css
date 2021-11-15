@@ -935,6 +935,7 @@ button:focus {
   color: white;
   font-size: 13px;
   margin: 0 7px;
+  white-space: nowrap;
 }
 
 #searchTagSection .clear-tags-div:hover {

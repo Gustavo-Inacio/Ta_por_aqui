@@ -460,7 +460,7 @@ class UserReport {
     }
 
     public function getUserInfo(){
-        $query = "SELECT id_usuario, nome_usuario, sobrenome_usuario, fone_usuario, email_usuario, senha_usuario, data_nasc_usuario, sexo_usuario, classif_usuario, status_usuario, uf_usuario, cidade_usuario, data_nasc_usuario, data_entrada_usuario, imagem_usuario, nota_media_usuario, desc_usuario, site_usuario FROM usuarios where id_usuario = $this->id_usuario";
+        $query = "SELECT id_usuario, nome_usuario, sobrenome_usuario, fone_usuario, email_usuario, senha_usuario, data_nasc_usuario, sexo_usuario, classif_usuario, status_usuario, uf_usuario, cidade_usuario, data_nasc_usuario, data_entrada_usuario, imagem_usuario, nota_media_usuario, desc_usuario, email_contato_usuario FROM usuarios where id_usuario = $this->id_usuario";
         $stmt = $this->con->query($query);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
@@ -576,7 +576,7 @@ class ServiceReport {
     }
 
     public function getServiceInfo(){
-        $query = "SELECT s.id_servico, s.nome_servico, s.id_prestador_servico, u.nome_usuario, u.sobrenome_usuario, s.tipo_servico, s.desc_servico, s.orcamento_servico, s.crit_orcamento_servico, s.nota_media_servico, s.status_servico from servicos s join usuarios u on s.id_prestador_servico = u.id_usuario WHERE id_servico = $this->id_servico";
+        $query = "SELECT s.id_servico, s.nome_servico, s.id_prestador_servico, u.nome_usuario, u.sobrenome_usuario, s.tipo_servico, s.desc_servico, s.orcamento_servico, s.crit_orcamento_servico, s.nota_media_servico, s.status_servico, s.data_public_servico from servicos s join usuarios u on s.id_prestador_servico = u.id_usuario WHERE id_servico = $this->id_servico";
         $stmt = $this->con->query($query);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }

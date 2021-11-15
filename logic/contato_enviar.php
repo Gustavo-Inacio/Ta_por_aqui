@@ -5,7 +5,7 @@ require "DbConnection.php";
 $con = new DbConnection();
 $con = $con->connect();
 
-if ($_POST['contactName'] === "" || $_POST['contactEmail'] === "" || $_POST['contactPhone'] === "" || $_POST['contactMessage'] === "" || $_POST['contactReason'] === ""){
+if ($_POST['contactName'] === "" || $_POST['contactEmail'] === "" || $_POST['contactMessage'] === "" || $_POST['contactReason'] === ""){
     header('location: ../public/Contato/contato.php?status=0');
     exit();
 }
