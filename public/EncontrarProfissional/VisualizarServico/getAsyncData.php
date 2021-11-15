@@ -24,7 +24,7 @@
     if(isset($inputData->sendComment) && $inputData->sendComment == "true"){
       if(isset($_SESSION['idUsuario'])){
           if(isset($inputData->sendCommentData)){
-            $reponse['sendComment'] = $brain->setAvaliation($_SESSION['idUsuario'], $inputData->sendCommentData->comment, $inputData->sendCommentData->rateNumber);
+            $reponse['sendComment'] = $brain->setAvaliation($inputData->sendCommentData->comment, $inputData->sendCommentData->rateNumber);
           }
       }
     }

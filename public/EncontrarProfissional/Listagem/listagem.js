@@ -32,7 +32,7 @@ function setTempPosition(data) {
         xhr.onreadystatechange = () => {
             if (xhr.readyState == 4 && xhr.status == 200){
                 let tempLocation = JSON.parse(xhr.response)
-                console.log(tempLocation)
+                // console.log(tempLocation)
                 document.getElementById('showTempLocation').innerHTML = `<span>Usando localização temporária: </span> <strong>${tempLocation.items[0].address.label}</strong>`
             }
         }
@@ -91,7 +91,7 @@ const addSearchTag = (index, tagName) => { // cuida de add uma atg na pesquisa
 }
 
 const toggleSearchTag = ({index, name}) => {
-    console.log(searachState)
+    // console.log(searachState)
     if(searachState.tag.length > 0){
         let alreadyExists = false;
         for(let i in searachState.tag){
@@ -110,7 +110,7 @@ const toggleSearchTag = ({index, name}) => {
     }
     else{
         addSearchTag(index, name);
-        console.log(index, name)
+        // console.log(index, name)
     }
 
     if ((searachState.tag.length) === 0){
@@ -260,7 +260,7 @@ const requestServices = async () => { // cuida da requisaicao de servicos
             }
         };
 
-        console.log(config)
+        // console.log(config)
 
         req.onload = () => {
             let responseData = JSON.parse(req.response);
@@ -292,7 +292,7 @@ const requestServices = async () => { // cuida da requisaicao de servicos
                 });
             }
 
-            console.log(gottenServices)
+            // console.log(gottenServices)
             
             setServiceState(
                 {
@@ -362,7 +362,7 @@ const refreshSearch = () => {
 
 function setSearchState(data){
     if(! typeof data === "object") {
-        console.log("[setSearchState] --> wrong type of data");
+        // console.log("[setSearchState] --> wrong type of data");
         return;
     }
 
@@ -386,7 +386,7 @@ const toggleCategoriesSidebar = () => {
     let btnToggler = document.querySelectorAll('.my-categories-toggle-btn');
     let body = document.querySelector('body');
 
-    console.log(sidebar)
+    // console.log(sidebar)
 
     const refresShowSidebar = () => {
        
@@ -409,7 +409,7 @@ const toggleCategoriesSidebar = () => {
     refresShowSidebar();
 
     const refreshAll = () => {
-        console.log(state)
+        // console.log(state)
         refresShowSidebar();
     }
 
@@ -461,7 +461,7 @@ const categoriesScrollHandler = () => {
 const fillCategories = (data) => {
     if(!typeof data === 'array') return;
 
-    console.log(data)
+    // console.log(data)
     let listPath = document.querySelector('.categoriesSectionBody');
 
     const categorieItem = (item) => {
@@ -584,7 +584,7 @@ const fillCategories = (data) => {
 
 const serviceCardsRender = (data) => {
     if(! (typeof data === 'object')){
-        console.log('[serviceCardsRender] --> wrong type of data');
+        // console.log('[serviceCardsRender] --> wrong type of data');
         return;
     }
 
@@ -593,7 +593,7 @@ const serviceCardsRender = (data) => {
 
     const serviceCard = (info) => {
         if(! (typeof info === 'object')){
-            console.log('[serviceCard] --> wrong type of data');
+            // console.log('[serviceCard] --> wrong type of data');
             return;
         }
 
@@ -696,10 +696,6 @@ const prepareCatgories = (resp_cat) => {
    
 }
 
-function catItemHandler(elemId) {
-    console.log(elemId)
-}
-
 const arrangeNewCategories = (data) => {
     data = data.categoires;
 
@@ -711,7 +707,7 @@ const arrangeNewCategories = (data) => {
     }
 
     const fillsubCat = () => {
-        console.log(categoriesState)
+        // console.log(categoriesState)
         let subcat = data[categoriesState.selected].sub;
         let content = document.querySelector('.subcat-view .content');
         content.innerHTML = "";
@@ -719,7 +715,7 @@ const arrangeNewCategories = (data) => {
         const addSubcatFuntions = (node, data) => {
             node.onclick = () => {
                 
-                console.log(node);
+                // console.log(node);
                 toggleSearchTag({index: data.id, name: data.name});
 
                 // let tagsTemp = searachState.tag;
@@ -814,7 +810,7 @@ const arrangeNewCategories = (data) => {
             elemSpanContainer.querySelector('.cat-item').onclick = () => {
                 setCategoriesState({selected: Number(i)});
 
-                console.log("aa", searachState)
+                // console.log("aa", searachState)
                 paintSelectedSubcat();
             }
 

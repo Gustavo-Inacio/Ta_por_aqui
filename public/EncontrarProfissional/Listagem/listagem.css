@@ -900,7 +900,9 @@ button:focus {
 }
 
 #cat-container > .row {
-  height: inherit;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
 }
 
 .beforeSearch {

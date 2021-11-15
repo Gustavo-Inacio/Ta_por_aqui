@@ -764,7 +764,7 @@ button:focus{
     overflow: auto;
 
     > .row{
-        height: inherit;
+        height: fit-content;
     }
 }
 

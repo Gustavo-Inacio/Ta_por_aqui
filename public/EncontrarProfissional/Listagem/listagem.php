@@ -144,17 +144,17 @@ if (isset($_SESSION['idUsuario']) && $_SESSION['idUsuario'] !== ""){
         </section> -->
 
         <div class="row">
-            <div id="cat-container" class=" col-md-4 ">
-                <div class="row">
-                    <section class="cool-categories-section my-nice-scroll-bar">
-                        <header class="row">
+            <div id="cat-container" class=" col-md-4 my-nice-scroll-bar">
+                <div class="row ">
+                    <section class="cool-categories-section">
+                        <header class="row ">
                             <svg class="my-categories-toggle-btn" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M4.6902 8.41707L11.3658 1.74147C11.6878 1.41951 12.2098 1.41951 12.5317 1.74147L13.3103 2.52007C13.6317 2.84148 13.6323 3.36239 13.3117 3.68456L8.02111 9.00002L13.3117 14.3154C13.6323 14.6376 13.6317 15.1585 13.3103 15.4799L12.5317 16.2585C12.2097 16.5805 11.6878 16.5805 11.3658 16.2585L4.6902 9.58296C4.36827 9.26101 4.36827 8.73903 4.6902 8.41707Z" fill="white"/>
                             </svg>
 
                             <h1 class="h1">Categorias</h1>
                         </header>
-                        <div class="content row my-nice-scroll-bar">
+                        <div class="content row ">
                             
                             <div class="col-12 cat-view">
                                 <!-- <div class="row cat-item selected">
