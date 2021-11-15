@@ -49,6 +49,8 @@
     if(isset($_SESSION['classificacao']) && $_SESSION['classificacao'] >= 1){
         $isProvider = true;
     }
+
+    $myAvaliation = $brain->getAvaliation();
 ?>
 
 <!DOCTYPE html>
@@ -471,14 +473,22 @@
                                     <?php if(isset($_SESSION['idUsuario'])){ ?>
                                         <button class="my-save-service-btn">
                                             <?php if($serviceIsSaved) {?>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#0036a7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path><line x1="9" y1="14" x2="15" y2="14"></line></svg>
-                                            <?php } else {?>
-                                            <svg id="saveSVG-save" width="46" height="44" viewBox="0 0 46 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <rect x="0.5" y="0.5" width="44.2941" height="43" rx="7.5" stroke="#FF6F6F"/>
-                                                <path d="M12.6401 15.7143L13.6935 14.6667H19.4869L21.0669 16.7619H26.8604H31.0738V29.8572H12.6401V15.7143Z" fill="#FF6F6F"/>
-                                                <path d="M21.0673 19.9047H23.174V22.5238H24.754H26.8607V24.0952H23.174V27.2381H21.0673V24.0952H17.9072V22.5238H21.0673V19.9047Z" fill="white"/>
-                                            </svg>
-                                           
+                                                <svg width="41" height="41" viewBox="0 0 41 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <g clip-path="url(#clip0_10_40)">
+                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M5.125 39.7188V5.125C5.125 3.76577 5.66495 2.4622 6.62608 1.50108C7.5872 0.539954 8.89077 0 10.25 0L30.75 0C32.1092 0 33.4128 0.539954 34.3739 1.50108C35.335 2.4622 35.875 3.76577 35.875 5.125V39.7188C35.8752 39.9412 35.8174 40.1599 35.7073 40.3533C35.5973 40.5467 35.4388 40.7081 35.2475 40.8216C35.0561 40.9351 34.8385 40.9969 34.616 41.0007C34.3936 41.0046 34.1739 40.9505 33.9788 40.8437L20.5 33.4893L7.02125 40.8437C6.82606 40.9505 6.60643 41.0046 6.38397 41.0007C6.16151 40.9969 5.94389 40.9351 5.75254 40.8216C5.56118 40.7081 5.40268 40.5467 5.29265 40.3533C5.18262 40.1599 5.12484 39.9412 5.125 39.7188ZM27.8134 15.0009C28.054 14.7603 28.1891 14.434 28.1891 14.0938C28.1891 13.7535 28.054 13.4272 27.8134 13.1866C27.5728 12.946 27.2465 12.8109 26.9062 12.8109C26.566 12.8109 26.2397 12.946 25.9991 13.1866L19.2188 19.9696L16.2821 17.0304C16.163 16.9112 16.0216 16.8168 15.8659 16.7523C15.7103 16.6878 15.5435 16.6546 15.375 16.6546C15.2065 16.6546 15.0397 16.6878 14.8841 16.7523C14.7284 16.8168 14.587 16.9112 14.4679 17.0304C14.3488 17.1495 14.2543 17.2909 14.1898 17.4466C14.1253 17.6022 14.0921 17.769 14.0921 17.9375C14.0921 18.106 14.1253 18.2728 14.1898 18.4284C14.2543 18.5841 14.3488 18.7255 14.4679 18.8446L18.3116 22.6884C18.4306 22.8077 18.572 22.9024 18.7277 22.9669C18.8833 23.0315 19.0502 23.0648 19.2188 23.0648C19.3873 23.0648 19.5542 23.0315 19.7098 22.9669C19.8655 22.9024 20.0069 22.8077 20.1259 22.6884L27.8134 15.0009Z" fill="#3333CC"/>
+                                                </g>
+                                                <defs>
+                                                <clipPath id="clip0_10_40">
+                                                <rect width="41" height="41" fill="white"/>
+                                                </clipPath>
+                                                </defs>
+                                                </svg>
+                                                
+                                                <?php } else {?>
+                                                    <svg width="41" height="41" viewBox="0 0 41 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M5.125 5.125C5.125 3.76577 5.66495 2.4622 6.62608 1.50108C7.5872 0.539954 8.89077 0 10.25 0L30.75 0C32.1092 0 33.4128 0.539954 34.3739 1.50108C35.335 2.4622 35.875 3.76577 35.875 5.125V39.7188C35.8749 39.9505 35.8119 40.1779 35.6928 40.3767C35.5736 40.5755 35.4028 40.7382 35.1985 40.8476C34.9942 40.957 34.764 41.0089 34.5325 40.9979C34.301 40.9868 34.0769 40.9131 33.8839 40.7848L20.5 33.5713L7.11606 40.7848C6.92312 40.9131 6.69897 40.9868 6.46747 40.9979C6.23598 41.0089 6.00582 40.957 5.8015 40.8476C5.59718 40.7382 5.42636 40.5755 5.30723 40.3767C5.1881 40.1779 5.12512 39.9505 5.125 39.7188V5.125ZM10.25 2.5625C9.57038 2.5625 8.9186 2.83248 8.43804 3.31304C7.95748 3.7936 7.6875 4.44538 7.6875 5.125V37.3254L19.7902 30.9652C20.0005 30.8253 20.2474 30.7507 20.5 30.7507C20.7526 30.7507 20.9995 30.8253 21.2098 30.9652L33.3125 37.3254V5.125C33.3125 4.44538 33.0425 3.7936 32.562 3.31304C32.0814 2.83248 31.4296 2.5625 30.75 2.5625H10.25Z" fill="#3333CC"/>
+                                                    </svg>
+
                                         </button>
                                     <?php }?>
                                         <?php } else{ ?>
@@ -530,7 +540,7 @@
     </section> 
 
     <section id="myDesctiptionSection">
-        <div class="container my-description-section-container">
+        <div class="container">
             <div class="row">
                 <div class="col-12">
                     <h2 class="my-description-title">Descrição</h2>
@@ -544,7 +554,7 @@
         </div>
     </section>
 
-    <template id="myOtherServiceTemplate" >
+    <template id="myOtherServiceTemplate">
         <a class="my-other-service-link mx-auto" href="#">
             <div class="my-other-service-card">
                 <div class=" my-other-service--person-picture-div">
@@ -593,7 +603,15 @@
     </template>
 
     <section id="myOtherServicesSection">
-        <h1 class="my-other-service-section-title">Outros Serviços</h1>
+        <div class="container">
+          <div class="row">
+              <div class="col">
+                <h1 class="my-other-service-section-title">Outros Serviços</h1>
+              </div>
+          </div>
+            
+        </div>
+        
 
         <div class="glider-contain">
             <div class="glider"></div>
@@ -612,7 +630,7 @@
 
     <?php if($avaliationPermited['status'] == 1){ ?>
     <section id="myAvaliationSection">
-        <div class="container-fluid">
+        <div class="container">
             <h1 class="my-write-coment-section-title">Avalie este serviço</h1>
 
             <div class="row">
@@ -734,11 +752,14 @@
         </div>
     </template>
 
-    <section id="myComentSection">
-        <div class="container-fluid my-coment-section-container">
-            <h1 class="my-coment-section-title">Comentários</h1>
-            
+    <section id="myComentSection" class="container">
+        <div class="row">
+            <div class="col my-coment-section-container">
+                <h1 class="my-coment-section-title">Comentários</h1>
+                
+            </div>
         </div>
+        
     </section>
 
     <input type="hidden" hidden id="getServiceIdForComplain" value="<?=$serviceData['id_servico']?>">
@@ -1015,7 +1036,7 @@
             btnAction.send.onclick = () => {
                 if(state.rateNumber > 0  && state.comment !== ""){ // caso os valores forem validos 
                     ajaxTrigger(state); // manda para a funcao de ajax 
-                    clearFields(); // limpa os campos 
+                    // clearFields(); // limpa os campos ---------------------------------------------------------------------------------
                     alertDiv.style.display = 'none'; // retira o alert de erro
                 }
                 else{
@@ -1049,6 +1070,16 @@
                     setState({comment: textArea.value});
                 });
             }
+
+            <?php if($myAvaliation){?>
+
+                setState({
+                    rateNumber: <?php echo $myAvaliation['nota_comentario'];?>, 
+                    comment: `<?php echo $myAvaliation['desc_comentario'];?>`,
+                    textAreafocus : false
+                });
+
+            <?php }?>
 
         }
 

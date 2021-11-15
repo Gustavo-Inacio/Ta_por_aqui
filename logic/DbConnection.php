@@ -6,9 +6,9 @@ class DbConnection {
     //private $user = 'root';
     //private $password = '';
     private $host = 'sql10.freemysqlhosting.net';
-    private $dbname = 'sql10448047';
-    private $user = 'sql10448047';
-    private $password = 'evDnaSbzST';
+    private $dbname = 'sql10451316';
+    private $user = 'sql10451316';
+    private $password = '4NI3kwvRbS';
 
     public function connect(){
         //Iniciando conexão com o bd com PDO
