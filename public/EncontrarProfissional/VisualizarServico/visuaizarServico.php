@@ -270,13 +270,21 @@
                         </div>
 
                         <div class="my-service-location-div my-service-location-div-under-carousel">
-                            <?php if($serviceData['tipo_servico'] == 1) {?>
-                                <i class="fas fa-map-marker-alt"></i>
-                                <p class="my-service-location">
-                                    <?php
-                                        echo $providerData['uf_usuario'].", ".$providerData['cidade_usuario'].", ".$providerData['rua_usuario'].' '.$providerData['numero_usuario'];
-                                    ?>
-                                </p>
+                            <?php if($serviceData['tipo_servico'] == 1) {
+                                if ($providerData['mostrar_local_usuario'] == 1){
+                            ?>
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <p class="my-service-location">
+                                        <?php
+                                            echo $providerData['uf_usuario'].", ".$providerData['cidade_usuario'].", ".$providerData['rua_usuario'].' '.$providerData['numero_usuario'];
+                                        ?>
+                                    </p>
+                                <?php } else { ?>
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <p class="my-service-location">
+                                        O usuário optou por ocultar localização
+                                    </p>
+                                <?php }?>
                             <?php } else {?>
                                 <i class="fas fa-laptop-house"></i>
                                 <p class="my-service-location">
@@ -399,13 +407,21 @@
                             
                             <div class="col order-1 d-flex">
                                 <div class="my-service-location-div">
-                                    <?php if($serviceData['tipo_servico'] == 1) {?>
-                                        <i class="fas fa-map-marker-alt"></i>
-                                        <p class="my-service-location">
-                                            <?php
-                                                echo $providerData['uf_usuario'].", ".$providerData['cidade_usuario'].", ".$providerData['rua_usuario'].' '.$providerData['numero_usuario'];
+                                    <?php if($serviceData['tipo_servico'] == 1) {
+                                        if ($providerData['mostrar_local_usuario'] == 1){
                                             ?>
-                                        </p>
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            <p class="my-service-location">
+                                                <?php
+                                                echo $providerData['uf_usuario'].", ".$providerData['cidade_usuario'].", ".$providerData['rua_usuario'].' '.$providerData['numero_usuario'];
+                                                ?>
+                                            </p>
+                                        <?php } else { ?>
+                                            <i class="fas fa-eye-slash"></i>
+                                            <p class="my-service-location">
+                                                O usuário optou por ocultar localização
+                                            </p>
+                                        <?php }?>
                                     <?php } else {?>
                                         <i class="fas fa-laptop-house"></i>
                                         <p class="my-service-location">

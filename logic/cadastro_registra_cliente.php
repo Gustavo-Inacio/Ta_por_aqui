@@ -60,7 +60,7 @@ $coordinates = getCoordinates($adressData);
 if ($_POST['userAdressComplement'] == ""){
     $_POST['userAdressComplement'] = null;
 }
-$query = "INSERT INTO usuarios(nome_usuario, sobrenome_usuario, email_usuario, senha_usuario, data_nasc_usuario, sexo_usuario, classif_usuario, cep_usuario, uf_usuario, cidade_usuario, bairro_usuario, rua_usuario, numero_usuario, comple_usuario, posicao_usuario) VALUES (:nome, :sobrenome, :email, :senha, :data_nascimento, :sexo, :classificacao, :cep, :estado, :cidade, :bairro, :rua, :numero, :complemento, POINT({$coordinates['lat']}, {$coordinates['lng']}))";
+$query = "INSERT INTO usuarios(nome_usuario, sobrenome_usuario, email_usuario, senha_usuario, data_nasc_usuario, sexo_usuario, classif_usuario, cep_usuario, uf_usuario, cidade_usuario, bairro_usuario, rua_usuario, numero_usuario, comple_usuario, posicao_usuario, mostrar_local_usuario) VALUES (:nome, :sobrenome, :email, :senha, :data_nascimento, :sexo, :classificacao, :cep, :estado, :cidade, :bairro, :rua, :numero, :complemento, POINT({$coordinates['lat']}, {$coordinates['lng']}), :mostrar_local_usuario)";
 
 $stmt = $con->prepare($query);
 $stmt->bindValue(':nome', $_POST['userName']);
@@ -77,6 +77,7 @@ $stmt->bindValue(':bairro', $_POST['userAdressNeighborhood']);
 $stmt->bindValue(':rua', $_POST['userAdressStreet']);
 $stmt->bindValue(':numero', $_POST['userAdressNumber']);
 $stmt->bindValue(':complemento', $_POST['userAdressComplement']);
+$stmt->bindValue(':mostrar_local_usuario', isset($_POST['allowPublicLocation']));
 $stmt->execute();
 
 //Definindo as redes sociais do usuário

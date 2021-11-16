@@ -17,6 +17,8 @@ $query = "SELECT * FROM usuarios where id_usuario = " . $_SESSION['idUsuario'];
 $stmt = $con->query($query);
 $user = $stmt->fetch(PDO::FETCH_OBJ);
 
+$showLocation = $user->mostrar_local_usuario == 1;
+
 //puxando as redes sociais do banco de dados
 $query = "SELECT rede_social, nick_rede_social, link_rede_social FROM usuario_redes_sociais WHERE id_usuario = " . $_SESSION['idUsuario'];
 $stmt = $con->query($query);
@@ -36,22 +38,22 @@ if($_SESSION['classificacao'] !== 0){
     $userServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
     //serviços requisitados para esse prestador
-    $query = "SELECT * FROM contratos as c join servicos as s on c.id_servico = s.id_servico WHERE c.id_prestador = " . $_SESSION['idUsuario']  . " AND s.status_servico = 1 AND c.status_contrato = 0 LIMIT 0,4";
+    $query = "SELECT * FROM contratos as c join servicos as s on c.id_servico = s.id_servico WHERE c.id_prestador = " . $_SESSION['idUsuario']  . " AND s.status_servico = 1 AND c.status_contrato = 0 ORDER BY c.data_contrato DESC LIMIT 0,4";
     $stmt = $con->query($query);
     $asProviderRequestedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
     //serviços rejeitados ou aceitos por esse prestador
-    $query = "SELECT c.id_contrato, c.id_servico, c.id_cliente, c.status_contrato, c.data_contrato, s.nome_servico, s.orcamento_servico, s.crit_orcamento_servico, cli.nome_usuario FROM contratos as c join servicos as s on c.id_servico = s.id_servico join usuarios cli on c.id_cliente = cli.id_usuario WHERE c.id_prestador = " . $_SESSION['idUsuario']  . " AND s.status_servico = 1 AND c.status_contrato in(1,2) LIMIT 0,4";
+    $query = "SELECT c.id_contrato, c.id_servico, c.id_cliente, c.status_contrato, c.data_contrato, s.nome_servico, s.orcamento_servico, s.crit_orcamento_servico, cli.nome_usuario FROM contratos as c join servicos as s on c.id_servico = s.id_servico join usuarios cli on c.id_cliente = cli.id_usuario WHERE c.id_prestador = " . $_SESSION['idUsuario']  . " AND s.status_servico = 1 AND c.status_contrato in(1,2) ORDER BY c.data_contrato DESC LIMIT 0,4";
     $stmt = $con->query($query);
     $asProviderAcceptReject = $stmt->fetchAll(PDO::FETCH_OBJ);
 }
 //serviços que você requisitou como cliente
-$query = "SELECT * FROM contratos as c join servicos as s on c.id_servico = s.id_servico WHERE c.id_cliente = " . $_SESSION['idUsuario']  . " AND s.status_servico = 1 ORDER BY c.status_contrato DESC LIMIT 0,4";
+$query = "SELECT * FROM contratos as c join servicos as s on c.id_servico = s.id_servico WHERE c.id_cliente = " . $_SESSION['idUsuario']  . " AND s.status_servico = 1 ORDER BY c.status_contrato DESC, c.data_contrato DESC LIMIT 0,4";
 $stmt = $con->query($query);
 $asClientRequestedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
 //serviços que você contratou e foram aceitos
-$query = "SELECT * FROM contratos as c join servicos as s on c.id_servico = s.id_servico WHERE c.id_cliente = " . $_SESSION['idUsuario']  . " AND s.status_servico = 1 AND c.status_contrato = 1 ORDER BY c.id_contrato DESC LIMIT 0,4";
+$query = "SELECT * FROM contratos as c join servicos as s on c.id_servico = s.id_servico WHERE c.id_cliente = " . $_SESSION['idUsuario']  . " AND s.status_servico = 1 AND c.status_contrato = 1 ORDER BY c.data_contrato DESC LIMIT 0,4";
 $stmt = $con->query($query);
 $contractedServicesHistory = $stmt->fetchAll(PDO::FETCH_OBJ);
 
@@ -379,6 +381,23 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
 
                     <div class="divConfig row">
                         <div class="col-sm-8">
+                            <h6>Exiba/oculte sua localização</h6>
+                            <p>Caso você queira uma maior privacidade no site, deixe sua localização oculta.</p>
+                            <p>Caso você seja prestador de serviços e precise mostrar sua localização para as pessoas te encontrarem, deixe a localização exibida.</p>
+                        </div>
+                        <div class="col-sm-4 d-flex flex-column justify-content-center align-items-center">
+                            <label class="switch">
+                                <input type="checkbox" <?=$showLocation ? 'checked' : ''?> id="allowShowLocation">
+                                <span class="slider round"></span>
+                            </label>
+                            <?=$showLocation ? '<strong id="allowShowLocationStatus" class="text-success mt-2 text-center">Localização exibida</strong>' : '<strong id="allowShowLocationStatus" class="text-secondary mt-2 text-center">Localização oculta</strong>'?>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="divConfig row">
+                        <div class="col-sm-8">
                             <h6 class="text-danger">Excluir conta</h6>
                             <p class="text-danger"><strong>Você tem certeza?</strong> Sua conta será suspensa de nossa plataforma, tornando seu usuário e serviços inacessíveis</p>
                         </div>
@@ -680,7 +699,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                                             <strong>Informações básicas:</strong> <br>
                                             <strong>Orçamento:</strong> R$ <?=$service->orcamento_servico?> <?=$service->crit_orcamento_servico?> <br>
                                             <?php if($service->tipo_servico == 1) {?>
-                                                <strong>Localização:</strong> <?=$user->cidade_usuario?>, <?=$user->uf_usuario?>
+                                                <strong>Localização: </strong><?=$showLocation ? $user->cidade_usuario . ', ' . $user->uf_usuario : 'você optou por ocultar localização'?>
                                             <?php } else {?>
                                                 <strong>Serviço remoto</strong>
                                             <?php
@@ -794,7 +813,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                 <div class="myContent mb-3">
                     <h1>Serviços aceitos ou rejeitados</h1>
 
-                    <div class="row d-flex justify-content-center text-left">
+                    <div class="row d-flex justify-content-center">
 
                         <?php if( count($asProviderAcceptReject) > 0 ) {
                             foreach ($asProviderAcceptReject as $key => $service) {

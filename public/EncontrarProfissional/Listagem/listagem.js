@@ -282,17 +282,17 @@ const requestServices = async () => { // cuida da requisaicao de servicos
                 gottenServices.push({ // adiciona os dados dos servicos recebidos ao array que sera enviado para impressao na DOM
                     serviceID: elem.id_servico,
                     imgSRC: `../../../assets/images/users/${elem.imagem_usuario}`,
-                    location: `${elem.uf_usuario}, ${elem.cidade_usuario}, ${elem.bairro_usuario}`,
                     serviceName: elem.nome_servico,
                     providerName: elem.nome_usuario,
                     avaliation: nota_media,
                     avaliationQuant: 1,
                     price: `${elem.orcamento_servico} ${elem.crit_orcamento_servico}`,
-                    distance: Number(elem.distance)
+                    distance: Number(elem.distance),
+                    location: elem.mostrar_local_usuario === '1' ? `${elem.uf_usuario}, ${elem.cidade_usuario}, ${elem.bairro_usuario}` : 'O usuário optou por ocultar localização'
                 });
             }
 
-            // console.log(gottenServices)
+            console.log(gottenServices)
             
             setServiceState(
                 {

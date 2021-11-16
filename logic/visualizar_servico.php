@@ -23,7 +23,7 @@ class VisualizeService
         $data = array();
 
         // captura as infos do preatador que esteja relacionada a esse servico , sendo que o status do servico deva ser 1 'disponivel'
-        $cmd_provider = $this->con->query("SELECT id_usuario, nome_usuario, sobrenome_usuario, classif_usuario, fone_usuario, uf_usuario, cidade_usuario, rua_usuario, numero_usuario 
+        $cmd_provider = $this->con->query("SELECT id_usuario, nome_usuario, sobrenome_usuario, classif_usuario, fone_usuario, uf_usuario, cidade_usuario, rua_usuario, numero_usuario, mostrar_local_usuario
         FROM usuarios, servicos where id_usuario = id_prestador_servico and id_servico={$this->serviceID}");
         
         $data = $cmd_provider->fetch(PDO::FETCH_ASSOC);
