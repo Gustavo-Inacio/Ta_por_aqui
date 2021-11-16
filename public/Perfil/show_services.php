@@ -11,6 +11,8 @@ $query = "SELECT * FROM usuarios where id_usuario = " . $_GET['user'];
 $stmt = $con->query($query);
 $user = $stmt->fetch(PDO::FETCH_OBJ);
 
+$showLocation = $user->mostrar_local_usuario == 1;
+
 if ($_GET['servicetype'] === "requestedServices") {
     //serviços requisitados para esse prestador
     $query = "SELECT * FROM contratos as c join servicos as s on c.id_servico = s.id_servico WHERE id_prestador = " . $_GET['user'] . " AND s.status_servico = 1 AND status_contrato = 0 ORDER BY c.data_contrato DESC";
@@ -106,7 +108,7 @@ if ($_GET['servicetype'] === "requestedServices") {
                                     <strong>Orçamento:</strong>
                                     R$ <?= $service->orcamento_servico ?> <?= $service->crit_orcamento_servico ?> <br>
                                     <?php if ($service->tipo_servico == 1) { ?>
-                                        <strong>Localização:</strong> <?= $user->cidade_usuario ?>, <?= $user->uf_usuario ?>
+                                        <strong>Localização:</strong> <?=$showLocation ? $user->cidade_usuario . ', ' . $user->uf_usuario : 'você optou por ocultar localização'?>
                                     <?php } else { ?>
                                         <strong>Serviço remoto</strong>
                                     <?php } ?>
@@ -127,7 +129,7 @@ if ($_GET['servicetype'] === "requestedServices") {
 
 <?php } else if ($_GET['servicetype'] === "servicesRequestedByYou") {
     //serviços que você requisitou como cliente
-    $query = "SELECT * FROM contratos as c join servicos as s on c.id_servico = s.id_servico WHERE id_cliente = " . $_SESSION['idUsuario'] . " AND s.status_servico = 1 ORDER BY c.status_contrato DESC, c.data_contrato DESC";
+    $query = "SELECT * FROM contratos as c join servicos as s on c.id_servico = s.id_servico WHERE id_cliente = " . $_SESSION['idUsuario'] . " AND s.status_servico = 1 ORDER BY c.data_contrato DESC";
     $stmt = $con->query($query);
     $asClientRequestedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
     ?>
@@ -312,7 +314,7 @@ if ($_GET['servicetype'] === "requestedServices") {
     </div>
 <?php } else if ($_GET['servicetype'] === "acceptRejectServices") {
     //serviços aceitos ou rejeitados por esse prestador
-    $query = "SELECT * FROM contratos as c join servicos as s on c.id_servico = s.id_servico WHERE id_prestador = " . $_GET['user'] . " AND s.status_servico = 1 AND status_contrato in(1,2) ORDER BY c.status_contrato, c.data_contrato DESC";
+    $query = "SELECT * FROM contratos as c join servicos as s on c.id_servico = s.id_servico WHERE id_prestador = " . $_GET['user'] . " AND s.status_servico = 1 AND status_contrato in(1,2) ORDER BY c.data_contrato DESC";
     $stmt = $con->query($query);
     $asProviderAcceptReject = $stmt->fetchAll(PDO::FETCH_OBJ);
     ?>

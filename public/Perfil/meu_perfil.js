@@ -407,3 +407,24 @@ document.getElementById('getCurrentLocationBtn').addEventListener('click', () =>
         })
     }
 })
+
+document.getElementById('allowShowLocation').addEventListener('change', e => {
+    let checked = e.target.checked
+    let allowShowLocationStatus = document.getElementById('allowShowLocationStatus')
+
+    $.ajax({
+        method: 'POST',
+        url: '../../logic/perfil_toggle_location.php',
+        data: {changeTo: checked},
+        success: resp => {
+            console.log(resp)
+            if (resp === 'true'){
+                allowShowLocationStatus.innerText = 'Localização exibida'
+                allowShowLocationStatus.className = 'text-success mt-2 text-center'
+            } else {
+                allowShowLocationStatus.innerText = 'Localização oculta'
+                allowShowLocationStatus.className = 'text-secondary mt-2 text-center'
+            }
+        }
+    })
+})

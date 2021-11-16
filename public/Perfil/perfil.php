@@ -33,6 +33,8 @@ if(isset($_GET['id'])) {
             $stmt = $con->query($query);
             $userServices = $stmt->fetchAll(PDO::FETCH_OBJ);
         }
+
+        $showLocation = $user->mostrar_local_usuario == 1;
     }
 }
 if( !isset($_GET['id']) || empty($user) ){
@@ -464,7 +466,7 @@ if( !isset($_GET['id']) || empty($user) ){
                                             <strong>Informações básicas:</strong> <br>
                                             <strong>Orçamento:</strong> R$ <?=$service->orcamento_servico?> <?=$service->crit_orcamento_servico?> <br>
                                             <?php if($service->tipo_servico == 1) {?>
-                                                <strong>Localização:</strong> <?=$user->cidade_usuario?>, <?=$user->uf_usuario?>
+                                                <strong>Localização:</strong> <?=$showLocation ? $user->cidade_usuario . ', ' . $user->uf_usuario : 'O usuário optou por ocultar localização'?>
                                             <?php } else {?>
                                                 <strong>Serviço remoto</strong>
                                             <?php
