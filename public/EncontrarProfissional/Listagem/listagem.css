@@ -372,6 +372,26 @@ button:focus {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  border: none;
+  border-radius: 15px;
+  -webkit-transition: all ease 0.3s;
+  transition: all ease 0.3s;
+  cursor: pointer;
+  padding: 3px 8px;
+  background-color: none;
+}
+
+.filter-item > * {
+  pointer-events: none;
+}
+
+.filter-item:hover {
+  background-color: #c9c9c9;
+}
+
+.filter-item.active {
+  background-color: #c9c9c9;
+  border: 1.5px solid #3A56D0;
 }
 
 .filter-item .filter-name {
@@ -448,6 +468,8 @@ button:focus {
   width: 100%;
   padding-top: 20px;
   padding-bottom: 10px;
+  max-height: 160px;
+  overflow: auto;
 }
 
 #searchTagSection .search-tag {
