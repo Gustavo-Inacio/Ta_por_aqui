@@ -7,6 +7,40 @@ var permitSearch = true; // tem a funcao de permitar que uma nova requisicao sej
 
 let apiKey = '2BHqTlrrRZyJOYbFEl47yRbagjjwSaY-Eu3iriuEgvY';
 
+let filterState = {
+    type : 0 // 0 = filtrar por proximidade | 1 = filtrar por avaliacao
+}
+
+const refreshFilter = () => {
+    if(filterState.type == 0){
+        document.querySelector("#filterCloser").classList.remove("active");
+        document.querySelector("#filterBestAva").classList.add('active');
+    }
+    else{
+        document.querySelector("#filterBestAva").classList.remove("active");
+        document.querySelector("#filterCloser").classList.add('active');
+    }
+
+    setSearchState({});
+}
+
+const setFilterState = (data) => {
+    for(let i in data){
+        filterState[i] = data[i];
+    }
+
+    refreshFilter();
+}
+
+document.querySelector("#filterBestAva").onclick = () => {
+    // setFilterState({type: 1});
+    setSearchState({bestAvaliation: 1});
+}
+document.querySelector("#filterCloser").onclick = () => {
+    // setFilterState({type: 0});
+    setSearchState({bestAvaliation: 0});
+}
+
 let serviceState = {
     allservices : [],
     servicesToAdd: [],
@@ -43,6 +77,7 @@ function setTempPosition(data) {
 function refreshServices ()  {
     serviceState.allservices = serviceState.allservices.concat(serviceState.servicesToAdd);
     serviceCardsRender(serviceState.servicesToAdd);
+    serviceState.servicesToAdd = [];
 }
 
 function setServiceState(data) {
@@ -56,6 +91,8 @@ function setServiceState(data) {
     }
 
     refreshServices();
+
+    console.log('[setServiceState]')
 }
 
 let searachState = {
@@ -65,7 +102,8 @@ let searachState = {
         //     name :''
         // }
     ],
-    write : []
+    write : [],
+    bestAvaliation: 0
 };
 
 
@@ -226,6 +264,7 @@ const requestServices = async () => { // cuida da requisaicao de servicos
 
         let idToExlucde = [];
         let maxDist = 0;
+        // minDist
 
 
         serviceState.allservices.forEach((elem) => { // cuida de selecionar os ids dos servicos que possuem a distancia exata de menor distancia a ser pesquisada na requisicao. A fim de evitar repeticoes
@@ -246,12 +285,18 @@ const requestServices = async () => { // cuida da requisaicao de servicos
             subCatid.push(elem.id);
         });
 
+        let filterBestAva = 'false';
+
+        if(searachState.bestAvaliation == 1) filterBestAva = 'true';
+
         const config = { // configuracoes de requisicao
             getServices: true,
             dataServices: {
-                quantity : 15,
+                bestAvaliation: filterBestAva,
+                quantity : 2,
                 maxDist: 100000000000000000000,
-                minDist: maxDist,
+                // minDist: maxDist,
+                minDist: searachState.bestAvaliation  == 1 ? 0 : maxDist,
                 myLat: Number(tempPosition.tempLat),
                 myLng: Number(tempPosition.tempLng),
                 subCat: subCatid,
@@ -260,12 +305,17 @@ const requestServices = async () => { // cuida da requisaicao de servicos
             }
         };
 
+        console.log(config)
+
         // console.log(config)
 
         req.onload = () => {
+            // console.log(req.response)
             let responseData = JSON.parse(req.response);
+            console.log(responseData)
             let responseInfo =  responseData.services.statusInfo;
             responseData = responseData.services.data;
+            
 
             let gottenServices = [];
 
@@ -331,10 +381,11 @@ const handleScroolSearch = () => { // cuida de fazer novas requisicoes ao scroll
     
     let section = document.querySelector("#serviceCadsSection");
     section.onscroll = () => {
-        if((section.scrollTop > section.scrollHeight - 300) && !serviceState.endedSearch){
+        if((section.scrollTop > section.scrollHeight - 1000) && !serviceState.endedSearch){
             // o tanto que a pessoa scrollou + a altura do conteiner recisa cjhegar ao fim para fazer uma nova requisicao.
             requestServices();
         }
+
        
     }
 }
@@ -346,13 +397,42 @@ const refreshSearch = () => {
     let serviceCadrPath_e = document.querySelector('.service-cards-path');
     serviceCadrPath_e.innerHTML = "";
 
+    let inputBestAva = document.querySelector("#bestAva");
+    console.log(searachState.bestAvaliation)
+    inputBestAva.value = searachState.bestAvaliation;
+
+    if(searachState.bestAvaliation == 0){
+        document.querySelector("#filterBestAva").classList.remove("active");
+        document.querySelector("#filterCloser").classList.add('active');
+    }
+    else{
+        document.querySelector("#filterCloser").classList.remove("active");
+        document.querySelector("#filterBestAva").classList.add('active');
+    }
+
+    if ((serviceState.allservices.length) === 0){
+        document.querySelector('.service-cards-path').innerHTML = '<div class="beforeSearch">\n' +
+            '                            <h3> O servico que esta procurando pode não ter sido encontrado. Para fazer uma pesquisa</h3>\n' +
+            '\n' +
+            '                            <ul>\n' +
+            
+            '                                <li>Faça o uso da <strong>barra de pesquisa</strong> ou <strong>tabela de categorias</strong></li>\n' +
+            '                                <li><strong>Filtre por:</strong> <span>Mais próximos <i class="fas fa-long-arrow-alt-up"></i></span> <span>Melhor avaliado <i class="fas fa-long-arrow-alt-up"></i></span> para que tenha a <strong>melhor escolha custo benefício</strong></li>\n' +
+            '                            </ul>\n' +
+            '                        </div>'
+    }
+
+
     
     setServiceState({
-        allservices :[],
+        allservices : [],
         lastDistance : 0,
         endedSearch: false , 
         service_idToExlucde: [],
+        minDist:0
     });
+
+    console.log('refreshSeacrh', searachState)
 
     
     if(!(searachState.tag.length ==0 && searachState.write == ""))
@@ -362,7 +442,7 @@ const refreshSearch = () => {
 
 function setSearchState(data){
     if(! typeof data === "object") {
-        // console.log("[setSearchState] --> wrong type of data");
+        console.log("[setSearchState] --> wrong type of data");
         return;
     }
 
@@ -370,7 +450,9 @@ function setSearchState(data){
         searachState[i] = data[i];
     }
 
-     setServiceState({allServices : [], services :[]});
+    console.log(data)
+
+    //  setServiceState({allServices : [], services :[]});
 
     refreshSearch();
 }

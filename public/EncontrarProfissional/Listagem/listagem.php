@@ -7,6 +7,11 @@ if(isset($_GET['query'])){
     $searchQuery = $_GET['query'];
 }
 
+$bestAva = '0';
+if(isset($_GET['bestAva']) && $_GET['bestAva'] == '1'){
+    $bestAva = $_GET['bestAva'];
+}
+
 //caso haja cookies salvos no pc do usuário, ele vai logar com os cookies salvos
 require "../../../logic/entrar_cookie.php";
 
@@ -213,6 +218,7 @@ if (isset($_SESSION['idUsuario']) && $_SESSION['idUsuario'] !== ""){
                             <input id="searchBar" type="text" name="query" value="<?php echo $searchQuery; ?>">
                             <input type="hidden" name="tmpLat" id="tmpLat" value="<?= $_GET['tmpLat'] ?? '' ?>">
                             <input type="hidden" name="tmpLng" id="tmpLng" value="<?= $_GET['tmpLng'] ?? '' ?>">
+                            <input type="hidden" name="bestAva" id="bestAva" value="<?= $bestAva ?? '' ?>">
                         </div>
                     </form>
                     
@@ -240,7 +246,7 @@ if (isset($_SESSION['idUsuario']) && $_SESSION['idUsuario'] !== ""){
                         
                     </div>
                 </section> -->
-                <section id="searchTagSection" class="row">
+                <section id="searchTagSection" class="row my-nice-scroll-bar">
                     <template class="search-tags-template">
                         <div class="search-tag">
                             <label class="search-tag-title"></label>
@@ -275,7 +281,7 @@ if (isset($_SESSION['idUsuario']) && $_SESSION['idUsuario'] !== ""){
                 <section id="filterSection">
                     <h1 class="filterSectionTitle">Filtrar por :</h1>
 
-                    <div class="closest-location filter-item">
+                    <div class="closest-location filter-item" id="filterCloser">
                         <label class="filter-name">Mais Próximos</label>
                         <svg class="filter-arrow-svg arrow-up" width="8" height="11" viewBox="0 0 8 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M4.35355 0.646446C4.15829 0.451184 3.84171 0.451184 3.64645 0.646446L0.464466 3.82843C0.269204 4.02369 0.269204 4.34027 0.464466 4.53553C0.659728 4.7308 0.976311 4.7308 1.17157 4.53553L4 1.70711L6.82843 4.53553C7.02369 4.7308 7.34027 4.7308 7.53553 4.53553C7.7308 4.34027 7.7308 4.02369 7.53553 3.82843L4.35355 0.646446ZM4.5 11L4.5 1H3.5L3.5 11H4.5Z" fill="#0C0C23"/>
@@ -284,7 +290,7 @@ if (isset($_SESSION['idUsuario']) && $_SESSION['idUsuario'] !== ""){
 
                     <div class="filter-section-vertical-line"></div>
 
-                    <div class="better-avaliation filter-item">
+                    <div class="better-avaliation filter-item" id="filterBestAva">
                         <label class="filter-name">Avaliação </label>
                         <svg class="filter-arrow-svg arrow-up" width="8" height="11" viewBox="0 0 8 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M4.35355 0.646446C4.15829 0.451184 3.84171 0.451184 3.64645 0.646446L0.464466 3.82843C0.269204 4.02369 0.269204 4.34027 0.464466 4.53553C0.659728 4.7308 0.976311 4.7308 1.17157 4.53553L4 1.70711L6.82843 4.53553C7.02369 4.7308 7.34027 4.7308 7.53553 4.53553C7.7308 4.34027 7.7308 4.02369 7.53553 3.82843L4.35355 0.646446ZM4.5 11L4.5 1H3.5L3.5 11H4.5Z" fill="#0C0C23"/>
@@ -564,10 +570,10 @@ if (isset($_SESSION['idUsuario']) && $_SESSION['idUsuario'] !== ""){
     <script type="module">
         import {setSearchState, setTempPosition, userNotLogged, tempPosition} from './listagem.js';
 
-        const handleSeachText = (query) => {
-            if(!query) return;
+        const handleSeachText = (data) => {
+            if(!data) return;
 
-            let text = query;
+            let text = data.query;
             text = text.trim();
 
             let spliText = text.split(" ")
@@ -576,7 +582,8 @@ if (isset($_SESSION['idUsuario']) && $_SESSION['idUsuario'] !== ""){
             let serviceCardsPath = document.querySelector(".service-cards-path");
             serviceCardsPath.innerHTML = "";
 
-            setSearchState({write : spliText});
+            setSearchState({write : spliText, bestAvaliation: data.bestAva});
+            console.log(data.bestAva)
         }
 
         <?php
@@ -607,7 +614,7 @@ if (isset($_SESSION['idUsuario']) && $_SESSION['idUsuario'] !== ""){
         }
         ?>
 
-        handleSeachText("<?php echo $searchQuery; ?>");
+        handleSeachText({query:"<?php echo $searchQuery; ?>", bestAva: <?php echo $bestAva; ?>});
 
         <?php
             $is_set_location = 'false';

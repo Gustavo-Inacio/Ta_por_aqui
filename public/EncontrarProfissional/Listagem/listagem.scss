@@ -309,6 +309,25 @@ button:focus{
     color: #0C0C23;
     justify-content: center;
     align-items: center;
+    border: none;
+    border-radius: 15px;
+    transition: all ease 0.3s;
+    cursor: pointer;
+    padding: 3px 8px;
+    background-color: none;
+
+    >*{
+        pointer-events: none;
+    }
+
+    &:hover{
+        background-color: rgb(201, 201, 201);
+    }
+
+    &.active{
+        background-color: rgb(201, 201, 201);
+        border: 1.5px solid #3A56D0;
+    }
 }
 
 .filter-item .filter-name{
@@ -370,6 +389,8 @@ button:focus{
    
     padding-top: 20px;
     padding-bottom: 10px;
+    max-height: 160px;
+    overflow: auto;
 
     .search-tag{
         // width: fit-content;
