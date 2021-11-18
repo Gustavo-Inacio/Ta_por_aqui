@@ -169,6 +169,11 @@ if (isset($_SESSION['idUsuario']) && isset($_SESSION['email']) && isset($_SESSIO
                                             <input type="text" class="form-control mb-3" name="userAdressComplement" id="userAdressComplement" placeholder="Digite o complemento (caso tenha)" data-bs-toggle="popover" data-bs-trigger="hover" title="Exemplo" data-bs-content="apto. 24 BL A" data-bs-placement="top"
                                                    maxlength="20">
 
+                                            <hr>
+
+                                            <input type="checkbox" name="allowPublicLocation" id="allowPublicLocation"> <label for="allowPublicLocation">Aceito deixar minha localização visível publicamente</label>
+                                            <br>
+                                            <small class="text-info"><i class="fas fa-hand-point-up"></i> Caso marque essa opção, sua localização detalhada será exibida publicamente no nosso site. Isso é util para que as pessoas saibam a localização onde você presta serviços. Você pode alterar isso a qualquer momento nas configurações de perfil</small>
                                         </div>
 
                                         <div class="modal-footer">
