@@ -106,3 +106,6 @@ dist
 #Code editor cache
 .idea/
 .vscode/
+
+#notes
+acesso ao banco remoto.txt

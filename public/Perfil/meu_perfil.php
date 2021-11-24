@@ -148,8 +148,8 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
     <!-- Cartão do perfil comeco-->
     <section id="myProfileSection" class="row">
         <div id="profilePictureArea" class="col-md-4">
+            <button type="button" class="mybtn mybtn-complement mb-3" id="shareProfile" onclick="generateProfileLink(<?=$user->id_usuario?>)"> <i class="fas fa-share-square"></i> Compartilhar perfil </button>
             <h1>Foto de perfil</h1>
-            <br>
             <img src="../../assets/images/users/<?=$user->imagem_usuario?>" alt="Imagem de perfil" class="rounded-image"
                  id="profileImage">
             <br>
@@ -209,7 +209,7 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                     echo "<p class='text-secondary'>O usuário ainda não foi avaliado</p>";
                 } else {?>
                     <h4 style="color: #309A6D"><?=$user->nota_media_usuario?></h4>
-                    <div>
+                    <div class="mb-3">
                         <?php for ($i = 1; $i <= 5; $i++) {
                             if ($i <= round($user->nota_media_usuario)) {
                                 echo '<svg class="provider-rate-star" width="25" height="25" viewBox="0 0 17 14" xmlns="http://www.w3.org/2000/svg">
@@ -301,7 +301,6 @@ $userSavedServices = $stmt->fetchAll(PDO::FETCH_OBJ);
                     </div>
                 </div>
             </form>
-
         </div>
     </section>
     <!-- Cartão do perfil fim -->

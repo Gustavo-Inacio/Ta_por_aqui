@@ -1,6 +1,7 @@
 //permitir popovers
-$(function () {
-    $('[data-toggle="popover"]').popover()
+var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+    return new bootstrap.Popover(popoverTriggerEl)
 })
 
 //permitir que o usuário clique nos botões de salvar e cancelar e edite seu perfil
@@ -428,3 +429,32 @@ document.getElementById('allowShowLocation').addEventListener('change', e => {
         }
     })
 })
+
+let copypopover = new bootstrap.Popover(document.getElementById('shareProfile'), {
+    html: true,
+    content: 'Copiar link do perfil',
+    placement: 'top',
+    trigger: 'hover'
+})
+
+function generateProfileLink(id){
+    let absolutePath = location.href.split('public')
+    absolutePath = absolutePath[0]
+
+    let link = `${absolutePath}public/Perfil/perfil.php?id=${id}`
+    navigator.clipboard.writeText(link);
+
+    let copiedpopover = new bootstrap.Popover(document.getElementById('shareProfile'), {
+        html: true,
+        content: '<span class="text-success"><i class="fas fa-check"></i> Link copiado</span>',
+        placement: 'top',
+        trigger: 'hover'
+    })
+
+    copypopover.hide()
+    copiedpopover.show()
+
+    setTimeout(() => {
+        copiedpopover.hide()
+    }, 3000)
+}
