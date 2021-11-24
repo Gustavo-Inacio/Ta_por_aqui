@@ -407,16 +407,14 @@ if (isset($_SESSION['idUsuario']) && $_SESSION['idUsuario'] !== ""){
                 </template>
 
                 <section id="serviceCadsSection" class="my-nice-scroll-bar">
+                    <div class="beforeSearch" id="beforeSearch">
+                        <h3>Para fazer uma pesquisa</h3>
+                        <ul>
+                            <li>Faça o uso da <strong>barra de pesquisa</strong> ou <strong>tabela de categorias</strong></li>
+                            <li><strong>Filtre por:</strong> <span>Mais próximos <i class="fas fa-long-arrow-alt-up"></i></span> <span>Melhor avaliado <i class="fas fa-long-arrow-alt-up"></i></span> para que tenha a <strong>melhor escolha custo benefício</strong></li>
+                        </ul>
+                    </div>
                     <div class="service-cards-path">
-
-                        <div class="beforeSearch">
-                            <h3>Para fazer uma pesquisa</h3>
-
-                            <ul>
-                                <li>Faça o uso da <strong>barra de pesquisa</strong> ou <strong>tabela de categorias</strong></li>
-                                <li><strong>Filtre por:</strong> <span>Mais próximos <i class="fas fa-long-arrow-alt-up"></i></span> <span>Melhor avaliado <i class="fas fa-long-arrow-alt-up"></i></span> para que tenha a <strong>melhor escolha custo benefício</strong></li>
-                            </ul>
-                        </div>
 
                     </div>
                     <div class="service-cards-loading-container">
@@ -583,7 +581,6 @@ if (isset($_SESSION['idUsuario']) && $_SESSION['idUsuario'] !== ""){
             serviceCardsPath.innerHTML = "";
 
             setSearchState({write : spliText, bestAvaliation: data.bestAva});
-            console.log(data.bestAva)
         }
 
         <?php

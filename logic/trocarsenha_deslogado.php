@@ -44,4 +44,8 @@ if ($valid){
 } else {
     header('location:../public/Entrar/login.php?status=senha%20alterada%20com%20sucesso&class=danger');
 }
-session_destroy();
+
+#criando uma sessão temporária para troca de senha. Isso fará com que o link tenha uma válidade
+unset($_SESSION['emailRecSenha']);
+unset($_SESSION['currentTime']);
+unset($_SESSION['expireTime']);

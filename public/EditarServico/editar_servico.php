@@ -362,7 +362,7 @@ $serviceData = $editService->getServiceData(); // verifica se o servico eh dele 
                                 <p class="card-text text-dark">
                                     <strong>Tipo: </strong> <span id="cardServiceType"></span> <br>
                                     <strong>Categorias: </strong> <span id="cardServiceCategory"></span> <br>
-                                    <strong>Descrição: </strong> <p id="cardServiceDescription" class="m-0 p-0 text-dark"></p> <br>
+                                    <strong>Descrição: </strong> <label id="cardServiceDescription" class="m-0 p-0 text-dark my-2"></label> <br>
                                     <strong>Pagamento: </strong> <span id="cardServicePayment"></span> <br>
                                 </p>
                                 <button type="button" class="myBtn myBtnGreen mb-3" id="confirmService" onclick="createServiceValidation()">Editar serviço</button> <br>
@@ -383,7 +383,7 @@ $serviceData = $editService->getServiceData(); // verifica se o servico eh dele 
 <footer id="myMainFooter">
     <div id="myMainFooterContainer" class="container-fluid">
         <div class="my-main-footer-logo">
-            <img src="../../assets/images/dumb-footer.png" alt="Tá por Aqui" class="my-footer-img">button
+            <img src="../../assets/images/dumb-footer.png" alt="Tá por Aqui" class="my-footer-img">
         </div>
         <div class="my-main-footer-institutional">
             <p>INSTITUCIONAL</p>

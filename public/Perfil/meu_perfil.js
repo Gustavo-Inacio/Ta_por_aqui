@@ -122,9 +122,9 @@ function verifySocialMedia() {
     //Verificação dos campos do linkedin
     if( document.getElementsByClassName('linkedin')[0].value !== "" || document.getElementsByClassName('linkedin')[1].value !== "" ){
         //verifica se é uma url válida
-        if( document.getElementsByClassName('linkedin')[1].value.indexOf("https://br.linkedin.com/in/") === -1 ){
+        if( document.getElementsByClassName('linkedin')[1].value.indexOf("https://www.linkedin.com/in/") === -1 ){
             valido = false
-            msgErro = "Digite um link como: 'https://br.linkedin.com/in/seu-perfil' no campo do linkedin"
+            msgErro = "Digite um link como: 'https://www.linkedin.com/in/seu-perfil' no campo do linkedin"
         }
 
         //verifica se ambos campos do linkedin estão digitados caso 1 esteja digitado

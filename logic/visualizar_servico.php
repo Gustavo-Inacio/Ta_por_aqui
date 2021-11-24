@@ -44,7 +44,7 @@ class VisualizeService
         $data = [];
 
         // busca pelas fotos do servico, sendo que o status do servio deva ser 1
-        $command = $this->con->query("SELECT dir_servico_imagem FROM servico_imagens, servicos WHERE servicos.id_servico=6 and servico_imagens.id_servico = servicos.id_servico");
+        $command = $this->con->query("SELECT dir_servico_imagem FROM servico_imagens, servicos WHERE servicos.id_servico = {$this->serviceID} and servico_imagens.id_servico = servicos.id_servico");
         $data = $command->fetchAll(PDO::FETCH_COLUMN);
 
         return $data;
