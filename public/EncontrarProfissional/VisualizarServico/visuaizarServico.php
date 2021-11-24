@@ -245,7 +245,6 @@
                                 <?php foreach ($serviceImg as $i => $img) {?>
                                     <div class="carousel-item <?=$i === 0 ? "active" : ""?>">
                                         <img src="../../../assets/images/users/<?php echo $img;?>" class="d-block w-100" alt="SERVICE-IMG">
-                                        <!-- <img src="<?php echo $img;?>" class="d-block w-100" alt="SERVICE-IMG"> -->
                                     </div>
                                 <?php }?>
                             </div>
@@ -1054,6 +1053,9 @@
                     ajaxTrigger(state); // manda para a funcao de ajax 
                     // clearFields(); // limpa os campos ---------------------------------------------------------------------------------
                     alertDiv.style.display = 'none'; // retira o alert de erro
+
+                    //escondendo os botões
+                    setState({textAreafocus: false})
                 }
                 else{
                     alertDiv.style.display = 'block'; // coloca o alert de erro

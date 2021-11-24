@@ -66,7 +66,6 @@ function setTempPosition(data) {
         xhr.onreadystatechange = () => {
             if (xhr.readyState == 4 && xhr.status == 200){
                 let tempLocation = JSON.parse(xhr.response)
-                // console.log(tempLocation)
                 document.getElementById('showTempLocation').innerHTML = `<span>Usando localização temporária: </span> <strong>${tempLocation.items[0].address.label}</strong>`
             }
         }
@@ -82,7 +81,6 @@ function refreshServices ()  {
 
 function setServiceState(data) {
     if(!typeof data === 'object') {
-        console.log("[setServiceState] -> wrong type of data");
         return;
     }
 
@@ -92,7 +90,13 @@ function setServiceState(data) {
 
     refreshServices();
 
-    console.log('[setServiceState]')
+    if ((serviceState.allservices.length) > 0){
+        document.querySelector('#beforeSearch').classList.remove('d-block')
+        document.querySelector('#beforeSearch').classList.add('d-none')
+    } else {
+        document.querySelector('#beforeSearch').classList.remove('d-none')
+        document.querySelector('#beforeSearch').classList.add('d-block')
+    }
 }
 
 let searachState = {
@@ -129,7 +133,6 @@ const addSearchTag = (index, tagName) => { // cuida de add uma atg na pesquisa
 }
 
 const toggleSearchTag = ({index, name}) => {
-    // console.log(searachState)
     if(searachState.tag.length > 0){
         let alreadyExists = false;
         for(let i in searachState.tag){
@@ -148,18 +151,6 @@ const toggleSearchTag = ({index, name}) => {
     }
     else{
         addSearchTag(index, name);
-        // console.log(index, name)
-    }
-
-    if ((searachState.tag.length) === 0){
-        document.querySelector('.service-cards-path').innerHTML = '<div class="beforeSearch">\n' +
-            '                            <h3>Para fazer uma pesquisa</h3>\n' +
-            '\n' +
-            '                            <ul>\n' +
-            '                                <li>Faça o uso da <strong>barra de pesquisa</strong> ou <strong>tabela de categorias</strong></li>\n' +
-            '                                <li><strong>Filtre por:</strong> <span>Mais próximos <i class="fas fa-long-arrow-alt-up"></i></span> <span>Melhor avaliado <i class="fas fa-long-arrow-alt-up"></i></span> para que tenha a <strong>melhor escolha custo benefício</strong></li>\n' +
-            '                            </ul>\n' +
-            '                        </div>'
     }
 }
 
@@ -208,30 +199,11 @@ const refreshTagsArea = () => { // cuida de recaregar toda a area das tags
         let clearAllTags = document.querySelector(".clear-tags-div");
         clearAllTags.onclick = () => { // ação de eliminar todas as tags juntas e voltar msg de query vazia
             setSearchState({tag: []});
-            document.querySelector('.service-cards-path').innerHTML = '<div class="beforeSearch">\n' +
-                '                            <h3>Para fazer uma pesquisa</h3>\n' +
-                '\n' +
-                '                            <ul>\n' +
-                '                                <li>Faça o uso da <strong>barra de pesquisa</strong> ou <strong>tabela de categorias</strong></li>\n' +
-                '                                <li><strong>Filtre por:</strong> <span>Mais próximos <i class="fas fa-long-arrow-alt-up"></i></span> <span>Melhor avaliado <i class="fas fa-long-arrow-alt-up"></i></span> para que tenha a <strong>melhor escolha custo benefício</strong></li>\n' +
-                '                            </ul>\n' +
-                '                        </div>'
         };  
 
         const addFunctions = (node, index) => { // add a funcao de fechar as tags
             node.querySelector(".search-tag-clear-tag").onclick = () => {
                 removeSearchTag(index);
-
-                if (searachState.tag.length === 0){
-                    document.querySelector('.service-cards-path').innerHTML = '<div class="beforeSearch">\n' +
-                        '                            <h3>Para fazer uma pesquisa</h3>\n' +
-                        '\n' +
-                        '                            <ul>\n' +
-                        '                                <li>Faça o uso da <strong>barra de pesquisa</strong> ou <strong>tabela de categorias</strong></li>\n' +
-                        '                                <li><strong>Filtre por:</strong> <span>Mais próximos <i class="fas fa-long-arrow-alt-up"></i></span> <span>Melhor avaliado <i class="fas fa-long-arrow-alt-up"></i></span> para que tenha a <strong>melhor escolha custo benefício</strong></li>\n' +
-                        '                            </ul>\n' +
-                        '                        </div>'
-                }
             };
         }
 
@@ -305,14 +277,8 @@ const requestServices = async () => { // cuida da requisaicao de servicos
             }
         };
 
-        console.log(config)
-
-        // console.log(config)
-
         req.onload = () => {
-            // console.log(req.response)
             let responseData = JSON.parse(req.response);
-            console.log(responseData)
             let responseInfo =  responseData.services.statusInfo;
             responseData = responseData.services.data;
             
@@ -341,8 +307,6 @@ const requestServices = async () => { // cuida da requisaicao de servicos
                     location: elem.mostrar_local_usuario === '1' ? `${elem.uf_usuario}, ${elem.cidade_usuario}, ${elem.bairro_usuario}` : 'O usuário optou por ocultar localização'
                 });
             }
-
-            console.log(gottenServices)
             
             setServiceState(
                 {
@@ -398,7 +362,6 @@ const refreshSearch = () => {
     serviceCadrPath_e.innerHTML = "";
 
     let inputBestAva = document.querySelector("#bestAva");
-    console.log(searachState.bestAvaliation)
     inputBestAva.value = searachState.bestAvaliation;
 
     if(searachState.bestAvaliation == 0){
@@ -410,20 +373,6 @@ const refreshSearch = () => {
         document.querySelector("#filterBestAva").classList.add('active');
     }
 
-    if ((serviceState.allservices.length) === 0){
-        document.querySelector('.service-cards-path').innerHTML = '<div class="beforeSearch">\n' +
-            '                            <h3> O servico que esta procurando pode não ter sido encontrado. Para fazer uma pesquisa</h3>\n' +
-            '\n' +
-            '                            <ul>\n' +
-            
-            '                                <li>Faça o uso da <strong>barra de pesquisa</strong> ou <strong>tabela de categorias</strong></li>\n' +
-            '                                <li><strong>Filtre por:</strong> <span>Mais próximos <i class="fas fa-long-arrow-alt-up"></i></span> <span>Melhor avaliado <i class="fas fa-long-arrow-alt-up"></i></span> para que tenha a <strong>melhor escolha custo benefício</strong></li>\n' +
-            '                            </ul>\n' +
-            '                        </div>'
-    }
-
-
-    
     setServiceState({
         allservices : [],
         lastDistance : 0,
@@ -432,25 +381,18 @@ const refreshSearch = () => {
         minDist:0
     });
 
-    console.log('refreshSeacrh', searachState)
-
-    
     if(!(searachState.tag.length ==0 && searachState.write == ""))
     requestServices();
-
 }
 
 function setSearchState(data){
     if(! typeof data === "object") {
-        console.log("[setSearchState] --> wrong type of data");
         return;
     }
 
     for(let i in data){
         searachState[i] = data[i];
     }
-
-    console.log(data)
 
     //  setServiceState({allServices : [], services :[]});
 
@@ -468,7 +410,6 @@ const toggleCategoriesSidebar = () => {
     let btnToggler = document.querySelectorAll('.my-categories-toggle-btn');
     let body = document.querySelector('body');
 
-    // console.log(sidebar)
 
     const refresShowSidebar = () => {
        
@@ -491,7 +432,6 @@ const toggleCategoriesSidebar = () => {
     refresShowSidebar();
 
     const refreshAll = () => {
-        // console.log(state)
         refresShowSidebar();
     }
 
@@ -543,7 +483,6 @@ const categoriesScrollHandler = () => {
 const fillCategories = (data) => {
     if(!typeof data === 'array') return;
 
-    // console.log(data)
     let listPath = document.querySelector('.categoriesSectionBody');
 
     const categorieItem = (item) => {
@@ -666,7 +605,6 @@ const fillCategories = (data) => {
 
 const serviceCardsRender = (data) => {
     if(! (typeof data === 'object')){
-        // console.log('[serviceCardsRender] --> wrong type of data');
         return;
     }
 
@@ -675,7 +613,6 @@ const serviceCardsRender = (data) => {
 
     const serviceCard = (info) => {
         if(! (typeof info === 'object')){
-            // console.log('[serviceCard] --> wrong type of data');
             return;
         }
 
@@ -789,22 +726,19 @@ const arrangeNewCategories = (data) => {
     }
 
     const fillsubCat = () => {
-        // console.log(categoriesState)
         let subcat = data[categoriesState.selected].sub;
         let content = document.querySelector('.subcat-view .content');
         content.innerHTML = "";
 
         const addSubcatFuntions = (node, data) => {
             node.onclick = () => {
-                
-                // console.log(node);
+
                 toggleSearchTag({index: data.id, name: data.name});
 
                 // let tagsTemp = searachState.tag;
                 // tagsTemp.push({id: data.id, name: data.name});
 
                 // setSearchState({tag: tagsTemp});
-                // console.log(searachState)
             }
         }
 
@@ -892,7 +826,6 @@ const arrangeNewCategories = (data) => {
             elemSpanContainer.querySelector('.cat-item').onclick = () => {
                 setCategoriesState({selected: Number(i)});
 
-                // console.log("aa", searachState)
                 paintSelectedSubcat();
             }
 

@@ -63,7 +63,7 @@ if($dbEmail === false){
         #criando uma sessão temporária para troca de senha. Isso fará com que o link tenha uma válidade
         $_SESSION['emailRecSenha'] = $email;
         $_SESSION['currentTime'] = time();
-        $_SESSION['expireTime'] = time() + 3600;
+        $_SESSION['expireTime'] = time() + 3600000;
     } catch (Exception $e){
         $msg = "<p class='text-danger'>Houve um problema para enviar o email com o link para troca de senha. <a href='../public/Entrar/login.php'>Volte para página de login</a> e tente novamente. Se o erro persistir, entre em contato pelo <a href='../public/Contato/contato.php'>Fale conosco</a> nos informando o código de erro <br> <strong>Código do erro:</strong> " . $e->getCode();
     }
