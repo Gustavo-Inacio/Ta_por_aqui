@@ -175,7 +175,7 @@ class serviceList
            
             // query qye fara toda a pesquisa baseada na distancia, subcategorias, e query de busca por palavras soltas nos titulos dos servicos
             $query = "
-            SELECT usuarios.nome_usuario, usuarios.sobrenome_usuario, usuarios.uf_usuario, usuarios.cidade_usuario, usuarios.bairro_usuario, usuarios.imagem_usuario, usuarios.id_usuario,
+            SELECT usuarios.nome_usuario, usuarios.sobrenome_usuario, usuarios.uf_usuario, usuarios.cidade_usuario, usuarios.bairro_usuario, usuarios.imagem_usuario, usuarios.id_usuario, usuarios.mostrar_local_usuario,
             servicos.id_servico, servicos.nome_servico, servicos.orcamento_servico, servicos.crit_orcamento_servico, servicos.nota_media_servico, servicos.status_servico,
             ( 6371 * acos( cos( radians(".$myLat.") ) * cos( radians( X(usuarios.posicao_usuario) ) ) * cos( radians( Y(usuarios.posicao_usuario) ) - radians(".$myLng.") ) + sin( radians(".$myLat.") ) * sin(radians(X(posicao_usuario))) ) ) AS distance ,
             X(usuarios.posicao_usuario) as lat,
@@ -192,8 +192,6 @@ class serviceList
             ORDER BY distance
             LIMIT 0 , ".$limit.";
             ";
-            //  print_r($query);
-
     
             $command = $con->query($query);
             $data = $command->fetchAll(PDO::FETCH_ASSOC);
@@ -360,7 +358,7 @@ class serviceList
 
             $subcatQuery = "
                 INNER JOIN servico_categorias
-                ON (".$variableCondition.") ".$conjunction." servico_categorias.id_servico=servicos.id_servico
+                ON (".$variableCondition.") ". ' and ' ." servico_categorias.id_servico=servicos.id_servico
             "; // finaliza a query de condicoes
            
             // query qye fara toda a pesquisa baseada na distancia, subcategorias, e query de busca por palavras soltas nos titulos dos servicos

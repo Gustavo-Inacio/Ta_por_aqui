@@ -119,7 +119,7 @@ if($_SESSION['classificacao'] == 0){
                 <section class="col-md-6 ml-5 d-flex align-items-center p-0">
                     <div class="formItems">
                         <label for="nome">Nome do serviço</label> <br>
-                        <input type="text" class="form-control required" name="nome" id="nome" placeholder="ex.: encanamento" onchange="createConfirmCard(1,this.value)" maxlength="30">
+                        <input type="text" class="form-control required" name="nome" id="nome" placeholder="ex.: encanamento" onchange="createConfirmCard(1,this.value)" maxlength="60">
                     </div>
                 </section>
             </div>

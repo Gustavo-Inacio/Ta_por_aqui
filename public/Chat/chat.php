@@ -18,8 +18,6 @@ $isProvider = false;
 if(isset($_SESSION['classificacao']) && $_SESSION['classificacao'] >= 1){
     $isProvider = true;
 }
-
-
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">

@@ -46,6 +46,6 @@ if ($valid){
 }
 
 #criando uma sessão temporária para troca de senha. Isso fará com que o link tenha uma válidade
+$_SESSION['expireTime'] = time() + 3600;
 unset($_SESSION['emailRecSenha']);
 unset($_SESSION['currentTime']);
-unset($_SESSION['expireTime']);

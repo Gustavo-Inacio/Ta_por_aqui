@@ -195,7 +195,6 @@ function registerConfirm(){
             },
             success: sendEmailStatus => {
                 if(sendEmailStatus.status === "enviado"){
-                    console.log(sendEmailStatus)
                     //mostrar modal de confirmação de email
                     let confirmEmailModal = new bootstrap.Modal(document.getElementById('confirmEmailModal'))
                     confirmEmailModal.show()
@@ -222,7 +221,6 @@ function registerConfirm(){
             },
             error: error => {
                 alert("Erro ao se conectar com o servidor. Tente recarregar a página. Se o erro persistir entre em contato pelo 'Fale conosco'")
-                console.log(error)
             }
         })
 
