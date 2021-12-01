@@ -172,6 +172,11 @@ textarea:focus, input:focus, select:focus, button:focus {
 #profileMenu:hover{
     cursor: pointer;
 }
+
+#myMainTopNavbar .navbar-brand .my-brand-img{
+    width: 160px !important;
+    margin-top: 10px;
+}
 /* -- MainTopNavbar Fim --*/
 
 
@@ -665,8 +670,8 @@ input:checked + .slider:before {
     }
 
     #myMainFooter .my-footer-img{
-        width: 128px;
-        height: 60px;
+        width: 185px;
+        height: auto;
     }
 
     #myMainFooter .my-main-footer-institutional > p{

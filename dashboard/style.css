@@ -19,6 +19,10 @@ body {
   color: #e1ffff;
 }
 
+.brand img{
+  width: 230px;
+}
+
 .nav-side-menu .brand {
   background-color: #23282e;
   line-height: 50px;

@@ -195,6 +195,11 @@ textarea:focus, input:focus, select:focus, button:focus {
   cursor: pointer;
 }
 
+#myMainTopNavbar .navbar-brand .my-brand-img {
+  width: 160px !important;
+  margin-top: 10px;
+}
+
 /* -- MainTopNavbar Fim --*/
 /* --- Main Footer Comeco -- */
 #myMainFooter {
@@ -743,8 +748,8 @@ input:checked + .slider:before {
         grid-template-areas: 'logo institutional socialMedia';
   }
   #myMainFooter .my-footer-img {
-    width: 128px;
-    height: 60px;
+    width: 185px;
+    height: auto;
   }
   #myMainFooter .my-main-footer-institutional > p {
     font-size: 17px;

@@ -265,7 +265,7 @@ const requestServices = async () => { // cuida da requisaicao de servicos
             getServices: true,
             dataServices: {
                 bestAvaliation: filterBestAva,
-                quantity : 2,
+                quantity : 7,
                 maxDist: 100000000000000000000,
                 // minDist: maxDist,
                 minDist: searachState.bestAvaliation  == 1 ? 0 : maxDist,
@@ -278,10 +278,11 @@ const requestServices = async () => { // cuida da requisaicao de servicos
         };
 
         req.onload = () => {
+            console.log(req.response)
+
             let responseData = JSON.parse(req.response);
             let responseInfo =  responseData.services.statusInfo;
             responseData = responseData.services.data;
-            
 
             let gottenServices = [];
 
@@ -304,7 +305,7 @@ const requestServices = async () => { // cuida da requisaicao de servicos
                     avaliationQuant: 1,
                     price: `${elem.orcamento_servico} ${elem.crit_orcamento_servico}`,
                     distance: Number(elem.distance),
-                    location: elem.mostrar_local_usuario === '1' ? `${elem.uf_usuario}, ${elem.cidade_usuario}, ${elem.bairro_usuario}` : 'O usuário optou por ocultar localização'
+                    location: elem.mostrar_local_usuario == 1 ? `${elem.uf_usuario}, ${elem.cidade_usuario}, ${elem.bairro_usuario}` : 'O usuário optou por ocultar localização'
                 });
             }
             
@@ -349,8 +350,6 @@ const handleScroolSearch = () => { // cuida de fazer novas requisicoes ao scroll
             // o tanto que a pessoa scrollou + a altura do conteiner recisa cjhegar ao fim para fazer uma nova requisicao.
             requestServices();
         }
-
-       
     }
 }
 handleScroolSearch();

@@ -164,7 +164,7 @@ $serviceData = $editService->getServiceData(); // verifica se o servico eh dele 
                 <section class="col-md-6 ml-5 d-flex align-items-center p-0">
                     <div class="formItems">
                         <label for="nome">Nome do serviço</label> <br>
-                        <input type="text" class="form-control required" name="nome" id="nome" placeholder="ex.: encanamento" onchange="createConfirmCard(1)" maxlength="30" value="<?php echo $serviceData['serviceData']['nome_servico']?>">
+                        <input type="text" class="form-control required" name="nome" id="nome" placeholder="ex.: encanamento" onchange="createConfirmCard(1)" maxlength="60" value="<?php echo $serviceData['serviceData']['nome_servico']?>">
                     </div>
                 </section>
             </div>
